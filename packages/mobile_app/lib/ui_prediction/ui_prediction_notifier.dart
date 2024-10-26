@@ -204,7 +204,8 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
           ),
         );
         _recalculateIncomes();
-      case TransactionType.transfer:
+      case TransactionType.transferIn:
+      case TransactionType.transferOut:
       // TODO(arenukvern): implement
     }
   }

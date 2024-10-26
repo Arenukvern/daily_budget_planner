@@ -78,13 +78,17 @@ class _TransactionEditorState extends State<_TransactionEditor> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          /// Coin type
+          /// Fiat or Crypto
+
           /// Transaction type
           CupertinoSlidingSegmentedControl<TransactionType>(
             groupValue: controller.transactionType.value,
             children: {
               TransactionType.income: Text('Income'),
               TransactionType.expense: Text('Expense'),
-              TransactionType.transfer: Text('Transfer'),
+              TransactionType.transferIn: Text('Transfer in'),
+              TransactionType.transferOut: Text('Transfer out'),
             },
             onValueChanged: (final value) {
               if (value != null) {
@@ -93,6 +97,12 @@ class _TransactionEditorState extends State<_TransactionEditor> {
             },
           ),
 
+          /// there is two cases:
+          /// when it's crypto:
+          /// - sum should be calculated in Quantity * Coin price
+          ///
+          /// when it's fiat:
+          /// - sum is just amount
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Builder(
@@ -279,7 +289,9 @@ class _EditingController extends ChangeNotifier {
             ValueNotifier(transaction?.type ?? TransactionType.income),
         date = ValueNotifier(transaction?.date ?? DateTime.now()),
         description = ValueNotifier(transaction?.description ?? ''),
-        amount = ValueNotifier(transaction?.amount.toString() ?? '') {
+        amount = ValueNotifier(transaction?.input.amount.toString() ?? ''),
+        currencyId =
+            ValueNotifier(transaction?.input.currencyId ?? CurrencyId.empty) {
     Listenable.merge([transactionType, description, date, amount])
         .addListener(_onChanged);
   }
@@ -293,6 +305,7 @@ class _EditingController extends ChangeNotifier {
   final ValueNotifier<String> description;
   final ValueNotifier<String> amount;
   final ValueNotifier<DateTime> date;
+  final ValueNotifier<CurrencyId> currencyId;
   bool _canCompose = false;
   bool get canCompose => _canCompose;
   @override
@@ -306,6 +319,10 @@ class _EditingController extends ChangeNotifier {
         type: transactionType.value,
         description: description.value.trim(),
         date: date.value,
-        amount: doubleFromJson(amount.value),
+        // TODO(arenukvern): description
+        input: InputMoney.fiat(
+          amount: doubleFromJson(amount.value),
+          currencyId: currencyId.value,
+        ),
       );
 }

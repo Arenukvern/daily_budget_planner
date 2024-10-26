@@ -149,7 +149,7 @@ class UiTransactionsTable<T extends Transaction> extends HookWidget {
     final cellData = [
       DateFormat.yMMMEd().add_Hms().format(transaction.date),
       transaction.amount.toString(),
-      transaction.currency.value,
+      transaction.currencyId.value,
     ];
 
     return Container(
@@ -188,8 +188,8 @@ class UiTransactionsTable<T extends Transaction> extends HookWidget {
               : b.amount.compareTo(a.amount);
         case 'currency':
           return ascending
-              ? a.currency.value.compareTo(b.currency.value)
-              : b.currency.value.compareTo(a.currency.value);
+              ? a.currencyId.value.compareTo(b.currencyId.value)
+              : b.currencyId.value.compareTo(a.currencyId.value);
         default:
           return 0;
       }
@@ -252,9 +252,15 @@ class UiTransactionsActionsBar extends StatelessWidget {
                     languages.it: 'Aggiungi ${switch (tuple.type) {
                       TransactionType.income => 'entrate',
                       TransactionType.expense => 'spese',
-                      TransactionType.transfer => 'transferenze',
+                      TransactionType.transferIn => 'transferenze in',
+                      TransactionType.transferOut => 'transferenze out',
                     }}',
-                    languages.ru: 'Добавить ${tuple.type.name}',
+                    languages.ru: 'Добавить ${switch (tuple.type) {
+                      TransactionType.income => 'доход',
+                      TransactionType.expense => 'расход',
+                      TransactionType.transferIn => 'входящий перевод',
+                      TransactionType.transferOut => 'исходящий перевод',
+                    }}',
                   },
                 ).getValue(locale),
               ),

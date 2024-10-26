@@ -612,7 +612,10 @@ class AddBudgetDialog extends HookWidget {
             if (Form.of(context).validate()) {
               final newBudget = Budget(
                 id: BudgetId(id.value.whenEmptyUse(createId())),
-                amount: double.parse(amountController.text),
+                input: InputMoney.fiat(
+                  amount: double.parse(amountController.text),
+                  // currencyId: CurrencyId.usd,
+                ),
                 date: selectedDate.value,
               );
               unawaited(

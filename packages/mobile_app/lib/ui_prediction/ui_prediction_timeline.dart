@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/ui_paywalls/2024_monthly_subscription_paywall.dart';
 import 'package:skeletonizer/skeletonizer.dart'; // Make sure to add this package to your pubspec.yaml
 
 enum PresentationType { day, month, year }

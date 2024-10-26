@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/transaction_models.dart';
-import 'package:mobile_app/ui_prediction/ui_prediction_notifier.dart';
-import 'package:mobile_app/ui_prediction/ui_prediction_screen.dart';
 
 // Keep the existing AddBudgetDialog and BudgetForm classes here
 
@@ -44,97 +41,98 @@ class TransactionBottomSheet extends HookWidget {
       transaction != null && type == transaction?.type || true,
       'type must be either expense or income',
     );
-    final amountController = useTextEditingController(
-      text: transaction?.amount.toString() ?? '',
-    );
-    final descriptionController = useTextEditingController(
-      text: transaction?.description ?? '',
-    );
-    final selectedDate = useState(transaction?.date ?? DateTime.now());
-    final periodType = useState(
-      transaction?.periodType ?? TransactionPeriodType.bySpecificDate,
-    );
-    final period = useState(transaction?.period ?? Period.monthly);
-    final isExpense = type == TransactionType.expense;
+    return SizedBox();
+    // final amountController = useTextEditingController(
+    //   text: transaction?.amount.toString() ?? '',
+    // );
+    // final descriptionController = useTextEditingController(
+    //   text: transaction?.description ?? '',
+    // );
+    // final selectedDate = useState(transaction?.date ?? DateTime.now());
+    // final periodType = useState(
+    //   transaction?.periodType ?? TransactionPeriodType.bySpecificDate,
+    // );
+    // final period = useState(transaction?.period ?? Period.monthly);
+    // final isExpense = type == TransactionType.expense;
 
-    return Form(
-      child: DraggableScrollableSheet(
-        minChildSize: 0.8,
-        maxChildSize: 0.95,
-        initialChildSize: 0.8, snap: true, expand: false,
-        shouldCloseOnMinExtent: false,
-        // snapSizes: const [0.5, 0.95],
-        builder: (final context, final scrollController) =>
-            SingleChildScrollView(
-          controller: scrollController,
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Gap(8),
-              UiIOSDragHandle(),
-              Gap(16),
-              Text(
-                // TODO(arenukvern): add localization l10n
-                transaction == null ? 'Add ${type.name}' : 'Edit ${type.name}',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 16),
-              TransactionForm(
-                amountController: amountController,
-                descriptionController: descriptionController,
-                selectedDate: selectedDate,
-                isExpense: isExpense,
-                periodType: periodType,
-                period: period,
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Text(
-                      LocalizedMap(
-                        value: {
-                          languages.en: 'Cancel',
-                          languages.it: 'Annulla',
-                          languages.ru: 'Отмена',
-                        },
-                      ).getValue(locale),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (!Form.of(context).validate()) return;
-                      final newTransaction = Transaction(
-                        id: transaction?.id ?? TransactionId(createId()),
-                        amount: double.parse(amountController.text),
-                        date: selectedDate.value,
-                        description: descriptionController.text,
-                        type: type,
-                        periodType: periodType.value,
-                        period: period.value,
-                      );
-                      unawaited(
-                        context
-                            .read<UiPredictionNotifier>()
-                            .upsertTransaction(newTransaction),
-                      );
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(
-                      transaction == null ? 'Add' : 'Update',
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+    // return Form(
+    //   child: DraggableScrollableSheet(
+    //     minChildSize: 0.8,
+    //     maxChildSize: 0.95,
+    //     initialChildSize: 0.8, snap: true, expand: false,
+    //     shouldCloseOnMinExtent: false,
+    //     // snapSizes: const [0.5, 0.95],
+    //     builder: (final context, final scrollController) =>
+    //         SingleChildScrollView(
+    //       controller: scrollController,
+    //       padding: EdgeInsets.symmetric(horizontal: 16),
+    //       child: Column(
+    //         crossAxisAlignment: CrossAxisAlignment.start,
+    //         mainAxisSize: MainAxisSize.min,
+    //         children: [
+    //           Gap(8),
+    //           UiIOSDragHandle(),
+    //           Gap(16),
+    //           Text(
+    //             // TODO(arenukvern): add localization l10n
+    //             transaction == null ? 'Add ${type.name}' : 'Edit ${type.name}',
+    //             style: Theme.of(context).textTheme.titleMedium,
+    //           ),
+    //           const SizedBox(height: 16),
+    //           TransactionForm(
+    //             amountController: amountController,
+    //             descriptionController: descriptionController,
+    //             selectedDate: selectedDate,
+    //             isExpense: isExpense,
+    //             periodType: periodType,
+    //             period: period,
+    //           ),
+    //           const SizedBox(height: 16),
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.end,
+    //             children: [
+    //               TextButton(
+    //                 onPressed: () => Navigator.of(context).pop(),
+    //                 child: Text(
+    //                   LocalizedMap(
+    //                     value: {
+    //                       languages.en: 'Cancel',
+    //                       languages.it: 'Annulla',
+    //                       languages.ru: 'Отмена',
+    //                     },
+    //                   ).getValue(locale),
+    //                 ),
+    //               ),
+    //               ElevatedButton(
+    //                 onPressed: () {
+    //                   if (!Form.of(context).validate()) return;
+    //                   final newTransaction = Transaction(
+    //                     id: transaction?.id ?? TransactionId(createId()),
+    //                     quantity: double.parse(amountController.text),
+    //                     date: selectedDate.value,
+    //                     description: descriptionController.text,
+    //                     type: type,
+    //                     periodType: periodType.value,
+    //                     period: period.value,
+    //                   );
+    //                   unawaited(
+    //                     context
+    //                         .read<UiPredictionNotifier>()
+    //                         .upsertTransaction(newTransaction),
+    //                   );
+    //                   Navigator.of(context).pop();
+    //                 },
+    //                 child: Text(
+    //                   transaction == null ? 'Add' : 'Update',
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 
