@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mobile_app/core/core.dart';
 
 part 'transaction_models.freezed.dart';
 part 'transaction_models.g.dart';
@@ -27,6 +28,7 @@ enum TransactionType {
 
 extension type const TransactionId(String value) {
   factory TransactionId.fromJson(final String value) => TransactionId(value);
+  factory TransactionId.newId() => TransactionId(createId());
   static const empty = TransactionId('');
   bool get isEmpty => value.isEmpty;
   String toJson() => value;
@@ -126,7 +128,7 @@ sealed class Transaction with _$Transaction {
 
   factory Transaction.fromJson(final Map<String, dynamic> json) =>
       _$TransactionFromJson(json);
-
+  static final empty = Transaction(date: DateTime.now());
   bool get isExpense => type == TransactionType.expense;
   bool get isIncome => type == TransactionType.income;
   bool get isRegular => schedule.isSet;
@@ -140,12 +142,14 @@ class InputMoney with _$InputMoney {
   const factory InputMoney.fiat({
     @Default(CurrencyId.empty) final CurrencyId currencyId,
     @Default(0.0) final double amount,
+    @Default(CurrencyType.fiat) final CurrencyType currencyType,
   }) = FiatInputModel;
   const factory InputMoney.crypto({
     @Default(CurrencyId.empty) final CurrencyId currencyId,
     @Default(0.0) final double amount,
     @Default(BlockchainNetworkId.empty)
     final BlockchainNetworkId blockchainNetworkId,
+    @Default(CurrencyType.crypto) final CurrencyType currencyType,
   }) = CyptoInputModel;
 
   const InputMoney._();

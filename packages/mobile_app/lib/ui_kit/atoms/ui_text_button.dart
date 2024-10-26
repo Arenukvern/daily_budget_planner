@@ -7,6 +7,7 @@ class UiTextButton extends StatelessWidget {
     this.tooltip = '',
     this.isLoading = false,
     this.title,
+    this.expands = false,
     this.padding = const EdgeInsets.symmetric(
       horizontal: 12,
       vertical: 12,
@@ -19,6 +20,7 @@ class UiTextButton extends StatelessWidget {
   final Widget? title;
   final VoidCallback onPressed;
   final EdgeInsets padding;
+  final bool expands;
 
   @override
   Widget build(final BuildContext context) => UiBaseButton(
@@ -28,7 +30,8 @@ class UiTextButton extends StatelessWidget {
           padding: padding,
           color: Colors.transparent,
           child: Row(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: expands ? MainAxisSize.max : MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(child: title ?? Text(textTitle)),
               if (isLoading) ...[

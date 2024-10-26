@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/ui_prediction/transaction_editor_2.dart';
 import 'package:mobile_app/ui_prediction/transaction_models.dart';
 import 'package:mobile_app/ui_prediction/ui_prediction.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
@@ -236,10 +237,15 @@ class UiTransactionsActionsBar extends StatelessWidget {
       children: [
         const UiBackButton(),
         UiTextButton(
-          onPressed: () async => TransactionBottomSheet.show(
-            context,
-            type: tuple.type,
-          ),
+          onPressed: () async {
+            final notifier = context.read<UiPredictionNotifier>();
+            final transaction = await showTransactionEditor(
+              context,
+              transaction: null,
+            );
+            if (transaction == null) return;
+            return notifier.upsertTransaction(transaction);
+          },
           title: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

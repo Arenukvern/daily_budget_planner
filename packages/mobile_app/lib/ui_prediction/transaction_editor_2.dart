@@ -1,5 +1,7 @@
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/transaction_models.dart';
+import 'package:mobile_app/ui_prediction/ui_incomes_view.dart';
 
 Future<Transaction?> showTransactionEditor(
   final BuildContext context, {
@@ -72,30 +74,121 @@ class _TransactionEditorState extends State<_TransactionEditor> {
   Widget build(final BuildContext context) {
     useListenable(controller);
     final locale = useLocale(context);
+    final transaction = controller.transaction;
+    final isNew = controller.isNew;
+    final currencyType = transaction.input.currencyType;
+    // TODO(arenukvern): add localization l10n
+    final transactionTypeNames = {
+      ...switch (currencyType) {
+        CurrencyType.fiat => {
+            TransactionType.income: 'Income',
+            TransactionType.expense: 'Expense',
+          },
+        CurrencyType.crypto => {
+            TransactionType.income: 'Buy',
+            TransactionType.expense: 'Sell',
+          },
+      },
+      TransactionType.transferIn: 'Transfer in',
+      TransactionType.transferOut: 'Transfer out',
+    };
+    final amountField = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Builder(
+        builder: (final context) {
+          final label = switch (currencyType) {
+            CurrencyType.fiat => LocalizedMap(
+                value: {
+                  languages.en: 'Amount',
+                  languages.it: 'Importo',
+                  languages.ru: 'Сумма',
+                },
+              ),
+            CurrencyType.crypto => LocalizedMap(
+                value: {
+                  languages.en: 'Quantity',
+                  languages.it: 'Quantità',
+                  languages.ru: 'Количество',
+                },
+              ),
+          };
+          return UiTextField(
+            decoration: InputDecoration(
+              hintText: '0.00',
+              labelText: label.getValue(locale),
+            ),
+            inputFormatters: [
+              NumberFieldUtils.doubleInputFormatter,
+            ],
+            autofocus: true,
+            style: Theme.of(context).textTheme.titleLarge,
+            controller: controller.amount,
+            textInputAction: TextInputAction.next,
+            keyboardType: NumberFieldUtils.doubleInputType,
+          );
+        },
+      ),
+    );
 
     final body = SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// Coin type
-          /// Fiat or Crypto
+          Row(
+            children: [
+              Expanded(
+                child: UiAppBar(
+                  automaticallyImplyLeading: false,
+                  title: Text(
+                    '${isNew ? 'Add' : 'Edit'} '
+                    '${transactionTypeNames[transaction.type]!}',
+                  ),
+                  trailing: UiTextActionButton.cancel(),
+                ),
+              ),
+            ],
+          ),
+
+          /// Currency type
+          Center(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: CupertinoSlidingSegmentedControl<CurrencyType>(
+                groupValue: currencyType,
+                children: {
+                  CurrencyType.fiat: Text('Fiat'),
+                  CurrencyType.crypto: Text('Crypto'),
+                },
+                onValueChanged: (final value) {
+                  if (value == null) return;
+                  controller.setMoney(
+                    (final state) => state.copyWith(currencyType: value),
+                  );
+                },
+              ),
+            ),
+          ),
+          Gap(16),
 
           /// Transaction type
-          CupertinoSlidingSegmentedControl<TransactionType>(
-            groupValue: controller.transactionType.value,
-            children: {
-              TransactionType.income: Text('Income'),
-              TransactionType.expense: Text('Expense'),
-              TransactionType.transferIn: Text('Transfer in'),
-              TransactionType.transferOut: Text('Transfer out'),
-            },
-            onValueChanged: (final value) {
-              if (value != null) {
-                controller.transactionType.value = value;
-              }
-            },
+          Center(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: CupertinoSlidingSegmentedControl<TransactionType>(
+                groupValue: transaction.type,
+                children: {
+                  for (final type in TransactionType.values)
+                    type: Text(transactionTypeNames[type]!),
+                },
+                onValueChanged: (final value) {
+                  if (value == null) return;
+                  controller
+                      .setState((final state) => state.copyWith(type: value));
+                },
+              ),
+            ),
           ),
+          Gap(16),
 
           /// there is two cases:
           /// when it's crypto:
@@ -103,101 +196,79 @@ class _TransactionEditorState extends State<_TransactionEditor> {
           ///
           /// when it's fiat:
           /// - sum is just amount
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Builder(
-              builder: (final context) {
-                final label = LocalizedMap(
-                  value: {
-                    languages.en: 'Amount',
-                    languages.it: 'Importo',
-                    languages.ru: 'Сумма',
-                  },
-                ).getValue(locale);
-                return UiTextField(
-                  hintText: '0.00',
-                  decoration: InputDecoration(
-                    labelText: label,
+          // TODO(arenukvern): add crypto amount
+          ...switch (transaction.input.currencyType) {
+            CurrencyType.fiat => [amountField],
+            CurrencyType.crypto => [
+                amountField,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Builder(
+                    builder: (final context) {
+                      final label = LocalizedMap(
+                        value: {
+                          languages.en: 'Coin price',
+                          languages.it: 'Prezzo della moneta',
+                          languages.ru: 'Цена монеты',
+                        },
+                      ).getValue(locale);
+                      return UiTextField(
+                        decoration: InputDecoration(
+                          hintText: '0.00',
+                          labelText: label,
+                          // TODO(arenukvern): add coin symbol
+                          prefixIcon: Icon(Icons.attach_money),
+                        ),
+                        autofocus: true,
+                        controller: controller.coinPrice,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        textInputAction: TextInputAction.next,
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        validator:
+                            PositiveNumberValidator(checkNullOrEmpty: false)
+                                .validate,
+                      );
+                    },
                   ),
-                  autofocus: true,
-                  style: Theme.of(context).textTheme.titleLarge,
-                  textInputAction: TextInputAction.next,
-                  onChanged: (final value) => controller.amount.value = value,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  validator: (final value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter an amount';
-                    }
-                    if (double.tryParse(value) == null) {
-                      return 'Please enter a valid number';
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Builder(
-              builder: (final context) {
-                final label = LocalizedMap(
-                  value: {
-                    languages.en: 'Coin price',
-                    languages.it: 'Prezzo della moneta',
-                    languages.ru: 'Цена монеты',
-                  },
-                ).getValue(locale);
-                return UiTextField(
-                  hintText: '0.00',
-                  decoration: InputDecoration(
-                    labelText: label,
-                    // TODO(arenukvern): add coin symbol
-                    prefixIcon: Icon(Icons.attach_money),
-                  ),
-                  autofocus: true,
-                  style: Theme.of(context).textTheme.titleLarge,
-                  textInputAction: TextInputAction.next,
-                  onChanged: (final value) => controller.amount.value = value,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  validator: (final value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter an price';
-                    }
-                    if (doubleNullableFromJson(value) == null) {
-                      return 'Please enter a valid number';
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-          ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _DateTimePicker(controller),
-                const SizedBox(width: 8),
-                const SizedBox(width: 8),
-                _Reminder(controller),
+                ),
               ],
+          },
+          Gap(16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: UiTextField(
+              decoration: InputDecoration(
+                labelText: switch (currencyType) {
+                  CurrencyType.fiat => 'Name (Optional)',
+                  CurrencyType.crypto => 'Notes (Optional)',
+                },
+              ),
+              value: transaction.description,
+              onChanged: (final value) {
+                controller.setState(
+                  (final state) => state.copyWith(description: value),
+                );
+              },
             ),
           ),
-        ],
-      ),
-    );
+          Gap(16),
 
-    final bottomBar = StickyBottomBarVisibility(
-      child: BottomAppBar(
-        child: Row(
-          children: [
-            _FolderSelector(controller),
-            const Spacer(),
-          ],
-        ),
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.horizontal,
+          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+          //   child: Row(
+          //     mainAxisSize: MainAxisSize.min,
+          //     children: [
+          //       _DateTimePicker(controller),
+          //       const SizedBox(width: 8),
+          //       const SizedBox(width: 8),
+          //       _Reminder(controller),
+          //     ],
+          //   ),
+          // ),
+          Gap(16),
+        ],
       ),
     );
 
@@ -226,7 +297,28 @@ class _TransactionEditorState extends State<_TransactionEditor> {
                   maintainBottomBar: true,
                 ),
                 body: body,
-                bottomBar: bottomBar,
+                bottomBar: StickyBottomBarVisibility(
+                  child: UiBottomActionBar(
+                    children: [
+                      Expanded(
+                        child: UiTextButton(
+                          expands: true,
+                          onPressed: () {
+                            final transaction = controller.compose();
+                            if (transaction != null) {
+                              Navigator.pop(context, transaction);
+                            }
+                          },
+                          title: Text(
+                            '${isNew ? 'Add' : 'Edit'} '
+                            '${transactionTypeNames[transaction.type]!}',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -262,67 +354,88 @@ class _Reminder extends StatelessWidget {
       );
 }
 
-class _FolderSelector extends StatelessWidget {
-  const _FolderSelector(this.controller);
-
-  final _EditingController controller;
-
-  @override
-  Widget build(final BuildContext context) => TextButton.icon(
-        onPressed: () {},
-        icon: const Icon(Icons.folder_outlined),
-        label: const Row(
-          children: [
-            Text('Inbox'),
-            SizedBox(width: 16),
-            Icon(Icons.arrow_drop_down),
-          ],
-        ),
-      );
-}
-
-class _EditingController extends ChangeNotifier {
+class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
   _EditingController({
     required final Transaction? transaction,
-  })  : _canCompose = transaction != null,
-        transactionType =
-            ValueNotifier(transaction?.type ?? TransactionType.income),
-        date = ValueNotifier(transaction?.date ?? DateTime.now()),
-        description = ValueNotifier(transaction?.description ?? ''),
-        amount = ValueNotifier(transaction?.input.amount.toString() ?? ''),
-        currencyId =
-            ValueNotifier(transaction?.input.currencyId ?? CurrencyId.empty) {
-    Listenable.merge([transactionType, description, date, amount])
-        .addListener(_onChanged);
+  })  : isEditing = transaction != null,
+        _canCompose = transaction != null,
+        super(
+          LoadableContainer(
+            value: transaction ?? Transaction.empty,
+            isLoaded: transaction != null,
+          ),
+        ) {
+    onLoad();
+  }
+  bool get isNew => !isEditing;
+  final bool isEditing;
+  void onLoad() {
+    Listenable.merge([
+      amount,
+      coinPrice,
+    ]).addListener(notifyListeners);
+    amount.text = transaction.input.amount.toString();
+    // TODO(arenukvern): description
+    // coinPrice.text = transaction?.input.coinPrice.toString() ?? '';
   }
 
-  void _onChanged() {
-    _canCompose = description.value.isNotEmpty;
-    notifyListeners();
+  LoadableContainer<Transaction> get container => value;
+  Transaction get transaction => container.value;
+  bool get isLoaded => container.isLoaded;
+  final amount = TextEditingController();
+  final coinPrice = TextEditingController();
+
+  @override
+  void notifyListeners() {
+    _verifyCompose();
+    super.notifyListeners();
   }
 
-  final ValueNotifier<TransactionType> transactionType;
-  final ValueNotifier<String> description;
-  final ValueNotifier<String> amount;
-  final ValueNotifier<DateTime> date;
-  final ValueNotifier<CurrencyId> currencyId;
+  void _verifyCompose() {
+    bool readyToCompose = false;
+    switch (transaction.input.currencyType) {
+      case CurrencyType.fiat:
+        readyToCompose = doubleFromJson(amount.text) > 0;
+      case CurrencyType.crypto:
+        readyToCompose = doubleFromJson(amount.text) > 0 &&
+            doubleFromJson(coinPrice.text) > 0;
+    }
+    _canCompose = readyToCompose;
+  }
+
+  void setState(final Transaction Function(Transaction state) change) =>
+      value = LoadableContainer(
+        value: change(transaction),
+        isLoaded: true,
+      );
+
+  void setMoney(final InputMoney Function(InputMoney state) change) =>
+      setState((final state) => state.copyWith(input: change(state.input)));
+
   bool _canCompose = false;
   bool get canCompose => _canCompose;
-  @override
-  void dispose() {
-    transactionType.dispose();
-    description.dispose();
-    super.dispose();
+
+  Transaction? compose() {
+    if (!canCompose) return null;
+    final amount = doubleFromJson(this.amount.text);
+    // final coinPrice = doubleFromJson(this.coinPrice.text);
+
+    return transaction.copyWith(
+      id: isNew ? TransactionId.newId() : transaction.id,
+      input: switch (transaction.input.currencyType) {
+        CurrencyType.fiat => InputMoney.fiat(amount: amount),
+        CurrencyType.crypto => InputMoney.crypto(
+            amount: amount,
+            // coinPrice: coinPrice,
+          ),
+      },
+    );
   }
 
-  Transaction compose() => Transaction(
-        type: transactionType.value,
-        description: description.value.trim(),
-        date: date.value,
-        // TODO(arenukvern): description
-        input: InputMoney.fiat(
-          amount: doubleFromJson(amount.value),
-          currencyId: currencyId.value,
-        ),
-      );
+  @override
+  void dispose() {
+    super.dispose();
+    amount.dispose();
+    coinPrice.dispose();
+  }
 }

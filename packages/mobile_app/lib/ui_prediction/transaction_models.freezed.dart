@@ -546,27 +546,34 @@ InputMoney _$InputMoneyFromJson(Map<String, dynamic> json) {
 mixin _$InputMoney {
   CurrencyId get currencyId => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
+  CurrencyType get currencyType => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CurrencyId currencyId, double amount) fiat,
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
+        fiat,
     required TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId)
+            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)
         crypto,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CurrencyId currencyId, double amount)? fiat,
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
     TResult? Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId)?
+            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
         crypto,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CurrencyId currencyId, double amount)? fiat,
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
     TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId)?
+            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
         crypto,
     required TResult orElse(),
   }) =>
@@ -607,7 +614,7 @@ abstract class $InputMoneyCopyWith<$Res> {
           InputMoney value, $Res Function(InputMoney) then) =
       _$InputMoneyCopyWithImpl<$Res, InputMoney>;
   @useResult
-  $Res call({CurrencyId currencyId, double amount});
+  $Res call({CurrencyId currencyId, double amount, CurrencyType currencyType});
 }
 
 /// @nodoc
@@ -627,6 +634,7 @@ class _$InputMoneyCopyWithImpl<$Res, $Val extends InputMoney>
   $Res call({
     Object? currencyId = null,
     Object? amount = null,
+    Object? currencyType = null,
   }) {
     return _then(_value.copyWith(
       currencyId: null == currencyId
@@ -637,6 +645,10 @@ class _$InputMoneyCopyWithImpl<$Res, $Val extends InputMoney>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
+      currencyType: null == currencyType
+          ? _value.currencyType
+          : currencyType // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
     ) as $Val);
   }
 }
@@ -649,7 +661,7 @@ abstract class _$$FiatInputModelImplCopyWith<$Res>
       __$$FiatInputModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({CurrencyId currencyId, double amount});
+  $Res call({CurrencyId currencyId, double amount, CurrencyType currencyType});
 }
 
 /// @nodoc
@@ -667,6 +679,7 @@ class __$$FiatInputModelImplCopyWithImpl<$Res>
   $Res call({
     Object? currencyId = null,
     Object? amount = null,
+    Object? currencyType = null,
   }) {
     return _then(_$FiatInputModelImpl(
       currencyId: null == currencyId
@@ -677,6 +690,10 @@ class __$$FiatInputModelImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
+      currencyType: null == currencyType
+          ? _value.currencyType
+          : currencyType // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
     ));
   }
 }
@@ -687,6 +704,7 @@ class _$FiatInputModelImpl extends FiatInputModel {
   const _$FiatInputModelImpl(
       {this.currencyId = CurrencyId.empty,
       this.amount = 0.0,
+      this.currencyType = CurrencyType.fiat,
       final String? $type})
       : $type = $type ?? 'fiat',
         super._();
@@ -700,13 +718,16 @@ class _$FiatInputModelImpl extends FiatInputModel {
   @override
   @JsonKey()
   final double amount;
+  @override
+  @JsonKey()
+  final CurrencyType currencyType;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'InputMoney.fiat(currencyId: $currencyId, amount: $amount)';
+    return 'InputMoney.fiat(currencyId: $currencyId, amount: $amount, currencyType: $currencyType)';
   }
 
   @override
@@ -716,12 +737,15 @@ class _$FiatInputModelImpl extends FiatInputModel {
             other is _$FiatInputModelImpl &&
             (identical(other.currencyId, currencyId) ||
                 other.currencyId == currencyId) &&
-            (identical(other.amount, amount) || other.amount == amount));
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.currencyType, currencyType) ||
+                other.currencyType == currencyType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, currencyId, amount);
+  int get hashCode =>
+      Object.hash(runtimeType, currencyId, amount, currencyType);
 
   /// Create a copy of InputMoney
   /// with the given fields replaced by the non-null parameter values.
@@ -735,36 +759,42 @@ class _$FiatInputModelImpl extends FiatInputModel {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CurrencyId currencyId, double amount) fiat,
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
+        fiat,
     required TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId)
+            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)
         crypto,
   }) {
-    return fiat(currencyId, amount);
+    return fiat(currencyId, amount, currencyType);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CurrencyId currencyId, double amount)? fiat,
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
     TResult? Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId)?
+            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
         crypto,
   }) {
-    return fiat?.call(currencyId, amount);
+    return fiat?.call(currencyId, amount, currencyType);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CurrencyId currencyId, double amount)? fiat,
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
     TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId)?
+            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
         crypto,
     required TResult orElse(),
   }) {
     if (fiat != null) {
-      return fiat(currencyId, amount);
+      return fiat(currencyId, amount, currencyType);
     }
     return orElse();
   }
@@ -811,7 +841,8 @@ class _$FiatInputModelImpl extends FiatInputModel {
 abstract class FiatInputModel extends InputMoney {
   const factory FiatInputModel(
       {final CurrencyId currencyId,
-      final double amount}) = _$FiatInputModelImpl;
+      final double amount,
+      final CurrencyType currencyType}) = _$FiatInputModelImpl;
   const FiatInputModel._() : super._();
 
   factory FiatInputModel.fromJson(Map<String, dynamic> json) =
@@ -821,6 +852,8 @@ abstract class FiatInputModel extends InputMoney {
   CurrencyId get currencyId;
   @override
   double get amount;
+  @override
+  CurrencyType get currencyType;
 
   /// Create a copy of InputMoney
   /// with the given fields replaced by the non-null parameter values.
@@ -841,7 +874,8 @@ abstract class _$$CyptoInputModelImplCopyWith<$Res>
   $Res call(
       {CurrencyId currencyId,
       double amount,
-      BlockchainNetworkId blockchainNetworkId});
+      BlockchainNetworkId blockchainNetworkId,
+      CurrencyType currencyType});
 }
 
 /// @nodoc
@@ -860,6 +894,7 @@ class __$$CyptoInputModelImplCopyWithImpl<$Res>
     Object? currencyId = null,
     Object? amount = null,
     Object? blockchainNetworkId = null,
+    Object? currencyType = null,
   }) {
     return _then(_$CyptoInputModelImpl(
       currencyId: null == currencyId
@@ -874,6 +909,10 @@ class __$$CyptoInputModelImplCopyWithImpl<$Res>
           ? _value.blockchainNetworkId
           : blockchainNetworkId // ignore: cast_nullable_to_non_nullable
               as BlockchainNetworkId,
+      currencyType: null == currencyType
+          ? _value.currencyType
+          : currencyType // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
     ));
   }
 }
@@ -885,6 +924,7 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
       {this.currencyId = CurrencyId.empty,
       this.amount = 0.0,
       this.blockchainNetworkId = BlockchainNetworkId.empty,
+      this.currencyType = CurrencyType.crypto,
       final String? $type})
       : $type = $type ?? 'crypto',
         super._();
@@ -901,13 +941,16 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
   @override
   @JsonKey()
   final BlockchainNetworkId blockchainNetworkId;
+  @override
+  @JsonKey()
+  final CurrencyType currencyType;
 
   @JsonKey(name: 'runtimeType')
   final String $type;
 
   @override
   String toString() {
-    return 'InputMoney.crypto(currencyId: $currencyId, amount: $amount, blockchainNetworkId: $blockchainNetworkId)';
+    return 'InputMoney.crypto(currencyId: $currencyId, amount: $amount, blockchainNetworkId: $blockchainNetworkId, currencyType: $currencyType)';
   }
 
   @override
@@ -919,13 +962,15 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
                 other.currencyId == currencyId) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.blockchainNetworkId, blockchainNetworkId) ||
-                other.blockchainNetworkId == blockchainNetworkId));
+                other.blockchainNetworkId == blockchainNetworkId) &&
+            (identical(other.currencyType, currencyType) ||
+                other.currencyType == currencyType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, currencyId, amount, blockchainNetworkId);
+  int get hashCode => Object.hash(
+      runtimeType, currencyId, amount, blockchainNetworkId, currencyType);
 
   /// Create a copy of InputMoney
   /// with the given fields replaced by the non-null parameter values.
@@ -939,36 +984,42 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(CurrencyId currencyId, double amount) fiat,
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
+        fiat,
     required TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId)
+            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)
         crypto,
   }) {
-    return crypto(currencyId, amount, blockchainNetworkId);
+    return crypto(currencyId, amount, blockchainNetworkId, currencyType);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CurrencyId currencyId, double amount)? fiat,
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
     TResult? Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId)?
+            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
         crypto,
   }) {
-    return crypto?.call(currencyId, amount, blockchainNetworkId);
+    return crypto?.call(currencyId, amount, blockchainNetworkId, currencyType);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CurrencyId currencyId, double amount)? fiat,
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
     TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId)?
+            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
         crypto,
     required TResult orElse(),
   }) {
     if (crypto != null) {
-      return crypto(currencyId, amount, blockchainNetworkId);
+      return crypto(currencyId, amount, blockchainNetworkId, currencyType);
     }
     return orElse();
   }
@@ -1016,7 +1067,8 @@ abstract class CyptoInputModel extends InputMoney {
   const factory CyptoInputModel(
       {final CurrencyId currencyId,
       final double amount,
-      final BlockchainNetworkId blockchainNetworkId}) = _$CyptoInputModelImpl;
+      final BlockchainNetworkId blockchainNetworkId,
+      final CurrencyType currencyType}) = _$CyptoInputModelImpl;
   const CyptoInputModel._() : super._();
 
   factory CyptoInputModel.fromJson(Map<String, dynamic> json) =
@@ -1027,6 +1079,8 @@ abstract class CyptoInputModel extends InputMoney {
   @override
   double get amount;
   BlockchainNetworkId get blockchainNetworkId;
+  @override
+  CurrencyType get currencyType;
 
   /// Create a copy of InputMoney
   /// with the given fields replaced by the non-null parameter values.

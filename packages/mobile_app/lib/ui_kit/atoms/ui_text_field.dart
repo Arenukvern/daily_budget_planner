@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+class NumberFieldUtils {
+  NumberFieldUtils._();
+  static final doubleInputFormatter = FilteringTextInputFormatter.allow(
+    RegExp(r'^\d*[.,]?\d*'),
+  );
+  static const doubleInputType = TextInputType.numberWithOptions(decimal: true);
+
+  static final intInputFormatter = FilteringTextInputFormatter.digitsOnly;
+  static const intInputType = TextInputType.number;
+}
+
 class UiTextField extends StatefulWidget {
   const UiTextField({
     this.autocorrect = true,
@@ -16,14 +27,12 @@ class UiTextField extends StatefulWidget {
     this.keyboardType,
     this.focusNode,
     this.autofocus = false,
-    this.hintText = '',
     this.textInputAction,
     this.style,
     this.maxLength,
     super.key,
   });
   final bool autofocus;
-  final String hintText;
   final TextInputAction? textInputAction;
   final String? value;
   final ValueChanged<String>? onChanged;
@@ -69,6 +78,8 @@ class _UiTextFieldState extends State<UiTextField> {
   Widget build(final BuildContext context) => TextFormField(
         controller: _controller,
         focusNode: widget.focusNode,
+        textInputAction: widget.textInputAction,
+        autofocus: widget.autofocus,
         onChanged: widget.onChanged,
         keyboardType: widget.keyboardType,
         validator: widget.validator,

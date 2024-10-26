@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/common_imports.dart';
 
 class UiTextActionButton extends StatelessWidget {
@@ -50,6 +49,7 @@ class UiBackButton extends StatelessWidget {
         builder: (final isPressed, final isHovered, final isFocused) =>
             Container(
           padding: const EdgeInsets.all(6),
+          color: Colors.transparent,
           child: const Icon(CupertinoIcons.back),
         ),
       );

@@ -30,21 +30,19 @@ class _UiPredictionScreenState extends State<UiPredictionScreen> {
     return UiScaffold(
       body: Stack(
         children: [
-          Expanded(
-            child: CustomScrollView(
-              slivers: [
-                _PredictionHeader(state: state),
-                const SliverGap(48),
-                _PredictionBody(
-                  selectedDate: _selectedDate,
-                  onDateChanged: (final newDate) =>
-                      setState(() => _selectedDate = newDate),
-                  uiPredictionNotifier: uiPredictionNotifier,
-                ).toSliver(),
-                const SliverGap(64),
-                UiSafeArea.bottom().toSliver(),
-              ],
-            ),
+          CustomScrollView(
+            slivers: [
+              _PredictionHeader(state: state),
+              const SliverGap(48),
+              _PredictionBody(
+                selectedDate: _selectedDate,
+                onDateChanged: (final newDate) =>
+                    setState(() => _selectedDate = newDate),
+                uiPredictionNotifier: uiPredictionNotifier,
+              ).toSliver(),
+              const SliverGap(64),
+              UiSafeArea.bottom().toSliver(),
+            ],
           ),
           Positioned(
             bottom: 0,

@@ -68,6 +68,9 @@ _$FiatInputModelImpl _$$FiatInputModelImplFromJson(Map<String, dynamic> json) =>
           ? CurrencyId.empty
           : CurrencyId.fromJson(json['currencyId'] as String),
       amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+      currencyType: json['currencyType'] == null
+          ? CurrencyType.fiat
+          : CurrencyType.fromJson(json['currencyType'] as String),
       $type: json['runtimeType'] as String?,
     );
 
@@ -76,6 +79,7 @@ Map<String, dynamic> _$$FiatInputModelImplToJson(
     <String, dynamic>{
       'currencyId': instance.currencyId,
       'amount': instance.amount,
+      'currencyType': instance.currencyType,
       'runtimeType': instance.$type,
     };
 
@@ -89,6 +93,9 @@ _$CyptoInputModelImpl _$$CyptoInputModelImplFromJson(
       blockchainNetworkId: json['blockchainNetworkId'] == null
           ? BlockchainNetworkId.empty
           : BlockchainNetworkId.fromJson(json['blockchainNetworkId'] as String),
+      currencyType: json['currencyType'] == null
+          ? CurrencyType.crypto
+          : CurrencyType.fromJson(json['currencyType'] as String),
       $type: json['runtimeType'] as String?,
     );
 
@@ -98,6 +105,7 @@ Map<String, dynamic> _$$CyptoInputModelImplToJson(
       'currencyId': instance.currencyId,
       'amount': instance.amount,
       'blockchainNetworkId': instance.blockchainNetworkId,
+      'currencyType': instance.currencyType,
       'runtimeType': instance.$type,
     };
 
