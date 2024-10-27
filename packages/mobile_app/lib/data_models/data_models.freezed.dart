@@ -22,6 +22,8 @@ AppSettingsModel _$AppSettingsModelFromJson(Map<String, dynamic> json) {
 mixin _$AppSettingsModel {
   @JsonKey(fromJson: localeFromString, toJson: localeToString)
   Locale? get locale => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+  UiBrightness get brightness => throw _privateConstructorUsedError;
 
   /// Serializes this AppSettingsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +43,9 @@ abstract class $AppSettingsModelCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(fromJson: localeFromString, toJson: localeToString)
-      Locale? locale});
+      Locale? locale,
+      @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+      UiBrightness brightness});
 }
 
 /// @nodoc
@@ -60,12 +64,17 @@ class _$AppSettingsModelCopyWithImpl<$Res, $Val extends AppSettingsModel>
   @override
   $Res call({
     Object? locale = freezed,
+    Object? brightness = null,
   }) {
     return _then(_value.copyWith(
       locale: freezed == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
               as Locale?,
+      brightness: null == brightness
+          ? _value.brightness
+          : brightness // ignore: cast_nullable_to_non_nullable
+              as UiBrightness,
     ) as $Val);
   }
 }
@@ -80,7 +89,9 @@ abstract class _$$AppSettingsModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(fromJson: localeFromString, toJson: localeToString)
-      Locale? locale});
+      Locale? locale,
+      @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+      UiBrightness brightness});
 }
 
 /// @nodoc
@@ -97,12 +108,17 @@ class __$$AppSettingsModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? locale = freezed,
+    Object? brightness = null,
   }) {
     return _then(_$AppSettingsModelImpl(
       locale: freezed == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
               as Locale?,
+      brightness: null == brightness
+          ? _value.brightness
+          : brightness // ignore: cast_nullable_to_non_nullable
+              as UiBrightness,
     ));
   }
 }
@@ -112,8 +128,9 @@ class __$$AppSettingsModelImplCopyWithImpl<$Res>
 @JsonSerializable(explicitToJson: true)
 class _$AppSettingsModelImpl extends _AppSettingsModel {
   const _$AppSettingsModelImpl(
-      {@JsonKey(fromJson: localeFromString, toJson: localeToString)
-      this.locale})
+      {@JsonKey(fromJson: localeFromString, toJson: localeToString) this.locale,
+      @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+      this.brightness = UiBrightness.system})
       : super._();
 
   factory _$AppSettingsModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -122,10 +139,13 @@ class _$AppSettingsModelImpl extends _AppSettingsModel {
   @override
   @JsonKey(fromJson: localeFromString, toJson: localeToString)
   final Locale? locale;
+  @override
+  @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+  final UiBrightness brightness;
 
   @override
   String toString() {
-    return 'AppSettingsModel(locale: $locale)';
+    return 'AppSettingsModel(locale: $locale, brightness: $brightness)';
   }
 
   @override
@@ -133,12 +153,14 @@ class _$AppSettingsModelImpl extends _AppSettingsModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AppSettingsModelImpl &&
-            (identical(other.locale, locale) || other.locale == locale));
+            (identical(other.locale, locale) || other.locale == locale) &&
+            (identical(other.brightness, brightness) ||
+                other.brightness == brightness));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, locale);
+  int get hashCode => Object.hash(runtimeType, locale, brightness);
 
   /// Create a copy of AppSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -160,7 +182,9 @@ class _$AppSettingsModelImpl extends _AppSettingsModel {
 abstract class _AppSettingsModel extends AppSettingsModel {
   const factory _AppSettingsModel(
       {@JsonKey(fromJson: localeFromString, toJson: localeToString)
-      final Locale? locale}) = _$AppSettingsModelImpl;
+      final Locale? locale,
+      @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+      final UiBrightness brightness}) = _$AppSettingsModelImpl;
   const _AppSettingsModel._() : super._();
 
   factory _AppSettingsModel.fromJson(Map<String, dynamic> json) =
@@ -169,6 +193,9 @@ abstract class _AppSettingsModel extends AppSettingsModel {
   @override
   @JsonKey(fromJson: localeFromString, toJson: localeToString)
   Locale? get locale;
+  @override
+  @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+  UiBrightness get brightness;
 
   /// Create a copy of AppSettingsModel
   /// with the given fields replaced by the non-null parameter values.

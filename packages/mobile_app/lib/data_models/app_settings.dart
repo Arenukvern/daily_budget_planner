@@ -2,18 +2,33 @@
 
 part of 'data_models.dart';
 
+enum UiBrightness {
+  system,
+  light,
+  dark;
+
+  factory UiBrightness.fromJson(final String json) {
+    if (json.isEmpty) return UiBrightness.light;
+    return UiBrightness.values.byName(json);
+  }
+  static String toJson(final UiBrightness brightness) => brightness.name;
+  ThemeMode get themeMode => switch (this) {
+        UiBrightness.system => ThemeMode.system,
+        UiBrightness.light => ThemeMode.light,
+        UiBrightness.dark => ThemeMode.dark,
+      };
+}
+
 @immutable
 @Freezed()
 class AppSettingsModel with _$AppSettingsModel {
-  @JsonSerializable(
-    explicitToJson: true,
-  )
+  @JsonSerializable(explicitToJson: true)
   const factory AppSettingsModel({
-    @JsonKey(
-      fromJson: localeFromString,
-      toJson: localeToString,
-    )
+    @JsonKey(fromJson: localeFromString, toJson: localeToString)
     final Locale? locale,
+    @Default(UiBrightness.system)
+    @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+    final UiBrightness brightness,
   }) = _AppSettingsModel;
 
   const AppSettingsModel._();

@@ -16,6 +16,10 @@ class AppSettingsNotifier extends ValueNotifier<AppSettingsModel>
     await updateLocale(value.locale);
   }
 
+  Future<void> updateBrightness(final UiBrightness brightness) async {
+    await _updateSettings(value.copyWith(brightness: brightness));
+  }
+
   ValueListenable<Locale> get locale => localeNotifier;
   UiLanguage get language => locale.value.language;
   Future<void> updateLocale(final Locale? locale) async {

@@ -10,12 +10,16 @@ _$AppSettingsModelImpl _$$AppSettingsModelImplFromJson(
         Map<String, dynamic> json) =>
     _$AppSettingsModelImpl(
       locale: localeFromString(json['locale'] as String?),
+      brightness: json['brightness'] == null
+          ? UiBrightness.system
+          : UiBrightness.fromJson(json['brightness'] as String),
     );
 
 Map<String, dynamic> _$$AppSettingsModelImplToJson(
         _$AppSettingsModelImpl instance) =>
     <String, dynamic>{
       'locale': localeToString(instance.locale),
+      'brightness': UiBrightness.toJson(instance.brightness),
     };
 
 _$MonthlyBudgetModelImpl _$$MonthlyBudgetModelImplFromJson(

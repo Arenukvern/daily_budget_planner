@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/common_imports.dart';
 
 export 'markdown_screen.dart';
@@ -11,7 +10,7 @@ class LoadingScreen extends StatelessWidget {
         textDirection: TextDirection.ltr,
         child: Container(
           alignment: Alignment.center,
-          color: context.colorScheme.surface,
+          color: AppThemeData.brandDark.colorScheme.surface,
           child: const UiCircularProgress(),
         ),
       );
@@ -24,7 +23,9 @@ class UiCircularProgress extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final child = CupertinoActivityIndicator(
-      color: context.colorScheme.primary,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? context.colorScheme.onPrimary
+          : context.colorScheme.primary,
     );
     return centered ? Center(child: child) : child;
   }

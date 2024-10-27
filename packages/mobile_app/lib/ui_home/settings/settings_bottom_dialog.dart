@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_home/hooks/use_monetization_type.dart';
 import 'package:mobile_app/ui_home/settings/language_bottom_sheet.dart';
+import 'package:mobile_app/ui_home/settings/ui_theme_mode_tile.dart';
 import 'package:mobile_app/ui_prediction/ui_prediction_screen.dart';
 
 class SettingsBottomPopup extends StatelessWidget {
@@ -48,17 +49,20 @@ class SettingsBottomPopup extends StatelessWidget {
               ).getValue(locale),
               icon: Icons.privacy_tip_outlined,
             ),
-            _ListTile(
-              icon: Icons.money,
-              onTap: () async => UiPredictionScreen.show(context),
-              title: LocalizedMap(
-                value: {
-                  languages.en: 'Expenses prediction',
-                  languages.it: 'Previsione delle spese',
-                  languages.ru: 'Предположение о расходах',
-                },
-              ).getValue(locale),
-            ),
+            if (kDebugMode) ...[
+              UiDivider.size1(),
+              _ListTile(
+                icon: Icons.money,
+                onTap: () async => UiPredictionScreen.show(context),
+                title: LocalizedMap(
+                  value: {
+                    languages.en: 'Expenses prediction',
+                    languages.it: 'Previsione delle spese',
+                    languages.ru: 'Предположение о расходах',
+                  },
+                ).getValue(locale),
+              ),
+            ],
             UiDivider.size5(),
             if (storeReviewRequester.isAvailable) ...[
               UiLoader(
@@ -95,6 +99,10 @@ class SettingsBottomPopup extends StatelessWidget {
                 icon: CupertinoIcons.question_circle,
               ),
               UiDivider.size5(),
+            ],
+            if (kDebugMode) ...[
+              const UiThemeModeTile(),
+              UiDivider.size1(),
             ],
             if (isSubscriptionMonetization) ...[
               if (activeSubscription != null)

@@ -25,4 +25,10 @@ class AppThemeData {
   static final brandLight = from(
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple[200]!),
   );
+  static final brandDark = from(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.deepPurple[50]!,
+      brightness: Brightness.dark,
+    ),
+  );
 }

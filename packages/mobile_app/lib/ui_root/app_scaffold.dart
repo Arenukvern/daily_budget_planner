@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobile_app/common_imports.dart';
 
@@ -43,7 +44,7 @@ class _DBPAppState extends State<DBPApp> {
 
   @override
   Widget build(final BuildContext context) => ColoredBox(
-        color: AppThemeData.brandLight.colorScheme.surface,
+        color: AppThemeData.brandDark.colorScheme.surface,
         child: Directionality(
           textDirection: TextDirection.ltr,
           child: Stack(
@@ -66,10 +67,12 @@ class AppScaffoldBuilder extends StatelessWidget {
     final locale = context.select<AppSettingsNotifier, Locale>(
       (final c) => c.locale.value,
     );
+    final themeMode = context.select<AppSettingsNotifier, ThemeMode>(
+      (final c) => c.value.brightness.themeMode,
+    );
     final app = MaterialApp.router(
       routerConfig: router,
-
-      themeMode: ThemeMode.light,
+      themeMode: kDebugMode ? themeMode : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         ...S.localizationsDelegates,
@@ -84,6 +87,7 @@ class AppScaffoldBuilder extends StatelessWidget {
       locale: locale,
       supportedLocales: Locales.values,
       theme: AppThemeData.brandLight,
+      darkTheme: AppThemeData.brandDark,
     );
     if (Envs.isWiredashAvailable) {
       return UserFeedback.wiredash(
@@ -96,7 +100,7 @@ class AppScaffoldBuilder extends StatelessWidget {
           ),
           feedbackOptions: _getWiredashOptions(locale),
           theme: WiredashThemeData.fromColor(
-            primaryColor: AppThemeData.brandLight.primaryColor,
+            primaryColor: AppThemeData.brandDark.primaryColor,
             brightness: Brightness.light,
           ),
         ),
