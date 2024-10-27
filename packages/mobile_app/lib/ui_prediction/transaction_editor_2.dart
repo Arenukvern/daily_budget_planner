@@ -118,6 +118,11 @@ class _TransactionEditorState extends State<_TransactionEditor> {
               hintText: '0.00',
               labelText: label.getValue(locale),
             ),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(),
+              FormBuilderValidators.numeric(),
+              FormBuilderValidators.min(0),
+            ]),
             inputFormatters: [
               NumberFieldUtils.doubleInputFormatter,
             ],
@@ -125,7 +130,7 @@ class _TransactionEditorState extends State<_TransactionEditor> {
             style: Theme.of(context).textTheme.titleLarge,
             controller: controller.amount,
             textInputAction: TextInputAction.next,
-            keyboardType: NumberFieldUtils.doubleInputType,
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
           );
         },
       ),
@@ -251,15 +256,17 @@ class _TransactionEditorState extends State<_TransactionEditor> {
                           // TODO(arenukvern): add coin symbol
                           prefixIcon: Icon(Icons.attach_money),
                         ),
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.numeric(),
+                          FormBuilderValidators.min(0),
+                        ]),
                         autofocus: true,
                         controller: controller.coinPrice,
                         style: Theme.of(context).textTheme.titleLarge,
                         textInputAction: TextInputAction.next,
                         keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
-                        validator:
-                            PositiveNumberValidator(checkNullOrEmpty: false)
-                                .validate,
                       );
                     },
                   ),
