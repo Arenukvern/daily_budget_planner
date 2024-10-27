@@ -131,6 +131,35 @@ class _TransactionEditorState extends State<_TransactionEditor> {
       ),
     );
 
+    final nameField = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: UiTextField(
+        decoration: InputDecoration(
+          labelText: 'Name (Optional)',
+        ),
+        value: transaction.description,
+        onChanged: (final value) {
+          controller.setState(
+            (final state) => state.copyWith(description: value),
+          );
+        },
+      ),
+    );
+    final noteField = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: UiTextField(
+        decoration: InputDecoration(
+          labelText: 'Notes (Optional)',
+        ),
+        value: transaction.note,
+        onChanged: (final value) {
+          controller.setState(
+            (final state) => state.copyWith(description: value),
+          );
+        },
+      ),
+    );
+
     final body = SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -178,8 +207,8 @@ class _TransactionEditorState extends State<_TransactionEditor> {
               child: CupertinoSlidingSegmentedControl<TransactionType>(
                 groupValue: transaction.type,
                 children: {
-                  for (final type in TransactionType.values)
-                    type: Text(transactionTypeNames[type]!),
+                  for (final entry in transactionTypeNames.entries)
+                    entry.key: Text(entry.value),
                 },
                 onValueChanged: (final value) {
                   if (value == null) return;
@@ -189,6 +218,8 @@ class _TransactionEditorState extends State<_TransactionEditor> {
               ),
             ),
           ),
+          Gap(16),
+          if (currencyType case CurrencyType.fiat) nameField,
           Gap(16),
 
           /// there is two cases:
@@ -236,31 +267,16 @@ class _TransactionEditorState extends State<_TransactionEditor> {
               ],
           },
           Gap(16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: UiTextField(
-              decoration: InputDecoration(
-                labelText: switch (currencyType) {
-                  CurrencyType.fiat => 'Name (Optional)',
-                  CurrencyType.crypto => 'Notes (Optional)',
-                },
-              ),
-              value: transaction.description,
-              onChanged: (final value) {
-                controller.setState(
-                  (final state) => state.copyWith(description: value),
-                );
-              },
-            ),
-          ),
+          if (currencyType case CurrencyType.crypto) noteField,
           Gap(16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: UiDateTimeField(
-              initialValue: transaction.date,
+              initialValue: transaction.transactionDate,
               onChanged: (final value) {
-                controller
-                    .setState((final state) => state.copyWith(date: value));
+                controller.setState(
+                  (final state) => state.copyWith(transactionDate: value),
+                );
               },
             ),
           ),

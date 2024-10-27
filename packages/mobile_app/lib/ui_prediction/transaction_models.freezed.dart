@@ -222,10 +222,13 @@ Transaction _$TransactionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Transaction {
-  DateTime get date => throw _privateConstructorUsedError;
+  DateTime get transactionDate => throw _privateConstructorUsedError;
   TransactionId get id => throw _privateConstructorUsedError;
   InputMoney get input => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  String get note =>
+      throw _privateConstructorUsedError; // TODO(arenukvern): convert to list in future
+  String get shoppingListString => throw _privateConstructorUsedError;
   TransactionType get type => throw _privateConstructorUsedError;
   TransactionSchedule get schedule => throw _privateConstructorUsedError;
   TransactionCategoryId get categoryId => throw _privateConstructorUsedError;
@@ -247,10 +250,12 @@ abstract class $TransactionCopyWith<$Res> {
       _$TransactionCopyWithImpl<$Res, Transaction>;
   @useResult
   $Res call(
-      {DateTime date,
+      {DateTime transactionDate,
       TransactionId id,
       InputMoney input,
       String description,
+      String note,
+      String shoppingListString,
       TransactionType type,
       TransactionSchedule schedule,
       TransactionCategoryId categoryId});
@@ -274,18 +279,20 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? date = null,
+    Object? transactionDate = null,
     Object? id = null,
     Object? input = null,
     Object? description = null,
+    Object? note = null,
+    Object? shoppingListString = null,
     Object? type = null,
     Object? schedule = null,
     Object? categoryId = null,
   }) {
     return _then(_value.copyWith(
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
+      transactionDate: null == transactionDate
+          ? _value.transactionDate
+          : transactionDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
       id: null == id
           ? _value.id
@@ -298,6 +305,14 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      note: null == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String,
+      shoppingListString: null == shoppingListString
+          ? _value.shoppingListString
+          : shoppingListString // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -344,10 +359,12 @@ abstract class _$$TransactionImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DateTime date,
+      {DateTime transactionDate,
       TransactionId id,
       InputMoney input,
       String description,
+      String note,
+      String shoppingListString,
       TransactionType type,
       TransactionSchedule schedule,
       TransactionCategoryId categoryId});
@@ -371,18 +388,20 @@ class __$$TransactionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? date = null,
+    Object? transactionDate = null,
     Object? id = null,
     Object? input = null,
     Object? description = null,
+    Object? note = null,
+    Object? shoppingListString = null,
     Object? type = null,
     Object? schedule = null,
     Object? categoryId = null,
   }) {
     return _then(_$TransactionImpl(
-      date: null == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
+      transactionDate: null == transactionDate
+          ? _value.transactionDate
+          : transactionDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
       id: null == id
           ? _value.id
@@ -395,6 +414,14 @@ class __$$TransactionImplCopyWithImpl<$Res>
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      note: null == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String,
+      shoppingListString: null == shoppingListString
+          ? _value.shoppingListString
+          : shoppingListString // ignore: cast_nullable_to_non_nullable
               as String,
       type: null == type
           ? _value.type
@@ -416,10 +443,12 @@ class __$$TransactionImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$TransactionImpl extends _Transaction {
   const _$TransactionImpl(
-      {required this.date,
+      {required this.transactionDate,
       this.id = TransactionId.empty,
       this.input = InputMoney.empty,
       this.description = '',
+      this.note = '',
+      this.shoppingListString = '',
       this.type = TransactionType.expense,
       this.schedule = TransactionSchedule.empty,
       this.categoryId = TransactionCategoryId.empty})
@@ -429,7 +458,7 @@ class _$TransactionImpl extends _Transaction {
       _$$TransactionImplFromJson(json);
 
   @override
-  final DateTime date;
+  final DateTime transactionDate;
   @override
   @JsonKey()
   final TransactionId id;
@@ -439,6 +468,13 @@ class _$TransactionImpl extends _Transaction {
   @override
   @JsonKey()
   final String description;
+  @override
+  @JsonKey()
+  final String note;
+// TODO(arenukvern): convert to list in future
+  @override
+  @JsonKey()
+  final String shoppingListString;
   @override
   @JsonKey()
   final TransactionType type;
@@ -451,7 +487,7 @@ class _$TransactionImpl extends _Transaction {
 
   @override
   String toString() {
-    return 'Transaction(date: $date, id: $id, input: $input, description: $description, type: $type, schedule: $schedule, categoryId: $categoryId)';
+    return 'Transaction(transactionDate: $transactionDate, id: $id, input: $input, description: $description, note: $note, shoppingListString: $shoppingListString, type: $type, schedule: $schedule, categoryId: $categoryId)';
   }
 
   @override
@@ -459,11 +495,15 @@ class _$TransactionImpl extends _Transaction {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TransactionImpl &&
-            (identical(other.date, date) || other.date == date) &&
+            (identical(other.transactionDate, transactionDate) ||
+                other.transactionDate == transactionDate) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.input, input) || other.input == input) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.shoppingListString, shoppingListString) ||
+                other.shoppingListString == shoppingListString) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.schedule, schedule) ||
                 other.schedule == schedule) &&
@@ -473,8 +513,8 @@ class _$TransactionImpl extends _Transaction {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, date, id, input, description, type, schedule, categoryId);
+  int get hashCode => Object.hash(runtimeType, transactionDate, id, input,
+      description, note, shoppingListString, type, schedule, categoryId);
 
   /// Create a copy of Transaction
   /// with the given fields replaced by the non-null parameter values.
@@ -494,10 +534,12 @@ class _$TransactionImpl extends _Transaction {
 
 abstract class _Transaction extends Transaction {
   const factory _Transaction(
-      {required final DateTime date,
+      {required final DateTime transactionDate,
       final TransactionId id,
       final InputMoney input,
       final String description,
+      final String note,
+      final String shoppingListString,
       final TransactionType type,
       final TransactionSchedule schedule,
       final TransactionCategoryId categoryId}) = _$TransactionImpl;
@@ -507,13 +549,17 @@ abstract class _Transaction extends Transaction {
       _$TransactionImpl.fromJson;
 
   @override
-  DateTime get date;
+  DateTime get transactionDate;
   @override
   TransactionId get id;
   @override
   InputMoney get input;
   @override
   String get description;
+  @override
+  String get note; // TODO(arenukvern): convert to list in future
+  @override
+  String get shoppingListString;
   @override
   TransactionType get type;
   @override

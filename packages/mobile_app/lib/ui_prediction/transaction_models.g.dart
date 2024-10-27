@@ -25,7 +25,7 @@ Map<String, dynamic> _$$BudgetImplToJson(_$BudgetImpl instance) =>
 
 _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
     _$TransactionImpl(
-      date: DateTime.parse(json['date'] as String),
+      transactionDate: DateTime.parse(json['transactionDate'] as String),
       id: json['id'] == null
           ? TransactionId.empty
           : TransactionId.fromJson(json['id'] as String),
@@ -33,6 +33,8 @@ _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
           ? InputMoney.empty
           : InputMoney.fromJson(json['input'] as Map<String, dynamic>),
       description: json['description'] as String? ?? '',
+      note: json['note'] as String? ?? '',
+      shoppingListString: json['shoppingListString'] as String? ?? '',
       type: $enumDecodeNullable(_$TransactionTypeEnumMap, json['type']) ??
           TransactionType.expense,
       schedule: json['schedule'] == null
@@ -46,10 +48,12 @@ _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>
     <String, dynamic>{
-      'date': instance.date.toIso8601String(),
+      'transactionDate': instance.transactionDate.toIso8601String(),
       'id': instance.id,
       'input': instance.input,
       'description': instance.description,
+      'note': instance.note,
+      'shoppingListString': instance.shoppingListString,
       'type': _$TransactionTypeEnumMap[instance.type]!,
       'schedule': instance.schedule,
       'categoryId': instance.categoryId,

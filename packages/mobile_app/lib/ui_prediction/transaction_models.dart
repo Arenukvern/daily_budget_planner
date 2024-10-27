@@ -114,10 +114,13 @@ class Budget with _$Budget {
 sealed class Transaction with _$Transaction {
   /// Base transaction interface with common properties
   const factory Transaction({
-    required final DateTime date,
+    required final DateTime transactionDate,
     @Default(TransactionId.empty) final TransactionId id,
     @Default(InputMoney.empty) final InputMoney input,
     @Default('') final String description,
+    @Default('') final String note,
+    // TODO(arenukvern): convert to list in future
+    @Default('') final String shoppingListString,
     @Default(TransactionType.expense) final TransactionType type,
     @Default(TransactionSchedule.empty) final TransactionSchedule schedule,
     @Default(TransactionCategoryId.empty)
@@ -128,7 +131,7 @@ sealed class Transaction with _$Transaction {
 
   factory Transaction.fromJson(final Map<String, dynamic> json) =>
       _$TransactionFromJson(json);
-  static final empty = Transaction(date: DateTime.now());
+  static final empty = Transaction(transactionDate: DateTime.now());
   bool get isExpense => type == TransactionType.expense;
   bool get isIncome => type == TransactionType.income;
   bool get isRegular => schedule.isSet;

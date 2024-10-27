@@ -574,7 +574,8 @@ class AddBudgetDialog extends HookWidget {
     final amountController = useTextEditingController(
       text: initialValue?.amount.toString() ?? '',
     );
-    final selectedDate = useState(initialValue?.date ?? DateTime.now());
+    final selectedDate =
+        useState(initialValue?.transactionDate ?? DateTime.now());
 
     return AlertDialog(
       insetPadding:

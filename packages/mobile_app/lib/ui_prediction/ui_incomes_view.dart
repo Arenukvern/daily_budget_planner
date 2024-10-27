@@ -148,7 +148,7 @@ class UiTransactionsTable<T extends Transaction> extends HookWidget {
     final T transaction,
   ) {
     final cellData = [
-      DateFormat.yMMMEd().add_Hms().format(transaction.date),
+      DateFormat.yMMMEd().add_Hms().format(transaction.transactionDate),
       transaction.amount.toString(),
       transaction.currencyId.value,
     ];
@@ -181,8 +181,8 @@ class UiTransactionsTable<T extends Transaction> extends HookWidget {
       switch (sortColumn) {
         case 'date':
           return ascending
-              ? a.date.compareTo(b.date)
-              : b.date.compareTo(a.date);
+              ? a.transactionDate.compareTo(b.transactionDate)
+              : b.transactionDate.compareTo(a.transactionDate);
         case 'value':
           return ascending
               ? a.amount.compareTo(b.amount)

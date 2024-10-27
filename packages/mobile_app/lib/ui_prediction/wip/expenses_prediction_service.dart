@@ -44,7 +44,7 @@ class ExpensesPredictionService {
     final recentExpenses = _getRecentData(
       data: expenses,
       period: period,
-      datetimeFromItem: (final e) => e.date,
+      datetimeFromItem: (final e) => e.transactionDate,
     );
     return _calculateTrend(recentExpenses.map((final e) => e.amount).toList());
   }
