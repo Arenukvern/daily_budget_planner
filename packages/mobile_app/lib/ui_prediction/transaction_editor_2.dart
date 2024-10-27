@@ -254,11 +254,15 @@ class _TransactionEditorState extends State<_TransactionEditor> {
             ),
           ),
           Gap(16),
-          UiDateTimeField(
-            initialValue: transaction.date,
-            onChanged: (final value) {
-              controller.setState((final state) => state.copyWith(date: value));
-            },
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: UiDateTimeField(
+              initialValue: transaction.date,
+              onChanged: (final value) {
+                controller
+                    .setState((final state) => state.copyWith(date: value));
+              },
+            ),
           ),
           Gap(16),
         ],
@@ -424,10 +428,12 @@ class UiDateTimeField extends StatefulWidget {
   const UiDateTimeField({
     required this.initialValue,
     required this.onChanged,
+    this.use24HourFormat = false,
     super.key,
   });
 
   final DateTime initialValue;
+  final bool use24HourFormat;
   final ValueChanged<DateTime> onChanged;
 
   @override
@@ -443,7 +449,8 @@ class _UiDateTimeFieldState extends State<UiDateTimeField> {
     super.initState();
     _selectedDateTime = widget.initialValue;
     _timeController = TextEditingController(
-      text: DateFormat.Hm().format(_selectedDateTime),
+      text: (widget.use24HourFormat ? DateFormat.Hm() : DateFormat.jm())
+          .format(_selectedDateTime),
     );
   }
 
@@ -454,94 +461,97 @@ class _UiDateTimeFieldState extends State<UiDateTimeField> {
   }
 
   @override
-  Widget build(final BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-    return LayoutBuilder(
-      builder: (final context, final constraints) {
-        final isDesktop = constraints.maxWidth > 600;
-        if (isDesktop) {
-          // Desktop layout
-          return Row(
-            children: [
-              Expanded(
-                child: InkWell(
-                  onTap: () async => _showDatePicker(context),
-                  child: InputDecorator(
-                    decoration: InputDecoration(
-                      labelText: 'Date',
-                      suffixIcon: Icon(Icons.calendar_today),
-                    ),
-                    child: Text(DateFormat.yMMMd().format(_selectedDateTime)),
-                  ),
-                ),
-              ),
-              SizedBox(width: 16),
-              Expanded(
-                child: UiTextField(
-                  controller: _timeController,
-                  decoration: InputDecoration(
-                    labelText: 'Time',
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.access_time),
-                      onPressed: () async => _showTimePicker(context),
-                    ),
-                  ),
-                  onChanged: _updateTimeFromText,
-                ),
-              ),
-            ],
-          );
-        } else {
-          // Mobile layout
-          return SizedBox(
-            height: 216,
-            child: Row(
+  Widget build(final BuildContext context) => LayoutBuilder(
+        builder: (final context, final constraints) {
+          final isDesktop = constraints.maxWidth > 600;
+          if (isDesktop) {
+            // Desktop layout
+            return Row(
               children: [
-                Gap(16),
-                Flexible(
-                  child: CupertinoDatePicker(
-                    mode: CupertinoDatePickerMode.date,
-                    initialDateTime: _selectedDateTime,
-                    onDateTimeChanged: (final newDate) {
-                      setState(() {
-                        _selectedDateTime = DateTime(
-                          newDate.year,
-                          newDate.month,
-                          newDate.day,
-                          _selectedDateTime.hour,
-                          _selectedDateTime.minute,
-                        );
-                      });
-                      widget.onChanged(_selectedDateTime);
-                    },
+                Expanded(
+                  child: InkWell(
+                    onTap: () async => _showDatePicker(context),
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        labelText: 'Date',
+                        suffixIcon: Icon(Icons.calendar_today),
+                      ),
+                      child: Text(DateFormat.yMMMd().format(_selectedDateTime)),
+                    ),
                   ),
                 ),
-                Flexible(
-                  child: CupertinoDatePicker(
-                    mode: CupertinoDatePickerMode.time,
-                    initialDateTime: _selectedDateTime,
-                    onDateTimeChanged: (final newTime) {
-                      setState(() {
-                        _selectedDateTime = DateTime(
-                          _selectedDateTime.year,
-                          _selectedDateTime.month,
-                          _selectedDateTime.day,
-                          newTime.hour,
-                          newTime.minute,
-                        );
-                      });
-                      widget.onChanged(_selectedDateTime);
-                    },
+                SizedBox(width: 16),
+                Expanded(
+                  child: InkWell(
+                    onTap: () async => _showTimePicker(
+                      context,
+                      use24HourFormat: widget.use24HourFormat,
+                    ),
+                    child: InputDecorator(
+                      decoration: InputDecoration(
+                        labelText: 'Time',
+                        suffixIcon: Icon(Icons.access_time),
+                      ),
+                      child: Text(
+                        widget.use24HourFormat
+                            ? DateFormat.Hm().format(_selectedDateTime)
+                            : DateFormat.jm().format(_selectedDateTime),
+                      ),
+                    ),
                   ),
                 ),
-                Gap(16),
               ],
-            ),
-          );
-        }
-      },
-    );
-  }
+            );
+          } else {
+            // Mobile layout
+            return SizedBox(
+              height: 216,
+              child: Row(
+                children: [
+                  Gap(16),
+                  Flexible(
+                    child: CupertinoDatePicker(
+                      mode: CupertinoDatePickerMode.date,
+                      initialDateTime: _selectedDateTime,
+                      onDateTimeChanged: (final newDate) {
+                        setState(() {
+                          _selectedDateTime = DateTime(
+                            newDate.year,
+                            newDate.month,
+                            newDate.day,
+                            _selectedDateTime.hour,
+                            _selectedDateTime.minute,
+                          );
+                        });
+                        widget.onChanged(_selectedDateTime);
+                      },
+                    ),
+                  ),
+                  Flexible(
+                    child: CupertinoDatePicker(
+                      mode: CupertinoDatePickerMode.time,
+                      initialDateTime: _selectedDateTime,
+                      onDateTimeChanged: (final newTime) {
+                        setState(() {
+                          _selectedDateTime = DateTime(
+                            _selectedDateTime.year,
+                            _selectedDateTime.month,
+                            _selectedDateTime.day,
+                            newTime.hour,
+                            newTime.minute,
+                          );
+                        });
+                        widget.onChanged(_selectedDateTime);
+                      },
+                    ),
+                  ),
+                  Gap(16),
+                ],
+              ),
+            );
+          }
+        },
+      );
 
   Future<void> _showDatePicker(final BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -564,10 +574,19 @@ class _UiDateTimeFieldState extends State<UiDateTimeField> {
     }
   }
 
-  Future<void> _showTimePicker(final BuildContext context) async {
+  Future<void> _showTimePicker(
+    final BuildContext context, {
+    required final bool use24HourFormat,
+  }) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
+      initialEntryMode: TimePickerEntryMode.input,
+      builder: (final context, final child) => MediaQuery(
+        data: MediaQuery.of(context)
+            .copyWith(alwaysUse24HourFormat: use24HourFormat),
+        child: child!,
+      ),
     );
     if (picked != null) {
       setState(() {
@@ -578,29 +597,11 @@ class _UiDateTimeFieldState extends State<UiDateTimeField> {
           picked.hour,
           picked.minute,
         );
-        _timeController.text = DateFormat.Hm().format(_selectedDateTime);
+        _timeController.text =
+            (use24HourFormat ? DateFormat.Hm() : DateFormat.jm())
+                .format(_selectedDateTime);
       });
       widget.onChanged(_selectedDateTime);
-    }
-  }
-
-  void _updateTimeFromText(final String value) {
-    final parts = value.split(':');
-    if (parts.length == 2) {
-      final hour = int.tryParse(parts[0]);
-      final minute = int.tryParse(parts[1]);
-      if (hour != null && minute != null) {
-        setState(() {
-          _selectedDateTime = DateTime(
-            _selectedDateTime.year,
-            _selectedDateTime.month,
-            _selectedDateTime.day,
-            hour,
-            minute,
-          );
-        });
-        widget.onChanged(_selectedDateTime);
-      }
     }
   }
 }
