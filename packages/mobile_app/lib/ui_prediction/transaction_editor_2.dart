@@ -1,4 +1,5 @@
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/transaction_models.dart';
 import 'package:mobile_app/ui_prediction/ui_incomes_view.dart';
@@ -253,20 +254,12 @@ class _TransactionEditorState extends State<_TransactionEditor> {
             ),
           ),
           Gap(16),
-
-          // SingleChildScrollView(
-          //   scrollDirection: Axis.horizontal,
-          //   padding: const EdgeInsets.symmetric(horizontal: 16),
-          //   child: Row(
-          //     mainAxisSize: MainAxisSize.min,
-          //     children: [
-          //       _DateTimePicker(controller),
-          //       const SizedBox(width: 8),
-          //       const SizedBox(width: 8),
-          //       _Reminder(controller),
-          //     ],
-          //   ),
-          // ),
+          UiDateTimeField(
+            initialValue: transaction.date,
+            onChanged: (final value) {
+              controller.setState((final state) => state.copyWith(date: value));
+            },
+          ),
           Gap(16),
         ],
       ),
@@ -326,19 +319,6 @@ class _TransactionEditorState extends State<_TransactionEditor> {
       ),
     );
   }
-}
-
-class _DateTimePicker extends StatelessWidget {
-  const _DateTimePicker(this.controller);
-
-  final _EditingController controller;
-
-  @override
-  Widget build(final BuildContext context) => ActionChip(
-        avatar: const Icon(Icons.event),
-        label: const Text('No date'),
-        onPressed: () {},
-      );
 }
 
 class _Reminder extends StatelessWidget {
@@ -437,5 +417,190 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
     super.dispose();
     amount.dispose();
     coinPrice.dispose();
+  }
+}
+
+class UiDateTimeField extends StatefulWidget {
+  const UiDateTimeField({
+    required this.initialValue,
+    required this.onChanged,
+    super.key,
+  });
+
+  final DateTime initialValue;
+  final ValueChanged<DateTime> onChanged;
+
+  @override
+  State<UiDateTimeField> createState() => _UiDateTimeFieldState();
+}
+
+class _UiDateTimeFieldState extends State<UiDateTimeField> {
+  late DateTime _selectedDateTime;
+  late TextEditingController _timeController;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDateTime = widget.initialValue;
+    _timeController = TextEditingController(
+      text: DateFormat.Hm().format(_selectedDateTime),
+    );
+  }
+
+  @override
+  void dispose() {
+    _timeController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(final BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    return LayoutBuilder(
+      builder: (final context, final constraints) {
+        final isDesktop = constraints.maxWidth > 600;
+        if (isDesktop) {
+          // Desktop layout
+          return Row(
+            children: [
+              Expanded(
+                child: InkWell(
+                  onTap: () async => _showDatePicker(context),
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: 'Date',
+                      suffixIcon: Icon(Icons.calendar_today),
+                    ),
+                    child: Text(DateFormat.yMMMd().format(_selectedDateTime)),
+                  ),
+                ),
+              ),
+              SizedBox(width: 16),
+              Expanded(
+                child: UiTextField(
+                  controller: _timeController,
+                  decoration: InputDecoration(
+                    labelText: 'Time',
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.access_time),
+                      onPressed: () async => _showTimePicker(context),
+                    ),
+                  ),
+                  onChanged: _updateTimeFromText,
+                ),
+              ),
+            ],
+          );
+        } else {
+          // Mobile layout
+          return SizedBox(
+            height: 216,
+            child: Row(
+              children: [
+                Gap(16),
+                Flexible(
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.date,
+                    initialDateTime: _selectedDateTime,
+                    onDateTimeChanged: (final newDate) {
+                      setState(() {
+                        _selectedDateTime = DateTime(
+                          newDate.year,
+                          newDate.month,
+                          newDate.day,
+                          _selectedDateTime.hour,
+                          _selectedDateTime.minute,
+                        );
+                      });
+                      widget.onChanged(_selectedDateTime);
+                    },
+                  ),
+                ),
+                Flexible(
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.time,
+                    initialDateTime: _selectedDateTime,
+                    onDateTimeChanged: (final newTime) {
+                      setState(() {
+                        _selectedDateTime = DateTime(
+                          _selectedDateTime.year,
+                          _selectedDateTime.month,
+                          _selectedDateTime.day,
+                          newTime.hour,
+                          newTime.minute,
+                        );
+                      });
+                      widget.onChanged(_selectedDateTime);
+                    },
+                  ),
+                ),
+                Gap(16),
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Future<void> _showDatePicker(final BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDateTime,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != _selectedDateTime) {
+      setState(() {
+        _selectedDateTime = DateTime(
+          picked.year,
+          picked.month,
+          picked.day,
+          _selectedDateTime.hour,
+          _selectedDateTime.minute,
+        );
+      });
+      widget.onChanged(_selectedDateTime);
+    }
+  }
+
+  Future<void> _showTimePicker(final BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.fromDateTime(_selectedDateTime),
+    );
+    if (picked != null) {
+      setState(() {
+        _selectedDateTime = DateTime(
+          _selectedDateTime.year,
+          _selectedDateTime.month,
+          _selectedDateTime.day,
+          picked.hour,
+          picked.minute,
+        );
+        _timeController.text = DateFormat.Hm().format(_selectedDateTime);
+      });
+      widget.onChanged(_selectedDateTime);
+    }
+  }
+
+  void _updateTimeFromText(final String value) {
+    final parts = value.split(':');
+    if (parts.length == 2) {
+      final hour = int.tryParse(parts[0]);
+      final minute = int.tryParse(parts[1]);
+      if (hour != null && minute != null) {
+        setState(() {
+          _selectedDateTime = DateTime(
+            _selectedDateTime.year,
+            _selectedDateTime.month,
+            _selectedDateTime.day,
+            hour,
+            minute,
+          );
+        });
+        widget.onChanged(_selectedDateTime);
+      }
+    }
   }
 }
