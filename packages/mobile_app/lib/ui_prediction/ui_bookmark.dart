@@ -1,8 +1,4 @@
-import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
-import 'package:mobile_app/ui_prediction/ui_common.dart';
-import 'package:smooth_sheets/smooth_sheets.dart';
+import 'package:mobile_app/common_imports.dart';
 
 void showEditActionsSheet(final BuildContext context) {
   unawaited(
@@ -25,7 +21,7 @@ class EditActionsSheet extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           child: SheetContentScaffold(
             backgroundColor: CupertinoColors.systemGroupedBackground,
-            appBar: CupertinoAppBar(
+            appBar: UiAppBar(
               title: const Text('Edit Actions'),
               trailing: CupertinoButton(
                 onPressed: () => Navigator.pop(context),

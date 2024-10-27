@@ -3,7 +3,6 @@ import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_home/monthly/monthly_cubit.dart';
 import 'package:mobile_app/ui_home/weekly/weekly_cubit.dart';
 import 'package:mobile_app/ui_paywalls/ui_paywalls.dart';
-import 'package:mobile_app/ui_prediction/ui_prediction_notifier.dart';
 
 /// Shortcuts
 /// Should not be exposed
@@ -66,6 +65,8 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   );
   rl(UiPredictionNotifier.new);
   rl(() => MonetizationStatusNotifier(Envs.monetizationType));
+  rl(DictionariesLocalApi.new);
+  rl(DictionariesNotifier.new);
   rl(
     () => SubscriptionManager(
       productIds: MonetizationProducts.subscriptions,
@@ -95,6 +96,7 @@ mixin HasLocalApis {
   AppSettingsLocalApi get appSettingsApi => _g();
   UserLocalApi get userLocalApi => _g();
   BudgetLocalApi get budgetLocalApi => _g();
+  DictionariesLocalApi get dictionariesLocalApi => _g();
 }
 mixin HasStates {
   UserNotifier get userNotifier => _g();
@@ -107,6 +109,7 @@ mixin HasStates {
   WeeklyCubit get weeklyCubit => _g();
   MonthlyCubit get monthlyCubit => _g();
   StoreReviewRequester get storeReviewRequester => _g();
+  DictionariesNotifier get dictionariesNotifier => _g();
 }
 mixin HasAnalytics {
   AnalyticsManager get analyticsManager => _g();

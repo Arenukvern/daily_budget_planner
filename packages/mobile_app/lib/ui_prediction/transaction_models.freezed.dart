@@ -14,6 +14,623 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+Currency _$CurrencyFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'fiat':
+      return FiatCurrency.fromJson(json);
+    case 'crypto':
+      return CryptoCurrency.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'Currency',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$Currency {
+  CurrencyId get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get slug => throw _privateConstructorUsedError;
+  CurrencyType get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CurrencyId id, String name, String slug,
+            String symbol, int decimals, CurrencyType type)
+        fiat,
+    required TResult Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)
+        crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult? Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)?
+        crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult Function(CurrencyId id, String name, String slug, CurrencyType type,
+            ChainId chainId)?
+        crypto,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FiatCurrency value) fiat,
+    required TResult Function(CryptoCurrency value) crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FiatCurrency value)? fiat,
+    TResult? Function(CryptoCurrency value)? crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FiatCurrency value)? fiat,
+    TResult Function(CryptoCurrency value)? crypto,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this Currency to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CurrencyCopyWith<Currency> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CurrencyCopyWith<$Res> {
+  factory $CurrencyCopyWith(Currency value, $Res Function(Currency) then) =
+      _$CurrencyCopyWithImpl<$Res, Currency>;
+  @useResult
+  $Res call({CurrencyId id, String name, String slug, CurrencyType type});
+}
+
+/// @nodoc
+class _$CurrencyCopyWithImpl<$Res, $Val extends Currency>
+    implements $CurrencyCopyWith<$Res> {
+  _$CurrencyCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FiatCurrencyImplCopyWith<$Res>
+    implements $CurrencyCopyWith<$Res> {
+  factory _$$FiatCurrencyImplCopyWith(
+          _$FiatCurrencyImpl value, $Res Function(_$FiatCurrencyImpl) then) =
+      __$$FiatCurrencyImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {CurrencyId id,
+      String name,
+      String slug,
+      String symbol,
+      int decimals,
+      CurrencyType type});
+}
+
+/// @nodoc
+class __$$FiatCurrencyImplCopyWithImpl<$Res>
+    extends _$CurrencyCopyWithImpl<$Res, _$FiatCurrencyImpl>
+    implements _$$FiatCurrencyImplCopyWith<$Res> {
+  __$$FiatCurrencyImplCopyWithImpl(
+      _$FiatCurrencyImpl _value, $Res Function(_$FiatCurrencyImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? symbol = null,
+    Object? decimals = null,
+    Object? type = null,
+  }) {
+    return _then(_$FiatCurrencyImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      symbol: null == symbol
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String,
+      decimals: null == decimals
+          ? _value.decimals
+          : decimals // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FiatCurrencyImpl extends FiatCurrency {
+  const _$FiatCurrencyImpl(
+      {this.id = CurrencyId.empty,
+      this.name = '',
+      this.slug = '',
+      this.symbol = '',
+      this.decimals = 2,
+      this.type = CurrencyType.fiat,
+      final String? $type})
+      : $type = $type ?? 'fiat',
+        super._();
+
+  factory _$FiatCurrencyImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FiatCurrencyImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId id;
+  @override
+  @JsonKey()
+  final String name;
+  @override
+  @JsonKey()
+  final String slug;
+  @override
+  @JsonKey()
+  final String symbol;
+  @override
+  @JsonKey()
+  final int decimals;
+  @override
+  @JsonKey()
+  final CurrencyType type;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Currency.fiat(id: $id, name: $name, slug: $slug, symbol: $symbol, decimals: $decimals, type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FiatCurrencyImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.decimals, decimals) ||
+                other.decimals == decimals) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, slug, symbol, decimals, type);
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FiatCurrencyImplCopyWith<_$FiatCurrencyImpl> get copyWith =>
+      __$$FiatCurrencyImplCopyWithImpl<_$FiatCurrencyImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CurrencyId id, String name, String slug,
+            String symbol, int decimals, CurrencyType type)
+        fiat,
+    required TResult Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)
+        crypto,
+  }) {
+    return fiat(id, name, slug, symbol, decimals, type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult? Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)?
+        crypto,
+  }) {
+    return fiat?.call(id, name, slug, symbol, decimals, type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult Function(CurrencyId id, String name, String slug, CurrencyType type,
+            ChainId chainId)?
+        crypto,
+    required TResult orElse(),
+  }) {
+    if (fiat != null) {
+      return fiat(id, name, slug, symbol, decimals, type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FiatCurrency value) fiat,
+    required TResult Function(CryptoCurrency value) crypto,
+  }) {
+    return fiat(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FiatCurrency value)? fiat,
+    TResult? Function(CryptoCurrency value)? crypto,
+  }) {
+    return fiat?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FiatCurrency value)? fiat,
+    TResult Function(CryptoCurrency value)? crypto,
+    required TResult orElse(),
+  }) {
+    if (fiat != null) {
+      return fiat(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FiatCurrencyImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class FiatCurrency extends Currency {
+  const factory FiatCurrency(
+      {final CurrencyId id,
+      final String name,
+      final String slug,
+      final String symbol,
+      final int decimals,
+      final CurrencyType type}) = _$FiatCurrencyImpl;
+  const FiatCurrency._() : super._();
+
+  factory FiatCurrency.fromJson(Map<String, dynamic> json) =
+      _$FiatCurrencyImpl.fromJson;
+
+  @override
+  CurrencyId get id;
+  @override
+  String get name;
+  @override
+  String get slug;
+  String get symbol;
+  int get decimals;
+  @override
+  CurrencyType get type;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FiatCurrencyImplCopyWith<_$FiatCurrencyImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CryptoCurrencyImplCopyWith<$Res>
+    implements $CurrencyCopyWith<$Res> {
+  factory _$$CryptoCurrencyImplCopyWith(_$CryptoCurrencyImpl value,
+          $Res Function(_$CryptoCurrencyImpl) then) =
+      __$$CryptoCurrencyImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {CurrencyId id,
+      String name,
+      String slug,
+      CurrencyType type,
+      ChainId chainId});
+}
+
+/// @nodoc
+class __$$CryptoCurrencyImplCopyWithImpl<$Res>
+    extends _$CurrencyCopyWithImpl<$Res, _$CryptoCurrencyImpl>
+    implements _$$CryptoCurrencyImplCopyWith<$Res> {
+  __$$CryptoCurrencyImplCopyWithImpl(
+      _$CryptoCurrencyImpl _value, $Res Function(_$CryptoCurrencyImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? type = null,
+    Object? chainId = null,
+  }) {
+    return _then(_$CryptoCurrencyImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+      chainId: null == chainId
+          ? _value.chainId
+          : chainId // ignore: cast_nullable_to_non_nullable
+              as ChainId,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CryptoCurrencyImpl extends CryptoCurrency {
+  const _$CryptoCurrencyImpl(
+      {this.id = CurrencyId.empty,
+      this.name = '',
+      this.slug = '',
+      this.type = CurrencyType.crypto,
+      this.chainId = ChainId.empty,
+      final String? $type})
+      : $type = $type ?? 'crypto',
+        super._();
+
+  factory _$CryptoCurrencyImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CryptoCurrencyImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId id;
+  @override
+  @JsonKey()
+  final String name;
+  @override
+  @JsonKey()
+  final String slug;
+  @override
+  @JsonKey()
+  final CurrencyType type;
+  @override
+  @JsonKey()
+  final ChainId chainId;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Currency.crypto(id: $id, name: $name, slug: $slug, type: $type, chainId: $chainId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CryptoCurrencyImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.chainId, chainId) || other.chainId == chainId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, slug, type, chainId);
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CryptoCurrencyImplCopyWith<_$CryptoCurrencyImpl> get copyWith =>
+      __$$CryptoCurrencyImplCopyWithImpl<_$CryptoCurrencyImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CurrencyId id, String name, String slug,
+            String symbol, int decimals, CurrencyType type)
+        fiat,
+    required TResult Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)
+        crypto,
+  }) {
+    return crypto(id, name, slug, type, chainId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult? Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)?
+        crypto,
+  }) {
+    return crypto?.call(id, name, slug, type, chainId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult Function(CurrencyId id, String name, String slug, CurrencyType type,
+            ChainId chainId)?
+        crypto,
+    required TResult orElse(),
+  }) {
+    if (crypto != null) {
+      return crypto(id, name, slug, type, chainId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FiatCurrency value) fiat,
+    required TResult Function(CryptoCurrency value) crypto,
+  }) {
+    return crypto(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FiatCurrency value)? fiat,
+    TResult? Function(CryptoCurrency value)? crypto,
+  }) {
+    return crypto?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FiatCurrency value)? fiat,
+    TResult Function(CryptoCurrency value)? crypto,
+    required TResult orElse(),
+  }) {
+    if (crypto != null) {
+      return crypto(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CryptoCurrencyImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CryptoCurrency extends Currency {
+  const factory CryptoCurrency(
+      {final CurrencyId id,
+      final String name,
+      final String slug,
+      final CurrencyType type,
+      final ChainId chainId}) = _$CryptoCurrencyImpl;
+  const CryptoCurrency._() : super._();
+
+  factory CryptoCurrency.fromJson(Map<String, dynamic> json) =
+      _$CryptoCurrencyImpl.fromJson;
+
+  @override
+  CurrencyId get id;
+  @override
+  String get name;
+  @override
+  String get slug;
+  @override
+  CurrencyType get type;
+  ChainId get chainId;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CryptoCurrencyImplCopyWith<_$CryptoCurrencyImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Budget _$BudgetFromJson(Map<String, dynamic> json) {
   return _Budget.fromJson(json);
 }
@@ -598,8 +1215,8 @@ mixin _$InputMoney {
     required TResult Function(
             CurrencyId currencyId, double amount, CurrencyType currencyType)
         fiat,
-    required TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
         crypto,
   }) =>
       throw _privateConstructorUsedError;
@@ -608,8 +1225,8 @@ mixin _$InputMoney {
     TResult? Function(
             CurrencyId currencyId, double amount, CurrencyType currencyType)?
         fiat,
-    TResult? Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
         crypto,
   }) =>
       throw _privateConstructorUsedError;
@@ -618,8 +1235,8 @@ mixin _$InputMoney {
     TResult Function(
             CurrencyId currencyId, double amount, CurrencyType currencyType)?
         fiat,
-    TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
         crypto,
     required TResult orElse(),
   }) =>
@@ -808,8 +1425,8 @@ class _$FiatInputModelImpl extends FiatInputModel {
     required TResult Function(
             CurrencyId currencyId, double amount, CurrencyType currencyType)
         fiat,
-    required TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
         crypto,
   }) {
     return fiat(currencyId, amount, currencyType);
@@ -821,8 +1438,8 @@ class _$FiatInputModelImpl extends FiatInputModel {
     TResult? Function(
             CurrencyId currencyId, double amount, CurrencyType currencyType)?
         fiat,
-    TResult? Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
         crypto,
   }) {
     return fiat?.call(currencyId, amount, currencyType);
@@ -834,8 +1451,8 @@ class _$FiatInputModelImpl extends FiatInputModel {
     TResult Function(
             CurrencyId currencyId, double amount, CurrencyType currencyType)?
         fiat,
-    TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
         crypto,
     required TResult orElse(),
   }) {
@@ -917,11 +1534,7 @@ abstract class _$$CyptoInputModelImplCopyWith<$Res>
       __$$CyptoInputModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {CurrencyId currencyId,
-      double amount,
-      BlockchainNetworkId blockchainNetworkId,
-      CurrencyType currencyType});
+  $Res call({CurrencyId currencyId, double amount, CurrencyType currencyType});
 }
 
 /// @nodoc
@@ -939,7 +1552,6 @@ class __$$CyptoInputModelImplCopyWithImpl<$Res>
   $Res call({
     Object? currencyId = null,
     Object? amount = null,
-    Object? blockchainNetworkId = null,
     Object? currencyType = null,
   }) {
     return _then(_$CyptoInputModelImpl(
@@ -951,10 +1563,6 @@ class __$$CyptoInputModelImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-      blockchainNetworkId: null == blockchainNetworkId
-          ? _value.blockchainNetworkId
-          : blockchainNetworkId // ignore: cast_nullable_to_non_nullable
-              as BlockchainNetworkId,
       currencyType: null == currencyType
           ? _value.currencyType
           : currencyType // ignore: cast_nullable_to_non_nullable
@@ -969,7 +1577,6 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
   const _$CyptoInputModelImpl(
       {this.currencyId = CurrencyId.empty,
       this.amount = 0.0,
-      this.blockchainNetworkId = BlockchainNetworkId.empty,
       this.currencyType = CurrencyType.crypto,
       final String? $type})
       : $type = $type ?? 'crypto',
@@ -986,9 +1593,6 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
   final double amount;
   @override
   @JsonKey()
-  final BlockchainNetworkId blockchainNetworkId;
-  @override
-  @JsonKey()
   final CurrencyType currencyType;
 
   @JsonKey(name: 'runtimeType')
@@ -996,7 +1600,7 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
 
   @override
   String toString() {
-    return 'InputMoney.crypto(currencyId: $currencyId, amount: $amount, blockchainNetworkId: $blockchainNetworkId, currencyType: $currencyType)';
+    return 'InputMoney.crypto(currencyId: $currencyId, amount: $amount, currencyType: $currencyType)';
   }
 
   @override
@@ -1007,16 +1611,14 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
             (identical(other.currencyId, currencyId) ||
                 other.currencyId == currencyId) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.blockchainNetworkId, blockchainNetworkId) ||
-                other.blockchainNetworkId == blockchainNetworkId) &&
             (identical(other.currencyType, currencyType) ||
                 other.currencyType == currencyType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, currencyId, amount, blockchainNetworkId, currencyType);
+  int get hashCode =>
+      Object.hash(runtimeType, currencyId, amount, currencyType);
 
   /// Create a copy of InputMoney
   /// with the given fields replaced by the non-null parameter values.
@@ -1033,11 +1635,11 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
     required TResult Function(
             CurrencyId currencyId, double amount, CurrencyType currencyType)
         fiat,
-    required TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
         crypto,
   }) {
-    return crypto(currencyId, amount, blockchainNetworkId, currencyType);
+    return crypto(currencyId, amount, currencyType);
   }
 
   @override
@@ -1046,11 +1648,11 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
     TResult? Function(
             CurrencyId currencyId, double amount, CurrencyType currencyType)?
         fiat,
-    TResult? Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
         crypto,
   }) {
-    return crypto?.call(currencyId, amount, blockchainNetworkId, currencyType);
+    return crypto?.call(currencyId, amount, currencyType);
   }
 
   @override
@@ -1059,13 +1661,13 @@ class _$CyptoInputModelImpl extends CyptoInputModel {
     TResult Function(
             CurrencyId currencyId, double amount, CurrencyType currencyType)?
         fiat,
-    TResult Function(CurrencyId currencyId, double amount,
-            BlockchainNetworkId blockchainNetworkId, CurrencyType currencyType)?
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
         crypto,
     required TResult orElse(),
   }) {
     if (crypto != null) {
-      return crypto(currencyId, amount, blockchainNetworkId, currencyType);
+      return crypto(currencyId, amount, currencyType);
     }
     return orElse();
   }
@@ -1113,7 +1715,6 @@ abstract class CyptoInputModel extends InputMoney {
   const factory CyptoInputModel(
       {final CurrencyId currencyId,
       final double amount,
-      final BlockchainNetworkId blockchainNetworkId,
       final CurrencyType currencyType}) = _$CyptoInputModelImpl;
   const CyptoInputModel._() : super._();
 
@@ -1124,7 +1725,6 @@ abstract class CyptoInputModel extends InputMoney {
   CurrencyId get currencyId;
   @override
   double get amount;
-  BlockchainNetworkId get blockchainNetworkId;
   @override
   CurrencyType get currencyType;
 

@@ -6,6 +6,59 @@ part of 'transaction_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$FiatCurrencyImpl _$$FiatCurrencyImplFromJson(Map<String, dynamic> json) =>
+    _$FiatCurrencyImpl(
+      id: json['id'] == null
+          ? CurrencyId.empty
+          : CurrencyId.fromJson(json['id'] as String),
+      name: json['name'] as String? ?? '',
+      slug: json['slug'] as String? ?? '',
+      symbol: json['symbol'] as String? ?? '',
+      decimals: (json['decimals'] as num?)?.toInt() ?? 2,
+      type: json['type'] == null
+          ? CurrencyType.fiat
+          : CurrencyType.fromJson(json['type'] as String),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$FiatCurrencyImplToJson(_$FiatCurrencyImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'slug': instance.slug,
+      'symbol': instance.symbol,
+      'decimals': instance.decimals,
+      'type': instance.type,
+      'runtimeType': instance.$type,
+    };
+
+_$CryptoCurrencyImpl _$$CryptoCurrencyImplFromJson(Map<String, dynamic> json) =>
+    _$CryptoCurrencyImpl(
+      id: json['id'] == null
+          ? CurrencyId.empty
+          : CurrencyId.fromJson(json['id'] as String),
+      name: json['name'] as String? ?? '',
+      slug: json['slug'] as String? ?? '',
+      type: json['type'] == null
+          ? CurrencyType.crypto
+          : CurrencyType.fromJson(json['type'] as String),
+      chainId: json['chainId'] == null
+          ? ChainId.empty
+          : ChainId.fromJson(json['chainId'] as String),
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$CryptoCurrencyImplToJson(
+        _$CryptoCurrencyImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'slug': instance.slug,
+      'type': instance.type,
+      'chainId': instance.chainId,
+      'runtimeType': instance.$type,
+    };
+
 _$BudgetImpl _$$BudgetImplFromJson(Map<String, dynamic> json) => _$BudgetImpl(
       date: DateTime.parse(json['date'] as String),
       id: json['id'] == null
@@ -94,9 +147,6 @@ _$CyptoInputModelImpl _$$CyptoInputModelImplFromJson(
           ? CurrencyId.empty
           : CurrencyId.fromJson(json['currencyId'] as String),
       amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
-      blockchainNetworkId: json['blockchainNetworkId'] == null
-          ? BlockchainNetworkId.empty
-          : BlockchainNetworkId.fromJson(json['blockchainNetworkId'] as String),
       currencyType: json['currencyType'] == null
           ? CurrencyType.crypto
           : CurrencyType.fromJson(json['currencyType'] as String),
@@ -108,7 +158,6 @@ Map<String, dynamic> _$$CyptoInputModelImplToJson(
     <String, dynamic>{
       'currencyId': instance.currencyId,
       'amount': instance.amount,
-      'blockchainNetworkId': instance.blockchainNetworkId,
       'currencyType': instance.currencyType,
       'runtimeType': instance.$type,
     };

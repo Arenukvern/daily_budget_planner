@@ -26,3 +26,4 @@ export 'router.dart';
 export 'ui_account/ui_account.dart';
 export 'ui_home/home.dart';
 export 'ui_kit/ui_kit.dart';
+export 'ui_prediction/ui_prediction.dart';

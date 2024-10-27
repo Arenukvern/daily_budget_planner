@@ -86,10 +86,39 @@ extension type const CurrencyId(String value) {
   String toJson() => value;
 }
 
-extension type const BlockchainNetworkId(String value) {
-  factory BlockchainNetworkId.fromJson(final String value) =>
-      BlockchainNetworkId(value);
-  static const empty = BlockchainNetworkId('');
+@freezed
+class Currency with _$Currency {
+  const factory Currency.fiat({
+    @Default(CurrencyId.empty) final CurrencyId id,
+    @Default('') final String name,
+    @Default('') final String slug,
+    @Default('') final String symbol,
+    @Default(2) final int decimals,
+    @Default(CurrencyType.fiat) final CurrencyType type,
+  }) = FiatCurrency;
+  const factory Currency.crypto({
+    @Default(CurrencyId.empty) final CurrencyId id,
+    @Default('') final String name,
+    @Default('') final String slug,
+    @Default(CurrencyType.crypto) final CurrencyType type,
+    @Default(ChainId.empty) final ChainId chainId,
+  }) = CryptoCurrency;
+  const Currency._();
+  factory Currency.fromJson(final Map<String, dynamic> json) =>
+      _$CurrencyFromJson(json);
+
+  String get displayString => switch (this) {
+        FiatCurrency(:final symbol, :final slug, :final name) =>
+          '$symbol ${slug.toUpperCase()} ($name)',
+        CryptoCurrency(:final slug) ||
+        Currency(:final slug) =>
+          slug.toUpperCase(),
+      };
+}
+
+extension type const ChainId(String value) {
+  factory ChainId.fromJson(final String value) => ChainId(value);
+  static const empty = ChainId('');
   bool get isEmpty => value.isEmpty;
   String toJson() => value;
 }
@@ -150,8 +179,6 @@ class InputMoney with _$InputMoney {
   const factory InputMoney.crypto({
     @Default(CurrencyId.empty) final CurrencyId currencyId,
     @Default(0.0) final double amount,
-    @Default(BlockchainNetworkId.empty)
-    final BlockchainNetworkId blockchainNetworkId,
     @Default(CurrencyType.crypto) final CurrencyType currencyType,
   }) = CyptoInputModel;
 

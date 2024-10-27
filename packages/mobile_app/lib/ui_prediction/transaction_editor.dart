@@ -1,7 +1,6 @@
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_kit/atoms/ui_date_time_field.dart';
-import 'package:mobile_app/ui_prediction/transaction_models.dart';
 import 'package:mobile_app/ui_prediction/ui_incomes_view.dart';
 
 Future<Transaction?> showTransactionEditor(
@@ -38,11 +37,8 @@ class _TransactionEditorState extends State<_TransactionEditor> {
     super.dispose();
   }
 
-  Future<void> onPopInvoked(final bool didPop) async {
-    if (didPop) {
-      // Already popped.
-      return;
-    } else if (!controller.canCompose) {
+  Future<void> onPopInvoked() async {
+    if (!controller.canCompose) {
       // Dismiss immediately if there are no unsaved changes.
       Navigator.pop(context);
       return;
@@ -224,6 +220,14 @@ class _TransactionEditorState extends State<_TransactionEditor> {
             ),
           ),
           Gap(16),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: CurrencyAutoCompleter(
+              controller: controller,
+              type: currencyType,
+            ),
+          ),
+          Gap(16),
           if (currencyType case CurrencyType.fiat) nameField,
           Gap(16),
 
@@ -287,7 +291,6 @@ class _TransactionEditorState extends State<_TransactionEditor> {
               },
             ),
           ),
-          Gap(16),
         ],
       ),
     );
@@ -302,7 +305,10 @@ class _TransactionEditorState extends State<_TransactionEditor> {
       bottom: false,
       child: PopScope(
         canPop: false,
-        onPopInvoked: onPopInvoked,
+        onPopInvokedWithResult: (final didPop, final result) async {
+          if (didPop) return;
+          return onPopInvoked();
+        },
         child: SheetKeyboardDismissible(
           dismissBehavior: const SheetKeyboardDismissBehavior.onDragDown(
             isContentScrollAware: true,
@@ -342,6 +348,106 @@ class _TransactionEditorState extends State<_TransactionEditor> {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class CurrencyAutoCompleter extends HookWidget with HasStates {
+  const CurrencyAutoCompleter({
+    required this.controller,
+    required this.type,
+    super.key,
+  });
+
+  final _EditingController controller;
+  final CurrencyType type;
+  @override
+  Widget build(final BuildContext context) {
+    useListenable(dictionariesNotifier);
+    final options = switch (type) {
+      CurrencyType.fiat => dictionariesNotifier.fiatCurrenciesList,
+      CurrencyType.crypto => dictionariesNotifier.cryptoCurrenciesList,
+    };
+
+    Iterable<CurrencyId> getCurrencyOptions(final String query) =>
+        options.where(
+          (final currency) => dictionariesNotifier
+              .getCurrency(currency, type)
+              .displayString
+              .toLowerCase()
+              .contains(query.toLowerCase()),
+        );
+    return _CurrencyAutocompleter(
+      displayStringForOption: (final id) =>
+          dictionariesNotifier.getCurrency(id, type).displayString,
+      initialValue: controller.transaction.input.currencyId,
+      options: options,
+      isLoading: dictionariesNotifier.isLoading,
+      getCurrencyOptions: getCurrencyOptions,
+      onSelected: (final selection) {
+        controller.setMoney(
+          (final state) => state.copyWith(
+            currencyId: selection,
+            currencyType:
+                dictionariesNotifier.getCurrency(selection, type).type,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _CurrencyAutocompleter extends HookWidget with HasStates {
+  const _CurrencyAutocompleter({
+    required this.options,
+    required this.isLoading,
+    required this.onSelected,
+    required this.initialValue,
+    required this.displayStringForOption,
+    required this.getCurrencyOptions,
+    super.key,
+  });
+  final Iterable<CurrencyId> options;
+  final Iterable<CurrencyId> Function(String) getCurrencyOptions;
+  final ValueSetter<CurrencyId> onSelected;
+  final CurrencyId? initialValue;
+  final String Function(CurrencyId) displayStringForOption;
+  final bool isLoading;
+
+  @override
+  Widget build(final BuildContext context) {
+    if (isLoading) {
+      return const Center(child: UiCircularProgress());
+    }
+    final initialValue = this.initialValue?.value ?? '';
+    return Autocomplete<String>(
+      optionsBuilder: (final textEditingValue) {
+        if (textEditingValue.text.isEmpty) {
+          return options as Iterable<String>;
+        }
+        return getCurrencyOptions(textEditingValue.text) as Iterable<String>;
+      },
+      displayStringForOption: (final option) =>
+          displayStringForOption(CurrencyId(option)),
+      initialValue: (initialValue.isNotEmpty)
+          ? TextEditingValue(text: initialValue)
+          : null,
+      onSelected: (final option) => onSelected(CurrencyId(option)),
+      fieldViewBuilder: (
+        final context,
+        final textController,
+        final focusNode,
+        final onFieldSubmitted,
+      ) =>
+          TextField(
+        controller: textController,
+        focusNode: focusNode,
+        decoration: const InputDecoration(
+          // TODO(arenukvern): add localization l10n
+          labelText: 'Currency',
+          hintText: 'Type to search...',
         ),
       ),
     );
