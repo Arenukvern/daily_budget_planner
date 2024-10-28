@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
-import 'package:mobile_app/ui_prediction/transaction_models.dart';
+import 'package:mobile_app/common_imports.dart';
 
 class ExpensesPredictionGraph extends StatelessWidget {
   const ExpensesPredictionGraph({

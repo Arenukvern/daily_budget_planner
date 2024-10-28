@@ -1,7 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/ui_prediction/transaction_models.dart';
 import 'package:mobile_app/ui_prediction/ui_incomes_view.dart';
-import 'package:mobile_app/ui_prediction/ui_prediction_notifier.dart';
 
 class UiExpensesView extends StatelessWidget {
   const UiExpensesView({this.isRegular = false, super.key});

@@ -773,6 +773,1994 @@ abstract class _WeeklyBudgetModel implements WeeklyBudgetModel {
       throw _privateConstructorUsedError;
 }
 
+Currency _$CurrencyFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'fiat':
+      return FiatCurrency.fromJson(json);
+    case 'crypto':
+      return CryptoCurrency.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'Currency',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$Currency {
+  CurrencyId get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get slug => throw _privateConstructorUsedError;
+  CurrencyType get type => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CurrencyId id, String name, String slug,
+            String symbol, int decimals, CurrencyType type)
+        fiat,
+    required TResult Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)
+        crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult? Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)?
+        crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult Function(CurrencyId id, String name, String slug, CurrencyType type,
+            ChainId chainId)?
+        crypto,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FiatCurrency value) fiat,
+    required TResult Function(CryptoCurrency value) crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FiatCurrency value)? fiat,
+    TResult? Function(CryptoCurrency value)? crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FiatCurrency value)? fiat,
+    TResult Function(CryptoCurrency value)? crypto,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this Currency to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CurrencyCopyWith<Currency> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CurrencyCopyWith<$Res> {
+  factory $CurrencyCopyWith(Currency value, $Res Function(Currency) then) =
+      _$CurrencyCopyWithImpl<$Res, Currency>;
+  @useResult
+  $Res call({CurrencyId id, String name, String slug, CurrencyType type});
+}
+
+/// @nodoc
+class _$CurrencyCopyWithImpl<$Res, $Val extends Currency>
+    implements $CurrencyCopyWith<$Res> {
+  _$CurrencyCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FiatCurrencyImplCopyWith<$Res>
+    implements $CurrencyCopyWith<$Res> {
+  factory _$$FiatCurrencyImplCopyWith(
+          _$FiatCurrencyImpl value, $Res Function(_$FiatCurrencyImpl) then) =
+      __$$FiatCurrencyImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {CurrencyId id,
+      String name,
+      String slug,
+      String symbol,
+      int decimals,
+      CurrencyType type});
+}
+
+/// @nodoc
+class __$$FiatCurrencyImplCopyWithImpl<$Res>
+    extends _$CurrencyCopyWithImpl<$Res, _$FiatCurrencyImpl>
+    implements _$$FiatCurrencyImplCopyWith<$Res> {
+  __$$FiatCurrencyImplCopyWithImpl(
+      _$FiatCurrencyImpl _value, $Res Function(_$FiatCurrencyImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? symbol = null,
+    Object? decimals = null,
+    Object? type = null,
+  }) {
+    return _then(_$FiatCurrencyImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      symbol: null == symbol
+          ? _value.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String,
+      decimals: null == decimals
+          ? _value.decimals
+          : decimals // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FiatCurrencyImpl extends FiatCurrency {
+  const _$FiatCurrencyImpl(
+      {this.id = CurrencyId.empty,
+      this.name = '',
+      this.slug = '',
+      this.symbol = '',
+      this.decimals = 2,
+      this.type = CurrencyType.fiat,
+      final String? $type})
+      : $type = $type ?? 'fiat',
+        super._();
+
+  factory _$FiatCurrencyImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FiatCurrencyImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId id;
+  @override
+  @JsonKey()
+  final String name;
+  @override
+  @JsonKey()
+  final String slug;
+  @override
+  @JsonKey()
+  final String symbol;
+  @override
+  @JsonKey()
+  final int decimals;
+  @override
+  @JsonKey()
+  final CurrencyType type;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Currency.fiat(id: $id, name: $name, slug: $slug, symbol: $symbol, decimals: $decimals, type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FiatCurrencyImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.decimals, decimals) ||
+                other.decimals == decimals) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, slug, symbol, decimals, type);
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FiatCurrencyImplCopyWith<_$FiatCurrencyImpl> get copyWith =>
+      __$$FiatCurrencyImplCopyWithImpl<_$FiatCurrencyImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CurrencyId id, String name, String slug,
+            String symbol, int decimals, CurrencyType type)
+        fiat,
+    required TResult Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)
+        crypto,
+  }) {
+    return fiat(id, name, slug, symbol, decimals, type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult? Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)?
+        crypto,
+  }) {
+    return fiat?.call(id, name, slug, symbol, decimals, type);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult Function(CurrencyId id, String name, String slug, CurrencyType type,
+            ChainId chainId)?
+        crypto,
+    required TResult orElse(),
+  }) {
+    if (fiat != null) {
+      return fiat(id, name, slug, symbol, decimals, type);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FiatCurrency value) fiat,
+    required TResult Function(CryptoCurrency value) crypto,
+  }) {
+    return fiat(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FiatCurrency value)? fiat,
+    TResult? Function(CryptoCurrency value)? crypto,
+  }) {
+    return fiat?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FiatCurrency value)? fiat,
+    TResult Function(CryptoCurrency value)? crypto,
+    required TResult orElse(),
+  }) {
+    if (fiat != null) {
+      return fiat(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FiatCurrencyImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class FiatCurrency extends Currency {
+  const factory FiatCurrency(
+      {final CurrencyId id,
+      final String name,
+      final String slug,
+      final String symbol,
+      final int decimals,
+      final CurrencyType type}) = _$FiatCurrencyImpl;
+  const FiatCurrency._() : super._();
+
+  factory FiatCurrency.fromJson(Map<String, dynamic> json) =
+      _$FiatCurrencyImpl.fromJson;
+
+  @override
+  CurrencyId get id;
+  @override
+  String get name;
+  @override
+  String get slug;
+  String get symbol;
+  int get decimals;
+  @override
+  CurrencyType get type;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FiatCurrencyImplCopyWith<_$FiatCurrencyImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CryptoCurrencyImplCopyWith<$Res>
+    implements $CurrencyCopyWith<$Res> {
+  factory _$$CryptoCurrencyImplCopyWith(_$CryptoCurrencyImpl value,
+          $Res Function(_$CryptoCurrencyImpl) then) =
+      __$$CryptoCurrencyImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {CurrencyId id,
+      String name,
+      String slug,
+      CurrencyType type,
+      ChainId chainId});
+}
+
+/// @nodoc
+class __$$CryptoCurrencyImplCopyWithImpl<$Res>
+    extends _$CurrencyCopyWithImpl<$Res, _$CryptoCurrencyImpl>
+    implements _$$CryptoCurrencyImplCopyWith<$Res> {
+  __$$CryptoCurrencyImplCopyWithImpl(
+      _$CryptoCurrencyImpl _value, $Res Function(_$CryptoCurrencyImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? type = null,
+    Object? chainId = null,
+  }) {
+    return _then(_$CryptoCurrencyImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _value.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+      chainId: null == chainId
+          ? _value.chainId
+          : chainId // ignore: cast_nullable_to_non_nullable
+              as ChainId,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CryptoCurrencyImpl extends CryptoCurrency {
+  const _$CryptoCurrencyImpl(
+      {this.id = CurrencyId.empty,
+      this.name = '',
+      this.slug = '',
+      this.type = CurrencyType.crypto,
+      this.chainId = ChainId.empty,
+      final String? $type})
+      : $type = $type ?? 'crypto',
+        super._();
+
+  factory _$CryptoCurrencyImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CryptoCurrencyImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId id;
+  @override
+  @JsonKey()
+  final String name;
+  @override
+  @JsonKey()
+  final String slug;
+  @override
+  @JsonKey()
+  final CurrencyType type;
+  @override
+  @JsonKey()
+  final ChainId chainId;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Currency.crypto(id: $id, name: $name, slug: $slug, type: $type, chainId: $chainId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CryptoCurrencyImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.chainId, chainId) || other.chainId == chainId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, slug, type, chainId);
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CryptoCurrencyImplCopyWith<_$CryptoCurrencyImpl> get copyWith =>
+      __$$CryptoCurrencyImplCopyWithImpl<_$CryptoCurrencyImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CurrencyId id, String name, String slug,
+            String symbol, int decimals, CurrencyType type)
+        fiat,
+    required TResult Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)
+        crypto,
+  }) {
+    return crypto(id, name, slug, type, chainId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult? Function(CurrencyId id, String name, String slug,
+            CurrencyType type, ChainId chainId)?
+        crypto,
+  }) {
+    return crypto?.call(id, name, slug, type, chainId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CurrencyId id, String name, String slug, String symbol,
+            int decimals, CurrencyType type)?
+        fiat,
+    TResult Function(CurrencyId id, String name, String slug, CurrencyType type,
+            ChainId chainId)?
+        crypto,
+    required TResult orElse(),
+  }) {
+    if (crypto != null) {
+      return crypto(id, name, slug, type, chainId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FiatCurrency value) fiat,
+    required TResult Function(CryptoCurrency value) crypto,
+  }) {
+    return crypto(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FiatCurrency value)? fiat,
+    TResult? Function(CryptoCurrency value)? crypto,
+  }) {
+    return crypto?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FiatCurrency value)? fiat,
+    TResult Function(CryptoCurrency value)? crypto,
+    required TResult orElse(),
+  }) {
+    if (crypto != null) {
+      return crypto(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CryptoCurrencyImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CryptoCurrency extends Currency {
+  const factory CryptoCurrency(
+      {final CurrencyId id,
+      final String name,
+      final String slug,
+      final CurrencyType type,
+      final ChainId chainId}) = _$CryptoCurrencyImpl;
+  const CryptoCurrency._() : super._();
+
+  factory CryptoCurrency.fromJson(Map<String, dynamic> json) =
+      _$CryptoCurrencyImpl.fromJson;
+
+  @override
+  CurrencyId get id;
+  @override
+  String get name;
+  @override
+  String get slug;
+  @override
+  CurrencyType get type;
+  ChainId get chainId;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CryptoCurrencyImplCopyWith<_$CryptoCurrencyImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Budget _$BudgetFromJson(Map<String, dynamic> json) {
+  return _Budget.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Budget {
+  DateTime get date => throw _privateConstructorUsedError;
+  BudgetId get id => throw _privateConstructorUsedError;
+  InputMoney get input => throw _privateConstructorUsedError;
+
+  /// Serializes this Budget to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $BudgetCopyWith<Budget> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BudgetCopyWith<$Res> {
+  factory $BudgetCopyWith(Budget value, $Res Function(Budget) then) =
+      _$BudgetCopyWithImpl<$Res, Budget>;
+  @useResult
+  $Res call({DateTime date, BudgetId id, InputMoney input});
+
+  $InputMoneyCopyWith<$Res> get input;
+}
+
+/// @nodoc
+class _$BudgetCopyWithImpl<$Res, $Val extends Budget>
+    implements $BudgetCopyWith<$Res> {
+  _$BudgetCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? date = null,
+    Object? id = null,
+    Object? input = null,
+  }) {
+    return _then(_value.copyWith(
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as BudgetId,
+      input: null == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as InputMoney,
+    ) as $Val);
+  }
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $InputMoneyCopyWith<$Res> get input {
+    return $InputMoneyCopyWith<$Res>(_value.input, (value) {
+      return _then(_value.copyWith(input: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$BudgetImplCopyWith<$Res> implements $BudgetCopyWith<$Res> {
+  factory _$$BudgetImplCopyWith(
+          _$BudgetImpl value, $Res Function(_$BudgetImpl) then) =
+      __$$BudgetImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({DateTime date, BudgetId id, InputMoney input});
+
+  @override
+  $InputMoneyCopyWith<$Res> get input;
+}
+
+/// @nodoc
+class __$$BudgetImplCopyWithImpl<$Res>
+    extends _$BudgetCopyWithImpl<$Res, _$BudgetImpl>
+    implements _$$BudgetImplCopyWith<$Res> {
+  __$$BudgetImplCopyWithImpl(
+      _$BudgetImpl _value, $Res Function(_$BudgetImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? date = null,
+    Object? id = null,
+    Object? input = null,
+  }) {
+    return _then(_$BudgetImpl(
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as BudgetId,
+      input: null == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as InputMoney,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BudgetImpl extends _Budget {
+  const _$BudgetImpl(
+      {required this.date,
+      this.id = BudgetId.empty,
+      this.input = InputMoney.empty})
+      : super._();
+
+  factory _$BudgetImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BudgetImplFromJson(json);
+
+  @override
+  final DateTime date;
+  @override
+  @JsonKey()
+  final BudgetId id;
+  @override
+  @JsonKey()
+  final InputMoney input;
+
+  @override
+  String toString() {
+    return 'Budget(date: $date, id: $id, input: $input)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BudgetImpl &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.input, input) || other.input == input));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, date, id, input);
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BudgetImplCopyWith<_$BudgetImpl> get copyWith =>
+      __$$BudgetImplCopyWithImpl<_$BudgetImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BudgetImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Budget extends Budget {
+  const factory _Budget(
+      {required final DateTime date,
+      final BudgetId id,
+      final InputMoney input}) = _$BudgetImpl;
+  const _Budget._() : super._();
+
+  factory _Budget.fromJson(Map<String, dynamic> json) = _$BudgetImpl.fromJson;
+
+  @override
+  DateTime get date;
+  @override
+  BudgetId get id;
+  @override
+  InputMoney get input;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$BudgetImplCopyWith<_$BudgetImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Transaction _$TransactionFromJson(Map<String, dynamic> json) {
+  return _Transaction.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Transaction {
+  DateTime get transactionDate => throw _privateConstructorUsedError;
+  TransactionId get id => throw _privateConstructorUsedError;
+  InputMoney get input => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  String get note =>
+      throw _privateConstructorUsedError; // TODO(arenukvern): convert to list in future
+  String get shoppingListString => throw _privateConstructorUsedError;
+  TransactionType get type => throw _privateConstructorUsedError;
+  TransactionSchedule get schedule => throw _privateConstructorUsedError;
+  TransactionCategoryId get categoryId => throw _privateConstructorUsedError;
+
+  /// Serializes this Transaction to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TransactionCopyWith<Transaction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TransactionCopyWith<$Res> {
+  factory $TransactionCopyWith(
+          Transaction value, $Res Function(Transaction) then) =
+      _$TransactionCopyWithImpl<$Res, Transaction>;
+  @useResult
+  $Res call(
+      {DateTime transactionDate,
+      TransactionId id,
+      InputMoney input,
+      String description,
+      String note,
+      String shoppingListString,
+      TransactionType type,
+      TransactionSchedule schedule,
+      TransactionCategoryId categoryId});
+
+  $InputMoneyCopyWith<$Res> get input;
+  $TransactionScheduleCopyWith<$Res> get schedule;
+}
+
+/// @nodoc
+class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
+    implements $TransactionCopyWith<$Res> {
+  _$TransactionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transactionDate = null,
+    Object? id = null,
+    Object? input = null,
+    Object? description = null,
+    Object? note = null,
+    Object? shoppingListString = null,
+    Object? type = null,
+    Object? schedule = null,
+    Object? categoryId = null,
+  }) {
+    return _then(_value.copyWith(
+      transactionDate: null == transactionDate
+          ? _value.transactionDate
+          : transactionDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as TransactionId,
+      input: null == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as InputMoney,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      note: null == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String,
+      shoppingListString: null == shoppingListString
+          ? _value.shoppingListString
+          : shoppingListString // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TransactionType,
+      schedule: null == schedule
+          ? _value.schedule
+          : schedule // ignore: cast_nullable_to_non_nullable
+              as TransactionSchedule,
+      categoryId: null == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as TransactionCategoryId,
+    ) as $Val);
+  }
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $InputMoneyCopyWith<$Res> get input {
+    return $InputMoneyCopyWith<$Res>(_value.input, (value) {
+      return _then(_value.copyWith(input: value) as $Val);
+    });
+  }
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TransactionScheduleCopyWith<$Res> get schedule {
+    return $TransactionScheduleCopyWith<$Res>(_value.schedule, (value) {
+      return _then(_value.copyWith(schedule: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$TransactionImplCopyWith<$Res>
+    implements $TransactionCopyWith<$Res> {
+  factory _$$TransactionImplCopyWith(
+          _$TransactionImpl value, $Res Function(_$TransactionImpl) then) =
+      __$$TransactionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {DateTime transactionDate,
+      TransactionId id,
+      InputMoney input,
+      String description,
+      String note,
+      String shoppingListString,
+      TransactionType type,
+      TransactionSchedule schedule,
+      TransactionCategoryId categoryId});
+
+  @override
+  $InputMoneyCopyWith<$Res> get input;
+  @override
+  $TransactionScheduleCopyWith<$Res> get schedule;
+}
+
+/// @nodoc
+class __$$TransactionImplCopyWithImpl<$Res>
+    extends _$TransactionCopyWithImpl<$Res, _$TransactionImpl>
+    implements _$$TransactionImplCopyWith<$Res> {
+  __$$TransactionImplCopyWithImpl(
+      _$TransactionImpl _value, $Res Function(_$TransactionImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transactionDate = null,
+    Object? id = null,
+    Object? input = null,
+    Object? description = null,
+    Object? note = null,
+    Object? shoppingListString = null,
+    Object? type = null,
+    Object? schedule = null,
+    Object? categoryId = null,
+  }) {
+    return _then(_$TransactionImpl(
+      transactionDate: null == transactionDate
+          ? _value.transactionDate
+          : transactionDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as TransactionId,
+      input: null == input
+          ? _value.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as InputMoney,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      note: null == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String,
+      shoppingListString: null == shoppingListString
+          ? _value.shoppingListString
+          : shoppingListString // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TransactionType,
+      schedule: null == schedule
+          ? _value.schedule
+          : schedule // ignore: cast_nullable_to_non_nullable
+              as TransactionSchedule,
+      categoryId: null == categoryId
+          ? _value.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as TransactionCategoryId,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TransactionImpl extends _Transaction {
+  const _$TransactionImpl(
+      {required this.transactionDate,
+      this.id = TransactionId.empty,
+      this.input = InputMoney.empty,
+      this.description = '',
+      this.note = '',
+      this.shoppingListString = '',
+      this.type = TransactionType.expense,
+      this.schedule = TransactionSchedule.empty,
+      this.categoryId = TransactionCategoryId.empty})
+      : super._();
+
+  factory _$TransactionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionImplFromJson(json);
+
+  @override
+  final DateTime transactionDate;
+  @override
+  @JsonKey()
+  final TransactionId id;
+  @override
+  @JsonKey()
+  final InputMoney input;
+  @override
+  @JsonKey()
+  final String description;
+  @override
+  @JsonKey()
+  final String note;
+// TODO(arenukvern): convert to list in future
+  @override
+  @JsonKey()
+  final String shoppingListString;
+  @override
+  @JsonKey()
+  final TransactionType type;
+  @override
+  @JsonKey()
+  final TransactionSchedule schedule;
+  @override
+  @JsonKey()
+  final TransactionCategoryId categoryId;
+
+  @override
+  String toString() {
+    return 'Transaction(transactionDate: $transactionDate, id: $id, input: $input, description: $description, note: $note, shoppingListString: $shoppingListString, type: $type, schedule: $schedule, categoryId: $categoryId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TransactionImpl &&
+            (identical(other.transactionDate, transactionDate) ||
+                other.transactionDate == transactionDate) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.input, input) || other.input == input) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.shoppingListString, shoppingListString) ||
+                other.shoppingListString == shoppingListString) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.schedule, schedule) ||
+                other.schedule == schedule) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, transactionDate, id, input,
+      description, note, shoppingListString, type, schedule, categoryId);
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TransactionImplCopyWith<_$TransactionImpl> get copyWith =>
+      __$$TransactionImplCopyWithImpl<_$TransactionImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TransactionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Transaction extends Transaction {
+  const factory _Transaction(
+      {required final DateTime transactionDate,
+      final TransactionId id,
+      final InputMoney input,
+      final String description,
+      final String note,
+      final String shoppingListString,
+      final TransactionType type,
+      final TransactionSchedule schedule,
+      final TransactionCategoryId categoryId}) = _$TransactionImpl;
+  const _Transaction._() : super._();
+
+  factory _Transaction.fromJson(Map<String, dynamic> json) =
+      _$TransactionImpl.fromJson;
+
+  @override
+  DateTime get transactionDate;
+  @override
+  TransactionId get id;
+  @override
+  InputMoney get input;
+  @override
+  String get description;
+  @override
+  String get note; // TODO(arenukvern): convert to list in future
+  @override
+  String get shoppingListString;
+  @override
+  TransactionType get type;
+  @override
+  TransactionSchedule get schedule;
+  @override
+  TransactionCategoryId get categoryId;
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TransactionImplCopyWith<_$TransactionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+InputMoney _$InputMoneyFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'fiat':
+      return FiatInputModel.fromJson(json);
+    case 'crypto':
+      return CyptoInputModel.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'InputMoney',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$InputMoney {
+  CurrencyId get currencyId => throw _privateConstructorUsedError;
+  double get amount => throw _privateConstructorUsedError;
+  CurrencyType get currencyType => throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
+        fiat,
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
+        crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        crypto,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FiatInputModel value) fiat,
+    required TResult Function(CyptoInputModel value) crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FiatInputModel value)? fiat,
+    TResult? Function(CyptoInputModel value)? crypto,
+  }) =>
+      throw _privateConstructorUsedError;
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FiatInputModel value)? fiat,
+    TResult Function(CyptoInputModel value)? crypto,
+    required TResult orElse(),
+  }) =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this InputMoney to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $InputMoneyCopyWith<InputMoney> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $InputMoneyCopyWith<$Res> {
+  factory $InputMoneyCopyWith(
+          InputMoney value, $Res Function(InputMoney) then) =
+      _$InputMoneyCopyWithImpl<$Res, InputMoney>;
+  @useResult
+  $Res call({CurrencyId currencyId, double amount, CurrencyType currencyType});
+}
+
+/// @nodoc
+class _$InputMoneyCopyWithImpl<$Res, $Val extends InputMoney>
+    implements $InputMoneyCopyWith<$Res> {
+  _$InputMoneyCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currencyId = null,
+    Object? amount = null,
+    Object? currencyType = null,
+  }) {
+    return _then(_value.copyWith(
+      currencyId: null == currencyId
+          ? _value.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      currencyType: null == currencyType
+          ? _value.currencyType
+          : currencyType // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FiatInputModelImplCopyWith<$Res>
+    implements $InputMoneyCopyWith<$Res> {
+  factory _$$FiatInputModelImplCopyWith(_$FiatInputModelImpl value,
+          $Res Function(_$FiatInputModelImpl) then) =
+      __$$FiatInputModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({CurrencyId currencyId, double amount, CurrencyType currencyType});
+}
+
+/// @nodoc
+class __$$FiatInputModelImplCopyWithImpl<$Res>
+    extends _$InputMoneyCopyWithImpl<$Res, _$FiatInputModelImpl>
+    implements _$$FiatInputModelImplCopyWith<$Res> {
+  __$$FiatInputModelImplCopyWithImpl(
+      _$FiatInputModelImpl _value, $Res Function(_$FiatInputModelImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currencyId = null,
+    Object? amount = null,
+    Object? currencyType = null,
+  }) {
+    return _then(_$FiatInputModelImpl(
+      currencyId: null == currencyId
+          ? _value.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      currencyType: null == currencyType
+          ? _value.currencyType
+          : currencyType // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FiatInputModelImpl extends FiatInputModel {
+  const _$FiatInputModelImpl(
+      {this.currencyId = CurrencyId.empty,
+      this.amount = 0.0,
+      this.currencyType = CurrencyType.fiat,
+      final String? $type})
+      : $type = $type ?? 'fiat',
+        super._();
+
+  factory _$FiatInputModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FiatInputModelImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId currencyId;
+  @override
+  @JsonKey()
+  final double amount;
+  @override
+  @JsonKey()
+  final CurrencyType currencyType;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'InputMoney.fiat(currencyId: $currencyId, amount: $amount, currencyType: $currencyType)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FiatInputModelImpl &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.currencyType, currencyType) ||
+                other.currencyType == currencyType));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, currencyId, amount, currencyType);
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FiatInputModelImplCopyWith<_$FiatInputModelImpl> get copyWith =>
+      __$$FiatInputModelImplCopyWithImpl<_$FiatInputModelImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
+        fiat,
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
+        crypto,
+  }) {
+    return fiat(currencyId, amount, currencyType);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        crypto,
+  }) {
+    return fiat?.call(currencyId, amount, currencyType);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        crypto,
+    required TResult orElse(),
+  }) {
+    if (fiat != null) {
+      return fiat(currencyId, amount, currencyType);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FiatInputModel value) fiat,
+    required TResult Function(CyptoInputModel value) crypto,
+  }) {
+    return fiat(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FiatInputModel value)? fiat,
+    TResult? Function(CyptoInputModel value)? crypto,
+  }) {
+    return fiat?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FiatInputModel value)? fiat,
+    TResult Function(CyptoInputModel value)? crypto,
+    required TResult orElse(),
+  }) {
+    if (fiat != null) {
+      return fiat(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FiatInputModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class FiatInputModel extends InputMoney {
+  const factory FiatInputModel(
+      {final CurrencyId currencyId,
+      final double amount,
+      final CurrencyType currencyType}) = _$FiatInputModelImpl;
+  const FiatInputModel._() : super._();
+
+  factory FiatInputModel.fromJson(Map<String, dynamic> json) =
+      _$FiatInputModelImpl.fromJson;
+
+  @override
+  CurrencyId get currencyId;
+  @override
+  double get amount;
+  @override
+  CurrencyType get currencyType;
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FiatInputModelImplCopyWith<_$FiatInputModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CyptoInputModelImplCopyWith<$Res>
+    implements $InputMoneyCopyWith<$Res> {
+  factory _$$CyptoInputModelImplCopyWith(_$CyptoInputModelImpl value,
+          $Res Function(_$CyptoInputModelImpl) then) =
+      __$$CyptoInputModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({CurrencyId currencyId, double amount, CurrencyType currencyType});
+}
+
+/// @nodoc
+class __$$CyptoInputModelImplCopyWithImpl<$Res>
+    extends _$InputMoneyCopyWithImpl<$Res, _$CyptoInputModelImpl>
+    implements _$$CyptoInputModelImplCopyWith<$Res> {
+  __$$CyptoInputModelImplCopyWithImpl(
+      _$CyptoInputModelImpl _value, $Res Function(_$CyptoInputModelImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currencyId = null,
+    Object? amount = null,
+    Object? currencyType = null,
+  }) {
+    return _then(_$CyptoInputModelImpl(
+      currencyId: null == currencyId
+          ? _value.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      currencyType: null == currencyType
+          ? _value.currencyType
+          : currencyType // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CyptoInputModelImpl extends CyptoInputModel {
+  const _$CyptoInputModelImpl(
+      {this.currencyId = CurrencyId.empty,
+      this.amount = 0.0,
+      this.currencyType = CurrencyType.crypto,
+      final String? $type})
+      : $type = $type ?? 'crypto',
+        super._();
+
+  factory _$CyptoInputModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CyptoInputModelImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId currencyId;
+  @override
+  @JsonKey()
+  final double amount;
+  @override
+  @JsonKey()
+  final CurrencyType currencyType;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'InputMoney.crypto(currencyId: $currencyId, amount: $amount, currencyType: $currencyType)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CyptoInputModelImpl &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.currencyType, currencyType) ||
+                other.currencyType == currencyType));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, currencyId, amount, currencyType);
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CyptoInputModelImplCopyWith<_$CyptoInputModelImpl> get copyWith =>
+      __$$CyptoInputModelImplCopyWithImpl<_$CyptoInputModelImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
+        fiat,
+    required TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)
+        crypto,
+  }) {
+    return crypto(currencyId, amount, currencyType);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
+    TResult? Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        crypto,
+  }) {
+    return crypto?.call(currencyId, amount, currencyType);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        fiat,
+    TResult Function(
+            CurrencyId currencyId, double amount, CurrencyType currencyType)?
+        crypto,
+    required TResult orElse(),
+  }) {
+    if (crypto != null) {
+      return crypto(currencyId, amount, currencyType);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(FiatInputModel value) fiat,
+    required TResult Function(CyptoInputModel value) crypto,
+  }) {
+    return crypto(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(FiatInputModel value)? fiat,
+    TResult? Function(CyptoInputModel value)? crypto,
+  }) {
+    return crypto?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(FiatInputModel value)? fiat,
+    TResult Function(CyptoInputModel value)? crypto,
+    required TResult orElse(),
+  }) {
+    if (crypto != null) {
+      return crypto(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CyptoInputModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class CyptoInputModel extends InputMoney {
+  const factory CyptoInputModel(
+      {final CurrencyId currencyId,
+      final double amount,
+      final CurrencyType currencyType}) = _$CyptoInputModelImpl;
+  const CyptoInputModel._() : super._();
+
+  factory CyptoInputModel.fromJson(Map<String, dynamic> json) =
+      _$CyptoInputModelImpl.fromJson;
+
+  @override
+  CurrencyId get currencyId;
+  @override
+  double get amount;
+  @override
+  CurrencyType get currencyType;
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CyptoInputModelImplCopyWith<_$CyptoInputModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+TransactionSchedule _$TransactionScheduleFromJson(Map<String, dynamic> json) {
+  return _TransactionSchedule.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TransactionSchedule {
+  TransactionPeriodType get periodType => throw _privateConstructorUsedError;
+  Period get period => throw _privateConstructorUsedError;
+  int get dayOfMonth => throw _privateConstructorUsedError;
+  int get dayOfWeek => throw _privateConstructorUsedError;
+  int get dayOfQuarter => throw _privateConstructorUsedError;
+  DateTime? get date => throw _privateConstructorUsedError;
+
+  /// Serializes this TransactionSchedule to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TransactionScheduleCopyWith<TransactionSchedule> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TransactionScheduleCopyWith<$Res> {
+  factory $TransactionScheduleCopyWith(
+          TransactionSchedule value, $Res Function(TransactionSchedule) then) =
+      _$TransactionScheduleCopyWithImpl<$Res, TransactionSchedule>;
+  @useResult
+  $Res call(
+      {TransactionPeriodType periodType,
+      Period period,
+      int dayOfMonth,
+      int dayOfWeek,
+      int dayOfQuarter,
+      DateTime? date});
+}
+
+/// @nodoc
+class _$TransactionScheduleCopyWithImpl<$Res, $Val extends TransactionSchedule>
+    implements $TransactionScheduleCopyWith<$Res> {
+  _$TransactionScheduleCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? periodType = null,
+    Object? period = null,
+    Object? dayOfMonth = null,
+    Object? dayOfWeek = null,
+    Object? dayOfQuarter = null,
+    Object? date = freezed,
+  }) {
+    return _then(_value.copyWith(
+      periodType: null == periodType
+          ? _value.periodType
+          : periodType // ignore: cast_nullable_to_non_nullable
+              as TransactionPeriodType,
+      period: null == period
+          ? _value.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as Period,
+      dayOfMonth: null == dayOfMonth
+          ? _value.dayOfMonth
+          : dayOfMonth // ignore: cast_nullable_to_non_nullable
+              as int,
+      dayOfWeek: null == dayOfWeek
+          ? _value.dayOfWeek
+          : dayOfWeek // ignore: cast_nullable_to_non_nullable
+              as int,
+      dayOfQuarter: null == dayOfQuarter
+          ? _value.dayOfQuarter
+          : dayOfQuarter // ignore: cast_nullable_to_non_nullable
+              as int,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TransactionScheduleImplCopyWith<$Res>
+    implements $TransactionScheduleCopyWith<$Res> {
+  factory _$$TransactionScheduleImplCopyWith(_$TransactionScheduleImpl value,
+          $Res Function(_$TransactionScheduleImpl) then) =
+      __$$TransactionScheduleImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {TransactionPeriodType periodType,
+      Period period,
+      int dayOfMonth,
+      int dayOfWeek,
+      int dayOfQuarter,
+      DateTime? date});
+}
+
+/// @nodoc
+class __$$TransactionScheduleImplCopyWithImpl<$Res>
+    extends _$TransactionScheduleCopyWithImpl<$Res, _$TransactionScheduleImpl>
+    implements _$$TransactionScheduleImplCopyWith<$Res> {
+  __$$TransactionScheduleImplCopyWithImpl(_$TransactionScheduleImpl _value,
+      $Res Function(_$TransactionScheduleImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? periodType = null,
+    Object? period = null,
+    Object? dayOfMonth = null,
+    Object? dayOfWeek = null,
+    Object? dayOfQuarter = null,
+    Object? date = freezed,
+  }) {
+    return _then(_$TransactionScheduleImpl(
+      periodType: null == periodType
+          ? _value.periodType
+          : periodType // ignore: cast_nullable_to_non_nullable
+              as TransactionPeriodType,
+      period: null == period
+          ? _value.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as Period,
+      dayOfMonth: null == dayOfMonth
+          ? _value.dayOfMonth
+          : dayOfMonth // ignore: cast_nullable_to_non_nullable
+              as int,
+      dayOfWeek: null == dayOfWeek
+          ? _value.dayOfWeek
+          : dayOfWeek // ignore: cast_nullable_to_non_nullable
+              as int,
+      dayOfQuarter: null == dayOfQuarter
+          ? _value.dayOfQuarter
+          : dayOfQuarter // ignore: cast_nullable_to_non_nullable
+              as int,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TransactionScheduleImpl extends _TransactionSchedule {
+  const _$TransactionScheduleImpl(
+      {this.periodType = TransactionPeriodType.none,
+      this.period = Period.daily,
+      this.dayOfMonth = 0,
+      this.dayOfWeek = 0,
+      this.dayOfQuarter = 0,
+      this.date})
+      : super._();
+
+  factory _$TransactionScheduleImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionScheduleImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final TransactionPeriodType periodType;
+  @override
+  @JsonKey()
+  final Period period;
+  @override
+  @JsonKey()
+  final int dayOfMonth;
+  @override
+  @JsonKey()
+  final int dayOfWeek;
+  @override
+  @JsonKey()
+  final int dayOfQuarter;
+  @override
+  final DateTime? date;
+
+  @override
+  String toString() {
+    return 'TransactionSchedule(periodType: $periodType, period: $period, dayOfMonth: $dayOfMonth, dayOfWeek: $dayOfWeek, dayOfQuarter: $dayOfQuarter, date: $date)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TransactionScheduleImpl &&
+            (identical(other.periodType, periodType) ||
+                other.periodType == periodType) &&
+            (identical(other.period, period) || other.period == period) &&
+            (identical(other.dayOfMonth, dayOfMonth) ||
+                other.dayOfMonth == dayOfMonth) &&
+            (identical(other.dayOfWeek, dayOfWeek) ||
+                other.dayOfWeek == dayOfWeek) &&
+            (identical(other.dayOfQuarter, dayOfQuarter) ||
+                other.dayOfQuarter == dayOfQuarter) &&
+            (identical(other.date, date) || other.date == date));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, periodType, period, dayOfMonth,
+      dayOfWeek, dayOfQuarter, date);
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TransactionScheduleImplCopyWith<_$TransactionScheduleImpl> get copyWith =>
+      __$$TransactionScheduleImplCopyWithImpl<_$TransactionScheduleImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TransactionScheduleImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TransactionSchedule extends TransactionSchedule {
+  const factory _TransactionSchedule(
+      {final TransactionPeriodType periodType,
+      final Period period,
+      final int dayOfMonth,
+      final int dayOfWeek,
+      final int dayOfQuarter,
+      final DateTime? date}) = _$TransactionScheduleImpl;
+  const _TransactionSchedule._() : super._();
+
+  factory _TransactionSchedule.fromJson(Map<String, dynamic> json) =
+      _$TransactionScheduleImpl.fromJson;
+
+  @override
+  TransactionPeriodType get periodType;
+  @override
+  Period get period;
+  @override
+  int get dayOfMonth;
+  @override
+  int get dayOfWeek;
+  @override
+  int get dayOfQuarter;
+  @override
+  DateTime? get date;
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TransactionScheduleImplCopyWith<_$TransactionScheduleImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 /// @nodoc
 mixin _$UserModelId {
   String get value => throw _privateConstructorUsedError;

@@ -1,8 +1,4 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mobile_app/core/core.dart';
-
-part 'transaction_models.freezed.dart';
-part 'transaction_models.g.dart';
+part of 'data_models.dart';
 
 enum Period { daily, weekly, monthly, yearly }
 

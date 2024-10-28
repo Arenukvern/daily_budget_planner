@@ -1,4 +1,4 @@
-import 'package:mobile_app/ui_prediction/transaction_models.dart';
+import 'package:mobile_app/common_imports.dart';
 
 class ExpensesPredictionService {
   double calculateAverageDailyBudget(
