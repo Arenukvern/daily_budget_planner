@@ -8,15 +8,14 @@ class UiIncomesView extends StatelessWidget {
   static Future<void> show({
     required final BuildContext context,
     final bool isRegular = false,
-  }) async {
-    await Navigator.of(context).push(
-      CupertinoModalSheetRoute(
-        builder: (final _) => UiBottomSheetWrapper(
-          child: UiIncomesView(isRegular: isRegular),
+  }) async =>
+      Navigator.of(context).push(
+        CupertinoModalSheetRoute(
+          builder: (final _) => UiBottomSheetWrapper(
+            child: UiIncomesView(isRegular: isRegular),
+          ),
         ),
-      ),
-    );
-  }
+      );
 
   @override
   Widget build(final BuildContext context) {

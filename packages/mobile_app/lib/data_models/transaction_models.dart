@@ -30,10 +30,9 @@ extension type const TransactionId(String value) {
   String toJson() => value;
 }
 
-extension type const TransactionCategoryId(String value) {
-  factory TransactionCategoryId.fromJson(final String value) =>
-      TransactionCategoryId(value);
-  static const empty = TransactionCategoryId('');
+extension type const CategoryId(String value) {
+  factory CategoryId.fromJson(final String value) => CategoryId(value);
+  static const empty = CategoryId('');
   bool get isEmpty => value.isEmpty;
   String toJson() => value;
 }
@@ -146,10 +145,9 @@ sealed class Transaction with _$Transaction {
     @Default('') final String note,
     // TODO(arenukvern): convert to list in future
     @Default('') final String shoppingListString,
-    @Default(TransactionType.expense) final TransactionType type,
     @Default(TransactionSchedule.empty) final TransactionSchedule schedule,
-    @Default(TransactionCategoryId.empty)
-    final TransactionCategoryId categoryId,
+    @Default(TransactionType.expense) final TransactionType type,
+    @Default(CategoryId.empty) final CategoryId categoryId,
   }) = _Transaction;
 
   const Transaction._();
@@ -183,25 +181,4 @@ class InputMoney with _$InputMoney {
       _$InputMoneyFromJson(json);
 
   static const empty = FiatInputModel();
-}
-
-/// Represents a monetary value in a specific fiat or crypto currency
-@freezed
-class TransactionSchedule with _$TransactionSchedule {
-  const factory TransactionSchedule({
-    @Default(TransactionPeriodType.none) final TransactionPeriodType periodType,
-    @Default(Period.daily) final Period period,
-    @Default(0) final int dayOfMonth,
-    @Default(0) final int dayOfWeek,
-    @Default(0) final int dayOfQuarter,
-    final DateTime? date,
-  }) = _TransactionSchedule;
-
-  const TransactionSchedule._();
-  factory TransactionSchedule.fromJson(final Map<String, dynamic> json) =>
-      _$TransactionScheduleFromJson(json);
-
-  static const empty = TransactionSchedule();
-  bool get isSet => periodType == TransactionPeriodType.none;
-  bool get isNotSet => !isSet;
 }

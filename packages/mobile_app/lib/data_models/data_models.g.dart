@@ -144,8 +144,8 @@ _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
           : TransactionSchedule.fromJson(
               json['schedule'] as Map<String, dynamic>),
       categoryId: json['categoryId'] == null
-          ? TransactionCategoryId.empty
-          : TransactionCategoryId.fromJson(json['categoryId'] as String),
+          ? CategoryId.empty
+          : CategoryId.fromJson(json['categoryId'] as String),
     );
 
 Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>

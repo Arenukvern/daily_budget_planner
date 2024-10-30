@@ -1,5 +1,4 @@
 import 'package:mobile_app/common_imports.dart';
-import 'package:smooth_sheets/smooth_sheets.dart';
 
 class UiScaffold extends StatelessWidget {
   const UiScaffold({

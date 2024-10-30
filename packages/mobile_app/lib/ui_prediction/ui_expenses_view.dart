@@ -9,8 +9,10 @@ class UiExpensesView extends StatelessWidget {
     final bool isRegular = false,
   }) async =>
       Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (final _) => UiExpensesView(isRegular: isRegular),
+        CupertinoModalSheetRoute(
+          builder: (final _) => UiBottomSheetWrapper(
+            child: UiExpensesView(isRegular: isRegular),
+          ),
         ),
       );
 
@@ -23,6 +25,8 @@ class UiExpensesView extends StatelessWidget {
     return UiColumnScaffold(
       appBar: UiAppBar(
         titleText: isRegular ? 'Regular expenses' : 'Expenses',
+        automaticallyImplyLeading: false,
+        trailing: UiTextActionButton.done(),
       ),
       children: [
         Expanded(
@@ -34,6 +38,8 @@ class UiExpensesView extends StatelessWidget {
         UiTransactionsActionsBar(
           tuple: (type: TransactionType.expense,),
         ),
+        Gap(8),
+        UiSafeArea.bottom(),
       ],
     );
   }

@@ -1607,7 +1607,7 @@ mixin _$Transaction {
   String get shoppingListString => throw _privateConstructorUsedError;
   TransactionType get type => throw _privateConstructorUsedError;
   TransactionSchedule get schedule => throw _privateConstructorUsedError;
-  TransactionCategoryId get categoryId => throw _privateConstructorUsedError;
+  CategoryId get categoryId => throw _privateConstructorUsedError;
 
   /// Serializes this Transaction to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1634,7 +1634,7 @@ abstract class $TransactionCopyWith<$Res> {
       String shoppingListString,
       TransactionType type,
       TransactionSchedule schedule,
-      TransactionCategoryId categoryId});
+      CategoryId categoryId});
 
   $InputMoneyCopyWith<$Res> get input;
   $TransactionScheduleCopyWith<$Res> get schedule;
@@ -1701,7 +1701,7 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
-              as TransactionCategoryId,
+              as CategoryId,
     ) as $Val);
   }
 
@@ -1743,7 +1743,7 @@ abstract class _$$TransactionImplCopyWith<$Res>
       String shoppingListString,
       TransactionType type,
       TransactionSchedule schedule,
-      TransactionCategoryId categoryId});
+      CategoryId categoryId});
 
   @override
   $InputMoneyCopyWith<$Res> get input;
@@ -1810,7 +1810,7 @@ class __$$TransactionImplCopyWithImpl<$Res>
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
-              as TransactionCategoryId,
+              as CategoryId,
     ));
   }
 }
@@ -1827,7 +1827,7 @@ class _$TransactionImpl extends _Transaction {
       this.shoppingListString = '',
       this.type = TransactionType.expense,
       this.schedule = TransactionSchedule.empty,
-      this.categoryId = TransactionCategoryId.empty})
+      this.categoryId = CategoryId.empty})
       : super._();
 
   factory _$TransactionImpl.fromJson(Map<String, dynamic> json) =>
@@ -1859,7 +1859,7 @@ class _$TransactionImpl extends _Transaction {
   final TransactionSchedule schedule;
   @override
   @JsonKey()
-  final TransactionCategoryId categoryId;
+  final CategoryId categoryId;
 
   @override
   String toString() {
@@ -1918,7 +1918,7 @@ abstract class _Transaction extends Transaction {
       final String shoppingListString,
       final TransactionType type,
       final TransactionSchedule schedule,
-      final TransactionCategoryId categoryId}) = _$TransactionImpl;
+      final CategoryId categoryId}) = _$TransactionImpl;
   const _Transaction._() : super._();
 
   factory _Transaction.fromJson(Map<String, dynamic> json) =
@@ -1941,7 +1941,7 @@ abstract class _Transaction extends Transaction {
   @override
   TransactionSchedule get schedule;
   @override
-  TransactionCategoryId get categoryId;
+  CategoryId get categoryId;
 
   /// Create a copy of Transaction
   /// with the given fields replaced by the non-null parameter values.
