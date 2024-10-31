@@ -8,21 +8,13 @@ import 'package:mobile_app/ui_prediction/ui_drag_handle.dart';
 import 'package:mobile_app/ui_prediction/ui_expenses_view.dart';
 import 'package:mobile_app/ui_prediction/ui_incomes_view.dart';
 
-class UiPredictionScreen extends StatefulWidget {
+class UiPredictionScreen extends StatelessWidget {
   const UiPredictionScreen({super.key});
 
   static Future<void> show(final BuildContext context) => Navigator.push(
         context,
         MaterialPageRoute(builder: (final _) => const UiPredictionScreen()),
       );
-
-  @override
-  _UiPredictionScreenState createState() => _UiPredictionScreenState();
-}
-
-class _UiPredictionScreenState extends State<UiPredictionScreen> {
-  DateTime _selectedDate = DateTime.now();
-
   @override
   Widget build(final BuildContext context) {
     final uiPredictionNotifier = context.watch<UiPredictionNotifier>();
@@ -36,9 +28,8 @@ class _UiPredictionScreenState extends State<UiPredictionScreen> {
               _PredictionHeader(state: state),
               const SliverGap(48),
               _PredictionBody(
-                selectedDate: _selectedDate,
-                onDateChanged: (final newDate) =>
-                    setState(() => _selectedDate = newDate),
+                selectedDate: uiPredictionNotifier.selectedDate,
+                onDateChanged: uiPredictionNotifier.onSelectedDateChanged,
                 uiPredictionNotifier: uiPredictionNotifier,
               ).toSliver(),
               const SliverGap(64),

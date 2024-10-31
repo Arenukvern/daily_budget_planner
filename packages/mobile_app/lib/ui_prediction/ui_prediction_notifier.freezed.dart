@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$UiPredictionState {
+  DateTime get selectedDate => throw _privateConstructorUsedError;
   List<Transaction> get expenses => throw _privateConstructorUsedError;
   List<Budget> get budgets => throw _privateConstructorUsedError;
   List<Transaction> get incomes => throw _privateConstructorUsedError;
@@ -46,7 +47,8 @@ abstract class $UiPredictionStateCopyWith<$Res> {
       _$UiPredictionStateCopyWithImpl<$Res, UiPredictionState>;
   @useResult
   $Res call(
-      {List<Transaction> expenses,
+      {DateTime selectedDate,
+      List<Transaction> expenses,
       List<Budget> budgets,
       List<Transaction> incomes,
       double expensesSum,
@@ -72,6 +74,7 @@ class _$UiPredictionStateCopyWithImpl<$Res, $Val extends UiPredictionState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? selectedDate = null,
     Object? expenses = null,
     Object? budgets = null,
     Object? incomes = null,
@@ -83,6 +86,10 @@ class _$UiPredictionStateCopyWithImpl<$Res, $Val extends UiPredictionState>
     Object? incomeDate = freezed,
   }) {
     return _then(_value.copyWith(
+      selectedDate: null == selectedDate
+          ? _value.selectedDate
+          : selectedDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       expenses: null == expenses
           ? _value.expenses
           : expenses // ignore: cast_nullable_to_non_nullable
@@ -132,7 +139,8 @@ abstract class _$$UiPredictionStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<Transaction> expenses,
+      {DateTime selectedDate,
+      List<Transaction> expenses,
       List<Budget> budgets,
       List<Transaction> incomes,
       double expensesSum,
@@ -156,6 +164,7 @@ class __$$UiPredictionStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? selectedDate = null,
     Object? expenses = null,
     Object? budgets = null,
     Object? incomes = null,
@@ -167,6 +176,10 @@ class __$$UiPredictionStateImplCopyWithImpl<$Res>
     Object? incomeDate = freezed,
   }) {
     return _then(_$UiPredictionStateImpl(
+      selectedDate: null == selectedDate
+          ? _value.selectedDate
+          : selectedDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       expenses: null == expenses
           ? _value._expenses
           : expenses // ignore: cast_nullable_to_non_nullable
@@ -211,7 +224,8 @@ class __$$UiPredictionStateImplCopyWithImpl<$Res>
 
 class _$UiPredictionStateImpl implements _UiPredictionState {
   const _$UiPredictionStateImpl(
-      {final List<Transaction> expenses = const [],
+      {required this.selectedDate,
+      final List<Transaction> expenses = const [],
       final List<Budget> budgets = const [],
       final List<Transaction> incomes = const [],
       this.expensesSum = 0,
@@ -224,6 +238,8 @@ class _$UiPredictionStateImpl implements _UiPredictionState {
         _budgets = budgets,
         _incomes = incomes;
 
+  @override
+  final DateTime selectedDate;
   final List<Transaction> _expenses;
   @override
   @JsonKey()
@@ -277,7 +293,7 @@ class _$UiPredictionStateImpl implements _UiPredictionState {
 
   @override
   String toString() {
-    return 'UiPredictionState(expenses: $expenses, budgets: $budgets, incomes: $incomes, expensesSum: $expensesSum, regularExpensesSum: $regularExpensesSum, incomesSum: $incomesSum, regularIncomesSum: $regularIncomesSum, dailyBudget: $dailyBudget, incomeDate: $incomeDate)';
+    return 'UiPredictionState(selectedDate: $selectedDate, expenses: $expenses, budgets: $budgets, incomes: $incomes, expensesSum: $expensesSum, regularExpensesSum: $regularExpensesSum, incomesSum: $incomesSum, regularIncomesSum: $regularIncomesSum, dailyBudget: $dailyBudget, incomeDate: $incomeDate)';
   }
 
   @override
@@ -285,6 +301,8 @@ class _$UiPredictionStateImpl implements _UiPredictionState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UiPredictionStateImpl &&
+            (identical(other.selectedDate, selectedDate) ||
+                other.selectedDate == selectedDate) &&
             const DeepCollectionEquality().equals(other._expenses, _expenses) &&
             const DeepCollectionEquality().equals(other._budgets, _budgets) &&
             const DeepCollectionEquality().equals(other._incomes, _incomes) &&
@@ -305,6 +323,7 @@ class _$UiPredictionStateImpl implements _UiPredictionState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      selectedDate,
       const DeepCollectionEquality().hash(_expenses),
       const DeepCollectionEquality().hash(_budgets),
       const DeepCollectionEquality().hash(_incomes),
@@ -327,7 +346,8 @@ class _$UiPredictionStateImpl implements _UiPredictionState {
 
 abstract class _UiPredictionState implements UiPredictionState {
   const factory _UiPredictionState(
-      {final List<Transaction> expenses,
+      {required final DateTime selectedDate,
+      final List<Transaction> expenses,
       final List<Budget> budgets,
       final List<Transaction> incomes,
       final double expensesSum,
@@ -337,6 +357,8 @@ abstract class _UiPredictionState implements UiPredictionState {
       final double dailyBudget,
       final DateTime? incomeDate}) = _$UiPredictionStateImpl;
 
+  @override
+  DateTime get selectedDate;
   @override
   List<Transaction> get expenses;
   @override

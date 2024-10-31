@@ -16,6 +16,7 @@ extension type const TaskId(String value) {
   factory TaskId.fromJson(final String value) => TaskId(value);
   static const empty = TaskId('');
   bool get isEmpty => value.isEmpty;
+  bool get isNotEmpty => !isEmpty;
   String toJson() => value;
 }
 

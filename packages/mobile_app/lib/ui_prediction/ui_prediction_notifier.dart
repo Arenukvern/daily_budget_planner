@@ -13,6 +13,7 @@ typedef ExpenseTotalTuple = ({double balance, double expense, double income});
 @freezed
 class UiPredictionState with _$UiPredictionState {
   const factory UiPredictionState({
+    required final DateTime selectedDate,
     @Default([]) final List<Transaction> expenses,
     @Default([]) final List<Budget> budgets,
     @Default([]) final List<Transaction> incomes,
@@ -33,12 +34,19 @@ class UiPredictionState with _$UiPredictionState {
 
 class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     with HasLocalApis {
-  UiPredictionNotifier() : super(const UiPredictionState());
+  UiPredictionNotifier()
+      : super(UiPredictionState(selectedDate: DateTime.now()));
 
   Future<void> onLoad() async {
-    value = UiPredictionState();
+    value = UiPredictionState(selectedDate: DateTime.now());
     _recalculateExpenses();
     _recalculateIncomes();
+  }
+
+  DateTime get selectedDate => value.selectedDate;
+
+  void onSelectedDateChanged(final DateTime newDate) {
+    value = value.copyWith(selectedDate: newDate);
   }
 
   // TODO(arenukvern): make dependent from period

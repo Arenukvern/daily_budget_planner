@@ -773,6 +773,556 @@ abstract class _WeeklyBudgetModel implements WeeklyBudgetModel {
       throw _privateConstructorUsedError;
 }
 
+Task _$TaskFromJson(Map<String, dynamic> json) {
+  return _Task.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Task {
+  TaskId get id => throw _privateConstructorUsedError;
+  TaskStatus get status => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get notes => throw _privateConstructorUsedError;
+  TaskType get type => throw _privateConstructorUsedError;
+  TaskTransactionType get transactionType => throw _privateConstructorUsedError;
+  List<CategoryId> get categoryIds => throw _privateConstructorUsedError;
+
+  /// Serializes this Task to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Task
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TaskCopyWith<Task> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TaskCopyWith<$Res> {
+  factory $TaskCopyWith(Task value, $Res Function(Task) then) =
+      _$TaskCopyWithImpl<$Res, Task>;
+  @useResult
+  $Res call(
+      {TaskId id,
+      TaskStatus status,
+      String title,
+      String notes,
+      TaskType type,
+      TaskTransactionType transactionType,
+      List<CategoryId> categoryIds});
+}
+
+/// @nodoc
+class _$TaskCopyWithImpl<$Res, $Val extends Task>
+    implements $TaskCopyWith<$Res> {
+  _$TaskCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Task
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? status = null,
+    Object? title = null,
+    Object? notes = null,
+    Object? type = null,
+    Object? transactionType = null,
+    Object? categoryIds = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as TaskId,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as TaskStatus,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      notes: null == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TaskType,
+      transactionType: null == transactionType
+          ? _value.transactionType
+          : transactionType // ignore: cast_nullable_to_non_nullable
+              as TaskTransactionType,
+      categoryIds: null == categoryIds
+          ? _value.categoryIds
+          : categoryIds // ignore: cast_nullable_to_non_nullable
+              as List<CategoryId>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TaskImplCopyWith<$Res> implements $TaskCopyWith<$Res> {
+  factory _$$TaskImplCopyWith(
+          _$TaskImpl value, $Res Function(_$TaskImpl) then) =
+      __$$TaskImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {TaskId id,
+      TaskStatus status,
+      String title,
+      String notes,
+      TaskType type,
+      TaskTransactionType transactionType,
+      List<CategoryId> categoryIds});
+}
+
+/// @nodoc
+class __$$TaskImplCopyWithImpl<$Res>
+    extends _$TaskCopyWithImpl<$Res, _$TaskImpl>
+    implements _$$TaskImplCopyWith<$Res> {
+  __$$TaskImplCopyWithImpl(_$TaskImpl _value, $Res Function(_$TaskImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Task
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? status = null,
+    Object? title = null,
+    Object? notes = null,
+    Object? type = null,
+    Object? transactionType = null,
+    Object? categoryIds = null,
+  }) {
+    return _then(_$TaskImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as TaskId,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as TaskStatus,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      notes: null == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TaskType,
+      transactionType: null == transactionType
+          ? _value.transactionType
+          : transactionType // ignore: cast_nullable_to_non_nullable
+              as TaskTransactionType,
+      categoryIds: null == categoryIds
+          ? _value._categoryIds
+          : categoryIds // ignore: cast_nullable_to_non_nullable
+              as List<CategoryId>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TaskImpl implements _Task {
+  const _$TaskImpl(
+      {this.id = TaskId.empty,
+      this.status = TaskStatus.active,
+      this.title = '',
+      this.notes = '',
+      this.type = TaskType.income,
+      this.transactionType = TaskTransactionType.expense,
+      final List<CategoryId> categoryIds = const []})
+      : _categoryIds = categoryIds;
+
+  factory _$TaskImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TaskImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final TaskId id;
+  @override
+  @JsonKey()
+  final TaskStatus status;
+  @override
+  @JsonKey()
+  final String title;
+  @override
+  @JsonKey()
+  final String notes;
+  @override
+  @JsonKey()
+  final TaskType type;
+  @override
+  @JsonKey()
+  final TaskTransactionType transactionType;
+  final List<CategoryId> _categoryIds;
+  @override
+  @JsonKey()
+  List<CategoryId> get categoryIds {
+    if (_categoryIds is EqualUnmodifiableListView) return _categoryIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categoryIds);
+  }
+
+  @override
+  String toString() {
+    return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, transactionType: $transactionType, categoryIds: $categoryIds)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TaskImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.transactionType, transactionType) ||
+                other.transactionType == transactionType) &&
+            const DeepCollectionEquality()
+                .equals(other._categoryIds, _categoryIds));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, status, title, notes, type,
+      transactionType, const DeepCollectionEquality().hash(_categoryIds));
+
+  /// Create a copy of Task
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TaskImplCopyWith<_$TaskImpl> get copyWith =>
+      __$$TaskImplCopyWithImpl<_$TaskImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TaskImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Task implements Task {
+  const factory _Task(
+      {final TaskId id,
+      final TaskStatus status,
+      final String title,
+      final String notes,
+      final TaskType type,
+      final TaskTransactionType transactionType,
+      final List<CategoryId> categoryIds}) = _$TaskImpl;
+
+  factory _Task.fromJson(Map<String, dynamic> json) = _$TaskImpl.fromJson;
+
+  @override
+  TaskId get id;
+  @override
+  TaskStatus get status;
+  @override
+  String get title;
+  @override
+  String get notes;
+  @override
+  TaskType get type;
+  @override
+  TaskTransactionType get transactionType;
+  @override
+  List<CategoryId> get categoryIds;
+
+  /// Create a copy of Task
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TaskImplCopyWith<_$TaskImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+TransactionSchedule _$TransactionScheduleFromJson(Map<String, dynamic> json) {
+  return _TransactionSchedule.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TransactionSchedule {
+  TransactionPeriodType get periodType => throw _privateConstructorUsedError;
+  Period get period => throw _privateConstructorUsedError;
+  int get dayOfMonth => throw _privateConstructorUsedError;
+  int get dayOfWeek => throw _privateConstructorUsedError;
+  int get dayOfQuarter => throw _privateConstructorUsedError;
+  DateTime? get date => throw _privateConstructorUsedError;
+
+  /// Serializes this TransactionSchedule to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TransactionScheduleCopyWith<TransactionSchedule> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TransactionScheduleCopyWith<$Res> {
+  factory $TransactionScheduleCopyWith(
+          TransactionSchedule value, $Res Function(TransactionSchedule) then) =
+      _$TransactionScheduleCopyWithImpl<$Res, TransactionSchedule>;
+  @useResult
+  $Res call(
+      {TransactionPeriodType periodType,
+      Period period,
+      int dayOfMonth,
+      int dayOfWeek,
+      int dayOfQuarter,
+      DateTime? date});
+}
+
+/// @nodoc
+class _$TransactionScheduleCopyWithImpl<$Res, $Val extends TransactionSchedule>
+    implements $TransactionScheduleCopyWith<$Res> {
+  _$TransactionScheduleCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? periodType = null,
+    Object? period = null,
+    Object? dayOfMonth = null,
+    Object? dayOfWeek = null,
+    Object? dayOfQuarter = null,
+    Object? date = freezed,
+  }) {
+    return _then(_value.copyWith(
+      periodType: null == periodType
+          ? _value.periodType
+          : periodType // ignore: cast_nullable_to_non_nullable
+              as TransactionPeriodType,
+      period: null == period
+          ? _value.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as Period,
+      dayOfMonth: null == dayOfMonth
+          ? _value.dayOfMonth
+          : dayOfMonth // ignore: cast_nullable_to_non_nullable
+              as int,
+      dayOfWeek: null == dayOfWeek
+          ? _value.dayOfWeek
+          : dayOfWeek // ignore: cast_nullable_to_non_nullable
+              as int,
+      dayOfQuarter: null == dayOfQuarter
+          ? _value.dayOfQuarter
+          : dayOfQuarter // ignore: cast_nullable_to_non_nullable
+              as int,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TransactionScheduleImplCopyWith<$Res>
+    implements $TransactionScheduleCopyWith<$Res> {
+  factory _$$TransactionScheduleImplCopyWith(_$TransactionScheduleImpl value,
+          $Res Function(_$TransactionScheduleImpl) then) =
+      __$$TransactionScheduleImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {TransactionPeriodType periodType,
+      Period period,
+      int dayOfMonth,
+      int dayOfWeek,
+      int dayOfQuarter,
+      DateTime? date});
+}
+
+/// @nodoc
+class __$$TransactionScheduleImplCopyWithImpl<$Res>
+    extends _$TransactionScheduleCopyWithImpl<$Res, _$TransactionScheduleImpl>
+    implements _$$TransactionScheduleImplCopyWith<$Res> {
+  __$$TransactionScheduleImplCopyWithImpl(_$TransactionScheduleImpl _value,
+      $Res Function(_$TransactionScheduleImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? periodType = null,
+    Object? period = null,
+    Object? dayOfMonth = null,
+    Object? dayOfWeek = null,
+    Object? dayOfQuarter = null,
+    Object? date = freezed,
+  }) {
+    return _then(_$TransactionScheduleImpl(
+      periodType: null == periodType
+          ? _value.periodType
+          : periodType // ignore: cast_nullable_to_non_nullable
+              as TransactionPeriodType,
+      period: null == period
+          ? _value.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as Period,
+      dayOfMonth: null == dayOfMonth
+          ? _value.dayOfMonth
+          : dayOfMonth // ignore: cast_nullable_to_non_nullable
+              as int,
+      dayOfWeek: null == dayOfWeek
+          ? _value.dayOfWeek
+          : dayOfWeek // ignore: cast_nullable_to_non_nullable
+              as int,
+      dayOfQuarter: null == dayOfQuarter
+          ? _value.dayOfQuarter
+          : dayOfQuarter // ignore: cast_nullable_to_non_nullable
+              as int,
+      date: freezed == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TransactionScheduleImpl extends _TransactionSchedule {
+  const _$TransactionScheduleImpl(
+      {this.periodType = TransactionPeriodType.none,
+      this.period = Period.daily,
+      this.dayOfMonth = 0,
+      this.dayOfWeek = 0,
+      this.dayOfQuarter = 0,
+      this.date})
+      : super._();
+
+  factory _$TransactionScheduleImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TransactionScheduleImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final TransactionPeriodType periodType;
+  @override
+  @JsonKey()
+  final Period period;
+  @override
+  @JsonKey()
+  final int dayOfMonth;
+  @override
+  @JsonKey()
+  final int dayOfWeek;
+  @override
+  @JsonKey()
+  final int dayOfQuarter;
+  @override
+  final DateTime? date;
+
+  @override
+  String toString() {
+    return 'TransactionSchedule(periodType: $periodType, period: $period, dayOfMonth: $dayOfMonth, dayOfWeek: $dayOfWeek, dayOfQuarter: $dayOfQuarter, date: $date)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TransactionScheduleImpl &&
+            (identical(other.periodType, periodType) ||
+                other.periodType == periodType) &&
+            (identical(other.period, period) || other.period == period) &&
+            (identical(other.dayOfMonth, dayOfMonth) ||
+                other.dayOfMonth == dayOfMonth) &&
+            (identical(other.dayOfWeek, dayOfWeek) ||
+                other.dayOfWeek == dayOfWeek) &&
+            (identical(other.dayOfQuarter, dayOfQuarter) ||
+                other.dayOfQuarter == dayOfQuarter) &&
+            (identical(other.date, date) || other.date == date));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, periodType, period, dayOfMonth,
+      dayOfWeek, dayOfQuarter, date);
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TransactionScheduleImplCopyWith<_$TransactionScheduleImpl> get copyWith =>
+      __$$TransactionScheduleImplCopyWithImpl<_$TransactionScheduleImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TransactionScheduleImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TransactionSchedule extends TransactionSchedule {
+  const factory _TransactionSchedule(
+      {final TransactionPeriodType periodType,
+      final Period period,
+      final int dayOfMonth,
+      final int dayOfWeek,
+      final int dayOfQuarter,
+      final DateTime? date}) = _$TransactionScheduleImpl;
+  const _TransactionSchedule._() : super._();
+
+  factory _TransactionSchedule.fromJson(Map<String, dynamic> json) =
+      _$TransactionScheduleImpl.fromJson;
+
+  @override
+  TransactionPeriodType get periodType;
+  @override
+  Period get period;
+  @override
+  int get dayOfMonth;
+  @override
+  int get dayOfWeek;
+  @override
+  int get dayOfQuarter;
+  @override
+  DateTime? get date;
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TransactionScheduleImplCopyWith<_$TransactionScheduleImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Currency _$CurrencyFromJson(Map<String, dynamic> json) {
   switch (json['runtimeType']) {
     case 'fiat':
@@ -1605,8 +2155,8 @@ mixin _$Transaction {
   String get note =>
       throw _privateConstructorUsedError; // TODO(arenukvern): convert to list in future
   String get shoppingListString => throw _privateConstructorUsedError;
+  TaskId get taskId => throw _privateConstructorUsedError;
   TransactionType get type => throw _privateConstructorUsedError;
-  TransactionSchedule get schedule => throw _privateConstructorUsedError;
   CategoryId get categoryId => throw _privateConstructorUsedError;
 
   /// Serializes this Transaction to a JSON map.
@@ -1632,12 +2182,11 @@ abstract class $TransactionCopyWith<$Res> {
       String description,
       String note,
       String shoppingListString,
+      TaskId taskId,
       TransactionType type,
-      TransactionSchedule schedule,
       CategoryId categoryId});
 
   $InputMoneyCopyWith<$Res> get input;
-  $TransactionScheduleCopyWith<$Res> get schedule;
 }
 
 /// @nodoc
@@ -1661,8 +2210,8 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
     Object? description = null,
     Object? note = null,
     Object? shoppingListString = null,
+    Object? taskId = null,
     Object? type = null,
-    Object? schedule = null,
     Object? categoryId = null,
   }) {
     return _then(_value.copyWith(
@@ -1690,14 +2239,14 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
           ? _value.shoppingListString
           : shoppingListString // ignore: cast_nullable_to_non_nullable
               as String,
+      taskId: null == taskId
+          ? _value.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
+              as TaskId,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as TransactionType,
-      schedule: null == schedule
-          ? _value.schedule
-          : schedule // ignore: cast_nullable_to_non_nullable
-              as TransactionSchedule,
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
@@ -1712,16 +2261,6 @@ class _$TransactionCopyWithImpl<$Res, $Val extends Transaction>
   $InputMoneyCopyWith<$Res> get input {
     return $InputMoneyCopyWith<$Res>(_value.input, (value) {
       return _then(_value.copyWith(input: value) as $Val);
-    });
-  }
-
-  /// Create a copy of Transaction
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $TransactionScheduleCopyWith<$Res> get schedule {
-    return $TransactionScheduleCopyWith<$Res>(_value.schedule, (value) {
-      return _then(_value.copyWith(schedule: value) as $Val);
     });
   }
 }
@@ -1741,14 +2280,12 @@ abstract class _$$TransactionImplCopyWith<$Res>
       String description,
       String note,
       String shoppingListString,
+      TaskId taskId,
       TransactionType type,
-      TransactionSchedule schedule,
       CategoryId categoryId});
 
   @override
   $InputMoneyCopyWith<$Res> get input;
-  @override
-  $TransactionScheduleCopyWith<$Res> get schedule;
 }
 
 /// @nodoc
@@ -1770,8 +2307,8 @@ class __$$TransactionImplCopyWithImpl<$Res>
     Object? description = null,
     Object? note = null,
     Object? shoppingListString = null,
+    Object? taskId = null,
     Object? type = null,
-    Object? schedule = null,
     Object? categoryId = null,
   }) {
     return _then(_$TransactionImpl(
@@ -1799,14 +2336,14 @@ class __$$TransactionImplCopyWithImpl<$Res>
           ? _value.shoppingListString
           : shoppingListString // ignore: cast_nullable_to_non_nullable
               as String,
+      taskId: null == taskId
+          ? _value.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
+              as TaskId,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as TransactionType,
-      schedule: null == schedule
-          ? _value.schedule
-          : schedule // ignore: cast_nullable_to_non_nullable
-              as TransactionSchedule,
       categoryId: null == categoryId
           ? _value.categoryId
           : categoryId // ignore: cast_nullable_to_non_nullable
@@ -1825,8 +2362,8 @@ class _$TransactionImpl extends _Transaction {
       this.description = '',
       this.note = '',
       this.shoppingListString = '',
+      this.taskId = TaskId.empty,
       this.type = TransactionType.expense,
-      this.schedule = TransactionSchedule.empty,
       this.categoryId = CategoryId.empty})
       : super._();
 
@@ -1853,17 +2390,17 @@ class _$TransactionImpl extends _Transaction {
   final String shoppingListString;
   @override
   @JsonKey()
-  final TransactionType type;
+  final TaskId taskId;
   @override
   @JsonKey()
-  final TransactionSchedule schedule;
+  final TransactionType type;
   @override
   @JsonKey()
   final CategoryId categoryId;
 
   @override
   String toString() {
-    return 'Transaction(transactionDate: $transactionDate, id: $id, input: $input, description: $description, note: $note, shoppingListString: $shoppingListString, type: $type, schedule: $schedule, categoryId: $categoryId)';
+    return 'Transaction(transactionDate: $transactionDate, id: $id, input: $input, description: $description, note: $note, shoppingListString: $shoppingListString, taskId: $taskId, type: $type, categoryId: $categoryId)';
   }
 
   @override
@@ -1880,9 +2417,8 @@ class _$TransactionImpl extends _Transaction {
             (identical(other.note, note) || other.note == note) &&
             (identical(other.shoppingListString, shoppingListString) ||
                 other.shoppingListString == shoppingListString) &&
+            (identical(other.taskId, taskId) || other.taskId == taskId) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.schedule, schedule) ||
-                other.schedule == schedule) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId));
   }
@@ -1890,7 +2426,7 @@ class _$TransactionImpl extends _Transaction {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, transactionDate, id, input,
-      description, note, shoppingListString, type, schedule, categoryId);
+      description, note, shoppingListString, taskId, type, categoryId);
 
   /// Create a copy of Transaction
   /// with the given fields replaced by the non-null parameter values.
@@ -1916,8 +2452,8 @@ abstract class _Transaction extends Transaction {
       final String description,
       final String note,
       final String shoppingListString,
+      final TaskId taskId,
       final TransactionType type,
-      final TransactionSchedule schedule,
       final CategoryId categoryId}) = _$TransactionImpl;
   const _Transaction._() : super._();
 
@@ -1937,9 +2473,9 @@ abstract class _Transaction extends Transaction {
   @override
   String get shoppingListString;
   @override
-  TransactionType get type;
+  TaskId get taskId;
   @override
-  TransactionSchedule get schedule;
+  TransactionType get type;
   @override
   CategoryId get categoryId;
 
@@ -2492,272 +3028,6 @@ abstract class CyptoInputModel extends InputMoney {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CyptoInputModelImplCopyWith<_$CyptoInputModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-TransactionSchedule _$TransactionScheduleFromJson(Map<String, dynamic> json) {
-  return _TransactionSchedule.fromJson(json);
-}
-
-/// @nodoc
-mixin _$TransactionSchedule {
-  TransactionPeriodType get periodType => throw _privateConstructorUsedError;
-  Period get period => throw _privateConstructorUsedError;
-  int get dayOfMonth => throw _privateConstructorUsedError;
-  int get dayOfWeek => throw _privateConstructorUsedError;
-  int get dayOfQuarter => throw _privateConstructorUsedError;
-  DateTime? get date => throw _privateConstructorUsedError;
-
-  /// Serializes this TransactionSchedule to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of TransactionSchedule
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $TransactionScheduleCopyWith<TransactionSchedule> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $TransactionScheduleCopyWith<$Res> {
-  factory $TransactionScheduleCopyWith(
-          TransactionSchedule value, $Res Function(TransactionSchedule) then) =
-      _$TransactionScheduleCopyWithImpl<$Res, TransactionSchedule>;
-  @useResult
-  $Res call(
-      {TransactionPeriodType periodType,
-      Period period,
-      int dayOfMonth,
-      int dayOfWeek,
-      int dayOfQuarter,
-      DateTime? date});
-}
-
-/// @nodoc
-class _$TransactionScheduleCopyWithImpl<$Res, $Val extends TransactionSchedule>
-    implements $TransactionScheduleCopyWith<$Res> {
-  _$TransactionScheduleCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of TransactionSchedule
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? periodType = null,
-    Object? period = null,
-    Object? dayOfMonth = null,
-    Object? dayOfWeek = null,
-    Object? dayOfQuarter = null,
-    Object? date = freezed,
-  }) {
-    return _then(_value.copyWith(
-      periodType: null == periodType
-          ? _value.periodType
-          : periodType // ignore: cast_nullable_to_non_nullable
-              as TransactionPeriodType,
-      period: null == period
-          ? _value.period
-          : period // ignore: cast_nullable_to_non_nullable
-              as Period,
-      dayOfMonth: null == dayOfMonth
-          ? _value.dayOfMonth
-          : dayOfMonth // ignore: cast_nullable_to_non_nullable
-              as int,
-      dayOfWeek: null == dayOfWeek
-          ? _value.dayOfWeek
-          : dayOfWeek // ignore: cast_nullable_to_non_nullable
-              as int,
-      dayOfQuarter: null == dayOfQuarter
-          ? _value.dayOfQuarter
-          : dayOfQuarter // ignore: cast_nullable_to_non_nullable
-              as int,
-      date: freezed == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$TransactionScheduleImplCopyWith<$Res>
-    implements $TransactionScheduleCopyWith<$Res> {
-  factory _$$TransactionScheduleImplCopyWith(_$TransactionScheduleImpl value,
-          $Res Function(_$TransactionScheduleImpl) then) =
-      __$$TransactionScheduleImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {TransactionPeriodType periodType,
-      Period period,
-      int dayOfMonth,
-      int dayOfWeek,
-      int dayOfQuarter,
-      DateTime? date});
-}
-
-/// @nodoc
-class __$$TransactionScheduleImplCopyWithImpl<$Res>
-    extends _$TransactionScheduleCopyWithImpl<$Res, _$TransactionScheduleImpl>
-    implements _$$TransactionScheduleImplCopyWith<$Res> {
-  __$$TransactionScheduleImplCopyWithImpl(_$TransactionScheduleImpl _value,
-      $Res Function(_$TransactionScheduleImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of TransactionSchedule
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? periodType = null,
-    Object? period = null,
-    Object? dayOfMonth = null,
-    Object? dayOfWeek = null,
-    Object? dayOfQuarter = null,
-    Object? date = freezed,
-  }) {
-    return _then(_$TransactionScheduleImpl(
-      periodType: null == periodType
-          ? _value.periodType
-          : periodType // ignore: cast_nullable_to_non_nullable
-              as TransactionPeriodType,
-      period: null == period
-          ? _value.period
-          : period // ignore: cast_nullable_to_non_nullable
-              as Period,
-      dayOfMonth: null == dayOfMonth
-          ? _value.dayOfMonth
-          : dayOfMonth // ignore: cast_nullable_to_non_nullable
-              as int,
-      dayOfWeek: null == dayOfWeek
-          ? _value.dayOfWeek
-          : dayOfWeek // ignore: cast_nullable_to_non_nullable
-              as int,
-      dayOfQuarter: null == dayOfQuarter
-          ? _value.dayOfQuarter
-          : dayOfQuarter // ignore: cast_nullable_to_non_nullable
-              as int,
-      date: freezed == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$TransactionScheduleImpl extends _TransactionSchedule {
-  const _$TransactionScheduleImpl(
-      {this.periodType = TransactionPeriodType.none,
-      this.period = Period.daily,
-      this.dayOfMonth = 0,
-      this.dayOfWeek = 0,
-      this.dayOfQuarter = 0,
-      this.date})
-      : super._();
-
-  factory _$TransactionScheduleImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TransactionScheduleImplFromJson(json);
-
-  @override
-  @JsonKey()
-  final TransactionPeriodType periodType;
-  @override
-  @JsonKey()
-  final Period period;
-  @override
-  @JsonKey()
-  final int dayOfMonth;
-  @override
-  @JsonKey()
-  final int dayOfWeek;
-  @override
-  @JsonKey()
-  final int dayOfQuarter;
-  @override
-  final DateTime? date;
-
-  @override
-  String toString() {
-    return 'TransactionSchedule(periodType: $periodType, period: $period, dayOfMonth: $dayOfMonth, dayOfWeek: $dayOfWeek, dayOfQuarter: $dayOfQuarter, date: $date)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TransactionScheduleImpl &&
-            (identical(other.periodType, periodType) ||
-                other.periodType == periodType) &&
-            (identical(other.period, period) || other.period == period) &&
-            (identical(other.dayOfMonth, dayOfMonth) ||
-                other.dayOfMonth == dayOfMonth) &&
-            (identical(other.dayOfWeek, dayOfWeek) ||
-                other.dayOfWeek == dayOfWeek) &&
-            (identical(other.dayOfQuarter, dayOfQuarter) ||
-                other.dayOfQuarter == dayOfQuarter) &&
-            (identical(other.date, date) || other.date == date));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, periodType, period, dayOfMonth,
-      dayOfWeek, dayOfQuarter, date);
-
-  /// Create a copy of TransactionSchedule
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TransactionScheduleImplCopyWith<_$TransactionScheduleImpl> get copyWith =>
-      __$$TransactionScheduleImplCopyWithImpl<_$TransactionScheduleImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$TransactionScheduleImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _TransactionSchedule extends TransactionSchedule {
-  const factory _TransactionSchedule(
-      {final TransactionPeriodType periodType,
-      final Period period,
-      final int dayOfMonth,
-      final int dayOfWeek,
-      final int dayOfQuarter,
-      final DateTime? date}) = _$TransactionScheduleImpl;
-  const _TransactionSchedule._() : super._();
-
-  factory _TransactionSchedule.fromJson(Map<String, dynamic> json) =
-      _$TransactionScheduleImpl.fromJson;
-
-  @override
-  TransactionPeriodType get periodType;
-  @override
-  Period get period;
-  @override
-  int get dayOfMonth;
-  @override
-  int get dayOfWeek;
-  @override
-  int get dayOfQuarter;
-  @override
-  DateTime? get date;
-
-  /// Create a copy of TransactionSchedule
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$TransactionScheduleImplCopyWith<_$TransactionScheduleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

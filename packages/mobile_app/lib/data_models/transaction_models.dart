@@ -145,7 +145,7 @@ sealed class Transaction with _$Transaction {
     @Default('') final String note,
     // TODO(arenukvern): convert to list in future
     @Default('') final String shoppingListString,
-    @Default(TransactionSchedule.empty) final TransactionSchedule schedule,
+    @Default(TaskId.empty) final TaskId taskId,
     @Default(TransactionType.expense) final TransactionType type,
     @Default(CategoryId.empty) final CategoryId categoryId,
   }) = _Transaction;
@@ -157,7 +157,7 @@ sealed class Transaction with _$Transaction {
   static final empty = Transaction(transactionDate: DateTime.now());
   bool get isExpense => type == TransactionType.expense;
   bool get isIncome => type == TransactionType.income;
-  bool get isRegular => schedule.isSet;
+  bool get isRegular => taskId.isNotEmpty;
   double get amount => input.amount;
   CurrencyId get currencyId => input.currencyId;
 }

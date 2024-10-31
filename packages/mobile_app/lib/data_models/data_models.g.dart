@@ -55,6 +55,84 @@ Map<String, dynamic> _$$WeeklyBudgetModelImplToJson(
       'amount': instance.amount,
     };
 
+_$TaskImpl _$$TaskImplFromJson(Map<String, dynamic> json) => _$TaskImpl(
+      id: json['id'] == null
+          ? TaskId.empty
+          : TaskId.fromJson(json['id'] as String),
+      status: json['status'] == null
+          ? TaskStatus.active
+          : TaskStatus.fromJson(json['status'] as String),
+      title: json['title'] as String? ?? '',
+      notes: json['notes'] as String? ?? '',
+      type: $enumDecodeNullable(_$TaskTypeEnumMap, json['type']) ??
+          TaskType.income,
+      transactionType: json['transactionType'] == null
+          ? TaskTransactionType.expense
+          : TaskTransactionType.fromJson(json['transactionType'] as String),
+      categoryIds: (json['categoryIds'] as List<dynamic>?)
+              ?.map((e) => CategoryId.fromJson(e as String))
+              .toList() ??
+          const [],
+    );
+
+Map<String, dynamic> _$$TaskImplToJson(_$TaskImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'status': instance.status,
+      'title': instance.title,
+      'notes': instance.notes,
+      'type': _$TaskTypeEnumMap[instance.type]!,
+      'transactionType': instance.transactionType,
+      'categoryIds': instance.categoryIds,
+    };
+
+const _$TaskTypeEnumMap = {
+  TaskType.income: 'income',
+  TaskType.investments: 'investments',
+  TaskType.crypto: 'crypto',
+  TaskType.cashback: 'cashback',
+};
+
+_$TransactionScheduleImpl _$$TransactionScheduleImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TransactionScheduleImpl(
+      periodType: $enumDecodeNullable(
+              _$TransactionPeriodTypeEnumMap, json['periodType']) ??
+          TransactionPeriodType.none,
+      period:
+          $enumDecodeNullable(_$PeriodEnumMap, json['period']) ?? Period.daily,
+      dayOfMonth: (json['dayOfMonth'] as num?)?.toInt() ?? 0,
+      dayOfWeek: (json['dayOfWeek'] as num?)?.toInt() ?? 0,
+      dayOfQuarter: (json['dayOfQuarter'] as num?)?.toInt() ?? 0,
+      date:
+          json['date'] == null ? null : DateTime.parse(json['date'] as String),
+    );
+
+Map<String, dynamic> _$$TransactionScheduleImplToJson(
+        _$TransactionScheduleImpl instance) =>
+    <String, dynamic>{
+      'periodType': _$TransactionPeriodTypeEnumMap[instance.periodType]!,
+      'period': _$PeriodEnumMap[instance.period]!,
+      'dayOfMonth': instance.dayOfMonth,
+      'dayOfWeek': instance.dayOfWeek,
+      'dayOfQuarter': instance.dayOfQuarter,
+      'date': instance.date?.toIso8601String(),
+    };
+
+const _$TransactionPeriodTypeEnumMap = {
+  TransactionPeriodType.none: 'none',
+  TransactionPeriodType.bySpecificDate: 'bySpecificDate',
+  TransactionPeriodType.byDayOfWeek: 'byDayOfWeek',
+  TransactionPeriodType.byComputedDate: 'byComputedDate',
+};
+
+const _$PeriodEnumMap = {
+  Period.daily: 'daily',
+  Period.weekly: 'weekly',
+  Period.monthly: 'monthly',
+  Period.yearly: 'yearly',
+};
+
 _$FiatCurrencyImpl _$$FiatCurrencyImplFromJson(Map<String, dynamic> json) =>
     _$FiatCurrencyImpl(
       id: json['id'] == null
@@ -137,12 +215,11 @@ _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
       description: json['description'] as String? ?? '',
       note: json['note'] as String? ?? '',
       shoppingListString: json['shoppingListString'] as String? ?? '',
+      taskId: json['taskId'] == null
+          ? TaskId.empty
+          : TaskId.fromJson(json['taskId'] as String),
       type: $enumDecodeNullable(_$TransactionTypeEnumMap, json['type']) ??
           TransactionType.expense,
-      schedule: json['schedule'] == null
-          ? TransactionSchedule.empty
-          : TransactionSchedule.fromJson(
-              json['schedule'] as Map<String, dynamic>),
       categoryId: json['categoryId'] == null
           ? CategoryId.empty
           : CategoryId.fromJson(json['categoryId'] as String),
@@ -156,8 +233,8 @@ Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>
       'description': instance.description,
       'note': instance.note,
       'shoppingListString': instance.shoppingListString,
+      'taskId': instance.taskId,
       'type': _$TransactionTypeEnumMap[instance.type]!,
-      'schedule': instance.schedule,
       'categoryId': instance.categoryId,
     };
 
@@ -210,46 +287,6 @@ Map<String, dynamic> _$$CyptoInputModelImplToJson(
       'currencyType': instance.currencyType,
       'runtimeType': instance.$type,
     };
-
-_$TransactionScheduleImpl _$$TransactionScheduleImplFromJson(
-        Map<String, dynamic> json) =>
-    _$TransactionScheduleImpl(
-      periodType: $enumDecodeNullable(
-              _$TransactionPeriodTypeEnumMap, json['periodType']) ??
-          TransactionPeriodType.none,
-      period:
-          $enumDecodeNullable(_$PeriodEnumMap, json['period']) ?? Period.daily,
-      dayOfMonth: (json['dayOfMonth'] as num?)?.toInt() ?? 0,
-      dayOfWeek: (json['dayOfWeek'] as num?)?.toInt() ?? 0,
-      dayOfQuarter: (json['dayOfQuarter'] as num?)?.toInt() ?? 0,
-      date:
-          json['date'] == null ? null : DateTime.parse(json['date'] as String),
-    );
-
-Map<String, dynamic> _$$TransactionScheduleImplToJson(
-        _$TransactionScheduleImpl instance) =>
-    <String, dynamic>{
-      'periodType': _$TransactionPeriodTypeEnumMap[instance.periodType]!,
-      'period': _$PeriodEnumMap[instance.period]!,
-      'dayOfMonth': instance.dayOfMonth,
-      'dayOfWeek': instance.dayOfWeek,
-      'dayOfQuarter': instance.dayOfQuarter,
-      'date': instance.date?.toIso8601String(),
-    };
-
-const _$TransactionPeriodTypeEnumMap = {
-  TransactionPeriodType.none: 'none',
-  TransactionPeriodType.bySpecificDate: 'bySpecificDate',
-  TransactionPeriodType.byDayOfWeek: 'byDayOfWeek',
-  TransactionPeriodType.byComputedDate: 'byComputedDate',
-};
-
-const _$PeriodEnumMap = {
-  Period.daily: 'daily',
-  Period.weekly: 'weekly',
-  Period.monthly: 'monthly',
-  Period.yearly: 'yearly',
-};
 
 _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
     _$UserModelImpl(
