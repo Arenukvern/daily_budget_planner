@@ -73,6 +73,10 @@ _$TaskImpl _$$TaskImplFromJson(Map<String, dynamic> json) => _$TaskImpl(
               ?.map((e) => CategoryId.fromJson(e as String))
               .toList() ??
           const [],
+      transactionIds: (json['transactionIds'] as List<dynamic>?)
+              ?.map((e) => TransactionId.fromJson(e as String))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$TaskImplToJson(_$TaskImpl instance) =>
@@ -84,6 +88,7 @@ Map<String, dynamic> _$$TaskImplToJson(_$TaskImpl instance) =>
       'type': _$TaskTypeEnumMap[instance.type]!,
       'transactionType': instance.transactionType,
       'categoryIds': instance.categoryIds,
+      'transactionIds': instance.transactionIds,
     };
 
 const _$TaskTypeEnumMap = {

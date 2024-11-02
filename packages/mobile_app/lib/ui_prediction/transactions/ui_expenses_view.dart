@@ -1,4 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/ui_prediction/transactions/ui_transactions_actions_bar.dart';
 
 class UiExpensesView extends StatelessWidget {
   const UiExpensesView({this.isRegular = false, super.key});

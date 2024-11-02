@@ -786,6 +786,7 @@ mixin _$Task {
   TaskType get type => throw _privateConstructorUsedError;
   TaskTransactionType get transactionType => throw _privateConstructorUsedError;
   List<CategoryId> get categoryIds => throw _privateConstructorUsedError;
+  List<TransactionId> get transactionIds => throw _privateConstructorUsedError;
 
   /// Serializes this Task to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -808,7 +809,8 @@ abstract class $TaskCopyWith<$Res> {
       String notes,
       TaskType type,
       TaskTransactionType transactionType,
-      List<CategoryId> categoryIds});
+      List<CategoryId> categoryIds,
+      List<TransactionId> transactionIds});
 }
 
 /// @nodoc
@@ -833,6 +835,7 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
     Object? type = null,
     Object? transactionType = null,
     Object? categoryIds = null,
+    Object? transactionIds = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -863,6 +866,10 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
           ? _value.categoryIds
           : categoryIds // ignore: cast_nullable_to_non_nullable
               as List<CategoryId>,
+      transactionIds: null == transactionIds
+          ? _value.transactionIds
+          : transactionIds // ignore: cast_nullable_to_non_nullable
+              as List<TransactionId>,
     ) as $Val);
   }
 }
@@ -881,7 +888,8 @@ abstract class _$$TaskImplCopyWith<$Res> implements $TaskCopyWith<$Res> {
       String notes,
       TaskType type,
       TaskTransactionType transactionType,
-      List<CategoryId> categoryIds});
+      List<CategoryId> categoryIds,
+      List<TransactionId> transactionIds});
 }
 
 /// @nodoc
@@ -903,6 +911,7 @@ class __$$TaskImplCopyWithImpl<$Res>
     Object? type = null,
     Object? transactionType = null,
     Object? categoryIds = null,
+    Object? transactionIds = null,
   }) {
     return _then(_$TaskImpl(
       id: null == id
@@ -933,6 +942,10 @@ class __$$TaskImplCopyWithImpl<$Res>
           ? _value._categoryIds
           : categoryIds // ignore: cast_nullable_to_non_nullable
               as List<CategoryId>,
+      transactionIds: null == transactionIds
+          ? _value._transactionIds
+          : transactionIds // ignore: cast_nullable_to_non_nullable
+              as List<TransactionId>,
     ));
   }
 }
@@ -947,8 +960,10 @@ class _$TaskImpl implements _Task {
       this.notes = '',
       this.type = TaskType.income,
       this.transactionType = TaskTransactionType.expense,
-      final List<CategoryId> categoryIds = const []})
-      : _categoryIds = categoryIds;
+      final List<CategoryId> categoryIds = const [],
+      final List<TransactionId> transactionIds = const []})
+      : _categoryIds = categoryIds,
+        _transactionIds = transactionIds;
 
   factory _$TaskImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskImplFromJson(json);
@@ -980,9 +995,18 @@ class _$TaskImpl implements _Task {
     return EqualUnmodifiableListView(_categoryIds);
   }
 
+  final List<TransactionId> _transactionIds;
+  @override
+  @JsonKey()
+  List<TransactionId> get transactionIds {
+    if (_transactionIds is EqualUnmodifiableListView) return _transactionIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_transactionIds);
+  }
+
   @override
   String toString() {
-    return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, transactionType: $transactionType, categoryIds: $categoryIds)';
+    return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, transactionType: $transactionType, categoryIds: $categoryIds, transactionIds: $transactionIds)';
   }
 
   @override
@@ -998,13 +1022,23 @@ class _$TaskImpl implements _Task {
             (identical(other.transactionType, transactionType) ||
                 other.transactionType == transactionType) &&
             const DeepCollectionEquality()
-                .equals(other._categoryIds, _categoryIds));
+                .equals(other._categoryIds, _categoryIds) &&
+            const DeepCollectionEquality()
+                .equals(other._transactionIds, _transactionIds));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, status, title, notes, type,
-      transactionType, const DeepCollectionEquality().hash(_categoryIds));
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      status,
+      title,
+      notes,
+      type,
+      transactionType,
+      const DeepCollectionEquality().hash(_categoryIds),
+      const DeepCollectionEquality().hash(_transactionIds));
 
   /// Create a copy of Task
   /// with the given fields replaced by the non-null parameter values.
@@ -1030,7 +1064,8 @@ abstract class _Task implements Task {
       final String notes,
       final TaskType type,
       final TaskTransactionType transactionType,
-      final List<CategoryId> categoryIds}) = _$TaskImpl;
+      final List<CategoryId> categoryIds,
+      final List<TransactionId> transactionIds}) = _$TaskImpl;
 
   factory _Task.fromJson(Map<String, dynamic> json) = _$TaskImpl.fromJson;
 
@@ -1048,6 +1083,8 @@ abstract class _Task implements Task {
   TaskTransactionType get transactionType;
   @override
   List<CategoryId> get categoryIds;
+  @override
+  List<TransactionId> get transactionIds;
 
   /// Create a copy of Task
   /// with the given fields replaced by the non-null parameter values.

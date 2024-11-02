@@ -67,6 +67,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl(() => MonetizationStatusNotifier(Envs.monetizationType));
   rl(DictionariesLocalApi.new);
   rl(DictionariesNotifier.new);
+  rl(TasksNotifier.new);
   rl(
     () => SubscriptionManager(
       productIds: MonetizationProducts.subscriptions,
@@ -110,6 +111,7 @@ mixin HasStates {
   MonthlyCubit get monthlyCubit => _g();
   StoreReviewRequester get storeReviewRequester => _g();
   DictionariesNotifier get dictionariesNotifier => _g();
+  TasksNotifier get tasksNotifier => _g();
 }
 mixin HasAnalytics {
   AnalyticsManager get analyticsManager => _g();

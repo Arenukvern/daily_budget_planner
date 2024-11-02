@@ -90,9 +90,8 @@ class _PredictionHeader extends StatelessWidget {
                   ),
                   const Gap(6),
                   _HeaderItem(
-                    onPressed: () async => UiExpensesView.show(
+                    onPressed: () async => UiExpensesTasksView.show(
                       context: context,
-                      isRegular: true,
                     ),
                     title: LocalizedMap(
                       value: {
@@ -106,10 +105,8 @@ class _PredictionHeader extends StatelessWidget {
                   ),
                   const Gap(6),
                   _HeaderItem(
-                    onPressed: () async => UiIncomesView.show(
-                      context: context,
-                      isRegular: true,
-                    ),
+                    onPressed: () async =>
+                        UiIncomesTasksView.show(context: context),
                     title: LocalizedMap(
                       value: {
                         languages.en: 'regular income',

@@ -47,6 +47,7 @@ class Task with _$Task {
     @Default(TaskTransactionType.expense)
     final TaskTransactionType transactionType,
     @Default([]) final List<CategoryId> categoryIds,
+    @Default([]) final List<TransactionId> transactionIds,
   }) = _Task;
   factory Task.fromJson(final Map<String, dynamic> json) =>
       _$TaskFromJson(json);

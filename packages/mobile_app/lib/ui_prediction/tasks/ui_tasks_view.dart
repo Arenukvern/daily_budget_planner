@@ -15,7 +15,7 @@ enum TaskSortField {
   name,
 }
 
-class UiTasksView extends HookWidget {
+class UiTasksView extends HookWidget with HasStates {
   const UiTasksView({
     required this.tasks,
     super.key,
@@ -64,9 +64,27 @@ class UiTasksView extends HookWidget {
     // Sort tasks first
     final sortedTasks = [...tasks]..sort((final a, final b) {
         final comparison = switch (sortField) {
-          TaskSortField.sum => a.sum.compareTo(b.sum),
-          TaskSortField.date => a.date.compareTo(b.date),
-          TaskSortField.name => a.name.compareTo(b.name),
+          TaskSortField.sum => tasksNotifier
+              .getTransactionsByTask(a)
+              .fold<double>(0, (final sum, final t) => sum + t.amount)
+              .compareTo(
+                tasksNotifier
+                    .getTransactionsByTask(b)
+                    .fold<double>(0, (final sum, final t) => sum + t.amount),
+              ),
+          TaskSortField.date => (tasksNotifier
+                        .getTransactionsByTask(a)
+                        .firstOrNull
+                        ?.transactionDate ??
+                    DateTime.now())
+                .compareTo(
+              tasksNotifier
+                      .getTransactionsByTask(b)
+                      .firstOrNull
+                      ?.transactionDate ??
+                  DateTime.now(),
+            ),
+          TaskSortField.name => a.title.compareTo(b.title),
         };
         return ascending ? comparison : -comparison;
       });
@@ -82,10 +100,10 @@ class UiTasksView extends HookWidget {
   Map<String, List<Task>> groupByDate(final List<Task> tasks) {
     final groupedTasks = <String, List<Task>>{};
 
-    // Group tasks by month and year
+    // Group tasks by month and year of their first transaction
     for (final task in tasks) {
-      final schedule = task.schedule;
-      final date = schedule?.date ?? DateTime.now();
+      final transactions = tasksNotifier.getTransactionsByTask(task);
+      final date = transactions.firstOrNull?.transactionDate ?? DateTime.now();
       final monthYear = DateFormat.yMMMM().format(date);
 
       groupedTasks.putIfAbsent(monthYear, () => []);
@@ -273,42 +291,52 @@ class _TaskItem extends HookWidget {
   }
 }
 
-class _ExpandedTaskDetails extends StatelessWidget {
+class _ExpandedTaskDetails extends StatelessWidget with HasStates {
   const _ExpandedTaskDetails({required this.task});
 
   final Task task;
 
   @override
-  Widget build(final BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _DetailRow('Status:', task.status.name),
-            _DetailRow('Type:', task.type.name),
-            _DetailRow(
-              'Categories:',
-              task.categoryIds.isEmpty
-                  ? 'None'
-                  : task.categoryIds.map((final id) => id.value).join(', '),
+  Widget build(final BuildContext context) {
+    final transactions = tasksNotifier.getTransactionsByTask(task);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _DetailRow('Status:', task.status.name),
+          _DetailRow('Type:', task.type.name),
+          _DetailRow(
+            'Categories:',
+            task.categoryIds.isEmpty
+                ? 'None'
+                : task.categoryIds.map((final id) => id.value).join(', '),
+          ),
+          if (transactions.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Text(
+              'Transactions:',
+              style: context.textTheme.titleSmall,
             ),
-            if (task.schedule?.date != null)
-              _DetailRow(
-                'Scheduled Date:',
-                DateFormat.yMMMd().format(task.schedule!.date!),
+            ...transactions.map(
+              (final transaction) => ListTile(
+                dense: true,
+                title: Text(transaction.description),
+                trailing: Text(
+                  '${transaction.amount} ${transaction.currencyId.value}',
+                ),
+                subtitle: Text(
+                  DateFormat.yMMMd().add_Hms().format(
+                        transaction.transactionDate,
+                      ),
+                ),
               ),
-            if (task.schedule?.isNotSet ?? false) ...[
-              _DetailRow('Period:', task.schedule!.period.name),
-              if (task.schedule!.dayOfMonth > 0)
-                _DetailRow('Day of Month:', '${task.schedule!.dayOfMonth}'),
-              if (task.schedule!.dayOfWeek > 0)
-                _DetailRow('Day of Week:', '${task.schedule!.dayOfWeek}'),
-              if (task.schedule!.dayOfQuarter > 0)
-                _DetailRow('Day of Quarter:', '${task.schedule!.dayOfQuarter}'),
-            ],
+            ),
           ],
-        ),
-      );
+        ],
+      ),
+    );
+  }
 }
 
 class _DetailRow extends StatelessWidget {
@@ -333,8 +361,4 @@ class _DetailRow extends StatelessWidget {
           ],
         ),
       );
-}
-
-extension DateTimeFormatting on DateTime {
-  String get monthYear => DateFormat.yMMMM().format(this);
 }
