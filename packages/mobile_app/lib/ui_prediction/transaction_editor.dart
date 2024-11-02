@@ -1,7 +1,6 @@
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_kit/atoms/ui_date_time_field.dart';
-import 'package:mobile_app/ui_prediction/ui_incomes_view.dart';
 
 Future<Transaction?> showTransactionEditor(
   final BuildContext context, {

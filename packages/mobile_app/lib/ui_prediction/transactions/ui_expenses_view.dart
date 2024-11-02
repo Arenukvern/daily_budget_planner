@@ -1,5 +1,4 @@
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/ui_prediction/ui_incomes_view.dart';
 
 class UiExpensesView extends StatelessWidget {
   const UiExpensesView({this.isRegular = false, super.key});
@@ -42,5 +41,31 @@ class UiExpensesView extends StatelessWidget {
         UiSafeArea.bottom(),
       ],
     );
+  }
+}
+
+class ExpenseTable extends HookWidget {
+  const ExpenseTable({
+    required this.expenses,
+    required this.isRegular,
+    super.key,
+  });
+
+  final List<Transaction> expenses;
+  final bool isRegular;
+
+  @override
+  Widget build(final BuildContext context) {
+    final filteredExpenses = useMemoized(
+      () => expenses
+          .where(
+            (final expense) =>
+                expense.isRegular == isRegular && expense.isExpense,
+          )
+          .toList(),
+      [expenses, isRegular],
+    );
+
+    return UiTransactionsTable<Transaction>(transactions: filteredExpenses);
   }
 }

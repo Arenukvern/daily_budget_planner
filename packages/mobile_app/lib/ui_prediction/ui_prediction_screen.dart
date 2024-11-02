@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/add_budget_dialog.dart';
 import 'package:mobile_app/ui_prediction/ui_drag_handle.dart';
-import 'package:mobile_app/ui_prediction/ui_expenses_view.dart';
-import 'package:mobile_app/ui_prediction/ui_incomes_view.dart';
 
 class UiPredictionScreen extends StatelessWidget {
   const UiPredictionScreen({super.key});

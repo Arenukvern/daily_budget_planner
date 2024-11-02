@@ -2,50 +2,6 @@ import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:two_dimensional_scrollables/two_dimensional_scrollables.dart';
 
-class UiIncomesView extends StatelessWidget {
-  const UiIncomesView({this.isRegular = false, super.key});
-  final bool isRegular;
-  static Future<void> show({
-    required final BuildContext context,
-    final bool isRegular = false,
-  }) async =>
-      Navigator.of(context).push(
-        CupertinoModalSheetRoute(
-          builder: (final _) => UiBottomSheetWrapper(
-            child: UiIncomesView(isRegular: isRegular),
-          ),
-        ),
-      );
-
-  @override
-  Widget build(final BuildContext context) {
-    final incomes = context.select<UiPredictionNotifier, List<Transaction>>(
-      (final state) => state.value.incomes,
-    );
-
-    return UiColumnScaffold(
-      appBar: UiAppBar(
-        titleText: isRegular ? 'Regular incomes' : 'Incomes',
-        automaticallyImplyLeading: false,
-        trailing: UiTextActionButton.done(),
-      ),
-      children: [
-        Expanded(
-          child: IncomeTable(
-            incomes: incomes,
-            isRegular: isRegular,
-          ),
-        ),
-        UiTransactionsActionsBar(
-          tuple: (type: TransactionType.income,),
-        ),
-        Gap(8),
-        UiSafeArea.bottom(),
-      ],
-    );
-  }
-}
-
 class UiTransactionsTable<T extends Transaction> extends HookWidget {
   const UiTransactionsTable({
     required this.transactions,
@@ -194,85 +150,9 @@ class UiTransactionsTable<T extends Transaction> extends HookWidget {
   }
 }
 
-class IncomeTable extends HookWidget {
-  const IncomeTable({
-    required this.incomes,
-    required this.isRegular,
-    super.key,
-  });
-
-  final List<Transaction> incomes;
-  final bool isRegular;
-
-  @override
-  Widget build(final BuildContext context) {
-    final filteredIncomes = useMemoized(
-      () => incomes
-          .where(
-            (final income) => income.isRegular == isRegular && income.isIncome,
-          )
-          .toList(),
-      [incomes, isRegular],
-    );
-
-    return UiTransactionsTable<Transaction>(transactions: filteredIncomes);
-  }
-}
-
 typedef UiTransactionsActionsBarTuple = ({
   TransactionType type,
 });
-
-class UiTransactionsActionsBar extends StatelessWidget {
-  const UiTransactionsActionsBar({required this.tuple, super.key});
-  final UiTransactionsActionsBarTuple tuple;
-  @override
-  Widget build(final BuildContext context) {
-    final locale = useLocale(context);
-    return UiBottomActionBar(
-      children: [
-        const UiBackButton(),
-        UiTextButton(
-          onPressed: () async {
-            final notifier = context.read<UiPredictionNotifier>();
-            final transaction = await showTransactionEditor(
-              context,
-              transaction: null,
-            );
-            if (transaction == null) return;
-            return notifier.upsertTransaction(transaction);
-          },
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.add),
-              Gap(4),
-              Text(
-                LocalizedMap(
-                  value: {
-                    languages.en: 'Add ${tuple.type.name}',
-                    languages.it: 'Aggiungi ${switch (tuple.type) {
-                      TransactionType.income => 'entrate',
-                      TransactionType.expense => 'spese',
-                      TransactionType.transferIn => 'transferenze in',
-                      TransactionType.transferOut => 'transferenze out',
-                    }}',
-                    languages.ru: 'Добавить ${switch (tuple.type) {
-                      TransactionType.income => 'доход',
-                      TransactionType.expense => 'расход',
-                      TransactionType.transferIn => 'входящий перевод',
-                      TransactionType.transferOut => 'исходящий перевод',
-                    }}',
-                  },
-                ).getValue(locale),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class UiBottomActionBar extends StatelessWidget {
   const UiBottomActionBar({
@@ -325,28 +205,53 @@ class UiBottomActionBarDecorator extends StatelessWidget {
       );
 }
 
-class ExpenseTable extends HookWidget {
-  const ExpenseTable({
-    required this.expenses,
-    required this.isRegular,
-    super.key,
-  });
-
-  final List<Transaction> expenses;
-  final bool isRegular;
-
+class UiTransactionsActionsBar extends StatelessWidget {
+  const UiTransactionsActionsBar({required this.tuple, super.key});
+  final UiTransactionsActionsBarTuple tuple;
   @override
   Widget build(final BuildContext context) {
-    final filteredExpenses = useMemoized(
-      () => expenses
-          .where(
-            (final expense) =>
-                expense.isRegular == isRegular && expense.isExpense,
-          )
-          .toList(),
-      [expenses, isRegular],
+    final locale = useLocale(context);
+    return UiBottomActionBar(
+      children: [
+        const UiBackButton(),
+        UiTextButton(
+          onPressed: () async {
+            final notifier = context.read<UiPredictionNotifier>();
+            final transaction = await showTransactionEditor(
+              context,
+              transaction: null,
+            );
+            if (transaction == null) return;
+            return notifier.upsertTransaction(transaction);
+          },
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.add),
+              Gap(4),
+              Text(
+                LocalizedMap(
+                  value: {
+                    languages.en: 'Add ${tuple.type.name}',
+                    languages.it: 'Aggiungi ${switch (tuple.type) {
+                      TransactionType.income => 'entrate',
+                      TransactionType.expense => 'spese',
+                      TransactionType.transferIn => 'transferenze in',
+                      TransactionType.transferOut => 'transferenze out',
+                    }}',
+                    languages.ru: 'Добавить ${switch (tuple.type) {
+                      TransactionType.income => 'доход',
+                      TransactionType.expense => 'расход',
+                      TransactionType.transferIn => 'входящий перевод',
+                      TransactionType.transferOut => 'исходящий перевод',
+                    }}',
+                  },
+                ).getValue(locale),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
-
-    return UiTransactionsTable<Transaction>(transactions: filteredExpenses);
   }
 }
