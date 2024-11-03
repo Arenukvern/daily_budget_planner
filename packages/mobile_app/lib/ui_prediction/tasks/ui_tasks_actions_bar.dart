@@ -1,7 +1,7 @@
 import 'package:mobile_app/common_imports.dart';
 
 typedef UiTasksActionsBarTuple = ({
-  TransactionType type,
+  TaskTransactionType type,
 });
 
 class UiTasksActionsBar extends StatelessWidget {
@@ -33,16 +33,12 @@ class UiTasksActionsBar extends StatelessWidget {
                   value: {
                     languages.en: 'Add ${tuple.type.name}',
                     languages.it: 'Aggiungi ${switch (tuple.type) {
-                      TransactionType.income => 'entrate',
-                      TransactionType.expense => 'spese',
-                      TransactionType.transferIn => 'transferenze in',
-                      TransactionType.transferOut => 'transferenze out',
+                      TaskTransactionType.income => 'entrate',
+                      TaskTransactionType.expense => 'spese',
                     }}',
                     languages.ru: 'Добавить ${switch (tuple.type) {
-                      TransactionType.income => 'доход',
-                      TransactionType.expense => 'расход',
-                      TransactionType.transferIn => 'входящий перевод',
-                      TransactionType.transferOut => 'исходящий перевод',
+                      TaskTransactionType.income => 'доход',
+                      TaskTransactionType.expense => 'расход',
                     }}',
                   },
                 ).getValue(locale),

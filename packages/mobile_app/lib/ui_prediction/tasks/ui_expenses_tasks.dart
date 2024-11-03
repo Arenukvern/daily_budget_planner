@@ -1,6 +1,6 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
-import 'package:mobile_app/ui_prediction/tasks/ui_tasks_view.dart';
+import 'package:mobile_app/ui_prediction/tasks/ui_tasks_view_2.dart';
 
 class UiExpensesTasksView extends StatelessWidget {
   const UiExpensesTasksView({super.key});
@@ -10,7 +10,7 @@ class UiExpensesTasksView extends StatelessWidget {
       Navigator.of(context).push(
         CupertinoModalSheetRoute(
           builder: (final _) => UiBottomSheetWrapper(
-            child: UiIncomesTasksView(),
+            child: UiExpensesTasksView(),
           ),
         ),
       );
@@ -27,7 +27,7 @@ class UiExpensesTasksView extends StatelessWidget {
             child: UiExpensesTasks(),
           ),
           UiTasksActionsBar(
-            tuple: (type: TransactionType.expense,),
+            tuple: (type: TaskTransactionType.expense,),
           ),
           Gap(8),
           UiSafeArea.bottom(),
@@ -43,6 +43,6 @@ class UiExpensesTasks extends StatelessWidget {
     final tasks = context.select<TasksNotifier, List<Task>>(
       (final c) => c.getTasks(TaskTransactionType.expense),
     );
-    return UiTasksView(tasks: tasks);
+    return UiTasksView2(tasks: tasks);
   }
 }

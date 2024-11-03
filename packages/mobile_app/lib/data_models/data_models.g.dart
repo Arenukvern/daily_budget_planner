@@ -65,9 +65,15 @@ _$TaskImpl _$$TaskImplFromJson(Map<String, dynamic> json) => _$TaskImpl(
       title: json['title'] as String? ?? '',
       notes: json['notes'] as String? ?? '',
       type: $enumDecodeNullable(_$TaskTypeEnumMap, json['type']) ??
-          TaskType.income,
+          TaskType.personal,
+      personalIncomeType: $enumDecodeNullable(
+              _$PersonalIncomeTaskTypeEnumMap, json['personalIncomeType']) ??
+          PersonalIncomeTaskType.salary,
+      personalExpenseType: $enumDecodeNullable(
+              _$PersonalExpenseTaskTypeEnumMap, json['personalExpenseType']) ??
+          PersonalExpenseTaskType.other,
       transactionType: json['transactionType'] == null
-          ? TaskTransactionType.expense
+          ? TaskTransactionType.income
           : TaskTransactionType.fromJson(json['transactionType'] as String),
       categoryIds: (json['categoryIds'] as List<dynamic>?)
               ?.map((e) => CategoryId.fromJson(e as String))
@@ -86,16 +92,35 @@ Map<String, dynamic> _$$TaskImplToJson(_$TaskImpl instance) =>
       'title': instance.title,
       'notes': instance.notes,
       'type': _$TaskTypeEnumMap[instance.type]!,
+      'personalIncomeType':
+          _$PersonalIncomeTaskTypeEnumMap[instance.personalIncomeType]!,
+      'personalExpenseType':
+          _$PersonalExpenseTaskTypeEnumMap[instance.personalExpenseType]!,
       'transactionType': instance.transactionType,
       'categoryIds': instance.categoryIds,
       'transactionIds': instance.transactionIds,
     };
 
 const _$TaskTypeEnumMap = {
-  TaskType.income: 'income',
-  TaskType.investments: 'investments',
-  TaskType.crypto: 'crypto',
-  TaskType.cashback: 'cashback',
+  TaskType.personal: 'personal',
+  TaskType.business: 'business',
+};
+
+const _$PersonalIncomeTaskTypeEnumMap = {
+  PersonalIncomeTaskType.salary: 'salary',
+  PersonalIncomeTaskType.investments: 'investments',
+  PersonalIncomeTaskType.crypto: 'crypto',
+  PersonalIncomeTaskType.cashback: 'cashback',
+  PersonalIncomeTaskType.other: 'other',
+};
+
+const _$PersonalExpenseTaskTypeEnumMap = {
+  PersonalExpenseTaskType.food: 'food',
+  PersonalExpenseTaskType.transport: 'transport',
+  PersonalExpenseTaskType.housing: 'housing',
+  PersonalExpenseTaskType.subscriptions: 'subscriptions',
+  PersonalExpenseTaskType.entertainment: 'entertainment',
+  PersonalExpenseTaskType.other: 'other',
 };
 
 _$TransactionScheduleImpl _$$TransactionScheduleImplFromJson(

@@ -1,6 +1,6 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
-import 'package:mobile_app/ui_prediction/tasks/ui_tasks_view.dart';
+import 'package:mobile_app/ui_prediction/tasks/ui_tasks_view_2.dart';
 
 class UiIncomesTasksView extends StatelessWidget {
   const UiIncomesTasksView({super.key});
@@ -27,7 +27,7 @@ class UiIncomesTasksView extends StatelessWidget {
             child: UiIncomesTasks(),
           ),
           UiTasksActionsBar(
-            tuple: (type: TransactionType.income,),
+            tuple: (type: TaskTransactionType.income,),
           ),
           Gap(8),
           UiSafeArea.bottom(),
@@ -49,8 +49,6 @@ class UiIncomesTasks extends StatelessWidget {
     final tasks = context.select<TasksNotifier, List<Task>>(
       (final c) => c.getTasks(TaskTransactionType.income),
     );
-    return UiTasksView(
-      tasks: tasks,
-    );
+    return UiTasksView2(tasks: tasks);
   }
 }

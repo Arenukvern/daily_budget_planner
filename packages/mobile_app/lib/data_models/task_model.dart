@@ -14,6 +14,7 @@ enum TaskStatus {
 
 extension type const TaskId(String value) {
   factory TaskId.fromJson(final String value) => TaskId(value);
+  factory TaskId.create() => TaskId(createId());
   static const empty = TaskId('');
   bool get isEmpty => value.isEmpty;
   bool get isNotEmpty => !isEmpty;
@@ -29,11 +30,26 @@ enum TaskTransactionType {
   String toJson() => name;
 }
 
-enum TaskType {
-  income,
+enum PersonalExpenseTaskType {
+  housing,
+  subscriptions,
+  food,
+  transport,
+  entertainment,
+  other,
+}
+
+enum PersonalIncomeTaskType {
+  salary,
+  cashback,
+  other,
   investments,
   crypto,
-  cashback;
+}
+
+enum TaskType {
+  personal,
+  business;
 }
 
 @freezed
@@ -43,8 +59,12 @@ class Task with _$Task {
     @Default(TaskStatus.active) final TaskStatus status,
     @Default('') final String title,
     @Default('') final String notes,
-    @Default(TaskType.income) final TaskType type,
-    @Default(TaskTransactionType.expense)
+    @Default(TaskType.personal) final TaskType type,
+    @Default(PersonalIncomeTaskType.salary)
+    final PersonalIncomeTaskType personalIncomeType,
+    @Default(PersonalExpenseTaskType.other)
+    final PersonalExpenseTaskType personalExpenseType,
+    @Default(TaskTransactionType.income)
     final TaskTransactionType transactionType,
     @Default([]) final List<CategoryId> categoryIds,
     @Default([]) final List<TransactionId> transactionIds,

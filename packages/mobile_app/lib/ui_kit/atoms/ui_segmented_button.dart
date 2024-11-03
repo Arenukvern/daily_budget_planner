@@ -1,5 +1,6 @@
 import 'package:mobile_app/common_imports.dart';
 
+// TODO(arenukvern): refactor to use CupertinoSegmentedControl
 /// A segmented button widget that follows iOS-style design
 class UiSegmentedButton<T> extends StatelessWidget {
   const UiSegmentedButton({

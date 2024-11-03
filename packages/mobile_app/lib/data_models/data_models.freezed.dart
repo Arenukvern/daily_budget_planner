@@ -784,6 +784,10 @@ mixin _$Task {
   String get title => throw _privateConstructorUsedError;
   String get notes => throw _privateConstructorUsedError;
   TaskType get type => throw _privateConstructorUsedError;
+  PersonalIncomeTaskType get personalIncomeType =>
+      throw _privateConstructorUsedError;
+  PersonalExpenseTaskType get personalExpenseType =>
+      throw _privateConstructorUsedError;
   TaskTransactionType get transactionType => throw _privateConstructorUsedError;
   List<CategoryId> get categoryIds => throw _privateConstructorUsedError;
   List<TransactionId> get transactionIds => throw _privateConstructorUsedError;
@@ -808,6 +812,8 @@ abstract class $TaskCopyWith<$Res> {
       String title,
       String notes,
       TaskType type,
+      PersonalIncomeTaskType personalIncomeType,
+      PersonalExpenseTaskType personalExpenseType,
       TaskTransactionType transactionType,
       List<CategoryId> categoryIds,
       List<TransactionId> transactionIds});
@@ -833,6 +839,8 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
     Object? title = null,
     Object? notes = null,
     Object? type = null,
+    Object? personalIncomeType = null,
+    Object? personalExpenseType = null,
     Object? transactionType = null,
     Object? categoryIds = null,
     Object? transactionIds = null,
@@ -858,6 +866,14 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as TaskType,
+      personalIncomeType: null == personalIncomeType
+          ? _value.personalIncomeType
+          : personalIncomeType // ignore: cast_nullable_to_non_nullable
+              as PersonalIncomeTaskType,
+      personalExpenseType: null == personalExpenseType
+          ? _value.personalExpenseType
+          : personalExpenseType // ignore: cast_nullable_to_non_nullable
+              as PersonalExpenseTaskType,
       transactionType: null == transactionType
           ? _value.transactionType
           : transactionType // ignore: cast_nullable_to_non_nullable
@@ -887,6 +903,8 @@ abstract class _$$TaskImplCopyWith<$Res> implements $TaskCopyWith<$Res> {
       String title,
       String notes,
       TaskType type,
+      PersonalIncomeTaskType personalIncomeType,
+      PersonalExpenseTaskType personalExpenseType,
       TaskTransactionType transactionType,
       List<CategoryId> categoryIds,
       List<TransactionId> transactionIds});
@@ -909,6 +927,8 @@ class __$$TaskImplCopyWithImpl<$Res>
     Object? title = null,
     Object? notes = null,
     Object? type = null,
+    Object? personalIncomeType = null,
+    Object? personalExpenseType = null,
     Object? transactionType = null,
     Object? categoryIds = null,
     Object? transactionIds = null,
@@ -934,6 +954,14 @@ class __$$TaskImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as TaskType,
+      personalIncomeType: null == personalIncomeType
+          ? _value.personalIncomeType
+          : personalIncomeType // ignore: cast_nullable_to_non_nullable
+              as PersonalIncomeTaskType,
+      personalExpenseType: null == personalExpenseType
+          ? _value.personalExpenseType
+          : personalExpenseType // ignore: cast_nullable_to_non_nullable
+              as PersonalExpenseTaskType,
       transactionType: null == transactionType
           ? _value.transactionType
           : transactionType // ignore: cast_nullable_to_non_nullable
@@ -958,8 +986,10 @@ class _$TaskImpl implements _Task {
       this.status = TaskStatus.active,
       this.title = '',
       this.notes = '',
-      this.type = TaskType.income,
-      this.transactionType = TaskTransactionType.expense,
+      this.type = TaskType.personal,
+      this.personalIncomeType = PersonalIncomeTaskType.salary,
+      this.personalExpenseType = PersonalExpenseTaskType.other,
+      this.transactionType = TaskTransactionType.income,
       final List<CategoryId> categoryIds = const [],
       final List<TransactionId> transactionIds = const []})
       : _categoryIds = categoryIds,
@@ -985,6 +1015,12 @@ class _$TaskImpl implements _Task {
   final TaskType type;
   @override
   @JsonKey()
+  final PersonalIncomeTaskType personalIncomeType;
+  @override
+  @JsonKey()
+  final PersonalExpenseTaskType personalExpenseType;
+  @override
+  @JsonKey()
   final TaskTransactionType transactionType;
   final List<CategoryId> _categoryIds;
   @override
@@ -1006,7 +1042,7 @@ class _$TaskImpl implements _Task {
 
   @override
   String toString() {
-    return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, transactionType: $transactionType, categoryIds: $categoryIds, transactionIds: $transactionIds)';
+    return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType, transactionType: $transactionType, categoryIds: $categoryIds, transactionIds: $transactionIds)';
   }
 
   @override
@@ -1019,6 +1055,10 @@ class _$TaskImpl implements _Task {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.personalIncomeType, personalIncomeType) ||
+                other.personalIncomeType == personalIncomeType) &&
+            (identical(other.personalExpenseType, personalExpenseType) ||
+                other.personalExpenseType == personalExpenseType) &&
             (identical(other.transactionType, transactionType) ||
                 other.transactionType == transactionType) &&
             const DeepCollectionEquality()
@@ -1036,6 +1076,8 @@ class _$TaskImpl implements _Task {
       title,
       notes,
       type,
+      personalIncomeType,
+      personalExpenseType,
       transactionType,
       const DeepCollectionEquality().hash(_categoryIds),
       const DeepCollectionEquality().hash(_transactionIds));
@@ -1063,6 +1105,8 @@ abstract class _Task implements Task {
       final String title,
       final String notes,
       final TaskType type,
+      final PersonalIncomeTaskType personalIncomeType,
+      final PersonalExpenseTaskType personalExpenseType,
       final TaskTransactionType transactionType,
       final List<CategoryId> categoryIds,
       final List<TransactionId> transactionIds}) = _$TaskImpl;
@@ -1079,6 +1123,10 @@ abstract class _Task implements Task {
   String get notes;
   @override
   TaskType get type;
+  @override
+  PersonalIncomeTaskType get personalIncomeType;
+  @override
+  PersonalExpenseTaskType get personalExpenseType;
   @override
   TaskTransactionType get transactionType;
   @override

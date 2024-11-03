@@ -119,10 +119,8 @@ class UiTasksView extends HookWidget with HasStates {
     // Group tasks by their type
     for (final task in tasks) {
       final typeString = switch (task.type) {
-        TaskType.income => 'Income Tasks',
-        TaskType.investments => 'Investment Tasks',
-        TaskType.crypto => 'Crypto Tasks',
-        TaskType.cashback => 'Cashback Tasks',
+        TaskType.personal => 'Personal Tasks',
+        TaskType.business => 'Business Tasks',
       };
 
       groupedTasks.putIfAbsent(typeString, () => []);
