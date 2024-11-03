@@ -74,13 +74,13 @@ class Task with _$Task {
       _$TaskFromJson(json);
   static const empty = Task();
   List<TransactionId> get transactionIds =>
-      schedules.expand((final e) => e.transactionIds).toList();
+      schedules.map((final e) => e.transactionId).toList();
 }
 
 @freezed
 class ScheduledTransaction with _$ScheduledTransaction {
   const factory ScheduledTransaction({
-    @Default([]) final List<TransactionId> transactionIds,
+    @Default(TransactionId.empty) final TransactionId transactionId,
     @Default(TransactionSchedule.empty) final TransactionSchedule schedule,
   }) = _ScheduledTransaction;
   const ScheduledTransaction._();

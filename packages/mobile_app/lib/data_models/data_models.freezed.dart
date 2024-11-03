@@ -1151,7 +1151,7 @@ ScheduledTransaction _$ScheduledTransactionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ScheduledTransaction {
-  List<TransactionId> get transactionIds => throw _privateConstructorUsedError;
+  TransactionId get transactionId => throw _privateConstructorUsedError;
   TransactionSchedule get schedule => throw _privateConstructorUsedError;
 
   /// Serializes this ScheduledTransaction to a JSON map.
@@ -1170,7 +1170,7 @@ abstract class $ScheduledTransactionCopyWith<$Res> {
           $Res Function(ScheduledTransaction) then) =
       _$ScheduledTransactionCopyWithImpl<$Res, ScheduledTransaction>;
   @useResult
-  $Res call({List<TransactionId> transactionIds, TransactionSchedule schedule});
+  $Res call({TransactionId transactionId, TransactionSchedule schedule});
 
   $TransactionScheduleCopyWith<$Res> get schedule;
 }
@@ -1191,14 +1191,14 @@ class _$ScheduledTransactionCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? transactionIds = null,
+    Object? transactionId = null,
     Object? schedule = null,
   }) {
     return _then(_value.copyWith(
-      transactionIds: null == transactionIds
-          ? _value.transactionIds
-          : transactionIds // ignore: cast_nullable_to_non_nullable
-              as List<TransactionId>,
+      transactionId: null == transactionId
+          ? _value.transactionId
+          : transactionId // ignore: cast_nullable_to_non_nullable
+              as TransactionId,
       schedule: null == schedule
           ? _value.schedule
           : schedule // ignore: cast_nullable_to_non_nullable
@@ -1225,7 +1225,7 @@ abstract class _$$ScheduledTransactionImplCopyWith<$Res>
       __$$ScheduledTransactionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<TransactionId> transactionIds, TransactionSchedule schedule});
+  $Res call({TransactionId transactionId, TransactionSchedule schedule});
 
   @override
   $TransactionScheduleCopyWith<$Res> get schedule;
@@ -1244,14 +1244,14 @@ class __$$ScheduledTransactionImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? transactionIds = null,
+    Object? transactionId = null,
     Object? schedule = null,
   }) {
     return _then(_$ScheduledTransactionImpl(
-      transactionIds: null == transactionIds
-          ? _value._transactionIds
-          : transactionIds // ignore: cast_nullable_to_non_nullable
-              as List<TransactionId>,
+      transactionId: null == transactionId
+          ? _value.transactionId
+          : transactionId // ignore: cast_nullable_to_non_nullable
+              as TransactionId,
       schedule: null == schedule
           ? _value.schedule
           : schedule // ignore: cast_nullable_to_non_nullable
@@ -1264,30 +1264,23 @@ class __$$ScheduledTransactionImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ScheduledTransactionImpl extends _ScheduledTransaction {
   const _$ScheduledTransactionImpl(
-      {final List<TransactionId> transactionIds = const [],
+      {this.transactionId = TransactionId.empty,
       this.schedule = TransactionSchedule.empty})
-      : _transactionIds = transactionIds,
-        super._();
+      : super._();
 
   factory _$ScheduledTransactionImpl.fromJson(Map<String, dynamic> json) =>
       _$$ScheduledTransactionImplFromJson(json);
 
-  final List<TransactionId> _transactionIds;
   @override
   @JsonKey()
-  List<TransactionId> get transactionIds {
-    if (_transactionIds is EqualUnmodifiableListView) return _transactionIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_transactionIds);
-  }
-
+  final TransactionId transactionId;
   @override
   @JsonKey()
   final TransactionSchedule schedule;
 
   @override
   String toString() {
-    return 'ScheduledTransaction(transactionIds: $transactionIds, schedule: $schedule)';
+    return 'ScheduledTransaction(transactionId: $transactionId, schedule: $schedule)';
   }
 
   @override
@@ -1295,16 +1288,15 @@ class _$ScheduledTransactionImpl extends _ScheduledTransaction {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ScheduledTransactionImpl &&
-            const DeepCollectionEquality()
-                .equals(other._transactionIds, _transactionIds) &&
+            (identical(other.transactionId, transactionId) ||
+                other.transactionId == transactionId) &&
             (identical(other.schedule, schedule) ||
                 other.schedule == schedule));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_transactionIds), schedule);
+  int get hashCode => Object.hash(runtimeType, transactionId, schedule);
 
   /// Create a copy of ScheduledTransaction
   /// with the given fields replaced by the non-null parameter values.
@@ -1326,7 +1318,7 @@ class _$ScheduledTransactionImpl extends _ScheduledTransaction {
 
 abstract class _ScheduledTransaction extends ScheduledTransaction {
   const factory _ScheduledTransaction(
-      {final List<TransactionId> transactionIds,
+      {final TransactionId transactionId,
       final TransactionSchedule schedule}) = _$ScheduledTransactionImpl;
   const _ScheduledTransaction._() : super._();
 
@@ -1334,7 +1326,7 @@ abstract class _ScheduledTransaction extends ScheduledTransaction {
       _$ScheduledTransactionImpl.fromJson;
 
   @override
-  List<TransactionId> get transactionIds;
+  TransactionId get transactionId;
   @override
   TransactionSchedule get schedule;
 

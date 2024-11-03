@@ -289,6 +289,7 @@ class _TransactionEditorState extends State<_TransactionEditor> {
               },
             ),
           ),
+          Gap(24),
         ],
       ),
     );
@@ -452,19 +453,6 @@ class _CurrencyAutocompleter extends HookWidget with HasStates {
   }
 }
 
-class _Reminder extends StatelessWidget {
-  const _Reminder(this.controller);
-
-  final _EditingController controller;
-
-  @override
-  Widget build(final BuildContext context) => ActionChip(
-        avatar: const Icon(Icons.alarm),
-        label: const Text('Reminder'),
-        onPressed: () {},
-      );
-}
-
 class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
   _EditingController({
     required final Transaction? transaction,
@@ -485,7 +473,7 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
       amount,
       coinPrice,
     ]).addListener(notifyListeners);
-    amount.text = transaction.input.amount.toString();
+    amount.text = transaction.input.amount(taxFree: kAmountsTaxFree).toString();
     // TODO(arenukvern): description
     // coinPrice.text = transaction?.input.coinPrice.toString() ?? '';
   }
@@ -534,9 +522,9 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
     return transaction.copyWith(
       id: isNew ? TransactionId.newId() : transaction.id,
       input: switch (transaction.input.currencyType) {
-        CurrencyType.fiat => InputMoney.fiat(amount: amount),
+        CurrencyType.fiat => InputMoney.fiat(amountWithTax: amount),
         CurrencyType.crypto => InputMoney.crypto(
-            amount: amount,
+            amountWithTax: amount,
             // coinPrice: coinPrice,
           ),
       },

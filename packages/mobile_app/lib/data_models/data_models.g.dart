@@ -127,10 +127,9 @@ const _$PersonalExpenseTaskTypeEnumMap = {
 _$ScheduledTransactionImpl _$$ScheduledTransactionImplFromJson(
         Map<String, dynamic> json) =>
     _$ScheduledTransactionImpl(
-      transactionIds: (json['transactionIds'] as List<dynamic>?)
-              ?.map((e) => TransactionId.fromJson(e as String))
-              .toList() ??
-          const [],
+      transactionId: json['transactionId'] == null
+          ? TransactionId.empty
+          : TransactionId.fromJson(json['transactionId'] as String),
       schedule: json['schedule'] == null
           ? TransactionSchedule.empty
           : TransactionSchedule.fromJson(
@@ -140,7 +139,7 @@ _$ScheduledTransactionImpl _$$ScheduledTransactionImplFromJson(
 Map<String, dynamic> _$$ScheduledTransactionImplToJson(
         _$ScheduledTransactionImpl instance) =>
     <String, dynamic>{
-      'transactionIds': instance.transactionIds,
+      'transactionId': instance.transactionId,
       'schedule': instance.schedule,
     };
 

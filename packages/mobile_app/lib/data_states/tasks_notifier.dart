@@ -32,4 +32,33 @@ class TasksNotifier extends ChangeNotifier {
   void removeTransaction(final Transaction transaction) {
     // TODO(arenukvern): implement
   }
+
+  Future<Transaction> upsertTransaction({
+    required final Transaction transaction,
+    required final TransactionSchedule schedule,
+    required final Task task,
+  }) async {
+    final updatedTransaction = transaction.copyWith(
+      taskId: task.id,
+    );
+
+    final updatedTask = task.copyWith(
+      schedules: [
+        ...task.schedules,
+        ScheduledTransaction(
+          transactionId: updatedTransaction.id,
+          schedule: schedule,
+        ),
+      ],
+    );
+
+    switch (task.transactionType) {
+      case TaskTransactionType.income:
+        _incomeTasks.upsert(updatedTask, (final t) => t.id == task.id);
+      case TaskTransactionType.expense:
+        _expenseTasks.upsert(updatedTask, (final t) => t.id == task.id);
+    }
+
+    return updatedTransaction;
+  }
 }

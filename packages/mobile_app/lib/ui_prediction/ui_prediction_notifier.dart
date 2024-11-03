@@ -204,18 +204,14 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     switch (transaction.type) {
       case TransactionType.expense:
         value = value.copyWith(
-          expenses: value.expenses.upsert(
-            transaction,
-            predicate: (final e) => e.id == transaction.id,
-          ),
+          expenses: value.expenses
+              .upsert(transaction, (final e) => e.id == transaction.id),
         );
         _recalculateExpenses();
       case TransactionType.income:
         value = value.copyWith(
-          incomes: value.incomes.upsert(
-            transaction,
-            predicate: (final e) => e.id == transaction.id,
-          ),
+          incomes: value.incomes
+              .upsert(transaction, (final e) => e.id == transaction.id),
         );
         _recalculateIncomes();
       case TransactionType.transferIn:
@@ -304,13 +300,15 @@ extension DateTimeWithoutTime on DateTime {
 }
 
 extension ListUpsertX<T> on List<T> {
-  /// Helper method to upsert an item in a list
+  /// Upserts an element in the list based on a comparison function.
+  /// If an element matching the comparison exists, it is replaced.
+  /// Otherwise the new element is added to the end of the list.
   List<T> upsert(
-    final T item, {
-    required final bool Function(T) predicate,
-  }) {
+    final T item,
+    final bool Function(T e) predicate,
+  ) {
     final index = indexWhere(predicate);
-    if (index == -1) {
+    if (index < 0) {
       return [...this, item];
     } else {
       return [...this]..[index] = item;

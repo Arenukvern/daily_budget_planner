@@ -61,7 +61,24 @@ class _UiTaskCard extends StatelessWidget with HasStates {
           Row(
             children: [
               UiBaseButton(
-                onPressed: () {},
+                onPressed: () async {
+                  var transaction = await showTransactionEditor(
+                    context,
+                    transaction: null,
+                  );
+                  if (transaction == null) return;
+                  // TODO(arenukvern): ask for period
+                  final schedule = TransactionSchedule(
+                    period: Period.monthly,
+                    dayOfMonth: 1,
+                  );
+                  transaction = await tasksNotifier.upsertTransaction(
+                    transaction: transaction,
+                    schedule: schedule,
+                    task: task,
+                  );
+                  // TODO(arenukvern): upsert transaction
+                },
                 builder: (final context, final focused, final onlyFocused) =>
                     Icon(
                   Icons.add,
