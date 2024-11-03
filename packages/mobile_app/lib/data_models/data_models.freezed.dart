@@ -790,7 +790,8 @@ mixin _$Task {
       throw _privateConstructorUsedError;
   TaskTransactionType get transactionType => throw _privateConstructorUsedError;
   List<CategoryId> get categoryIds => throw _privateConstructorUsedError;
-  List<TransactionId> get transactionIds => throw _privateConstructorUsedError;
+  List<ScheduledTransaction> get schedules =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this Task to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -816,7 +817,7 @@ abstract class $TaskCopyWith<$Res> {
       PersonalExpenseTaskType personalExpenseType,
       TaskTransactionType transactionType,
       List<CategoryId> categoryIds,
-      List<TransactionId> transactionIds});
+      List<ScheduledTransaction> schedules});
 }
 
 /// @nodoc
@@ -843,7 +844,7 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
     Object? personalExpenseType = null,
     Object? transactionType = null,
     Object? categoryIds = null,
-    Object? transactionIds = null,
+    Object? schedules = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -882,10 +883,10 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
           ? _value.categoryIds
           : categoryIds // ignore: cast_nullable_to_non_nullable
               as List<CategoryId>,
-      transactionIds: null == transactionIds
-          ? _value.transactionIds
-          : transactionIds // ignore: cast_nullable_to_non_nullable
-              as List<TransactionId>,
+      schedules: null == schedules
+          ? _value.schedules
+          : schedules // ignore: cast_nullable_to_non_nullable
+              as List<ScheduledTransaction>,
     ) as $Val);
   }
 }
@@ -907,7 +908,7 @@ abstract class _$$TaskImplCopyWith<$Res> implements $TaskCopyWith<$Res> {
       PersonalExpenseTaskType personalExpenseType,
       TaskTransactionType transactionType,
       List<CategoryId> categoryIds,
-      List<TransactionId> transactionIds});
+      List<ScheduledTransaction> schedules});
 }
 
 /// @nodoc
@@ -931,7 +932,7 @@ class __$$TaskImplCopyWithImpl<$Res>
     Object? personalExpenseType = null,
     Object? transactionType = null,
     Object? categoryIds = null,
-    Object? transactionIds = null,
+    Object? schedules = null,
   }) {
     return _then(_$TaskImpl(
       id: null == id
@@ -970,17 +971,17 @@ class __$$TaskImplCopyWithImpl<$Res>
           ? _value._categoryIds
           : categoryIds // ignore: cast_nullable_to_non_nullable
               as List<CategoryId>,
-      transactionIds: null == transactionIds
-          ? _value._transactionIds
-          : transactionIds // ignore: cast_nullable_to_non_nullable
-              as List<TransactionId>,
+      schedules: null == schedules
+          ? _value._schedules
+          : schedules // ignore: cast_nullable_to_non_nullable
+              as List<ScheduledTransaction>,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$TaskImpl implements _Task {
+class _$TaskImpl extends _Task {
   const _$TaskImpl(
       {this.id = TaskId.empty,
       this.status = TaskStatus.active,
@@ -991,9 +992,10 @@ class _$TaskImpl implements _Task {
       this.personalExpenseType = PersonalExpenseTaskType.other,
       this.transactionType = TaskTransactionType.income,
       final List<CategoryId> categoryIds = const [],
-      final List<TransactionId> transactionIds = const []})
+      final List<ScheduledTransaction> schedules = const []})
       : _categoryIds = categoryIds,
-        _transactionIds = transactionIds;
+        _schedules = schedules,
+        super._();
 
   factory _$TaskImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskImplFromJson(json);
@@ -1031,18 +1033,18 @@ class _$TaskImpl implements _Task {
     return EqualUnmodifiableListView(_categoryIds);
   }
 
-  final List<TransactionId> _transactionIds;
+  final List<ScheduledTransaction> _schedules;
   @override
   @JsonKey()
-  List<TransactionId> get transactionIds {
-    if (_transactionIds is EqualUnmodifiableListView) return _transactionIds;
+  List<ScheduledTransaction> get schedules {
+    if (_schedules is EqualUnmodifiableListView) return _schedules;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_transactionIds);
+    return EqualUnmodifiableListView(_schedules);
   }
 
   @override
   String toString() {
-    return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType, transactionType: $transactionType, categoryIds: $categoryIds, transactionIds: $transactionIds)';
+    return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType, transactionType: $transactionType, categoryIds: $categoryIds, schedules: $schedules)';
   }
 
   @override
@@ -1064,7 +1066,7 @@ class _$TaskImpl implements _Task {
             const DeepCollectionEquality()
                 .equals(other._categoryIds, _categoryIds) &&
             const DeepCollectionEquality()
-                .equals(other._transactionIds, _transactionIds));
+                .equals(other._schedules, _schedules));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1080,7 +1082,7 @@ class _$TaskImpl implements _Task {
       personalExpenseType,
       transactionType,
       const DeepCollectionEquality().hash(_categoryIds),
-      const DeepCollectionEquality().hash(_transactionIds));
+      const DeepCollectionEquality().hash(_schedules));
 
   /// Create a copy of Task
   /// with the given fields replaced by the non-null parameter values.
@@ -1098,7 +1100,7 @@ class _$TaskImpl implements _Task {
   }
 }
 
-abstract class _Task implements Task {
+abstract class _Task extends Task {
   const factory _Task(
       {final TaskId id,
       final TaskStatus status,
@@ -1109,7 +1111,8 @@ abstract class _Task implements Task {
       final PersonalExpenseTaskType personalExpenseType,
       final TaskTransactionType transactionType,
       final List<CategoryId> categoryIds,
-      final List<TransactionId> transactionIds}) = _$TaskImpl;
+      final List<ScheduledTransaction> schedules}) = _$TaskImpl;
+  const _Task._() : super._();
 
   factory _Task.fromJson(Map<String, dynamic> json) = _$TaskImpl.fromJson;
 
@@ -1132,7 +1135,7 @@ abstract class _Task implements Task {
   @override
   List<CategoryId> get categoryIds;
   @override
-  List<TransactionId> get transactionIds;
+  List<ScheduledTransaction> get schedules;
 
   /// Create a copy of Task
   /// with the given fields replaced by the non-null parameter values.
@@ -1140,6 +1143,207 @@ abstract class _Task implements Task {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TaskImplCopyWith<_$TaskImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+ScheduledTransaction _$ScheduledTransactionFromJson(Map<String, dynamic> json) {
+  return _ScheduledTransaction.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ScheduledTransaction {
+  List<TransactionId> get transactionIds => throw _privateConstructorUsedError;
+  TransactionSchedule get schedule => throw _privateConstructorUsedError;
+
+  /// Serializes this ScheduledTransaction to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ScheduledTransactionCopyWith<ScheduledTransaction> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScheduledTransactionCopyWith<$Res> {
+  factory $ScheduledTransactionCopyWith(ScheduledTransaction value,
+          $Res Function(ScheduledTransaction) then) =
+      _$ScheduledTransactionCopyWithImpl<$Res, ScheduledTransaction>;
+  @useResult
+  $Res call({List<TransactionId> transactionIds, TransactionSchedule schedule});
+
+  $TransactionScheduleCopyWith<$Res> get schedule;
+}
+
+/// @nodoc
+class _$ScheduledTransactionCopyWithImpl<$Res,
+        $Val extends ScheduledTransaction>
+    implements $ScheduledTransactionCopyWith<$Res> {
+  _$ScheduledTransactionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transactionIds = null,
+    Object? schedule = null,
+  }) {
+    return _then(_value.copyWith(
+      transactionIds: null == transactionIds
+          ? _value.transactionIds
+          : transactionIds // ignore: cast_nullable_to_non_nullable
+              as List<TransactionId>,
+      schedule: null == schedule
+          ? _value.schedule
+          : schedule // ignore: cast_nullable_to_non_nullable
+              as TransactionSchedule,
+    ) as $Val);
+  }
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TransactionScheduleCopyWith<$Res> get schedule {
+    return $TransactionScheduleCopyWith<$Res>(_value.schedule, (value) {
+      return _then(_value.copyWith(schedule: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ScheduledTransactionImplCopyWith<$Res>
+    implements $ScheduledTransactionCopyWith<$Res> {
+  factory _$$ScheduledTransactionImplCopyWith(_$ScheduledTransactionImpl value,
+          $Res Function(_$ScheduledTransactionImpl) then) =
+      __$$ScheduledTransactionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<TransactionId> transactionIds, TransactionSchedule schedule});
+
+  @override
+  $TransactionScheduleCopyWith<$Res> get schedule;
+}
+
+/// @nodoc
+class __$$ScheduledTransactionImplCopyWithImpl<$Res>
+    extends _$ScheduledTransactionCopyWithImpl<$Res, _$ScheduledTransactionImpl>
+    implements _$$ScheduledTransactionImplCopyWith<$Res> {
+  __$$ScheduledTransactionImplCopyWithImpl(_$ScheduledTransactionImpl _value,
+      $Res Function(_$ScheduledTransactionImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transactionIds = null,
+    Object? schedule = null,
+  }) {
+    return _then(_$ScheduledTransactionImpl(
+      transactionIds: null == transactionIds
+          ? _value._transactionIds
+          : transactionIds // ignore: cast_nullable_to_non_nullable
+              as List<TransactionId>,
+      schedule: null == schedule
+          ? _value.schedule
+          : schedule // ignore: cast_nullable_to_non_nullable
+              as TransactionSchedule,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ScheduledTransactionImpl extends _ScheduledTransaction {
+  const _$ScheduledTransactionImpl(
+      {final List<TransactionId> transactionIds = const [],
+      this.schedule = TransactionSchedule.empty})
+      : _transactionIds = transactionIds,
+        super._();
+
+  factory _$ScheduledTransactionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ScheduledTransactionImplFromJson(json);
+
+  final List<TransactionId> _transactionIds;
+  @override
+  @JsonKey()
+  List<TransactionId> get transactionIds {
+    if (_transactionIds is EqualUnmodifiableListView) return _transactionIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_transactionIds);
+  }
+
+  @override
+  @JsonKey()
+  final TransactionSchedule schedule;
+
+  @override
+  String toString() {
+    return 'ScheduledTransaction(transactionIds: $transactionIds, schedule: $schedule)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ScheduledTransactionImpl &&
+            const DeepCollectionEquality()
+                .equals(other._transactionIds, _transactionIds) &&
+            (identical(other.schedule, schedule) ||
+                other.schedule == schedule));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_transactionIds), schedule);
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ScheduledTransactionImplCopyWith<_$ScheduledTransactionImpl>
+      get copyWith =>
+          __$$ScheduledTransactionImplCopyWithImpl<_$ScheduledTransactionImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ScheduledTransactionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ScheduledTransaction extends ScheduledTransaction {
+  const factory _ScheduledTransaction(
+      {final List<TransactionId> transactionIds,
+      final TransactionSchedule schedule}) = _$ScheduledTransactionImpl;
+  const _ScheduledTransaction._() : super._();
+
+  factory _ScheduledTransaction.fromJson(Map<String, dynamic> json) =
+      _$ScheduledTransactionImpl.fromJson;
+
+  @override
+  List<TransactionId> get transactionIds;
+  @override
+  TransactionSchedule get schedule;
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ScheduledTransactionImplCopyWith<_$ScheduledTransactionImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 TransactionSchedule _$TransactionScheduleFromJson(Map<String, dynamic> json) {

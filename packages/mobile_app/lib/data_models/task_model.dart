@@ -67,11 +67,26 @@ class Task with _$Task {
     @Default(TaskTransactionType.income)
     final TaskTransactionType transactionType,
     @Default([]) final List<CategoryId> categoryIds,
-    @Default([]) final List<TransactionId> transactionIds,
+    @Default([]) final List<ScheduledTransaction> schedules,
   }) = _Task;
+  const Task._();
   factory Task.fromJson(final Map<String, dynamic> json) =>
       _$TaskFromJson(json);
   static const empty = Task();
+  List<TransactionId> get transactionIds =>
+      schedules.expand((final e) => e.transactionIds).toList();
+}
+
+@freezed
+class ScheduledTransaction with _$ScheduledTransaction {
+  const factory ScheduledTransaction({
+    @Default([]) final List<TransactionId> transactionIds,
+    @Default(TransactionSchedule.empty) final TransactionSchedule schedule,
+  }) = _ScheduledTransaction;
+  const ScheduledTransaction._();
+  factory ScheduledTransaction.fromJson(final Map<String, dynamic> json) =>
+      _$ScheduledTransactionFromJson(json);
+  static const empty = ScheduledTransaction();
 }
 
 /// Represents a monetary value in a specific fiat or crypto currency

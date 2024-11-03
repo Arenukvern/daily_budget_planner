@@ -79,8 +79,9 @@ _$TaskImpl _$$TaskImplFromJson(Map<String, dynamic> json) => _$TaskImpl(
               ?.map((e) => CategoryId.fromJson(e as String))
               .toList() ??
           const [],
-      transactionIds: (json['transactionIds'] as List<dynamic>?)
-              ?.map((e) => TransactionId.fromJson(e as String))
+      schedules: (json['schedules'] as List<dynamic>?)
+              ?.map((e) =>
+                  ScheduledTransaction.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
     );
@@ -98,7 +99,7 @@ Map<String, dynamic> _$$TaskImplToJson(_$TaskImpl instance) =>
           _$PersonalExpenseTaskTypeEnumMap[instance.personalExpenseType]!,
       'transactionType': instance.transactionType,
       'categoryIds': instance.categoryIds,
-      'transactionIds': instance.transactionIds,
+      'schedules': instance.schedules,
     };
 
 const _$TaskTypeEnumMap = {
@@ -108,20 +109,40 @@ const _$TaskTypeEnumMap = {
 
 const _$PersonalIncomeTaskTypeEnumMap = {
   PersonalIncomeTaskType.salary: 'salary',
-  PersonalIncomeTaskType.investments: 'investments',
-  PersonalIncomeTaskType.crypto: 'crypto',
   PersonalIncomeTaskType.cashback: 'cashback',
   PersonalIncomeTaskType.other: 'other',
+  PersonalIncomeTaskType.investments: 'investments',
+  PersonalIncomeTaskType.crypto: 'crypto',
 };
 
 const _$PersonalExpenseTaskTypeEnumMap = {
-  PersonalExpenseTaskType.food: 'food',
-  PersonalExpenseTaskType.transport: 'transport',
   PersonalExpenseTaskType.housing: 'housing',
   PersonalExpenseTaskType.subscriptions: 'subscriptions',
+  PersonalExpenseTaskType.food: 'food',
+  PersonalExpenseTaskType.transport: 'transport',
   PersonalExpenseTaskType.entertainment: 'entertainment',
   PersonalExpenseTaskType.other: 'other',
 };
+
+_$ScheduledTransactionImpl _$$ScheduledTransactionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ScheduledTransactionImpl(
+      transactionIds: (json['transactionIds'] as List<dynamic>?)
+              ?.map((e) => TransactionId.fromJson(e as String))
+              .toList() ??
+          const [],
+      schedule: json['schedule'] == null
+          ? TransactionSchedule.empty
+          : TransactionSchedule.fromJson(
+              json['schedule'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ScheduledTransactionImplToJson(
+        _$ScheduledTransactionImpl instance) =>
+    <String, dynamic>{
+      'transactionIds': instance.transactionIds,
+      'schedule': instance.schedule,
+    };
 
 _$TransactionScheduleImpl _$$TransactionScheduleImplFromJson(
         Map<String, dynamic> json) =>

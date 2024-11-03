@@ -28,19 +28,48 @@ class UiTaskCard extends StatelessWidget {
     );
     return CupertinoListSection(
       backgroundColor: Colors.transparent,
-      header: Row(
+      header: Column(
         children: [
-          UiBaseButton(
-            onPressed: () {},
-            builder: (final context, final focused, final onlyFocused) => Icon(
-              Icons.add,
-              color: focused
-                  ? null
-                  : context.colorScheme.onSurface.withOpacity(0.5),
+          Row(
+            children: [
+              Flexible(
+                child: Text(
+                  task.title,
+                  style: context.textTheme.headlineMedium,
+                ),
+              ),
+            ],
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Wrap(
+              children: [
+                Text('From Today - '),
+                // TODO(arenukvern): add localization l10n
+                Text(
+                  'yearly: ${transactions.sumForPeriod(Period.yearly).toStringAsFixed(2)} • ',
+                ),
+                Text(
+                  'monthly: ${transactions.sumForPeriod(Period.monthly).toStringAsFixed(2)}',
+                ),
+              ],
             ),
           ),
           Gap(4),
-          Text(task.title),
+          Row(
+            children: [
+              UiBaseButton(
+                onPressed: () {},
+                builder: (final context, final focused, final onlyFocused) =>
+                    Icon(
+                  Icons.add,
+                  color: focused
+                      ? null
+                      : context.colorScheme.onSurface.withOpacity(0.5),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
       decoration: BoxDecoration(
@@ -72,9 +101,11 @@ class UiTransactionCard extends StatelessWidget {
           ),
         ),
         title: Text(transaction.description),
-        subtitle:
-            Text(DateFormat('yyyy-MM-dd').format(transaction.transactionDate)),
         leadingSize: 48,
+        additionalInfo: Text(
+          DateFormat('yyyy-MM-dd').format(transaction.transactionDate),
+          style: context.textTheme.bodySmall,
+        ),
         trailing: UiBaseButton(
           onPressed: () {},
           builder: (final context, final focused, final onlyFocused) => Icon(

@@ -182,3 +182,23 @@ class InputMoney with _$InputMoney {
 
   static const empty = FiatInputModel();
 }
+
+extension TransactionListX on List<Transaction> {
+  double sumForPeriod(final Period period) {
+    final now = DateTime.now();
+    final diff = now.difference;
+    return fold(
+      0,
+      (final previousValue, final e) {
+        final bool isWithinPeriod = switch (period) {
+          // TODO(arenukvern): calculate average amount per day
+          Period.daily => diff(e.transactionDate).inDays <= 1,
+          Period.weekly => diff(e.transactionDate).inDays <= 7,
+          Period.monthly => diff(e.transactionDate).inDays <= 30,
+          Period.yearly => diff(e.transactionDate).inDays <= 365,
+        };
+        return isWithinPeriod ? previousValue + e.amount : previousValue;
+      },
+    );
+  }
+}
