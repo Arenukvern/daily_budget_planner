@@ -60,7 +60,7 @@ _$TaskImpl _$$TaskImplFromJson(Map<String, dynamic> json) => _$TaskImpl(
           ? TaskId.empty
           : TaskId.fromJson(json['id'] as String),
       status: json['status'] == null
-          ? TaskStatus.active
+          ? TaskStatus.visible
           : TaskStatus.fromJson(json['status'] as String),
       title: json['title'] as String? ?? '',
       notes: json['notes'] as String? ?? '',

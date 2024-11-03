@@ -1,0 +1,86 @@
+import 'package:collection/collection.dart';
+import 'package:mobile_app/common_imports.dart';
+
+class TasksNotifier extends ChangeNotifier {
+  final _incomeTasks = PersonalIncomeTaskType.values
+      .mapIndexed(
+        (final index, final type) => Task(
+          title: type.name,
+          id: TaskId.create(),
+          status: index == 0 ? TaskStatus.visible : TaskStatus.hidden,
+        ),
+      )
+      .toList();
+
+  final _expenseTasks = PersonalExpenseTaskType.values
+      .mapIndexed(
+        (final index, final type) => Task(
+          title: type.name,
+          id: TaskId.create(),
+          transactionType: TaskTransactionType.expense,
+        ),
+      )
+      .toList();
+
+  /// these transactions are different, because they will be used
+  /// as constructors for real transactions.
+  final Map<TransactionId, Transaction> _transactions = {};
+
+  List<Task> getTasks(final TaskTransactionType transactionType) =>
+      switch (transactionType) {
+        TaskTransactionType.income => _incomeTasks,
+        TaskTransactionType.expense => _expenseTasks,
+      }
+          .where((final task) => task.status == TaskStatus.visible)
+          .toList();
+  List<Transaction> getTransactionsByTask(final Task task) =>
+      task.transactionIds
+          .map((final id) => _transactions[id])
+          .nonNulls
+          .toList();
+
+  /// 1. removes [transaction] from task
+  /// 2. removes [transaction] from transactions
+  void removeTransaction(final Transaction transaction, final Task task) {
+    _transactions.remove(transaction.id);
+    final updatedTask = task.copyWith(
+      schedules: task.schedules
+          .where((final s) => s.transactionId != transaction.id)
+          .toList(),
+    );
+    _upsertTask(updatedTask);
+  }
+
+  void _upsertTask(final Task task) {
+    final list = switch (task.transactionType) {
+      TaskTransactionType.income => _incomeTasks,
+      TaskTransactionType.expense => _expenseTasks,
+    };
+    // ignore: cascade_invocations
+    list.upsert(task, (final t) => t.id == task.id);
+    notifyListeners();
+  }
+
+  Future<void> upsertTransaction({
+    required final Transaction transaction,
+    required final TransactionSchedule schedule,
+    required final Task task,
+  }) async {
+    final updatedTransaction = transaction.copyWith(
+      taskId: task.id,
+    );
+
+    final updatedTask = task.copyWith(
+      schedules: [
+        ...task.schedules,
+        ScheduledTransaction(
+          transactionId: updatedTransaction.id,
+          schedule: schedule,
+        ),
+      ],
+    );
+
+    _transactions[updatedTransaction.id] = updatedTransaction;
+    _upsertTask(updatedTask);
+  }
+}

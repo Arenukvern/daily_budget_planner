@@ -984,7 +984,7 @@ class __$$TaskImplCopyWithImpl<$Res>
 class _$TaskImpl extends _Task {
   const _$TaskImpl(
       {this.id = TaskId.empty,
-      this.status = TaskStatus.active,
+      this.status = TaskStatus.visible,
       this.title = '',
       this.notes = '',
       this.type = TaskType.personal,

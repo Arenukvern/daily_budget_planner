@@ -1,15 +1,15 @@
 part of 'data_models.dart';
 
 enum TaskStatus {
-  active,
-  archived;
+  visible,
+  hidden;
 
   factory TaskStatus.fromJson(final String json) =>
       TaskStatus.values.byName(json);
   String toJson() => name;
 
-  bool get isActive => this == TaskStatus.active;
-  bool get isArchived => this == TaskStatus.archived;
+  bool get isActive => this == TaskStatus.visible;
+  bool get isArchived => this == TaskStatus.hidden;
 }
 
 extension type const TaskId(String value) {
@@ -35,6 +35,7 @@ enum PersonalExpenseTaskType {
   subscriptions,
   food,
   transport,
+  familyAndFriends,
   entertainment,
   other,
 }
@@ -56,7 +57,7 @@ enum TaskType {
 class Task with _$Task {
   const factory Task({
     @Default(TaskId.empty) final TaskId id,
-    @Default(TaskStatus.active) final TaskStatus status,
+    @Default(TaskStatus.visible) final TaskStatus status,
     @Default('') final String title,
     @Default('') final String notes,
     @Default(TaskType.personal) final TaskType type,

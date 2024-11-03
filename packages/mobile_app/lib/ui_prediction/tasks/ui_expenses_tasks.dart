@@ -1,6 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
-import 'package:mobile_app/ui_prediction/tasks/ui_tasks_view_2.dart';
 
 class UiExpensesTasksView extends StatelessWidget {
   const UiExpensesTasksView({super.key});

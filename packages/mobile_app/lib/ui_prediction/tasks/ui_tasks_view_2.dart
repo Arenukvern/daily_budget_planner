@@ -26,7 +26,8 @@ class _UiTaskCard extends StatelessWidget with HasStates {
     final transactions = context.select<TasksNotifier, List<Transaction>>(
       (final c) => c.getTransactionsByTask(task),
     );
-    final onRemove = tasksNotifier.removeTransaction;
+    void onRemove(final Transaction transaction) =>
+        tasksNotifier.removeTransaction(transaction, task);
 
     return CupertinoListSection(
       backgroundColor: Colors.transparent,
@@ -62,7 +63,7 @@ class _UiTaskCard extends StatelessWidget with HasStates {
             children: [
               UiBaseButton(
                 onPressed: () async {
-                  var transaction = await showTransactionEditor(
+                  final transaction = await showTransactionEditor(
                     context,
                     transaction: null,
                   );
@@ -72,7 +73,7 @@ class _UiTaskCard extends StatelessWidget with HasStates {
                     period: Period.monthly,
                     dayOfMonth: 1,
                   );
-                  transaction = await tasksNotifier.upsertTransaction(
+                  await tasksNotifier.upsertTransaction(
                     transaction: transaction,
                     schedule: schedule,
                     task: task,

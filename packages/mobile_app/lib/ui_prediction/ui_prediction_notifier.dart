@@ -232,14 +232,9 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
 
   Future<void> upsertIncome(final Transaction income) async {
     // await incomesLocalApi.upsertIncome(income);
-    final incomeIndex =
-        value.incomes.indexWhere((final i) => i.id == income.id);
-    if (incomeIndex == -1) {
-      value = value.copyWith(incomes: [...value.incomes, income]);
-    } else {
-      final newIncomes = [...value.incomes]..[incomeIndex] = income;
-      value = value.copyWith(incomes: newIncomes);
-    }
+    value = value.copyWith(
+      incomes: value.incomes.upsert(income, (final i) => i.id == income.id),
+    );
     _recalculateIncomes();
   }
 
@@ -299,6 +294,7 @@ extension DateTimeWithoutTime on DateTime {
   DateTime get dayEnd => DateTime(year, month, day, 23, 59, 59, 999);
 }
 
+// TODO(arenukvern): add to xsoulspace_foundation
 extension ListUpsertX<T> on List<T> {
   /// Upserts an element in the list based on a comparison function.
   /// If an element matching the comparison exists, it is replaced.
