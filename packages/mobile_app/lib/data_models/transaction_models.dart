@@ -130,8 +130,16 @@ class Budget with _$Budget {
       _$BudgetFromJson(json);
 
   static final empty = Budget(date: DateTime.now());
-  double get amount => input.amount;
   CurrencyId get currencyId => input.currencyId;
+}
+
+/// in int, 100% = 100, 50% = 50
+extension type const TaxValue(int value) {
+  factory TaxValue.fromJson(final int value) => TaxValue(value);
+  int toJson() => value;
+  double get percentage => value / 100;
+  double amount(final double v) => v * percentage;
+  static const zero = TaxValue(0);
 }
 
 @freezed
@@ -158,7 +166,6 @@ sealed class Transaction with _$Transaction {
   bool get isExpense => type == TransactionType.expense;
   bool get isIncome => type == TransactionType.income;
   bool get isRegular => taskId.isNotEmpty;
-  double get amount => input.amount;
   CurrencyId get currencyId => input.currencyId;
 }
 
@@ -167,37 +174,42 @@ sealed class Transaction with _$Transaction {
 class InputMoney with _$InputMoney {
   const factory InputMoney.fiat({
     @Default(CurrencyId.empty) final CurrencyId currencyId,
-    @Default(0.0) final double amount,
+    @Default(0.0) final double amountWithTax,
     @Default(CurrencyType.fiat) final CurrencyType currencyType,
+    @Default(TaxValue.zero) final TaxValue tax,
   }) = FiatInputModel;
   const factory InputMoney.crypto({
     @Default(CurrencyId.empty) final CurrencyId currencyId,
-    @Default(0.0) final double amount,
+    @Default(0.0) final double amountWithTax,
     @Default(CurrencyType.crypto) final CurrencyType currencyType,
+    @Default(TaxValue.zero) final TaxValue tax,
   }) = CyptoInputModel;
 
   const InputMoney._();
   factory InputMoney.fromJson(final Map<String, dynamic> json) =>
       _$InputMoneyFromJson(json);
-
+  double get amountTaxFree => tax.amount(amountWithTax);
+  double amount({required final bool taxFree}) =>
+      taxFree ? amountTaxFree : amountWithTax;
   static const empty = FiatInputModel();
 }
 
 extension TransactionListX on List<Transaction> {
-  double sumForPeriod(final Period period) {
+  double sumForPeriod(final Period period, {final bool taxFree = true}) {
     final now = DateTime.now();
-    final diff = now.difference;
     return fold(
       0,
       (final previousValue, final e) {
-        final bool isWithinPeriod = switch (period) {
-          // TODO(arenukvern): calculate average amount per day
-          Period.daily => diff(e.transactionDate).inDays <= 1,
-          Period.weekly => diff(e.transactionDate).inDays <= 7,
-          Period.monthly => diff(e.transactionDate).inDays <= 30,
-          Period.yearly => diff(e.transactionDate).inDays <= 365,
+        final diff = now.difference(e.transactionDate);
+        final days = diff.inDays;
+        final amount = e.input.amount(taxFree: taxFree);
+        final periodDays = switch (period) {
+          Period.daily => 1,
+          Period.weekly => 7,
+          Period.monthly => 30,
+          Period.yearly => 365,
         };
-        return isWithinPeriod ? previousValue + e.amount : previousValue;
+        return previousValue + ((amount / days) * periodDays);
       },
     );
   }

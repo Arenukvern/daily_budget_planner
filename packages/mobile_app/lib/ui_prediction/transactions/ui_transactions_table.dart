@@ -94,6 +94,7 @@ class UiTransactionsTable<T extends Transaction> extends HookWidget {
     );
   }
 
+  static const taxFree = true;
   Widget _buildDataCell(
     final BuildContext context,
     final int columnIndex,
@@ -101,7 +102,7 @@ class UiTransactionsTable<T extends Transaction> extends HookWidget {
   ) {
     final cellData = [
       DateFormat.yMMMEd().add_Hms().format(transaction.transactionDate),
-      transaction.amount.toString(),
+      transaction.input.amount(taxFree: taxFree).toString(),
       transaction.currencyId.value,
     ];
 
@@ -137,8 +138,12 @@ class UiTransactionsTable<T extends Transaction> extends HookWidget {
               : b.transactionDate.compareTo(a.transactionDate);
         case 'value':
           return ascending
-              ? a.amount.compareTo(b.amount)
-              : b.amount.compareTo(a.amount);
+              ? a.input
+                  .amount(taxFree: taxFree)
+                  .compareTo(b.input.amount(taxFree: taxFree))
+              : b.input
+                  .amount(taxFree: taxFree)
+                  .compareTo(a.input.amount(taxFree: taxFree));
         case 'currency':
           return ascending
               ? a.currencyId.value.compareTo(b.currencyId.value)

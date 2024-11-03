@@ -11,21 +11,23 @@ class UiTasksView2 extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => ListView(
         children: [
-          ...tasks.map((final task) => UiTaskCard(task: task)),
+          ...tasks.map((final task) => _UiTaskCard(task: task)),
           const Gap(16),
           UiSafeArea.bottom(),
         ],
       );
 }
 
-class UiTaskCard extends StatelessWidget {
-  const UiTaskCard({required this.task, super.key});
+class _UiTaskCard extends StatelessWidget with HasStates {
+  const _UiTaskCard({required this.task, super.key});
   final Task task;
   @override
   Widget build(final BuildContext context) {
     final transactions = context.select<TasksNotifier, List<Transaction>>(
       (final c) => c.getTransactionsByTask(task),
     );
+    final onRemove = tasksNotifier.removeTransaction;
+
     return CupertinoListSection(
       backgroundColor: Colors.transparent,
       header: Column(
@@ -76,25 +78,37 @@ class UiTaskCard extends StatelessWidget {
         color: context.colorScheme.primaryContainer,
       ),
       children: [
-        UiTransactionCard(transaction: Transaction.empty),
+        _UiTransactionCard(
+          transaction: Transaction.empty,
+          onRemove: onRemove,
+        ),
         ...transactions.map(
-          (final transaction) => UiTransactionCard(transaction: transaction),
+          (final transaction) => _UiTransactionCard(
+            transaction: transaction,
+            onRemove: onRemove,
+            key: ValueKey(transaction.id),
+          ),
         ),
       ],
     );
   }
 }
 
-class UiTransactionCard extends StatelessWidget {
-  const UiTransactionCard({required this.transaction, super.key});
+class _UiTransactionCard extends StatelessWidget {
+  const _UiTransactionCard({
+    required this.transaction,
+    required this.onRemove,
+    super.key,
+  });
   final Transaction transaction;
+  final ValueChanged<Transaction> onRemove;
 
   @override
   Widget build(final BuildContext context) => CupertinoListTile(
         leading: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
-            '${transaction.amount.toStringAsFixed(2)} '
+            '${transaction.input.amount(taxFree: kAmountsTaxFree).toStringAsFixed(2)} '
             // TODO(arenukvern): show only currency different from default
             '${transaction.input.currencyId.toJson()}',
             style: const TextStyle(fontWeight: FontWeight.bold),
@@ -107,7 +121,7 @@ class UiTransactionCard extends StatelessWidget {
           style: context.textTheme.bodySmall,
         ),
         trailing: UiBaseButton(
-          onPressed: () {},
+          onPressed: () => onRemove(transaction),
           builder: (final context, final focused, final onlyFocused) => Icon(
             Icons.remove,
             color:

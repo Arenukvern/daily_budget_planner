@@ -4,6 +4,9 @@ import 'package:mobile_app/common_imports.dart';
 
 part 'ui_prediction_notifier.freezed.dart';
 
+// TODO(arenukvern): handle taxes
+const kAmountsTaxFree = false;
+
 /// balance = expenses + income
 /// for example:
 /// if expense = -150, income = 50
@@ -116,47 +119,51 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
         relevantBudgets.add(olderBudget);
       }
     }
-
     relevantBudgets.sort((final a, final b) => a.date.compareTo(b.date));
     if (relevantBudgets.isEmpty) return (balance: 0, expense: 0, income: 0);
     if (relevantBudgets.length == 1) {
       final budget = relevantBudgets.first;
+      final amount = budget.input.amount(taxFree: kAmountsTaxFree);
       if (budget.date.isBefore(effectiveStartDate) ||
           budget.date == effectiveStartDate) {
         return (
-          balance: budget.amount,
+          balance: amount,
           expense: 0,
           income: 0,
         );
       }
       return (
-        balance: budget.amount,
+        balance: amount,
         expense: 0,
-        income: budget.amount,
+        income: amount,
       );
     }
 
     double expense = 0;
     double income = 0;
-    double previousAmount = relevantBudgets.first.amount;
+    double previousAmount =
+        relevantBudgets.first.input.amount(taxFree: kAmountsTaxFree);
 
     for (int i = 1; i < relevantBudgets.length; i++) {
-      final difference = relevantBudgets[i].amount - previousAmount;
+      final difference =
+          relevantBudgets[i].input.amount(taxFree: kAmountsTaxFree) -
+              previousAmount;
       if (difference < 0) {
         expense += difference.abs();
       } else {
         income += difference;
       }
-      previousAmount = relevantBudgets[i].amount;
+      previousAmount =
+          relevantBudgets[i].input.amount(taxFree: kAmountsTaxFree);
     }
 
     // If the period starts after the last budget, consider it as an expense
     if (startDate.isAfter(relevantBudgets.last.date)) {
-      expense += relevantBudgets.last.amount;
+      expense += relevantBudgets.last.input.amount(taxFree: kAmountsTaxFree);
     }
 
     return (
-      balance: relevantBudgets.last.amount,
+      balance: relevantBudgets.last.input.amount(taxFree: kAmountsTaxFree),
       expense: expense,
       income: income,
     );
@@ -241,28 +248,40 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
   }
 
   void _setExpensesSum() {
-    final double sum = value.expenses
-        .fold(0, (final sum, final expense) => sum + expense.amount);
+    final double sum = value.expenses.fold(
+      0,
+      (final sum, final expense) =>
+          sum + expense.input.amount(taxFree: kAmountsTaxFree),
+    );
     value = value.copyWith(expensesSum: sum);
   }
 
   void _setRegularExpensesSum() {
-    final double sum = value.expenses
-        .where((final expense) => expense.isRegular)
-        .fold(0, (final sum, final expense) => sum + expense.amount);
+    final double sum =
+        value.expenses.where((final expense) => expense.isRegular).fold(
+              0,
+              (final sum, final expense) =>
+                  sum + expense.input.amount(taxFree: kAmountsTaxFree),
+            );
     value = value.copyWith(regularExpensesSum: sum);
   }
 
   void _setIncomesSum() {
-    final double sum =
-        value.incomes.fold(0, (final sum, final income) => sum + income.amount);
+    final double sum = value.incomes.fold(
+      0,
+      (final sum, final income) =>
+          sum + income.input.amount(taxFree: kAmountsTaxFree),
+    );
     value = value.copyWith(incomesSum: sum);
   }
 
   void _setRegularIncomesSum() {
-    final double sum = value.incomes
-        .where((final income) => income.isRegular)
-        .fold(0, (final sum, final income) => sum + income.amount);
+    final double sum =
+        value.incomes.where((final income) => income.isRegular).fold(
+              0,
+              (final sum, final income) =>
+                  sum + income.input.amount(taxFree: kAmountsTaxFree),
+            );
     value = value.copyWith(regularIncomesSum: sum);
   }
 }

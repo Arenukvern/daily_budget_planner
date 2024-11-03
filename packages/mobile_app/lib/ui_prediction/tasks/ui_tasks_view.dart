@@ -66,11 +66,17 @@ class UiTasksView extends HookWidget with HasStates {
         final comparison = switch (sortField) {
           TaskSortField.sum => tasksNotifier
               .getTransactionsByTask(a)
-              .fold<double>(0, (final sum, final t) => sum + t.amount)
+              .fold<double>(
+                0,
+                (final sum, final t) =>
+                    sum + t.input.amount(taxFree: kAmountsTaxFree),
+              )
               .compareTo(
-                tasksNotifier
-                    .getTransactionsByTask(b)
-                    .fold<double>(0, (final sum, final t) => sum + t.amount),
+                tasksNotifier.getTransactionsByTask(b).fold<double>(
+                      0,
+                      (final sum, final t) =>
+                          sum + t.input.amount(taxFree: kAmountsTaxFree),
+                    ),
               ),
           TaskSortField.date => (tasksNotifier
                         .getTransactionsByTask(a)
@@ -321,7 +327,8 @@ class _ExpandedTaskDetails extends StatelessWidget with HasStates {
                 dense: true,
                 title: Text(transaction.description),
                 trailing: Text(
-                  '${transaction.amount} ${transaction.currencyId.value}',
+                  '${transaction.input.amount(taxFree: kAmountsTaxFree)} '
+                  '${transaction.currencyId.value}',
                 ),
                 subtitle: Text(
                   DateFormat.yMMMd().add_Hms().format(

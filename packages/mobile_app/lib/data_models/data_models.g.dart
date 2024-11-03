@@ -301,10 +301,13 @@ _$FiatInputModelImpl _$$FiatInputModelImplFromJson(Map<String, dynamic> json) =>
       currencyId: json['currencyId'] == null
           ? CurrencyId.empty
           : CurrencyId.fromJson(json['currencyId'] as String),
-      amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+      amountWithTax: (json['amountWithTax'] as num?)?.toDouble() ?? 0.0,
       currencyType: json['currencyType'] == null
           ? CurrencyType.fiat
           : CurrencyType.fromJson(json['currencyType'] as String),
+      tax: json['tax'] == null
+          ? TaxValue.zero
+          : TaxValue.fromJson((json['tax'] as num).toInt()),
       $type: json['runtimeType'] as String?,
     );
 
@@ -312,8 +315,9 @@ Map<String, dynamic> _$$FiatInputModelImplToJson(
         _$FiatInputModelImpl instance) =>
     <String, dynamic>{
       'currencyId': instance.currencyId,
-      'amount': instance.amount,
+      'amountWithTax': instance.amountWithTax,
       'currencyType': instance.currencyType,
+      'tax': instance.tax,
       'runtimeType': instance.$type,
     };
 
@@ -323,10 +327,13 @@ _$CyptoInputModelImpl _$$CyptoInputModelImplFromJson(
       currencyId: json['currencyId'] == null
           ? CurrencyId.empty
           : CurrencyId.fromJson(json['currencyId'] as String),
-      amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+      amountWithTax: (json['amountWithTax'] as num?)?.toDouble() ?? 0.0,
       currencyType: json['currencyType'] == null
           ? CurrencyType.crypto
           : CurrencyType.fromJson(json['currencyType'] as String),
+      tax: json['tax'] == null
+          ? TaxValue.zero
+          : TaxValue.fromJson((json['tax'] as num).toInt()),
       $type: json['runtimeType'] as String?,
     );
 
@@ -334,8 +341,9 @@ Map<String, dynamic> _$$CyptoInputModelImplToJson(
         _$CyptoInputModelImpl instance) =>
     <String, dynamic>{
       'currencyId': instance.currencyId,
-      'amount': instance.amount,
+      'amountWithTax': instance.amountWithTax,
       'currencyType': instance.currencyType,
+      'tax': instance.tax,
       'runtimeType': instance.$type,
     };
 

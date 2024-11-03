@@ -6,8 +6,11 @@ class ExpensesPredictionService {
     final Period period,
   ) {
     if (budgets.isEmpty) return 0;
-    final double totalBudget =
-        budgets.fold(0, (final sum, final budget) => sum + budget.amount);
+    final double totalBudget = budgets.fold(
+      0,
+      (final sum, final budget) =>
+          sum + budget.input.amount(taxFree: kAmountsTaxFree),
+    );
     final days = _getDaysInPeriod(period);
     return totalBudget / days;
   }
@@ -17,8 +20,11 @@ class ExpensesPredictionService {
     final Period period,
   ) {
     if (expenses.isEmpty) return 0;
-    final double totalExpense =
-        expenses.fold(0, (final sum, final expense) => sum + expense.amount);
+    final double totalExpense = expenses.fold(
+      0,
+      (final sum, final expense) =>
+          sum + expense.input.amount(taxFree: kAmountsTaxFree),
+    );
     final days = _getDaysInPeriod(period);
     return totalExpense / days;
   }
@@ -33,7 +39,11 @@ class ExpensesPredictionService {
       period: period,
       datetimeFromItem: (final b) => b.date,
     );
-    return _calculateTrend(recentBudgets.map((final b) => b.amount).toList());
+    return _calculateTrend(
+      recentBudgets
+          .map((final b) => b.input.amount(taxFree: kAmountsTaxFree))
+          .toList(),
+    );
   }
 
   PredictionType predictExpensesTrend(
@@ -46,7 +56,11 @@ class ExpensesPredictionService {
       period: period,
       datetimeFromItem: (final e) => e.transactionDate,
     );
-    return _calculateTrend(recentExpenses.map((final e) => e.amount).toList());
+    return _calculateTrend(
+      recentExpenses
+          .map((final e) => e.input.amount(taxFree: kAmountsTaxFree))
+          .toList(),
+    );
   }
 
   int _getDaysInPeriod(final Period period) {

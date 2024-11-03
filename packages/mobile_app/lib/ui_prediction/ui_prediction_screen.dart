@@ -267,7 +267,9 @@ class _BudgetButton extends StatelessWidget {
           ),
           const Gap(8),
           Text(
-            '\$${uiPredictionNotifier.recentBudget.amount.toStringAsFixed(2)} ${LocalizedMap(
+            // TODO(arenukvern): description
+            '\$${uiPredictionNotifier.recentBudget.input.amount(taxFree: true).toStringAsFixed(2)} '
+            '${LocalizedMap(
               value: {
                 languages.en: '- left',
                 languages.it: '- rimanenti',
@@ -503,7 +505,10 @@ class BudgetBottomSheet extends HookWidget {
               itemBuilder: (final context, final index) {
                 final budget = state.budgets[index];
                 return ListTile(
-                  title: Text('\$${budget.amount.toStringAsFixed(2)}'),
+                  title: Text(
+                    // TODO(arenukvern): description
+                    '\$${budget.input.amount(taxFree: true).toStringAsFixed(2)}',
+                  ),
                   subtitle: Text(
                     DateFormat('EEEE, d MMMM yyyy, h:mm a').format(budget.date),
                   ),

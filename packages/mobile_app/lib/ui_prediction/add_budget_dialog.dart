@@ -24,7 +24,7 @@ class AddBudgetDialog extends HookWidget {
     final locale = useLocale(context);
     final screenWidth = MediaQuery.sizeOf(context).width;
     final amountController = useTextEditingController(
-      text: initialValue?.amount.toString() ?? '',
+      text: initialValue?.input.amountWithTax.toString() ?? '',
     );
     final selectedDate =
         useState(initialValue?.transactionDate ?? DateTime.now());
@@ -64,7 +64,7 @@ class AddBudgetDialog extends HookWidget {
               final newBudget = Budget(
                 id: BudgetId(id.value.whenEmptyUse(createId())),
                 input: InputMoney.fiat(
-                  amount: double.parse(amountController.text),
+                  amountWithTax: double.parse(amountController.text),
                   // currencyId: CurrencyId.usd,
                 ),
                 date: selectedDate.value,

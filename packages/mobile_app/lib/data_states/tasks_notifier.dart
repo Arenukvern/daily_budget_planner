@@ -26,4 +26,10 @@ class TasksNotifier extends ChangeNotifier {
         TaskTransactionType.expense => _expenseTasks,
       };
   List<Transaction> getTransactionsByTask(final Task task) => [];
+
+  /// 1. removes [transaction] from task
+  /// 2. removes [transaction] from transactions
+  void removeTransaction(final Transaction transaction) {
+    // TODO(arenukvern): implement
+  }
 }
