@@ -19,6 +19,9 @@ class UiTasksActionsBar extends StatelessWidget {
             final transaction = await showTransactionEditor(
               context,
               transaction: null,
+              transactionType: tuple.type == TaskTransactionType.income
+                  ? TransactionType.income
+                  : TransactionType.expense,
             );
             if (transaction == null) return;
             return notifier.upsertTransaction(transaction);

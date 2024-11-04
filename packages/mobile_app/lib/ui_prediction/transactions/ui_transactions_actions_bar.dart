@@ -19,6 +19,7 @@ class UiTransactionsActionsBar extends StatelessWidget {
             final transaction = await showTransactionEditor(
               context,
               transaction: null,
+              transactionType: tuple.type,
             );
             if (transaction == null) return;
             return notifier.upsertTransaction(transaction);

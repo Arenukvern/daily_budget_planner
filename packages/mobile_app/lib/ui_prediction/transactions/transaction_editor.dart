@@ -4,16 +4,19 @@ import 'package:mobile_app/common_imports.dart';
 Future<Transaction?> showTransactionEditor(
   final BuildContext context, {
   required final Transaction? transaction,
-}) =>
-    Navigator.push(
-      context,
-      ModalSheetRoute(
-        swipeDismissible: true,
-        builder: (final context) => _TransactionEditor(
-          transaction: transaction,
-        ),
+  required final TransactionType? transactionType,
+}) {
+  assert(transaction != null || transactionType != null, '');
+  return Navigator.push(
+    context,
+    ModalSheetRoute(
+      swipeDismissible: true,
+      builder: (final context) => _TransactionEditor(
+        transaction: transaction,
       ),
-    );
+    ),
+  );
+}
 
 class _TransactionEditor extends StatefulHookWidget {
   const _TransactionEditor({required this.transaction});

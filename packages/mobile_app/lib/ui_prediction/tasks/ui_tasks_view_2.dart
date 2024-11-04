@@ -66,6 +66,10 @@ class _UiTaskCard extends StatelessWidget with HasStates {
                   final transaction = await showTransactionEditor(
                     context,
                     transaction: null,
+                    transactionType:
+                        task.transactionType == TaskTransactionType.income
+                            ? TransactionType.income
+                            : TransactionType.expense,
                   );
                   if (transaction == null) return;
                   // TODO(arenukvern): ask for period
