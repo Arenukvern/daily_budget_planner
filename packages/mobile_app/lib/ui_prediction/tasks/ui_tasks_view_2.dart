@@ -100,10 +100,6 @@ class _UiTaskCard extends StatelessWidget with HasStates {
         color: context.colorScheme.primaryContainer,
       ),
       children: [
-        _UiTransactionCard(
-          transaction: Transaction.empty,
-          onRemove: onRemove,
-        ),
         ...transactions.map(
           (final transaction) => _UiTransactionCard(
             transaction: transaction,

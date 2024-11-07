@@ -12,6 +12,9 @@ class Envs {
     'MONETIZATION',
     defaultValue: 'free',
   );
+  static const isCryptoEnabled = bool.fromEnvironment('CRYPTO_ENABLED');
+  static const isCurrencySwitchingEnabled =
+      bool.fromEnvironment('CURRENCY_SWITCHING_ENABLED');
   static final monetizationType =
       MonetizationType.fromJson(monetizationTypeJson);
   static final storeName = switch (storeTarget) {

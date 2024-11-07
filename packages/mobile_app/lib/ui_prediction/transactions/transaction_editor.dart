@@ -1,35 +1,40 @@
+import 'package:flutter/scheduler.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobile_app/common_imports.dart';
 
 Future<Transaction?> showTransactionEditor(
   final BuildContext context, {
   required final Transaction? transaction,
-  required final TransactionType? transactionType,
-}) {
-  assert(transaction != null || transactionType != null, '');
-  return Navigator.push(
-    context,
-    ModalSheetRoute(
-      swipeDismissible: true,
-      builder: (final context) => _TransactionEditor(
-        transaction: transaction,
+  final TransactionType transactionType = TransactionType.expense,
+}) =>
+    Navigator.push(
+      context,
+      ModalSheetRoute(
+        swipeDismissible: true,
+        builder: (final context) => _TransactionEditor(
+          transaction: transaction,
+          transactionType: transactionType,
+        ),
       ),
-    ),
-  );
-}
+    );
 
 class _TransactionEditor extends StatefulHookWidget {
-  const _TransactionEditor({required this.transaction});
+  const _TransactionEditor({
+    required this.transaction,
+    required this.transactionType,
+  });
 
   final Transaction? transaction;
+  final TransactionType transactionType;
 
   @override
   State<_TransactionEditor> createState() => _TransactionEditorState();
 }
 
-class _TransactionEditorState extends State<_TransactionEditor> {
+class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
   late final _EditingController controller = _EditingController(
     transaction: widget.transaction,
+    transactionType: widget.transactionType,
   );
 
   @override
@@ -110,10 +115,16 @@ class _TransactionEditorState extends State<_TransactionEditor> {
                 },
               ),
           };
+          var currencySuffix = '';
+          if (!Envs.isCurrencySwitchingEnabled) {
+            currencySuffix =
+                // ignore: lines_longer_than_80_chars
+                ' (${dictionariesNotifier.getCurrency(transaction.input.currencyId, currencyType).displayString})';
+          }
           return UiTextField(
             decoration: InputDecoration(
               hintText: '0.00',
-              labelText: label.getValue(locale),
+              labelText: label.getValue(locale) + currencySuffix,
             ),
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(),
@@ -182,24 +193,25 @@ class _TransactionEditorState extends State<_TransactionEditor> {
           ),
 
           /// Currency type
-          Center(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: CupertinoSlidingSegmentedControl<CurrencyType>(
-                groupValue: currencyType,
-                children: {
-                  CurrencyType.fiat: Text('Fiat'),
-                  CurrencyType.crypto: Text('Crypto'),
-                },
-                onValueChanged: (final value) {
-                  if (value == null) return;
-                  controller.setMoney(
-                    (final state) => state.copyWith(currencyType: value),
-                  );
-                },
+          if (Envs.isCryptoEnabled)
+            Center(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: CupertinoSlidingSegmentedControl<CurrencyType>(
+                  groupValue: currencyType,
+                  children: {
+                    CurrencyType.fiat: Text('Fiat'),
+                    CurrencyType.crypto: Text('Crypto'),
+                  },
+                  onValueChanged: (final value) {
+                    if (value == null) return;
+                    controller.setMoney(
+                      (final state) => state.copyWith(currencyType: value),
+                    );
+                  },
+                ),
               ),
             ),
-          ),
           Gap(16),
 
           /// Transaction type
@@ -220,17 +232,21 @@ class _TransactionEditorState extends State<_TransactionEditor> {
               ),
             ),
           ),
-          Gap(16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: CurrencyAutoCompleter(
-              controller: controller,
-              type: currencyType,
+          if (Envs.isCurrencySwitchingEnabled) ...[
+            Gap(16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: CurrencyAutoCompleter(
+                controller: controller,
+                type: currencyType,
+              ),
             ),
-          ),
+          ],
           Gap(16),
-          if (currencyType case CurrencyType.fiat) nameField,
-          Gap(16),
+          if (currencyType case CurrencyType.fiat) ...[
+            nameField,
+            Gap(16),
+          ],
 
           /// there is two cases:
           /// when it's crypto:
@@ -243,6 +259,7 @@ class _TransactionEditorState extends State<_TransactionEditor> {
             CurrencyType.fiat => [amountField],
             CurrencyType.crypto => [
                 amountField,
+                Gap(16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Builder(
@@ -276,9 +293,9 @@ class _TransactionEditorState extends State<_TransactionEditor> {
                     },
                   ),
                 ),
+                Gap(16),
               ],
           },
-          Gap(16),
           if (currencyType case CurrencyType.crypto) noteField,
           Gap(16),
           Padding(
@@ -319,6 +336,9 @@ class _TransactionEditorState extends State<_TransactionEditor> {
             child: Container(
               clipBehavior: Clip.antiAlias,
               decoration: sheetShape,
+              constraints: const BoxConstraints(
+                maxWidth: 400,
+              ),
               child: SheetContentScaffold(
                 resizeBehavior: const ResizeScaffoldBehavior.avoidBottomInset(
                   // Make the bottom bar visible when the keyboard is open.
@@ -368,6 +388,7 @@ class CurrencyAutoCompleter extends HookWidget with HasStates {
   @override
   Widget build(final BuildContext context) {
     useListenable(dictionariesNotifier);
+    final defaultCurrencyId = dictionariesNotifier.defaultCurrencyId(type);
     final options = switch (type) {
       CurrencyType.fiat => dictionariesNotifier.fiatCurrenciesList,
       CurrencyType.crypto => dictionariesNotifier.cryptoCurrenciesList,
@@ -384,7 +405,7 @@ class CurrencyAutoCompleter extends HookWidget with HasStates {
     return _CurrencyAutocompleter(
       displayStringForOption: (final id) =>
           dictionariesNotifier.getCurrency(id, type).displayString,
-      initialValue: controller.transaction.input.currencyId,
+      initialValue: defaultCurrencyId,
       options: options,
       isLoading: dictionariesNotifier.isLoading,
       getCurrencyOptions: getCurrencyOptions,
@@ -431,10 +452,21 @@ class _CurrencyAutocompleter extends HookWidget with HasStates {
         }
         return getCurrencyOptions(textEditingValue.text) as Iterable<String>;
       },
+      optionsViewBuilder: (final context, final onSelected, final options) =>
+          _AutocompleteOptions(
+        onSelected: onSelected,
+        options: options,
+        displayStringForOption: (final option) =>
+            displayStringForOption(CurrencyId(option)),
+        openDirection: OptionsViewOpenDirection.down,
+        maxOptionsHeight: 200,
+      ),
       displayStringForOption: (final option) =>
           displayStringForOption(CurrencyId(option)),
       initialValue: (initialValue.isNotEmpty)
-          ? TextEditingValue(text: initialValue)
+          ? TextEditingValue(
+              text: displayStringForOption(CurrencyId(initialValue)),
+            )
           : null,
       onSelected: (final option) => onSelected(CurrencyId(option)),
       fieldViewBuilder: (
@@ -456,14 +488,97 @@ class _CurrencyAutocompleter extends HookWidget with HasStates {
   }
 }
 
+// The default Material-style Autocomplete options.
+class _AutocompleteOptions<T extends Object> extends StatelessWidget {
+  const _AutocompleteOptions({
+    required this.displayStringForOption,
+    required this.onSelected,
+    required this.openDirection,
+    required this.options,
+    required this.maxOptionsHeight,
+    this.maxOptionsWidth = 300,
+    super.key,
+  });
+
+  final AutocompleteOptionToString<T> displayStringForOption;
+
+  final AutocompleteOnSelected<T> onSelected;
+  final OptionsViewOpenDirection openDirection;
+
+  final Iterable<T> options;
+  final double maxOptionsHeight;
+  final double maxOptionsWidth;
+
+  @override
+  Widget build(final BuildContext context) {
+    final AlignmentDirectional optionsAlignment = switch (openDirection) {
+      OptionsViewOpenDirection.up => AlignmentDirectional.bottomStart,
+      OptionsViewOpenDirection.down => AlignmentDirectional.topStart,
+    };
+    return Align(
+      alignment: optionsAlignment,
+      child: Material(
+        elevation: 4,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: maxOptionsHeight,
+            maxWidth: maxOptionsWidth,
+          ),
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            itemCount: options.length,
+            itemBuilder: (final context, final index) {
+              final T option = options.elementAt(index);
+              final displayString = displayStringForOption(option);
+              return InkWell(
+                onTap: () {
+                  onSelected(option);
+                },
+                borderRadius: BorderRadius.all(Radius.elliptical(16, 16)),
+                child: Builder(
+                  builder: (final context) {
+                    final bool highlight =
+                        AutocompleteHighlightedOption.of(context) == index;
+                    if (highlight) {
+                      SchedulerBinding.instance.addPostFrameCallback(
+                        (final timeStamp) {
+                          unawaited(
+                            Scrollable.ensureVisible(
+                              context,
+                              alignment: 0.5,
+                            ),
+                          );
+                        },
+                        debugLabel: 'AutocompleteOptions.ensureVisible',
+                      );
+                    }
+                    return Container(
+                      color: highlight ? Theme.of(context).focusColor : null,
+                      padding: const EdgeInsets.all(16),
+                      child: Text(displayString),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
   _EditingController({
     required final Transaction? transaction,
+    required final TransactionType transactionType,
   })  : isEditing = transaction != null,
         _canCompose = transaction != null,
         super(
           LoadableContainer(
-            value: transaction ?? Transaction.empty,
+            value: transaction ??
+                Transaction.empty.copyWith(type: transactionType),
             isLoaded: transaction != null,
           ),
         ) {

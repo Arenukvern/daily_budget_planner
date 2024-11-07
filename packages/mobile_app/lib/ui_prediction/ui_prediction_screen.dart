@@ -187,6 +187,7 @@ class _PredictionBody extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

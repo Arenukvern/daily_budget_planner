@@ -103,7 +103,6 @@ mixin HasStates {
   UserNotifier get userNotifier => _g();
   AppStatusNotifier get appStatusNotifier => _g();
   UiLocaleNotifier get localeNotifier => _g();
-  SubscriptionManager get keeperManager => _g();
   AppSettingsNotifier get appSettingsNotifier => _g();
   PurchaseInitializer get purchaseIntializer => _g();
   SubscriptionManager get subscriptionManager => _g();
