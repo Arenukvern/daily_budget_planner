@@ -20,7 +20,10 @@ class MonthlyCubit extends ValueNotifier<LoadableContainer<MonthlyBudgetModel>>
 
   static const id = BudgetModelId(value: 'monthly_budget');
   Future<void> onLoad() async {
-    final budget = await budgetLocalApi.getMonthlyBudget(id);
+    var budget = await budgetLocalApi.getMonthlyBudget(id);
+    if (budget.nextBudgetDay?.isBefore(today) == true) {
+      budget = budget.copyWith(nextBudgetDay: today.add(Duration(days: 1)));
+    }
     amountController.text = budget.amount.toString();
     savingsController.text = budget.savings.toString();
     value = LoadableContainer.loaded(budget);
