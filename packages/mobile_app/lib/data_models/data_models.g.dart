@@ -55,6 +55,24 @@ Map<String, dynamic> _$$WeeklyBudgetModelImplToJson(
       'amount': instance.amount,
     };
 
+_$FinSettingsModelImpl _$$FinSettingsModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FinSettingsModelImpl(
+      fiatCurrencyId: json['fiatCurrencyId'] == null
+          ? CurrencyId.empty
+          : CurrencyId.fromJson(json['fiatCurrencyId'] as String),
+      cryptoCurrencyId: json['cryptoCurrencyId'] == null
+          ? CurrencyId.empty
+          : CurrencyId.fromJson(json['cryptoCurrencyId'] as String),
+    );
+
+Map<String, dynamic> _$$FinSettingsModelImplToJson(
+        _$FinSettingsModelImpl instance) =>
+    <String, dynamic>{
+      'fiatCurrencyId': instance.fiatCurrencyId,
+      'cryptoCurrencyId': instance.cryptoCurrencyId,
+    };
+
 _$TaskImpl _$$TaskImplFromJson(Map<String, dynamic> json) => _$TaskImpl(
       id: json['id'] == null
           ? TaskId.empty
@@ -120,6 +138,7 @@ const _$PersonalExpenseTaskTypeEnumMap = {
   PersonalExpenseTaskType.subscriptions: 'subscriptions',
   PersonalExpenseTaskType.food: 'food',
   PersonalExpenseTaskType.transport: 'transport',
+  PersonalExpenseTaskType.familyAndFriends: 'familyAndFriends',
   PersonalExpenseTaskType.entertainment: 'entertainment',
   PersonalExpenseTaskType.other: 'other',
 };

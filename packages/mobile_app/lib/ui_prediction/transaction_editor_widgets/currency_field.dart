@@ -12,7 +12,7 @@ class CurrencyAutoCompleter extends HookWidget with HasStates {
   @override
   Widget build(final BuildContext context) {
     useListenable(dictionariesNotifier);
-    final defaultCurrencyId = dictionariesNotifier.defaultCurrencyId(type);
+    final defaultCurrencyId = finSettingsNotifier.getDefaultCurrencyId(type);
     final options = switch (type) {
       CurrencyType.fiat => dictionariesNotifier.fiatCurrenciesList,
       CurrencyType.crypto => dictionariesNotifier.cryptoCurrenciesList,

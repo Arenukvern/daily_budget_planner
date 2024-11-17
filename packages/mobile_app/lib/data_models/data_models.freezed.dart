@@ -773,6 +773,181 @@ abstract class _WeeklyBudgetModel implements WeeklyBudgetModel {
       throw _privateConstructorUsedError;
 }
 
+FinSettingsModel _$FinSettingsModelFromJson(Map<String, dynamic> json) {
+  return _FinSettingsModel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FinSettingsModel {
+  CurrencyId get fiatCurrencyId => throw _privateConstructorUsedError;
+  CurrencyId get cryptoCurrencyId => throw _privateConstructorUsedError;
+
+  /// Serializes this FinSettingsModel to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of FinSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $FinSettingsModelCopyWith<FinSettingsModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FinSettingsModelCopyWith<$Res> {
+  factory $FinSettingsModelCopyWith(
+          FinSettingsModel value, $Res Function(FinSettingsModel) then) =
+      _$FinSettingsModelCopyWithImpl<$Res, FinSettingsModel>;
+  @useResult
+  $Res call({CurrencyId fiatCurrencyId, CurrencyId cryptoCurrencyId});
+}
+
+/// @nodoc
+class _$FinSettingsModelCopyWithImpl<$Res, $Val extends FinSettingsModel>
+    implements $FinSettingsModelCopyWith<$Res> {
+  _$FinSettingsModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of FinSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fiatCurrencyId = null,
+    Object? cryptoCurrencyId = null,
+  }) {
+    return _then(_value.copyWith(
+      fiatCurrencyId: null == fiatCurrencyId
+          ? _value.fiatCurrencyId
+          : fiatCurrencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      cryptoCurrencyId: null == cryptoCurrencyId
+          ? _value.cryptoCurrencyId
+          : cryptoCurrencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FinSettingsModelImplCopyWith<$Res>
+    implements $FinSettingsModelCopyWith<$Res> {
+  factory _$$FinSettingsModelImplCopyWith(_$FinSettingsModelImpl value,
+          $Res Function(_$FinSettingsModelImpl) then) =
+      __$$FinSettingsModelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({CurrencyId fiatCurrencyId, CurrencyId cryptoCurrencyId});
+}
+
+/// @nodoc
+class __$$FinSettingsModelImplCopyWithImpl<$Res>
+    extends _$FinSettingsModelCopyWithImpl<$Res, _$FinSettingsModelImpl>
+    implements _$$FinSettingsModelImplCopyWith<$Res> {
+  __$$FinSettingsModelImplCopyWithImpl(_$FinSettingsModelImpl _value,
+      $Res Function(_$FinSettingsModelImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of FinSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fiatCurrencyId = null,
+    Object? cryptoCurrencyId = null,
+  }) {
+    return _then(_$FinSettingsModelImpl(
+      fiatCurrencyId: null == fiatCurrencyId
+          ? _value.fiatCurrencyId
+          : fiatCurrencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      cryptoCurrencyId: null == cryptoCurrencyId
+          ? _value.cryptoCurrencyId
+          : cryptoCurrencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FinSettingsModelImpl implements _FinSettingsModel {
+  const _$FinSettingsModelImpl(
+      {this.fiatCurrencyId = CurrencyId.empty,
+      this.cryptoCurrencyId = CurrencyId.empty});
+
+  factory _$FinSettingsModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FinSettingsModelImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId fiatCurrencyId;
+  @override
+  @JsonKey()
+  final CurrencyId cryptoCurrencyId;
+
+  @override
+  String toString() {
+    return 'FinSettingsModel(fiatCurrencyId: $fiatCurrencyId, cryptoCurrencyId: $cryptoCurrencyId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FinSettingsModelImpl &&
+            (identical(other.fiatCurrencyId, fiatCurrencyId) ||
+                other.fiatCurrencyId == fiatCurrencyId) &&
+            (identical(other.cryptoCurrencyId, cryptoCurrencyId) ||
+                other.cryptoCurrencyId == cryptoCurrencyId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, fiatCurrencyId, cryptoCurrencyId);
+
+  /// Create a copy of FinSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FinSettingsModelImplCopyWith<_$FinSettingsModelImpl> get copyWith =>
+      __$$FinSettingsModelImplCopyWithImpl<_$FinSettingsModelImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FinSettingsModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FinSettingsModel implements FinSettingsModel {
+  const factory _FinSettingsModel(
+      {final CurrencyId fiatCurrencyId,
+      final CurrencyId cryptoCurrencyId}) = _$FinSettingsModelImpl;
+
+  factory _FinSettingsModel.fromJson(Map<String, dynamic> json) =
+      _$FinSettingsModelImpl.fromJson;
+
+  @override
+  CurrencyId get fiatCurrencyId;
+  @override
+  CurrencyId get cryptoCurrencyId;
+
+  /// Create a copy of FinSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FinSettingsModelImplCopyWith<_$FinSettingsModelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 Task _$TaskFromJson(Map<String, dynamic> json) {
   return _Task.fromJson(json);
 }

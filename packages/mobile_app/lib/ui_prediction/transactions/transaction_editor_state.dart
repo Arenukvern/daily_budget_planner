@@ -2,15 +2,13 @@ part of 'transaction_editor.dart';
 
 class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
   _EditingController({
-    required final Transaction? transaction,
-    required final TransactionType transactionType,
-  })  : isEditing = transaction != null,
-        _canCompose = transaction != null,
+    required final Transaction transaction,
+  })  : isEditing = transaction.isExists,
+        _canCompose = transaction.isExists,
         super(
           LoadableContainer(
-            value: transaction ??
-                Transaction.empty.copyWith(type: transactionType),
-            isLoaded: transaction != null,
+            value: transaction,
+            isLoaded: transaction.isExists,
           ),
         ) {
     onLoad();

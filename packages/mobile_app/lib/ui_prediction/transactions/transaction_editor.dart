@@ -24,8 +24,7 @@ Map<TransactionType, String> getTransactionTypeNames({
 
 Future<Transaction?> showTransactionEditor(
   final BuildContext context, {
-  required final Transaction? transaction,
-  final TransactionType transactionType = TransactionType.expense,
+  required final Transaction transaction,
 }) =>
     Navigator.push(
       context,
@@ -33,7 +32,6 @@ Future<Transaction?> showTransactionEditor(
         swipeDismissible: true,
         builder: (final context) => _TransactionEditor(
           transaction: transaction,
-          transactionType: transactionType,
         ),
       ),
     );
@@ -41,11 +39,9 @@ Future<Transaction?> showTransactionEditor(
 class _TransactionEditor extends StatefulHookWidget {
   const _TransactionEditor({
     required this.transaction,
-    required this.transactionType,
   });
 
-  final Transaction? transaction;
-  final TransactionType transactionType;
+  final Transaction transaction;
 
   @override
   State<_TransactionEditor> createState() => _TransactionEditorState();
@@ -54,7 +50,6 @@ class _TransactionEditor extends StatefulHookWidget {
 class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
   late final _EditingController controller = _EditingController(
     transaction: widget.transaction,
-    transactionType: widget.transactionType,
   );
 
   @override

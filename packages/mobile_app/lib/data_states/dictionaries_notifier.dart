@@ -5,8 +5,18 @@ class DictionariesNotifier extends ChangeNotifier with HasLocalApis, HasStates {
   bool isLoading = true;
   final fiatCurrencies = <CurrencyId, FiatCurrency>{};
   final cryptoCurrencies = <CurrencyId, CryptoCurrency>{};
-  // TODO(arenukvern): description
-  CurrencyId defaultCurrencyId(final CurrencyType type) {
+
+  Iterable<CurrencyId> get fiatCurrenciesList =>
+      fiatCurrencies.values.map((final e) => e.id);
+  Iterable<CurrencyId> get cryptoCurrenciesList =>
+      cryptoCurrencies.values.map((final e) => e.id);
+  Currency getCurrency(final CurrencyId id, final CurrencyType type) =>
+      switch (type) {
+        CurrencyType.fiat => fiatCurrencies,
+        CurrencyType.crypto => cryptoCurrencies,
+      }[id]!;
+
+  CurrencyId getDefaultCurrencyId(final CurrencyType type) {
     final language = localeNotifier.value.language;
     return switch (type) {
       CurrencyType.fiat => () {
@@ -25,16 +35,6 @@ class DictionariesNotifier extends ChangeNotifier with HasLocalApis, HasStates {
       CurrencyType.crypto => cryptoCurrencies.values.first.id,
     };
   }
-
-  Iterable<CurrencyId> get fiatCurrenciesList =>
-      fiatCurrencies.values.map((final e) => e.id);
-  Iterable<CurrencyId> get cryptoCurrenciesList =>
-      cryptoCurrencies.values.map((final e) => e.id);
-  Currency getCurrency(final CurrencyId id, final CurrencyType type) =>
-      switch (type) {
-        CurrencyType.fiat => fiatCurrencies,
-        CurrencyType.crypto => cryptoCurrencies,
-      }[id]!;
 
   Future<void> onLoad() async {
     fiatCurrencies.addAll(

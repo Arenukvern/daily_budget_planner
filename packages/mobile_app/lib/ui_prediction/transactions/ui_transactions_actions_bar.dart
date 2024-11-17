@@ -18,8 +18,10 @@ class UiTransactionsActionsBar extends StatelessWidget {
             final notifier = context.read<UiPredictionNotifier>();
             final transaction = await showTransactionEditor(
               context,
-              transaction: null,
-              transactionType: tuple.type,
+              transaction: Transaction(
+                transactionDate: DateTime.now(),
+                type: tuple.type,
+              ),
             );
             if (transaction == null) return;
             return notifier.upsertTransaction(transaction);

@@ -6,6 +6,7 @@ part 'bank_account_models.dart';
 part 'budget_model.dart';
 part 'data_models.freezed.dart';
 part 'data_models.g.dart';
+part 'fin_settings_model.dart';
 part 'task_model.dart';
 part 'transaction_models.dart';
 part 'typedefs.dart';

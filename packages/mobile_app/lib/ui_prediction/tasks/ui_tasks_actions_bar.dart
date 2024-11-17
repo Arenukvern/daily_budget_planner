@@ -1,7 +1,8 @@
 import 'package:mobile_app/common_imports.dart';
 
 typedef UiTasksActionsBarTuple = ({
-  TaskTransactionType type,
+  TaskTransactionType taskTransactionType,
+  CurrencyType currencyType,
 });
 
 class UiTasksActionsBar extends StatelessWidget {
@@ -9,6 +10,9 @@ class UiTasksActionsBar extends StatelessWidget {
   final UiTasksActionsBarTuple tuple;
   @override
   Widget build(final BuildContext context) {
+    final defaultCurrencyId = context.select<FinSettingsNotifier, CurrencyId>(
+      (final state) => state.getDefaultCurrencyId(tuple.currencyType),
+    );
     final locale = useLocale(context);
     return UiBottomActionBar(
       children: [
@@ -18,10 +22,16 @@ class UiTasksActionsBar extends StatelessWidget {
             final notifier = context.read<UiPredictionNotifier>();
             final transaction = await showTransactionEditor(
               context,
-              transaction: null,
-              transactionType: tuple.type == TaskTransactionType.income
-                  ? TransactionType.income
-                  : TransactionType.expense,
+              transaction: Transaction(
+                transactionDate: DateTime.now(),
+                type: tuple.taskTransactionType == TaskTransactionType.income
+                    ? TransactionType.income
+                    : TransactionType.expense,
+                input: InputMoney.fromCurrency(
+                  type: tuple.currencyType,
+                  id: defaultCurrencyId,
+                ),
+              ),
             );
             if (transaction == null) return;
             return notifier.upsertTransaction(transaction);
@@ -34,12 +44,14 @@ class UiTasksActionsBar extends StatelessWidget {
               Text(
                 LocalizedMap(
                   value: {
-                    languages.en: 'Add ${tuple.type.name}',
-                    languages.it: 'Aggiungi ${switch (tuple.type) {
+                    languages.en: 'Add ${tuple.taskTransactionType.name}',
+                    languages.it:
+                        'Aggiungi ${switch (tuple.taskTransactionType) {
                       TaskTransactionType.income => 'entrate',
                       TaskTransactionType.expense => 'spese',
                     }}',
-                    languages.ru: 'Добавить ${switch (tuple.type) {
+                    languages.ru:
+                        'Добавить ${switch (tuple.taskTransactionType) {
                       TaskTransactionType.income => 'доход',
                       TaskTransactionType.expense => 'расход',
                     }}',

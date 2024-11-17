@@ -67,6 +67,8 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl(() => MonetizationStatusNotifier(Envs.monetizationType));
   rl(DictionariesLocalApi.new);
   rl(DictionariesNotifier.new);
+  rl(FinSettingsLocalApi.new);
+  rl(FinSettingsNotifier.new);
   rl(TasksNotifier.new);
   rl(
     () => SubscriptionManager(
@@ -96,6 +98,7 @@ mixin HasLocalApis {
   LocalDbI get localDb => _g();
   AppSettingsLocalApi get appSettingsApi => _g();
   UserLocalApi get userLocalApi => _g();
+  FinSettingsLocalApi get finSettingsLocalApi => _g();
   BudgetLocalApi get budgetLocalApi => _g();
   DictionariesLocalApi get dictionariesLocalApi => _g();
 }
@@ -111,6 +114,7 @@ mixin HasStates {
   StoreReviewRequester get storeReviewRequester => _g();
   DictionariesNotifier get dictionariesNotifier => _g();
   TasksNotifier get tasksNotifier => _g();
+  FinSettingsNotifier get finSettingsNotifier => _g();
 }
 mixin HasAnalytics {
   AnalyticsManager get analyticsManager => _g();

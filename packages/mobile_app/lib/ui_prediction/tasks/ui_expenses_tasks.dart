@@ -26,7 +26,10 @@ class UiExpensesTasksView extends StatelessWidget {
             child: UiExpensesTasks(),
           ),
           UiTasksActionsBar(
-            tuple: (type: TaskTransactionType.expense,),
+            tuple: (
+              taskTransactionType: TaskTransactionType.expense,
+              currencyType: CurrencyType.fiat
+            ),
           ),
           Gap(8),
           UiSafeArea.bottom(),

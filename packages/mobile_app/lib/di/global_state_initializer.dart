@@ -48,14 +48,14 @@ class GlobalStateInitializer
         AppPathsController.of(context).toExplanation(isFirstTimeOpening: true);
       }
       await purchaseIntializer.init();
-      unawaited(
-        Future.wait([
-          weeklyCubit.onLoad(),
-          monthlyCubit.onLoad(),
-          storeReviewRequester.onLoad(),
-          dictionariesNotifier.onLoad(),
-        ]),
-      );
+
+      await Future.wait([
+        weeklyCubit.onLoad(),
+        monthlyCubit.onLoad(),
+        storeReviewRequester.onLoad(),
+        dictionariesNotifier.onLoad(),
+      ]);
+      await finSettingsNotifier.onLoad();
     });
   }
 

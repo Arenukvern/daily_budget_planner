@@ -27,6 +27,7 @@ extension type const TransactionId(String value) {
   factory TransactionId.newId() => TransactionId(createId());
   static const empty = TransactionId('');
   bool get isEmpty => value.isEmpty;
+  bool get isNotEmpty => value.isNotEmpty;
   String toJson() => value;
 }
 
@@ -167,6 +168,7 @@ sealed class Transaction with _$Transaction {
   bool get isIncome => type == TransactionType.income;
   bool get isRegular => taskId.isNotEmpty;
   CurrencyId get currencyId => input.currencyId;
+  bool get isExists => id.isNotEmpty;
 }
 
 /// Represents a monetary value in a specific fiat or crypto currency
@@ -188,6 +190,20 @@ class InputMoney with _$InputMoney {
   const InputMoney._();
   factory InputMoney.fromJson(final Map<String, dynamic> json) =>
       _$InputMoneyFromJson(json);
+  factory InputMoney.fromCurrency({
+    required final CurrencyId id,
+    required final CurrencyType type,
+  }) =>
+      switch (type) {
+        CurrencyType.crypto => InputMoney.crypto(
+            currencyId: id,
+            currencyType: type,
+          ),
+        CurrencyType.fiat => InputMoney.fiat(
+            currencyId: id,
+            currencyType: type,
+          ),
+      };
   double get amountTaxFree => tax.amount(amountWithTax);
   double amount({required final bool taxFree}) =>
       taxFree ? amountTaxFree : amountWithTax;
