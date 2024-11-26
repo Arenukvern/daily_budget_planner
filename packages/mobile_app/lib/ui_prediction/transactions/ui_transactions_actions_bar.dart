@@ -10,6 +10,9 @@ class UiTransactionsActionsBar extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
+    final defaultCurrencyId = context
+        .read<FinSettingsNotifier>()
+        .getDefaultCurrencyId(Envs.kDefaultCurrencyType);
     return UiBottomActionBar(
       children: [
         const UiBackButton(),
@@ -18,9 +21,10 @@ class UiTransactionsActionsBar extends StatelessWidget {
             final notifier = context.read<UiPredictionNotifier>();
             final transaction = await showTransactionEditor(
               context,
-              transaction: Transaction(
-                transactionDate: DateTime.now(),
+              transaction: Transaction.create(
                 type: tuple.type,
+                currencyType: Envs.kDefaultCurrencyType,
+                currencyId: defaultCurrencyId,
               ),
             );
             if (transaction == null) return;

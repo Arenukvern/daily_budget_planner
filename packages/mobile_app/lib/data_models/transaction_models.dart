@@ -158,12 +158,41 @@ sealed class Transaction with _$Transaction {
     @Default(TransactionType.expense) final TransactionType type,
     @Default(CategoryId.empty) final CategoryId categoryId,
   }) = _Transaction;
+  factory Transaction.create({
+    required final TransactionType type,
+    required final CurrencyType currencyType,
+    required final CurrencyId currencyId,
+  }) =>
+      Transaction(
+        transactionDate: DateTime.now(),
+        type: type,
+        input: InputMoney.fromCurrency(
+          type: currencyType,
+          id: currencyId,
+        ),
+      );
+  factory Transaction.newTaskTransaction({
+    required final TaskTransactionType type,
+    required final CurrencyType currencyType,
+    required final CurrencyId currencyId,
+  }) =>
+      Transaction(
+        transactionDate: DateTime.now(),
+        type: type == TaskTransactionType.income
+            ? TransactionType.income
+            : TransactionType.expense,
+        input: InputMoney.fromCurrency(
+          type: currencyType,
+          id: currencyId,
+        ),
+      );
 
   const Transaction._();
 
   factory Transaction.fromJson(final Map<String, dynamic> json) =>
       _$TransactionFromJson(json);
   static final empty = Transaction(transactionDate: DateTime.now());
+
   bool get isExpense => type == TransactionType.expense;
   bool get isIncome => type == TransactionType.income;
   bool get isRegular => taskId.isNotEmpty;

@@ -1,3 +1,4 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_app/common_imports.dart';
 
 class DictionariesNotifier extends ChangeNotifier with HasLocalApis, HasStates {
@@ -16,6 +17,8 @@ class DictionariesNotifier extends ChangeNotifier with HasLocalApis, HasStates {
         CurrencyType.crypto => cryptoCurrencies,
       }[id]!;
 
+  ///
+  @useResult
   CurrencyId getDefaultCurrencyId(final CurrencyType type) {
     final language = localeNotifier.value.language;
     return switch (type) {

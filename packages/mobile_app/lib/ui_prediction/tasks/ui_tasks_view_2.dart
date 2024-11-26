@@ -9,17 +9,30 @@ class UiTasksView2 extends StatelessWidget {
   final List<Task> tasks;
 
   @override
-  Widget build(final BuildContext context) => ListView(
-        children: [
-          ...tasks.map((final task) => _UiTaskCard(task: task)),
-          const Gap(16),
-          UiSafeArea.bottom(),
-        ],
-      );
+  Widget build(final BuildContext context) {
+    final currencyType = CurrencyType.fiat;
+    return ListView(
+      children: [
+        ...tasks.map(
+          (final task) => _UiTaskCard(
+            currencyType: currencyType,
+            task: task,
+          ),
+        ),
+        const Gap(16),
+        UiSafeArea.bottom(),
+      ],
+    );
+  }
 }
 
 class _UiTaskCard extends StatelessWidget with HasStates {
-  const _UiTaskCard({required this.task, super.key});
+  const _UiTaskCard({
+    required this.currencyType,
+    required this.task,
+    super.key,
+  });
+  final CurrencyType currencyType;
   final Task task;
   @override
   Widget build(final BuildContext context) {
@@ -28,7 +41,9 @@ class _UiTaskCard extends StatelessWidget with HasStates {
     );
     void onRemove(final Transaction transaction) =>
         tasksNotifier.removeTransaction(transaction, task);
-
+    final defaultCurrencyId = context.select<FinSettingsNotifier, CurrencyId>(
+      (final c) => c.getDefaultCurrencyId(currencyType),
+    );
     return CupertinoListSection(
       backgroundColor: Colors.transparent,
       header: Column(
@@ -65,11 +80,10 @@ class _UiTaskCard extends StatelessWidget with HasStates {
                 onPressed: () async {
                   final transaction = await showTransactionEditor(
                     context,
-                    transaction: Transaction(
-                      transactionDate: DateTime.now(),
-                      type: task.transactionType == TaskTransactionType.income
-                          ? TransactionType.income
-                          : TransactionType.expense,
+                    transaction: Transaction.newTaskTransaction(
+                      type: task.transactionType,
+                      currencyType: currencyType,
+                      currencyId: defaultCurrencyId,
                     ),
                   );
                   if (transaction == null) return;

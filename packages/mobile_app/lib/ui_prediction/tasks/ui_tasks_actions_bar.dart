@@ -22,15 +22,10 @@ class UiTasksActionsBar extends StatelessWidget {
             final notifier = context.read<UiPredictionNotifier>();
             final transaction = await showTransactionEditor(
               context,
-              transaction: Transaction(
-                transactionDate: DateTime.now(),
-                type: tuple.taskTransactionType == TaskTransactionType.income
-                    ? TransactionType.income
-                    : TransactionType.expense,
-                input: InputMoney.fromCurrency(
-                  type: tuple.currencyType,
-                  id: defaultCurrencyId,
-                ),
+              transaction: Transaction.newTaskTransaction(
+                type: tuple.taskTransactionType,
+                currencyType: tuple.currencyType,
+                currencyId: defaultCurrencyId,
               ),
             );
             if (transaction == null) return;

@@ -93,8 +93,22 @@ const _fiatCurrenciesJson = [
   },
 ];
 
+const _cryptoCurrenciesJson = [
+  {
+    'id': 'c_BTC',
+    'name': 'Bitcoin',
+    'slug': 'btc',
+    'symbol': '₿',
+    'decimals': 8,
+    'units': [
+      {'name': 'Satoshi', 'value': 0.00000001},
+    ],
+  },
+];
+
 class DictionariesLocalApi {
   Future<List<FiatCurrency>> loadFiatCurrencies() async =>
       _fiatCurrenciesJson.map(FiatCurrency.fromJson).toList();
-  Future<List<CryptoCurrency>> loadCryptoCurrencies() async => [];
+  Future<List<CryptoCurrency>> loadCryptoCurrencies() async =>
+      _cryptoCurrenciesJson.map(CryptoCurrency.fromJson).toList();
 }
