@@ -24,6 +24,7 @@ mixin _$AppSettingsModel {
   Locale? get locale => throw _privateConstructorUsedError;
   @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
   UiBrightness get brightness => throw _privateConstructorUsedError;
+  bool get use24HourFormat => throw _privateConstructorUsedError;
 
   /// Serializes this AppSettingsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +46,8 @@ abstract class $AppSettingsModelCopyWith<$Res> {
       {@JsonKey(fromJson: localeFromString, toJson: localeToString)
       Locale? locale,
       @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
-      UiBrightness brightness});
+      UiBrightness brightness,
+      bool use24HourFormat});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$AppSettingsModelCopyWithImpl<$Res, $Val extends AppSettingsModel>
   $Res call({
     Object? locale = freezed,
     Object? brightness = null,
+    Object? use24HourFormat = null,
   }) {
     return _then(_value.copyWith(
       locale: freezed == locale
@@ -75,6 +78,10 @@ class _$AppSettingsModelCopyWithImpl<$Res, $Val extends AppSettingsModel>
           ? _value.brightness
           : brightness // ignore: cast_nullable_to_non_nullable
               as UiBrightness,
+      use24HourFormat: null == use24HourFormat
+          ? _value.use24HourFormat
+          : use24HourFormat // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -91,7 +98,8 @@ abstract class _$$AppSettingsModelImplCopyWith<$Res>
       {@JsonKey(fromJson: localeFromString, toJson: localeToString)
       Locale? locale,
       @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
-      UiBrightness brightness});
+      UiBrightness brightness,
+      bool use24HourFormat});
 }
 
 /// @nodoc
@@ -109,6 +117,7 @@ class __$$AppSettingsModelImplCopyWithImpl<$Res>
   $Res call({
     Object? locale = freezed,
     Object? brightness = null,
+    Object? use24HourFormat = null,
   }) {
     return _then(_$AppSettingsModelImpl(
       locale: freezed == locale
@@ -119,6 +128,10 @@ class __$$AppSettingsModelImplCopyWithImpl<$Res>
           ? _value.brightness
           : brightness // ignore: cast_nullable_to_non_nullable
               as UiBrightness,
+      use24HourFormat: null == use24HourFormat
+          ? _value.use24HourFormat
+          : use24HourFormat // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -130,7 +143,8 @@ class _$AppSettingsModelImpl extends _AppSettingsModel {
   const _$AppSettingsModelImpl(
       {@JsonKey(fromJson: localeFromString, toJson: localeToString) this.locale,
       @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
-      this.brightness = UiBrightness.system})
+      this.brightness = UiBrightness.system,
+      this.use24HourFormat = true})
       : super._();
 
   factory _$AppSettingsModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -142,10 +156,13 @@ class _$AppSettingsModelImpl extends _AppSettingsModel {
   @override
   @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
   final UiBrightness brightness;
+  @override
+  @JsonKey()
+  final bool use24HourFormat;
 
   @override
   String toString() {
-    return 'AppSettingsModel(locale: $locale, brightness: $brightness)';
+    return 'AppSettingsModel(locale: $locale, brightness: $brightness, use24HourFormat: $use24HourFormat)';
   }
 
   @override
@@ -155,12 +172,15 @@ class _$AppSettingsModelImpl extends _AppSettingsModel {
             other is _$AppSettingsModelImpl &&
             (identical(other.locale, locale) || other.locale == locale) &&
             (identical(other.brightness, brightness) ||
-                other.brightness == brightness));
+                other.brightness == brightness) &&
+            (identical(other.use24HourFormat, use24HourFormat) ||
+                other.use24HourFormat == use24HourFormat));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, locale, brightness);
+  int get hashCode =>
+      Object.hash(runtimeType, locale, brightness, use24HourFormat);
 
   /// Create a copy of AppSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -184,7 +204,8 @@ abstract class _AppSettingsModel extends AppSettingsModel {
       {@JsonKey(fromJson: localeFromString, toJson: localeToString)
       final Locale? locale,
       @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
-      final UiBrightness brightness}) = _$AppSettingsModelImpl;
+      final UiBrightness brightness,
+      final bool use24HourFormat}) = _$AppSettingsModelImpl;
   const _AppSettingsModel._() : super._();
 
   factory _AppSettingsModel.fromJson(Map<String, dynamic> json) =
@@ -196,6 +217,8 @@ abstract class _AppSettingsModel extends AppSettingsModel {
   @override
   @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
   UiBrightness get brightness;
+  @override
+  bool get use24HourFormat;
 
   /// Create a copy of AppSettingsModel
   /// with the given fields replaced by the non-null parameter values.

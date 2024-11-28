@@ -10,6 +10,8 @@ class AppSettingsNotifier extends ValueNotifier<AppSettingsModel>
     await appSettingsApi.saveSettings(settings: settings);
   }
 
+  AppSettingsModel get settings => value;
+
   Future<void> onLoad() async {
     final settings = await appSettingsApi.loadSettings();
     await _updateSettings(settings);
@@ -35,4 +37,6 @@ class AppSettingsNotifier extends ValueNotifier<AppSettingsModel>
     if (value.locale == result.updatedLocale) return;
     await _updateSettings(value.copyWith(locale: result.updatedLocale));
   }
+
+  bool get use24HourFormat => value.use24HourFormat;
 }

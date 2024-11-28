@@ -171,21 +171,6 @@ sealed class Transaction with _$Transaction {
           id: currencyId,
         ),
       );
-  factory Transaction.newTaskTransaction({
-    required final TaskTransactionType type,
-    required final CurrencyType currencyType,
-    required final CurrencyId currencyId,
-  }) =>
-      Transaction(
-        transactionDate: DateTime.now(),
-        type: type == TaskTransactionType.income
-            ? TransactionType.income
-            : TransactionType.expense,
-        input: InputMoney.fromCurrency(
-          type: currencyType,
-          id: currencyId,
-        ),
-      );
 
   const Transaction._();
 

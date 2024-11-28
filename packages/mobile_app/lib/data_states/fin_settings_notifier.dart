@@ -9,17 +9,22 @@ class FinSettingsNotifier
         CurrencyType.fiat => value.value.fiatCurrencyId,
         CurrencyType.crypto => value.value.cryptoCurrencyId,
       };
+
+  FinSettingsModel get settings => value.value;
+
   Future<void> onLoad() async {
-    var settings = await finSettingsLocalApi.loadSettings();
+    var effectiveSettings = await finSettingsLocalApi.loadSettings();
     CurrencyId getId(final CurrencyType type) =>
         dictionariesNotifier.getDefaultCurrencyId(type);
-    if (settings.cryptoCurrencyId.isEmpty) {
-      settings =
-          settings.copyWith(cryptoCurrencyId: getId(CurrencyType.crypto));
+    if (effectiveSettings.cryptoCurrencyId.isEmpty) {
+      effectiveSettings = effectiveSettings.copyWith(
+        cryptoCurrencyId: getId(CurrencyType.crypto),
+      );
     }
-    if (settings.fiatCurrencyId.isEmpty) {
-      settings = settings.copyWith(cryptoCurrencyId: getId(CurrencyType.fiat));
+    if (effectiveSettings.fiatCurrencyId.isEmpty) {
+      effectiveSettings =
+          effectiveSettings.copyWith(fiatCurrencyId: getId(CurrencyType.fiat));
     }
-    value = LoadableContainer.loaded(settings);
+    value = LoadableContainer.loaded(effectiveSettings);
   }
 }

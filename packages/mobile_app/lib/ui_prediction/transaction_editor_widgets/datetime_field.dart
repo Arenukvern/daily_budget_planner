@@ -9,11 +9,17 @@ class DatetimeField extends StatelessWidget {
   final DateTime date;
   final ValueSetter<DateTime> onChanged;
   @override
-  Widget build(final BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: UiDateTimeField(
-          initialValue: date,
-          onChanged: onChanged,
-        ),
-      );
+  Widget build(final BuildContext context) {
+    final use24HourFormat = context.select<AppSettingsNotifier, bool>(
+      (final s) => s.settings.use24HourFormat,
+    );
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: UiDateTimeField(
+        initialValue: date,
+        use24HourFormat: use24HourFormat,
+        onChanged: onChanged,
+      ),
+    );
+  }
 }

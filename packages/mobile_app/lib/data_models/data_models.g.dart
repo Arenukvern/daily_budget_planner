@@ -13,6 +13,7 @@ _$AppSettingsModelImpl _$$AppSettingsModelImplFromJson(
       brightness: json['brightness'] == null
           ? UiBrightness.system
           : UiBrightness.fromJson(json['brightness'] as String),
+      use24HourFormat: json['use24HourFormat'] as bool? ?? true,
     );
 
 Map<String, dynamic> _$$AppSettingsModelImplToJson(
@@ -20,6 +21,7 @@ Map<String, dynamic> _$$AppSettingsModelImplToJson(
     <String, dynamic>{
       'locale': localeToString(instance.locale),
       'brightness': UiBrightness.toJson(instance.brightness),
+      'use24HourFormat': instance.use24HourFormat,
     };
 
 _$MonthlyBudgetModelImpl _$$MonthlyBudgetModelImplFromJson(

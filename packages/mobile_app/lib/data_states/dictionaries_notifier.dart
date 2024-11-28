@@ -17,7 +17,7 @@ class DictionariesNotifier extends ChangeNotifier with HasLocalApis, HasStates {
         CurrencyType.crypto => cryptoCurrencies,
       }[id]!;
 
-  ///
+  /// To get default currency id use [FinSettingsNotifier.getDefaultCurrencyId]
   @useResult
   CurrencyId getDefaultCurrencyId(final CurrencyType type) {
     final language = localeNotifier.value.language;

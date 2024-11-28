@@ -28,6 +28,11 @@ enum TaskTransactionType {
   factory TaskTransactionType.fromJson(final String json) =>
       TaskTransactionType.values.byName(json);
   String toJson() => name;
+
+  TransactionType toTransactionType() => switch (this) {
+        TaskTransactionType.expense => TransactionType.expense,
+        TaskTransactionType.income => TransactionType.income,
+      };
 }
 
 enum PersonalExpenseTaskType {

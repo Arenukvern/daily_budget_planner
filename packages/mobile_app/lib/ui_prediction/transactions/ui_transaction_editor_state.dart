@@ -1,4 +1,4 @@
-part of 'transaction_editor.dart';
+part of 'ui_transaction_editor.dart';
 
 class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
   _EditingController({
@@ -15,12 +15,16 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
   }
   bool get isNew => !isEditing;
   final bool isEditing;
+
+  late final _composedListenable = Listenable.merge([
+    amount,
+    coinPrice,
+  ]);
   void onLoad() {
-    Listenable.merge([
-      amount,
-      coinPrice,
-    ]).addListener(notifyListeners);
-    amount.text = transaction.input.amount(taxFree: kAmountsTaxFree).toString();
+    _composedListenable.addListener(notifyListeners);
+
+    final rawAmount = transaction.input.amount(taxFree: kAmountsTaxFree);
+    if (rawAmount > 0) amount.text = rawAmount.toString();
     // TODO(arenukvern): description
     // coinPrice.text = transaction?.input.coinPrice.toString() ?? '';
   }
@@ -80,8 +84,9 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
 
   @override
   void dispose() {
-    super.dispose();
+    _composedListenable.removeListener(notifyListeners);
     amount.dispose();
     coinPrice.dispose();
+    super.dispose();
   }
 }

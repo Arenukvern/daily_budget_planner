@@ -29,6 +29,7 @@ class AppSettingsModel with _$AppSettingsModel {
     @Default(UiBrightness.system)
     @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
     final UiBrightness brightness,
+    @Default(true) final bool use24HourFormat,
   }) = _AppSettingsModel;
 
   const AppSettingsModel._();

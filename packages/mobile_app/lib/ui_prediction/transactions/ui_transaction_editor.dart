@@ -1,7 +1,16 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/transaction_editor_widgets/transaction_editor_widgets.dart';
 
-part 'transaction_editor_state.dart';
+part 'ui_transaction_editor_state.dart';
+
+@immutable
+class TransactionEditorDto {
+  const TransactionEditorDto({
+    this.isTypeChangable = true,
+  });
+  final bool isTypeChangable;
+  static const empty = TransactionEditorDto();
+}
 
 Map<TransactionType, String> getTransactionTypeNames({
   required final CurrencyType currencyType,
@@ -25,6 +34,7 @@ Map<TransactionType, String> getTransactionTypeNames({
 Future<Transaction?> showTransactionEditor(
   final BuildContext context, {
   required final Transaction transaction,
+  final TransactionEditorDto dto = TransactionEditorDto.empty,
 }) =>
     Navigator.push(
       context,
@@ -32,6 +42,7 @@ Future<Transaction?> showTransactionEditor(
         swipeDismissible: true,
         builder: (final context) => _TransactionEditor(
           transaction: transaction,
+          dto: dto,
         ),
       ),
     );
@@ -39,10 +50,11 @@ Future<Transaction?> showTransactionEditor(
 class _TransactionEditor extends StatefulHookWidget {
   const _TransactionEditor({
     required this.transaction,
+    required this.dto,
   });
 
   final Transaction transaction;
-
+  final TransactionEditorDto dto;
   @override
   State<_TransactionEditor> createState() => _TransactionEditorState();
 }
@@ -90,6 +102,7 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
 
   @override
   Widget build(final BuildContext context) {
+    final dto = widget.dto;
     useListenable(controller);
     final locale = useLocale(context);
     final transaction = controller.transaction;
@@ -140,14 +153,16 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
                 .setMoney((final state) => state.copyWith(currencyType: value)),
           ),
           Gap(16),
-          TransactionTypeField(
-            currencyType: currencyType,
-            value: transaction.type,
-            onChanged: (final value) => controller
-                .setState((final state) => state.copyWith(type: value)),
-          ),
-          if (Envs.isCurrencySwitchingEnabled) ...[
+          if (dto.isTypeChangable) ...[
+            TransactionTypeField(
+              currencyType: currencyType,
+              value: transaction.type,
+              onChanged: (final value) => controller
+                  .setState((final state) => state.copyWith(type: value)),
+            ),
             Gap(16),
+          ],
+          if (Envs.isCurrencySwitchingEnabled) ...[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: CurrencyAutoCompleter(
@@ -162,8 +177,8 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
                 type: currencyType,
               ),
             ),
+            Gap(16),
           ],
-          Gap(16),
           if (currencyType case CurrencyType.fiat) ...[
             nameField,
             Gap(16),

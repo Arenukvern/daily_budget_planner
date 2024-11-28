@@ -45,6 +45,6 @@ class UiExpensesTasks extends StatelessWidget {
     final tasks = context.select<TasksNotifier, List<Task>>(
       (final c) => c.getTasks(TaskTransactionType.expense),
     );
-    return UiTasksView2(tasks: tasks);
+    return UiTasksView(tasks: tasks);
   }
 }
