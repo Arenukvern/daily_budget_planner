@@ -179,6 +179,17 @@ KeyboardBindingsViewFocusScope(
 );
 ```
 
+### UiFocusedBox
+
+UiFocusedBox is a widget that provides a box decoration with a border for focused state.
+
+```dart
+UiFocusedBox(
+  focused: focused,
+  child: UiText('Focused box content'),
+);
+```
+
 ### KeyboardBindingsNotifier
 
 KeyboardBindingsNotifier is a widget that provides a notifier for keyboard bindings.

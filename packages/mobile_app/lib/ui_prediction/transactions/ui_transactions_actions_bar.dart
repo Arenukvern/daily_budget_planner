@@ -26,9 +26,6 @@ class UiTransactionsActionsBar extends StatelessWidget {
                 currencyType: Envs.kDefaultCurrencyType,
                 currencyId: defaultCurrencyId,
               ),
-              dto: TransactionEditorDto(
-                isTypeChangable: false,
-              ),
             );
             if (transaction == null) return;
             return notifier.upsertTransaction(transaction);

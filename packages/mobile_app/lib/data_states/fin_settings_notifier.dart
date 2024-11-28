@@ -1,5 +1,13 @@
 import 'package:mobile_app/common_imports.dart';
 
+CurrencyId useDefaultCurrencyId(
+  final BuildContext context, {
+  required final CurrencyType currencyType,
+}) =>
+    context.select<FinSettingsNotifier, CurrencyId>(
+      (final c) => c.getDefaultCurrencyId(currencyType),
+    );
+
 class FinSettingsNotifier
     extends ValueNotifier<LoadableContainer<FinSettingsModel>>
     with HasLocalApis, HasStates {

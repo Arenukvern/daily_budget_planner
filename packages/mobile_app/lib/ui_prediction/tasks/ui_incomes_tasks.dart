@@ -1,25 +1,7 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 
-class UiIncomesTasks extends StatelessWidget {
-  const UiIncomesTasks({super.key});
-  static Future<void> show(final BuildContext context) async =>
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (final _) => const UiIncomesTasks(),
-        ),
-      );
-
-  @override
-  Widget build(final BuildContext context) {
-    final tasks = context.select<TasksNotifier, List<Task>>(
-      (final c) => c.getTasks(TaskTransactionType.income),
-    );
-    return UiTasksView(tasks: tasks);
-  }
-}
-
-class UiIncomesTasksView extends StatelessWidget {
+class UiIncomesTasksView extends HookWidget {
   const UiIncomesTasksView({super.key});
   static Future<void> show({
     required final BuildContext context,
@@ -33,24 +15,46 @@ class UiIncomesTasksView extends StatelessWidget {
       );
 
   @override
-  Widget build(final BuildContext context) => UiColumnScaffold(
-        appBar: UiAppBar(
-          titleText: 'Regular incomes',
-          automaticallyImplyLeading: false,
-          trailing: UiTextActionButton.done(),
+  Widget build(final BuildContext context) {
+    final tasks = context.select<TasksNotifier, List<Task>>(
+      (final c) => c.getTasks(TaskTransactionType.income),
+    );
+    final taskState = useUiTaskState(tasks.first);
+    return UiColumnScaffold(
+      appBar: UiAppBar(
+        titleText: 'Regular incomes',
+        automaticallyImplyLeading: false,
+        trailing: UiTextActionButton.done(),
+      ),
+      children: [
+        Expanded(
+          child: Row(
+            children: [
+              UiTasksBarView(
+                tasks: tasks,
+                onSelect: (final value) => taskState.value = value,
+              ),
+              UiTaskVerticalActionsBar(
+                task: taskState.value.task,
+              ),
+              Expanded(
+                child: UiTaskView(
+                  task: taskState.value.task,
+                  currencyType: Envs.kDefaultCurrencyType,
+                ),
+              ),
+            ],
+          ),
         ),
-        children: [
-          Expanded(
-            child: UiIncomesTasks(),
+        UiTasksActionsBar(
+          tuple: (
+            taskTransactionType: TaskTransactionType.income,
+            currencyType: CurrencyType.fiat
           ),
-          UiTasksActionsBar(
-            tuple: (
-              taskTransactionType: TaskTransactionType.income,
-              currencyType: CurrencyType.fiat
-            ),
-          ),
-          Gap(8),
-          UiSafeArea.bottom(),
-        ],
-      );
+        ),
+        Gap(8),
+        UiSafeArea.bottom(),
+      ],
+    );
+  }
 }

@@ -10,8 +10,9 @@ class UiTasksActionsBar extends StatelessWidget {
   final UiTasksActionsBarTuple tuple;
   @override
   Widget build(final BuildContext context) {
-    final defaultCurrencyId = context.select<FinSettingsNotifier, CurrencyId>(
-      (final state) => state.getDefaultCurrencyId(tuple.currencyType),
+    final defaultCurrencyId = useDefaultCurrencyId(
+      context,
+      currencyType: tuple.currencyType,
     );
     final locale = useLocale(context);
     return UiBottomActionBar(
@@ -28,7 +29,7 @@ class UiTasksActionsBar extends StatelessWidget {
                 currencyId: defaultCurrencyId,
               ),
               dto: TransactionEditorDto(
-                isTypeChangable: false,
+                isTaskChoosable: true,
               ),
             );
             if (transaction == null) return;

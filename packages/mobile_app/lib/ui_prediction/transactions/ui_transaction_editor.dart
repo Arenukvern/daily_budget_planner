@@ -6,9 +6,11 @@ part 'ui_transaction_editor_state.dart';
 @immutable
 class TransactionEditorDto {
   const TransactionEditorDto({
-    this.isTypeChangable = true,
+    this.isTypeChangable = false,
+    this.isTaskChoosable = false,
   });
   final bool isTypeChangable;
+  final bool isTaskChoosable;
   static const empty = TransactionEditorDto();
 }
 
@@ -34,6 +36,7 @@ Map<TransactionType, String> getTransactionTypeNames({
 Future<Transaction?> showTransactionEditor(
   final BuildContext context, {
   required final Transaction transaction,
+  final Task task = Task.empty,
   final TransactionEditorDto dto = TransactionEditorDto.empty,
 }) =>
     Navigator.push(

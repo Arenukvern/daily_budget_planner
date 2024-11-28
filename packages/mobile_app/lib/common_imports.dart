@@ -1,5 +1,6 @@
 export 'dart:async';
 
+export 'package:collection/collection.dart';
 export 'package:flutter/cupertino.dart' hide RefreshCallback;
 export 'package:flutter/material.dart';
 export 'package:flutter/widgets.dart';

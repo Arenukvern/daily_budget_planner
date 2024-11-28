@@ -1,33 +1,101 @@
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 
-class UiTasksView extends StatelessWidget {
-  const UiTasksView({
+const _kItemExtent = 48.0;
+
+class UiTasksBarView extends StatefulWidget {
+  const UiTasksBarView({
     required this.tasks,
+    required this.onSelect,
     super.key,
   });
   final List<Task> tasks;
+  final ValueChanged<UiTaskState> onSelect;
+
+  @override
+  State<UiTasksBarView> createState() => _UiTasksBarViewState();
+}
+
+class _UiTasksBarViewState extends State<UiTasksBarView> {
+  final _scrollController = FixedExtentScrollController();
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(final BuildContext context) {
-    final currencyType = CurrencyType.fiat;
-    return ListView(
-      children: [
-        ...tasks.map(
-          (final task) => _UiTaskCard(
-            currencyType: currencyType,
-            task: task,
+    final height = MediaQuery.sizeOf(context).height;
+    final tasks = widget.tasks;
+    return Container(
+      height: 216.clamp(height * 0.7, height * 0.8).toDouble(),
+      constraints: const BoxConstraints(maxWidth: 220),
+      child: CupertinoPicker(
+        itemExtent: _kItemExtent,
+        magnification: 1.22,
+        squeeze: 1.2,
+        useMagnifier: true,
+        scrollController: _scrollController,
+        onSelectedItemChanged: (final index) =>
+            widget.onSelect((task: tasks[index], index: index)),
+        children: [
+          ...tasks.mapIndexed(
+            (final index, final task) => UiBaseButton(
+              pressedScale: 1,
+              onPressed: () async => _scrollController.animateToItem(
+                index,
+                duration: 200.milliseconds,
+                curve: Curves.easeInOut,
+              ),
+              builder: (final context, final focused, final onlyFocused) =>
+                  Center(
+                child: Text(
+                  task.title,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
           ),
-        ),
-        const Gap(16),
-        UiSafeArea.bottom(),
-      ],
+        ],
+      ),
     );
   }
 }
 
-class _UiTaskCard extends StatelessWidget with HasStates {
-  const _UiTaskCard({
+class UiTaskVerticalActionsBar extends StatelessWidget {
+  const UiTaskVerticalActionsBar({required this.task, super.key});
+  final Task task;
+
+  @override
+  Widget build(final BuildContext context) => Center(
+        child: Container(
+          decoration: BoxDecoration(
+            color: context.colorScheme.primaryContainer.withOpacity(0.3),
+            borderRadius: BorderRadius.all(Radius.elliptical(8, 8)),
+          ),
+          margin: EdgeInsets.zero,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Gap(8),
+                AddTaskTransactionButton(
+                  padding: const EdgeInsets.all(3),
+                  task: task,
+                  currencyType: Envs.kDefaultCurrencyType,
+                ),
+                Gap(8),
+              ],
+            ),
+          ),
+        ),
+      );
+}
+
+class UiTaskView extends StatelessWidget with HasStates {
+  const UiTaskView({
     required this.currencyType,
     required this.task,
     super.key,
@@ -41,9 +109,6 @@ class _UiTaskCard extends StatelessWidget with HasStates {
     );
     void onRemove(final Transaction transaction) =>
         tasksNotifier.removeTransaction(transaction, task);
-    final defaultCurrencyId = context.select<FinSettingsNotifier, CurrencyId>(
-      (final c) => c.getDefaultCurrencyId(currencyType),
-    );
     return CupertinoListSection(
       backgroundColor: Colors.transparent,
       header: Column(
@@ -62,55 +127,16 @@ class _UiTaskCard extends StatelessWidget with HasStates {
             alignment: Alignment.centerLeft,
             child: Wrap(
               children: [
-                Text('From Today - '),
+                Text('From Today: '),
                 // TODO(arenukvern): add localization l10n
                 Text(
-                  'yearly: ${transactions.sumForPeriod(Period.yearly).toStringAsFixed(2)} • ',
+                  '${transactions.sumForPeriod(Period.yearly).toStringAsFixed(2)} yearly • ',
                 ),
                 Text(
-                  'monthly: ${transactions.sumForPeriod(Period.monthly).toStringAsFixed(2)}',
+                  '${transactions.sumForPeriod(Period.monthly).toStringAsFixed(2)} monthly',
                 ),
               ],
             ),
-          ),
-          Gap(4),
-          Row(
-            children: [
-              UiBaseButton(
-                onPressed: () async {
-                  final transaction = await showTransactionEditor(
-                    context,
-                    transaction: Transaction.create(
-                      type: task.transactionType.toTransactionType(),
-                      currencyType: currencyType,
-                      currencyId: defaultCurrencyId,
-                    ),
-                    dto: TransactionEditorDto(
-                      isTypeChangable: false,
-                    ),
-                  );
-                  if (transaction == null) return;
-                  // TODO(arenukvern): ask for period
-                  final schedule = TransactionSchedule(
-                    period: Period.monthly,
-                    dayOfMonth: 1,
-                  );
-                  await tasksNotifier.upsertTransaction(
-                    transaction: transaction,
-                    schedule: schedule,
-                    task: task,
-                  );
-                  // TODO(arenukvern): upsert transaction
-                },
-                builder: (final context, final focused, final onlyFocused) =>
-                    Icon(
-                  Icons.add,
-                  color: focused
-                      ? null
-                      : context.colorScheme.onSurface.withOpacity(0.5),
-                ),
-              ),
-            ],
           ),
         ],
       ),

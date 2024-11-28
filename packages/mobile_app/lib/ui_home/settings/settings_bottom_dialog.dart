@@ -3,7 +3,6 @@ import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_home/hooks/use_monetization_type.dart';
 import 'package:mobile_app/ui_home/settings/language_bottom_sheet.dart';
 import 'package:mobile_app/ui_home/settings/ui_theme_mode_tile.dart';
-import 'package:mobile_app/ui_prediction/ui_prediction_screen.dart';
 
 class SettingsBottomPopup extends StatelessWidget {
   const SettingsBottomPopup({
@@ -53,7 +52,10 @@ class SettingsBottomPopup extends StatelessWidget {
               UiDivider.size1(),
               _ListTile(
                 icon: Icons.money,
-                onTap: () async => UiPredictionScreen.show(context),
+                onTap: () async {
+                  unawaited(UiPredictionScreen.show(context));
+                  onClose();
+                },
                 title: LocalizedMap(
                   value: {
                     languages.en: 'Expenses prediction',

@@ -10,18 +10,11 @@ class SettingsIconButton extends HookWidget {
   Widget build(final BuildContext context) {
     final isPopupVisible = useIsBool();
     void onClose() => isPopupVisible.value = false;
+    // TODO(arenukvern): remove portal since it's not rebuilding
+    // when size of view is changed
     return PortalTarget(
       visible: isPopupVisible.value,
-      portalFollower: GestureDetector(
-        onVerticalDragStart: (final details) => onClose(),
-        onHorizontalDragStart: (final details) => onClose(),
-        child: ModalBarrier(
-          color: context.colorScheme.shadow.withOpacity(0.1),
-          onDismiss: onClose,
-        ).animate().fade(
-              duration: 40.milliseconds,
-            ),
-      ),
+      portalFollower: _Barrier(onClose: onClose),
       child: PortalTarget(
         visible: isPopupVisible.value,
         portalFollower: SettingsBottomPopup(
@@ -42,4 +35,19 @@ class SettingsIconButton extends HookWidget {
       ),
     );
   }
+}
+
+class _Barrier extends HookWidget {
+  const _Barrier({required this.onClose, super.key});
+  final VoidCallback onClose;
+
+  @override
+  Widget build(final BuildContext context) => GestureDetector(
+        onVerticalDragStart: (final details) => onClose(),
+        onHorizontalDragStart: (final details) => onClose(),
+        child: ModalBarrier(
+          color: context.colorScheme.shadow.withOpacity(0.1),
+          onDismiss: onClose,
+        ).animate().fade(duration: 40.milliseconds),
+      );
 }
