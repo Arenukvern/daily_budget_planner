@@ -7,6 +7,7 @@ typedef UiTransactionsActionsBarTuple = ({
 class UiTransactionsActionsBar extends StatelessWidget {
   const UiTransactionsActionsBar({required this.tuple, super.key});
   final UiTransactionsActionsBarTuple tuple;
+
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
@@ -25,6 +26,7 @@ class UiTransactionsActionsBar extends StatelessWidget {
                 type: tuple.type,
                 currencyType: Envs.kDefaultCurrencyType,
                 currencyId: defaultCurrencyId,
+                taskId: TaskId.empty,
               ),
             );
             if (transaction == null) return;

@@ -2,11 +2,13 @@ import 'package:mobile_app/common_imports.dart';
 
 class AddTaskTransactionButton extends StatelessWidget {
   const AddTaskTransactionButton({
-    required this.task,
     required this.currencyType,
+    required this.dto,
+    this.task = Task.empty,
     this.padding = const EdgeInsets.all(8),
     super.key,
   });
+  final TransactionEditorDto dto;
   final Task task;
   final CurrencyType currencyType;
   final EdgeInsetsGeometry padding;
@@ -21,19 +23,29 @@ class AddTaskTransactionButton extends StatelessWidget {
     final locale = useLocale(context);
     return UiBaseButton(
       tooltip: LocalizedMap(
-        value: {
-          languages.en: 'Add transaction',
-          languages.ru: 'Добавить транзакцию',
-        },
+        // TODO(arenukvern): add localization l10n
+        value: dto.isUsedForTaskPlanning
+            ? {
+                languages.en: 'Plan transaction',
+                languages.it: 'Pianifica transazione',
+                languages.ru: 'Запланировать транзакцию',
+              }
+            : {
+                languages.en: 'Add transaction',
+                languages.it: 'Aggiungi transazione',
+                languages.ru: 'Добавить транзакцию',
+              },
       ).getValue(locale),
       onPressed: () async {
         final transaction = await showTransactionEditor(
           context,
           transaction: Transaction.create(
+            taskId: task.id,
             type: task.transactionType.toTransactionType(),
             currencyType: currencyType,
             currencyId: defaultCurrencyId,
           ),
+          dto: dto,
         );
         if (transaction == null) return;
         // TODO(arenukvern): ask for period

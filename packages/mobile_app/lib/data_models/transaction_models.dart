@@ -19,7 +19,15 @@ enum TransactionType {
   @JsonValue('transfer_in')
   transferIn,
   @JsonValue('transfer_out')
-  transferOut,
+  transferOut;
+
+  TaskTransactionType? toTaskTransactionType() => switch (this) {
+        expense => TaskTransactionType.expense,
+        income => TaskTransactionType.income,
+
+        /// transfers should not have task id
+        transferIn || transferOut => null,
+      };
 }
 
 extension type const TransactionId(String value) {
@@ -162,6 +170,7 @@ sealed class Transaction with _$Transaction {
     required final TransactionType type,
     required final CurrencyType currencyType,
     required final CurrencyId currencyId,
+    required final TaskId taskId,
   }) =>
       Transaction(
         transactionDate: DateTime.now(),
@@ -170,6 +179,7 @@ sealed class Transaction with _$Transaction {
           type: currencyType,
           id: currencyId,
         ),
+        taskId: taskId,
       );
 
   const Transaction._();

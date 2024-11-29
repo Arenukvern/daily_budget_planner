@@ -1,3 +1,5 @@
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 
@@ -7,8 +9,10 @@ class UiTasksBarView extends StatefulWidget {
   const UiTasksBarView({
     required this.tasks,
     required this.onSelect,
+    required this.taskTransactionType,
     super.key,
   });
+  final TaskTransactionType taskTransactionType;
   final List<Task> tasks;
   final ValueChanged<UiTaskState> onSelect;
 
@@ -28,33 +32,73 @@ class _UiTasksBarViewState extends State<UiTasksBarView> {
   Widget build(final BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;
     final tasks = widget.tasks;
-    return Container(
-      height: 216.clamp(height * 0.7, height * 0.8).toDouble(),
+    return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 220),
-      child: CupertinoPicker(
-        itemExtent: _kItemExtent,
-        magnification: 1.22,
-        squeeze: 1.2,
-        useMagnifier: true,
-        scrollController: _scrollController,
-        onSelectedItemChanged: (final index) =>
-            widget.onSelect((task: tasks[index], index: index)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          ...tasks.mapIndexed(
-            (final index, final task) => UiBaseButton(
-              pressedScale: 1,
-              onPressed: () async => _scrollController.animateToItem(
-                index,
-                duration: 200.milliseconds,
-                curve: Curves.easeInOut,
+          Padding(
+            padding: const EdgeInsets.only(left: 6),
+            child: UiTipCard(
+              text: LocalizedMap(
+                value: switch (widget.taskTransactionType) {
+                  TaskTransactionType.income => {
+                      languages.en:
+                          'Use categories to plan your regular incomes, '
+                              'for example, salary, cashback etc. ',
+                      languages.ru:
+                          'Используйте категории для планирования регулярных доходов, '
+                              ' например, зарплата, кэшбэк и т.д. ',
+                      languages.it:
+                          'Usa le categorie per pianificare le tue entrate periodiche, '
+                              'come il salario, il caffè, ecc. ',
+                    },
+                  TaskTransactionType.expense => {
+                      languages.en:
+                          'Use categories to plan your regular expenses which '
+                              'are usually huge, for example, rent, train, insurance, etc. ',
+                      languages.ru:
+                          'Используйте категории для планирования регулярных расходов, '
+                              'которые обычно значительны, например, аренда, поездки на работу, '
+                              'страхование и т.д. ',
+                      languages.it:
+                          'Usa le categorie per pianificare le tue spese periodiche, '
+                              "che di solito sono grandi, come l'affitto, il treno, l'assicurazione, ecc. ",
+                    },
+                },
               ),
-              builder: (final context, final focused, final onlyFocused) =>
-                  Center(
-                child: Text(
-                  task.title,
-                  textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(
+            height: 216.clamp(height * 0.6, height * 0.8).toDouble(),
+            child: CupertinoPicker(
+              itemExtent: _kItemExtent,
+              magnification: 1.22,
+              squeeze: 1.2,
+              useMagnifier: true,
+              scrollController: _scrollController,
+              onSelectedItemChanged: (final index) =>
+                  widget.onSelect((task: tasks[index], index: index)),
+              children: [
+                ...tasks.mapIndexed(
+                  (final index, final task) => UiBaseButton(
+                    pressedScale: 1,
+                    onPressed: () async => _scrollController.animateToItem(
+                      index,
+                      duration: 200.milliseconds,
+                      curve: Curves.easeInOut,
+                    ),
+                    builder:
+                        (final context, final focused, final onlyFocused) =>
+                            Center(
+                      child: Text(
+                        task.title,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ],
@@ -63,16 +107,52 @@ class _UiTasksBarViewState extends State<UiTasksBarView> {
   }
 }
 
+class UiTipCard extends StatelessWidget {
+  const UiTipCard({required this.text, super.key});
+  final LocalizedMap text;
+
+  @override
+  Widget build(final BuildContext context) {
+    final locale = useLocale(context);
+    return Container(
+      padding: EdgeInsets.symmetric(
+        vertical: 4,
+        horizontal: 4,
+      ),
+      decoration: BoxDecoration(
+        color: context.colorScheme.primaryContainer.withOpacity(0.3),
+        borderRadius: UiBorderRadius.medium,
+      ),
+      child: Text.rich(
+        TextSpan(
+          children: [
+            WidgetSpan(child: Icon(Icons.tips_and_updates)),
+            TextSpan(text: ' '),
+            TextSpan(text: text.getValue(locale)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class UiTaskVerticalActionsBar extends StatelessWidget {
-  const UiTaskVerticalActionsBar({required this.task, super.key});
+  const UiTaskVerticalActionsBar({
+    required this.task,
+    required this.isUsedForTaskPlanning,
+    required this.currencyType,
+    super.key,
+  });
   final Task task;
+  final bool isUsedForTaskPlanning;
+  final CurrencyType currencyType;
 
   @override
   Widget build(final BuildContext context) => Center(
         child: Container(
           decoration: BoxDecoration(
             color: context.colorScheme.primaryContainer.withOpacity(0.3),
-            borderRadius: BorderRadius.all(Radius.elliptical(8, 8)),
+            borderRadius: UiBorderRadius.medium,
           ),
           margin: EdgeInsets.zero,
           child: Padding(
@@ -84,7 +164,10 @@ class UiTaskVerticalActionsBar extends StatelessWidget {
                 AddTaskTransactionButton(
                   padding: const EdgeInsets.all(3),
                   task: task,
-                  currencyType: Envs.kDefaultCurrencyType,
+                  dto: TransactionEditorDto(
+                    isUsedForTaskPlanning: isUsedForTaskPlanning,
+                  ),
+                  currencyType: currencyType,
                 ),
                 Gap(8),
               ],

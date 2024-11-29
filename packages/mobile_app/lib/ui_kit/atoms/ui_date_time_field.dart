@@ -6,10 +6,12 @@ class UiDateTimeField extends StatefulWidget {
     required this.initialValue,
     required this.onChanged,
     this.use24HourFormat = false,
+    this.arePickersEnabled = false,
     super.key,
   });
 
   final DateTime initialValue;
+  final bool arePickersEnabled;
   final bool use24HourFormat;
   final ValueChanged<DateTime> onChanged;
 
@@ -52,9 +54,8 @@ class _UiDateTimeFieldState extends State<UiDateTimeField> {
   @override
   Widget build(final BuildContext context) => LayoutBuilder(
         builder: (final context, final constraints) {
-          final isDesktop = constraints.maxWidth > 600;
-          if (isDesktop) {
-            // Desktop layout
+          // TODO(arenukvern): integrate pickers as alternative to buttons
+          if (widget.arePickersEnabled) {
             return Row(
               children: [
                 Expanded(
@@ -62,6 +63,7 @@ class _UiDateTimeFieldState extends State<UiDateTimeField> {
                     onTap: () async => _showDatePicker(context),
                     child: InputDecorator(
                       decoration: InputDecoration(
+                        // TODO(arenukvern): add localization l10n
                         labelText: 'Date',
                         suffixIcon: Icon(Icons.calendar_today),
                       ),
@@ -78,6 +80,7 @@ class _UiDateTimeFieldState extends State<UiDateTimeField> {
                     ),
                     child: InputDecorator(
                       decoration: InputDecoration(
+                        // TODO(arenukvern): add localization l10n
                         labelText: 'Time',
                         suffixIcon: Icon(Icons.access_time),
                       ),
@@ -99,8 +102,9 @@ class _UiDateTimeFieldState extends State<UiDateTimeField> {
                 Row(
                   children: [
                     Expanded(
-                      child: _buildButton(
-                        label: 'Date',
+                      child: InputFieldDecorator(
+                        // TODO(arenukvern): add localization l10n
+                        labelText: 'Date',
                         value: DateFormat.yMMMd().format(_selectedDateTime),
                         icon: Icons.calendar_today,
                         onTap: () => setState(
@@ -117,8 +121,9 @@ class _UiDateTimeFieldState extends State<UiDateTimeField> {
                     ),
                     const Gap(16),
                     Expanded(
-                      child: _buildButton(
-                        label: 'Time',
+                      child: InputFieldDecorator(
+                        // TODO(arenukvern): add localization l10n
+                        labelText: 'Time',
                         value: widget.use24HourFormat
                             ? DateFormat.Hm().format(_selectedDateTime)
                             : DateFormat.jm().format(_selectedDateTime),
@@ -186,23 +191,6 @@ class _UiDateTimeFieldState extends State<UiDateTimeField> {
             );
           }
         },
-      );
-
-  Widget _buildButton({
-    required final String label,
-    required final String value,
-    required final IconData icon,
-    required final VoidCallback onTap,
-  }) =>
-      InkWell(
-        onTap: onTap,
-        child: InputDecorator(
-          decoration: InputDecoration(
-            labelText: label,
-            suffixIcon: Icon(icon),
-          ),
-          child: Text(value),
-        ),
       );
 
   Future<void> _showDatePicker(final BuildContext context) async {

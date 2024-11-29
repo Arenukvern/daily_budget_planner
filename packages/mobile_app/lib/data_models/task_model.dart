@@ -48,6 +48,8 @@ enum PersonalExpenseTaskType {
 enum PersonalIncomeTaskType {
   salary,
   cashback,
+  reselling,
+  gifts,
   other,
   investments,
   crypto,

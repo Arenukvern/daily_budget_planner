@@ -148,10 +148,8 @@ class _AutocompleteOptions<T extends Object> extends StatelessWidget {
               final T option = options.elementAt(index);
               final displayString = displayStringForOption(option);
               return InkWell(
-                onTap: () {
-                  onSelected(option);
-                },
-                borderRadius: BorderRadius.all(Radius.elliptical(16, 16)),
+                onTap: () => onSelected(option),
+                borderRadius: UiBorderRadius.extraLarge,
                 child: Builder(
                   builder: (final context) {
                     final bool highlight =

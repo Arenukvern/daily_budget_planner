@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/common_imports.dart';
 
 export 'design_system_token.dart';
+export 'layout.dart';
 
 class AppThemeData {
   AppThemeData._();

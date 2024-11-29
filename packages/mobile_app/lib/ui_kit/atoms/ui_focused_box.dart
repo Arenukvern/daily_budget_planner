@@ -23,7 +23,7 @@ class UiFocusedBox extends StatelessWidget {
         duration: 200.milliseconds,
         decoration: BoxDecoration(
           color: Colors.transparent,
-          borderRadius: const BorderRadius.all(Radius.elliptical(12, 12)),
+          borderRadius: UiBorderRadius.large,
           border: Border.all(
             color: focused
                 ? context.colorScheme.onSurface.withOpacity(0.4)

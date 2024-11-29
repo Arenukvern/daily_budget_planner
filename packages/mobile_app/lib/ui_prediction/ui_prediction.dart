@@ -1,6 +1,4 @@
 export 'tasks/tasks.dart';
-export 'tasks/ui_expenses_tasks.dart';
-export 'tasks/ui_incomes_tasks.dart';
 export 'transactions/ui_expenses_view.dart';
 export 'transactions/ui_incomes_view.dart';
 export 'transactions/ui_transaction_editor.dart';

@@ -1,5 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/ui_prediction/transaction_editor_widgets/transaction_editor_widgets.dart';
+import 'package:mobile_app/ui_prediction/transaction_editor_fields/transaction_editor_fields.dart';
 
 part 'ui_transaction_editor_state.dart';
 
@@ -8,9 +8,13 @@ class TransactionEditorDto {
   const TransactionEditorDto({
     this.isTypeChangable = false,
     this.isTaskChoosable = false,
+    this.isUsedForTaskPlanning = false,
+    this.isCurrencyChoosable = Envs.isCryptoEnabled,
   });
   final bool isTypeChangable;
   final bool isTaskChoosable;
+  final bool isUsedForTaskPlanning;
+  final bool isCurrencyChoosable;
   static const empty = TransactionEditorDto();
 }
 
@@ -36,7 +40,6 @@ Map<TransactionType, String> getTransactionTypeNames({
 Future<Transaction?> showTransactionEditor(
   final BuildContext context, {
   required final Transaction transaction,
-  final Task task = Task.empty,
   final TransactionEditorDto dto = TransactionEditorDto.empty,
 }) =>
     Navigator.push(
@@ -132,6 +135,10 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
           controller.setState((final state) => state.copyWith(note: value)),
     );
 
+    final padding = const EdgeInsets.symmetric(horizontal: 16);
+
+    final taskTransactionType = transaction.type.toTaskTransactionType();
+
     final body = SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +149,8 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
                 child: UiAppBar(
                   automaticallyImplyLeading: false,
                   title: Text(
-                    '${isNew ? 'Add' : 'Edit'} '
+                    // TODO(arenukvern): add localization l10n
+                    '${dto.isUsedForTaskPlanning ? '${isNew ? 'Plan' : 'Edit planned'} ' : '${isNew ? 'Add' : 'Edit'} '}'
                     '${transactionTypeNames[transaction.type]!}',
                   ),
                   trailing: UiTextActionButton.cancel(),
@@ -150,12 +158,28 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
               ),
             ],
           ),
-          CurrencyTypeField(
-            currencyType: currencyType,
-            onChanged: (final value) => controller
-                .setMoney((final state) => state.copyWith(currencyType: value)),
-          ),
-          Gap(16),
+          if (taskTransactionType != null) ...[
+            Padding(
+              padding: padding,
+              child: TaskIdField(
+                readonly: !dto.isTaskChoosable,
+                transactionType: taskTransactionType,
+                taskId: transaction.taskId,
+                onChanged: (final value) => controller
+                    .setState((final state) => state.copyWith(taskId: value)),
+              ),
+            ),
+            Gap(16),
+          ],
+          if (dto.isCurrencyChoosable) ...[
+            CurrencyTypeField(
+              currencyType: currencyType,
+              onChanged: (final value) => controller.setMoney(
+                (final state) => state.copyWith(currencyType: value),
+              ),
+            ),
+            Gap(16),
+          ],
           if (dto.isTypeChangable) ...[
             TransactionTypeField(
               currencyType: currencyType,
@@ -167,7 +191,7 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
           ],
           if (Envs.isCurrencySwitchingEnabled) ...[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: padding,
               child: CurrencyAutoCompleter(
                 onSelected: (final selection) => controller.setMoney(
                   (final state) => state.copyWith(
@@ -199,16 +223,22 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
             CurrencyType.crypto => [
                 amountField,
                 Gap(16),
-                CoinPriceField(controller: controller.coinPrice),
+                Padding(
+                  padding: padding,
+                  child: CoinPriceField(controller: controller.coinPrice),
+                ),
                 Gap(16),
               ],
           },
           if (currencyType case CurrencyType.crypto) noteField,
           Gap(16),
-          DatetimeField(
-            date: transaction.transactionDate,
-            onChanged: (final value) => controller.setState(
-              (final state) => state.copyWith(transactionDate: value),
+          Padding(
+            padding: padding,
+            child: DatetimeField(
+              date: transaction.transactionDate,
+              onChanged: (final value) => controller.setState(
+                (final state) => state.copyWith(transactionDate: value),
+              ),
             ),
           ),
           Gap(24),

@@ -3,6 +3,7 @@ import 'package:mobile_app/common_imports.dart';
 typedef UiTasksActionsBarTuple = ({
   TaskTransactionType taskTransactionType,
   CurrencyType currencyType,
+  Task task,
 });
 
 class UiTasksActionsBar extends StatelessWidget {
@@ -27,8 +28,10 @@ class UiTasksActionsBar extends StatelessWidget {
                 type: tuple.taskTransactionType.toTransactionType(),
                 currencyType: tuple.currencyType,
                 currencyId: defaultCurrencyId,
+                taskId: tuple.task.id,
               ),
               dto: TransactionEditorDto(
+                isUsedForTaskPlanning: true,
                 isTaskChoosable: true,
               ),
             );

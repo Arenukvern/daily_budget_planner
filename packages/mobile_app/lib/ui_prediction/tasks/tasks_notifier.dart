@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:mobile_app/common_imports.dart';
 
 class TasksNotifier extends ChangeNotifier {
@@ -7,7 +6,12 @@ class TasksNotifier extends ChangeNotifier {
         (final index, final type) => Task(
           title: type.name,
           id: TaskId.create(),
-          status: index == 0 ? TaskStatus.visible : TaskStatus.hidden,
+          status: type == PersonalIncomeTaskType.salary ||
+                  type == PersonalIncomeTaskType.cashback ||
+                  type == PersonalIncomeTaskType.reselling ||
+                  type == PersonalIncomeTaskType.gifts
+              ? TaskStatus.visible
+              : TaskStatus.hidden,
         ),
       )
       .toList();
@@ -25,6 +29,20 @@ class TasksNotifier extends ChangeNotifier {
   /// these transactions are different, because they will be used
   /// as constructors for real transactions.
   final Map<TransactionId, Transaction> _transactions = {};
+
+  Task getTaskById(
+    final TaskId id, {
+    required final TaskTransactionType transactionType,
+  }) =>
+      (switch (transactionType) {
+        TaskTransactionType.income => _incomeTasks.firstWhereOrNull(
+            (final task) => task.id == id,
+          ),
+        TaskTransactionType.expense => _expenseTasks.firstWhereOrNull(
+            (final task) => task.id == id,
+          ),
+      }) ??
+      Task.empty;
 
   List<Task> getTasks(final TaskTransactionType transactionType) =>
       switch (transactionType) {

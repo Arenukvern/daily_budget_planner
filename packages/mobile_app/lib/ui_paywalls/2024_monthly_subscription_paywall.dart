@@ -446,12 +446,7 @@ class _SubscriptionCard extends StatelessWidget {
               color: highlight
                   ? context.colorScheme.primary
                   : context.colorScheme.surface,
-              borderRadius: BorderRadius.all(
-                Radius.elliptical(
-                  UiDecorators.radiusMedium,
-                  UiDecorators.radiusMedium,
-                ),
-              ),
+              borderRadius: UiBorderRadius.medium,
             ),
             child: DefaultTextStyle.merge(
               style: TextStyle(

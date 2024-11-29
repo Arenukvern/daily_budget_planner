@@ -13,13 +13,10 @@ class DatetimeField extends StatelessWidget {
     final use24HourFormat = context.select<AppSettingsNotifier, bool>(
       (final s) => s.settings.use24HourFormat,
     );
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: UiDateTimeField(
-        initialValue: date,
-        use24HourFormat: use24HourFormat,
-        onChanged: onChanged,
-      ),
+    return UiDateTimeField(
+      initialValue: date,
+      use24HourFormat: use24HourFormat,
+      onChanged: onChanged,
     );
   }
 }

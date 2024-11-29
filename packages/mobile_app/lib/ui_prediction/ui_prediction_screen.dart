@@ -90,10 +90,11 @@ class _PredictionHeader extends StatelessWidget {
                   ),
                   const Gap(6),
                   _HeaderItem(
-                    onPressed: () async => UiExpensesTasksView.show(
+                    onPressed: () async => showExpensesTasksView(
                       context: context,
                     ),
                     title: LocalizedMap(
+                      // TODO(arenukvern): add localization l10n
                       value: {
                         languages.en: 'regular expenses',
                         languages.it: 'spese regolari',
@@ -106,8 +107,9 @@ class _PredictionHeader extends StatelessWidget {
                   const Gap(6),
                   _HeaderItem(
                     onPressed: () async =>
-                        UiIncomesTasksView.show(context: context),
+                        showIncomesTasksView(context: context),
                     title: LocalizedMap(
+                      // TODO(arenukvern): add localization l10n
                       value: {
                         languages.en: 'regular income',
                         languages.it: 'entrate regolari',
@@ -185,35 +187,31 @@ class _PredictionBody extends StatelessWidget {
   final UiPredictionNotifier uiPredictionNotifier;
 
   @override
-  Widget build(final BuildContext context) {
-    final locale = useLocale(context);
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (kDebugMode) ...[
-          _TrendIndicator(),
-          const Gap(6),
+  Widget build(final BuildContext context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (kDebugMode) ...[
+            _TrendIndicator(),
+            const Gap(6),
+          ],
+          _BudgetButton(uiPredictionNotifier: uiPredictionNotifier),
+          const Gap(24),
+          _DailyBudgetDisplay(
+            dailyBudget: uiPredictionNotifier.value.dailyBudget,
+          ),
+          const Gap(24),
+          UiPredictionTimeline(
+            presentationType: PresentationType.day,
+            initialDate: selectedDate,
+            onDateChanged: onDateChanged,
+          ),
+          const Gap(28),
+          _DailyStatistics(
+            selectedDate: selectedDate,
+            uiPredictionNotifier: uiPredictionNotifier,
+          ),
         ],
-        _BudgetButton(uiPredictionNotifier: uiPredictionNotifier),
-        const Gap(24),
-        _DailyBudgetDisplay(
-          dailyBudget: uiPredictionNotifier.value.dailyBudget,
-        ),
-        const Gap(24),
-        UiPredictionTimeline(
-          presentationType: PresentationType.day,
-          initialDate: selectedDate,
-          onDateChanged: onDateChanged,
-        ),
-        const Gap(28),
-        _DailyStatistics(
-          selectedDate: selectedDate,
-          uiPredictionNotifier: uiPredictionNotifier,
-        ),
-      ],
-    );
-  }
+      );
 }
 
 class _TrendIndicator extends StatelessWidget {
