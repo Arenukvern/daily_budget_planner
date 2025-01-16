@@ -1,6 +1,6 @@
-import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/ui_prediction/timeline/timeline.dart';
 
 part 'ui_prediction_notifier.freezed.dart';
 
@@ -39,11 +39,22 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     with HasLocalApis {
   UiPredictionNotifier()
       : super(UiPredictionState(selectedDate: DateTime.now()));
-
+  final timelineNotifier = UiTimelineNotifier(
+    state: UiTimelineState.create(
+      presentationType: UiPresentationType.day,
+      initialDate: DateTime.now(),
+    ),
+  );
   Future<void> onLoad() async {
     value = UiPredictionState(selectedDate: DateTime.now());
     _recalculateExpenses();
     _recalculateIncomes();
+  }
+
+  @override
+  void dispose() {
+    timelineNotifier.dispose();
+    super.dispose();
   }
 
   DateTime get selectedDate => value.selectedDate;

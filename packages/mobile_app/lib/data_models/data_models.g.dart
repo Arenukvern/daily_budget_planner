@@ -130,6 +130,8 @@ const _$TaskTypeEnumMap = {
 const _$PersonalIncomeTaskTypeEnumMap = {
   PersonalIncomeTaskType.salary: 'salary',
   PersonalIncomeTaskType.cashback: 'cashback',
+  PersonalIncomeTaskType.reselling: 'reselling',
+  PersonalIncomeTaskType.gifts: 'gifts',
   PersonalIncomeTaskType.other: 'other',
   PersonalIncomeTaskType.investments: 'investments',
   PersonalIncomeTaskType.crypto: 'crypto',

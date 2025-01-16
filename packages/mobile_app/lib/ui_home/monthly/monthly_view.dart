@@ -38,7 +38,7 @@ class _MonthlyViewState extends State<MonthlyView>
       onTabChanged: _requestAmountFocusByIndex,
     );
 
-    final isLandscape = MediaQuery.of(context).size.width > 600;
+    final isLandscape = MediaQuery.sizeOf(context).width > 600;
 
     return Form(
       child: isLandscape

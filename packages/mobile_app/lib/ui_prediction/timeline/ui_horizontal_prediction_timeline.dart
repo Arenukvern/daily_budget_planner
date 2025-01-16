@@ -1,105 +1,72 @@
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/ui_prediction/timeline/timeline.dart';
 import 'package:skeletonizer/skeletonizer.dart'; // Make sure to add this package to your pubspec.yaml
 
-enum PresentationType { day, month, year }
-
-class UiPredictionTimeline extends StatefulWidget {
-  const UiPredictionTimeline({
-    required this.presentationType,
-    required this.initialDate,
+class UiHorizontalPredictionTimeline extends StatefulWidget {
+  const UiHorizontalPredictionTimeline({
+    required this.notifier,
     required this.onDateChanged,
-    this.enableMouseControls = true,
-    this.showArrowButtons = true,
-    this.enableMouseWheelScroll = false,
+    this.params = const UiPredictionTimelineParams(),
     super.key,
   });
-
-  final PresentationType presentationType;
-  final DateTime initialDate;
+  final UiPredictionTimelineParams params;
+  final UiTimelineNotifier notifier;
   final ValueChanged<DateTime> onDateChanged;
-  final bool enableMouseControls;
-  final bool showArrowButtons;
-  final bool enableMouseWheelScroll;
+  static const kDefaultHeight = 50.0;
 
   @override
-  _UiPredictionTimelineState createState() => _UiPredictionTimelineState();
+  _UiHorizontalPredictionTimelineState createState() =>
+      _UiHorizontalPredictionTimelineState();
 }
 
-class _UiPredictionTimelineState extends State<UiPredictionTimeline> {
+class _UiHorizontalPredictionTimelineState
+    extends State<UiHorizontalPredictionTimeline> {
+  static const _defaultItemsCount = 5;
   late final PageController _pageController;
   late final List<DateTime> _dates;
-  late int _selectedIndex;
   final _itemExtent = 58.0;
-  bool _isLoading = true;
-  int _visibleItemCount = 5;
-
+  int _visibleItemCount = _defaultItemsCount;
+  UiPredictionTimelineParams get _params => widget.params;
   @override
   void initState() {
     super.initState();
     unawaited(_load());
   }
 
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  UiTimelineNotifier get _notifier => widget.notifier;
   Future<void> _load() async {
     await Future.microtask(() {
-      _initializeDates();
       _pageController = PageController(
-        initialPage: _selectedIndex,
+        initialPage: _notifier.selectedIndex,
         viewportFraction:
-            widget.enableMouseControls ? 1 / _visibleItemCount : 1,
+            _params.enableMouseControls ? 1 / _visibleItemCount : 1,
       );
     });
 
-    if (mounted) {
-      setState(() => _isLoading = false);
-    }
+    if (mounted) _notifier.isLoading = false;
   }
 
   int _calculateVisibleItemCount() {
-    if (!widget.enableMouseControls) return 1;
+    if (!_params.enableMouseControls) return 1;
     final screenWidth = MediaQuery.sizeOf(context).width;
-    return (screenWidth / _itemExtent).floor().clamp(5, 20);
-  }
-
-  void _initializeDates() {
-    final now = DateTime.now();
-    switch (widget.presentationType) {
-      case PresentationType.day:
-        _dates = List.generate(
-          10000,
-          (final index) => now.subtract(Duration(days: 5000 - index)),
-        );
-      case PresentationType.month:
-        _dates = List.generate(
-          10000,
-          (final index) => DateTime(now.year, now.month - (5000 - index)),
-        );
-      case PresentationType.year:
-        _dates = List.generate(
-          10000,
-          (final index) => DateTime(now.year - (5000 - index)),
-        );
-    }
-    _selectedIndex = _dates.indexOf(
-      _dates.firstWhere(
-        (final date) =>
-            date.year == widget.initialDate.year &&
-            date.month == widget.initialDate.month &&
-            (widget.presentationType == PresentationType.day
-                ? date.day == widget.initialDate.day
-                : true),
-      ),
-    );
+    return (screenWidth / _itemExtent).floor().clamp(_defaultItemsCount, 20);
   }
 
   void _onPageChanged(final int index) {
-    setState(() => _selectedIndex = index);
-    widget.onDateChanged(_dates[_selectedIndex]);
+    _notifier.selectedIndex = index;
+    widget.onDateChanged(_dates[_notifier.selectedIndex]);
   }
 
   void _handleMouseScroll(final PointerSignalEvent event) {
-    if (widget.enableMouseWheelScroll && event is PointerScrollEvent) {
+    if (_params.enableMouseWheelScroll && event is PointerScrollEvent) {
       final delta = event.scrollDelta.dy;
       _pageController.jumpTo(_pageController.offset + delta);
     }
@@ -113,16 +80,16 @@ class _UiPredictionTimelineState extends State<UiPredictionTimeline> {
       _visibleItemCount = itemCount;
     }
 
-    if (_isLoading) return _buildSkeletonLoader();
-    final isToday = _isCurrentDate(_dates[_selectedIndex]);
+    if (_notifier.isLoading) return _buildSkeletonLoader();
+    final isToday = _isCurrentDate(_dates[_notifier.selectedIndex]);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         UiTextButton(
-          onPressed: _scrollToCurrentDate,
+          onPressed: () => _notifier.scrollToCurrentDate(_pageController),
           padding: EdgeInsets.zero,
           title: Text(
-            '${_getFormattedDate(_dates[_selectedIndex], locale)} '
+            '${_getFormattedDate(_dates[_notifier.selectedIndex], locale)} '
             '${isToday ? LocalizedMap(
                 value: {
                   languages.en: '(today)',
@@ -144,7 +111,7 @@ class _UiPredictionTimelineState extends State<UiPredictionTimeline> {
         Stack(
           children: [
             _buildPageView(),
-            if (widget.showArrowButtons)
+            if (_params.showArrowButtons)
               Positioned(
                 top: 0,
                 left: 0,
@@ -175,7 +142,7 @@ class _UiPredictionTimelineState extends State<UiPredictionTimeline> {
                   ),
                 ),
               ),
-            if (widget.showArrowButtons)
+            if (_params.showArrowButtons)
               Positioned(
                 top: 0,
                 right: 0,
@@ -212,7 +179,7 @@ class _UiPredictionTimelineState extends State<UiPredictionTimeline> {
     );
   }
 
-  Widget _buildPageView() => widget.enableMouseWheelScroll
+  Widget _buildPageView() => _params.enableMouseWheelScroll
       ? Listener(
           onPointerSignal: _handleMouseScroll,
           child: _buildPageViewContent(),
@@ -220,7 +187,7 @@ class _UiPredictionTimelineState extends State<UiPredictionTimeline> {
       : _buildPageViewContent();
 
   Widget _buildPageViewContent() => SizedBox(
-        height: 50,
+        height: UiHorizontalPredictionTimeline.kDefaultHeight,
         child: PageView.builder(
           controller: _pageController,
           onPageChanged: _onPageChanged,
@@ -229,7 +196,7 @@ class _UiPredictionTimelineState extends State<UiPredictionTimeline> {
         ),
       );
 
-  Widget _buildDateItem(final int index) => widget.enableMouseControls
+  Widget _buildDateItem(final int index) => _params.enableMouseControls
       ? MouseRegion(
           cursor: SystemMouseCursors.click,
           child: _buildDateButton(index),
@@ -245,7 +212,7 @@ class _UiPredictionTimelineState extends State<UiPredictionTimeline> {
         builder: (final context, final focused, final onlyFocused) =>
             UiPredictionDay(
           day: _getDisplayText(_dates[index]),
-          isSelected: index == _selectedIndex,
+          isSelected: index == _notifier.selectedIndex,
           isCurrentDate: _isCurrentDate(_dates[index]),
         ),
       );
@@ -276,14 +243,14 @@ class _UiPredictionTimelineState extends State<UiPredictionTimeline> {
 
   bool _isCurrentDate(final DateTime date) {
     final now = DateTime.now();
-    switch (widget.presentationType) {
-      case PresentationType.day:
+    switch (_notifier.presentationType) {
+      case UiPresentationType.day:
         return date.year == now.year &&
             date.month == now.month &&
             date.day == now.day;
-      case PresentationType.month:
+      case UiPresentationType.month:
         return date.year == now.year && date.month == now.month;
-      case PresentationType.year:
+      case UiPresentationType.year:
         return date.year == now.year;
     }
   }
@@ -293,61 +260,29 @@ class _UiPredictionTimelineState extends State<UiPredictionTimeline> {
     final bool useNumbers = true,
   }) {
     if (!useNumbers) {
-      return switch (widget.presentationType) {
-        PresentationType.day => DateFormat('E').format(date)[0],
-        PresentationType.month => DateFormat('MMM').format(date)[0],
-        PresentationType.year => date.year.toString().substring(2),
+      return switch (_notifier.presentationType) {
+        UiPresentationType.day => DateFormat('E').format(date)[0],
+        UiPresentationType.month => DateFormat('MMM').format(date)[0],
+        UiPresentationType.year => date.year.toString().substring(2),
       };
     } else {
-      return switch (widget.presentationType) {
-        PresentationType.day => DateFormat('d').format(date),
-        PresentationType.month => DateFormat('MMM').format(date)[0],
-        PresentationType.year => date.year.toString().substring(2),
+      return switch (_notifier.presentationType) {
+        UiPresentationType.day => DateFormat('d').format(date),
+        UiPresentationType.month => DateFormat('MMM').format(date)[0],
+        UiPresentationType.year => date.year.toString().substring(2),
       };
     }
   }
 
   String _getFormattedDate(final DateTime date, final Locale locale) {
-    switch (widget.presentationType) {
-      case PresentationType.day:
+    switch (_notifier.presentationType) {
+      case UiPresentationType.day:
         return DateFormat('EEEE, d MMMM yyyy', locale.languageCode)
             .format(date);
-      case PresentationType.month:
+      case UiPresentationType.month:
         return DateFormat('MMMM yyyy', locale.languageCode).format(date);
-      case PresentationType.year:
+      case UiPresentationType.year:
         return date.year.toString();
-    }
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
-  void _scrollToCurrentDate() {
-    final now = DateTime.now();
-    final currentDateIndex = _dates.indexWhere((final date) {
-      switch (widget.presentationType) {
-        case PresentationType.day:
-          return date.year == now.year &&
-              date.month == now.month &&
-              date.day == now.day;
-        case PresentationType.month:
-          return date.year == now.year && date.month == now.month;
-        case PresentationType.year:
-          return date.year == now.year;
-      }
-    });
-
-    if (currentDateIndex != -1) {
-      unawaited(
-        _pageController.animateToPage(
-          currentDateIndex,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        ),
-      );
     }
   }
 }

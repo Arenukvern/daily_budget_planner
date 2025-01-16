@@ -5,7 +5,8 @@ description: Analytics & crash reporting tools for the app
 version: 0.1.0
 
 environment:
-  sdk: ">=3.5.3 <4.0.0"
+  sdk: ">=3.6.0 <4.0.0"
+resolution: workspace
 
 dependencies:
   firebase_analytics: ^11.3.3

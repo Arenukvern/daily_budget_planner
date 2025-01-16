@@ -25,10 +25,19 @@ class UiPredictionScreen extends StatelessWidget {
             slivers: [
               _PredictionHeader(state: state),
               const SliverGap(48),
-              _PredictionBody(
-                selectedDate: uiPredictionNotifier.selectedDate,
-                onDateChanged: uiPredictionNotifier.onSelectedDateChanged,
-                uiPredictionNotifier: uiPredictionNotifier,
+              LayoutBuilder(
+                builder: (final context, final constraints) {
+                  final isDesktop =
+                      UiLayout.fromConstraints(constraints).isDesktop;
+                  final bodyBuilder = isDesktop
+                      ? DesktopPredictionBody.new
+                      : MobilePredictionBody.new;
+                  return bodyBuilder(
+                    selectedDate: uiPredictionNotifier.selectedDate,
+                    onDateChanged: uiPredictionNotifier.onSelectedDateChanged,
+                    uiPredictionNotifier: uiPredictionNotifier,
+                  );
+                },
               ).toSliver(),
               const SliverGap(64),
               UiSafeArea.bottom().toSliver(),
@@ -67,7 +76,8 @@ class _PredictionHeader extends StatelessWidget {
           children: [
             UiSafeArea.top(),
             const Gap(12),
-            Padding(
+            Container(
+              constraints: BoxConstraints(maxWidth: 300),
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 children: [
@@ -175,11 +185,12 @@ class _HeaderItem extends StatelessWidget {
       );
 }
 
-class _PredictionBody extends StatelessWidget {
-  const _PredictionBody({
+class MobilePredictionBody extends StatelessWidget {
+  const MobilePredictionBody({
     required this.selectedDate,
     required this.onDateChanged,
     required this.uiPredictionNotifier,
+    super.key,
   });
 
   final DateTime selectedDate;
@@ -200,15 +211,61 @@ class _PredictionBody extends StatelessWidget {
             dailyBudget: uiPredictionNotifier.value.dailyBudget,
           ),
           const Gap(24),
-          UiPredictionTimeline(
-            presentationType: PresentationType.day,
-            initialDate: selectedDate,
+          UiHorizontalPredictionTimeline(
+            notifier: uiPredictionNotifier.timelineNotifier,
             onDateChanged: onDateChanged,
           ),
           const Gap(28),
           _DailyStatistics(
             selectedDate: selectedDate,
             uiPredictionNotifier: uiPredictionNotifier,
+          ),
+        ],
+      );
+}
+
+class DesktopPredictionBody extends StatelessWidget {
+  const DesktopPredictionBody({
+    required this.selectedDate,
+    required this.onDateChanged,
+    required this.uiPredictionNotifier,
+    super.key,
+  });
+
+  final DateTime selectedDate;
+  final ValueChanged<DateTime> onDateChanged;
+  final UiPredictionNotifier uiPredictionNotifier;
+
+  @override
+  Widget build(final BuildContext context) => Row(
+        children: [
+          const Gap(24),
+          UiVerticalPredictionTimeline(
+            notifier: uiPredictionNotifier.timelineNotifier,
+            onDateChanged: onDateChanged,
+          ),
+          const Gap(24),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (kDebugMode) ...[
+                  _TrendIndicator(),
+                  const Gap(6),
+                ],
+                _BudgetButton(uiPredictionNotifier: uiPredictionNotifier),
+                const Gap(24),
+                _DailyBudgetDisplay(
+                  dailyBudget: uiPredictionNotifier.value.dailyBudget,
+                ),
+                const Gap(28),
+                // _DailyStatistics(
+                //   selectedDate: selectedDate,
+                //   uiPredictionNotifier: uiPredictionNotifier,
+                // ),
+              ],
+            ),
           ),
         ],
       );
