@@ -77,102 +77,126 @@ class _UiVerticalPredictionTimelineState
 
     if (_notifier.isLoading) return _buildSkeletonLoader();
     final isToday = _isCurrentDate(_notifier.currentDate);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        UiTextButton(
-          onPressed: () => _notifier.scrollToCurrentDate(_pageController),
-          padding: EdgeInsets.zero,
-          title: Text(
-            '${_getFormattedDate(_notifier.currentDate, locale)} '
-            '${isToday ? LocalizedMap(
-                value: {
-                  languages.en: '(today)',
-                  languages.it: '(oggi)',
-                  languages.ru: '(сегодня)',
-                },
-              ).getValue(locale) : ''}',
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
-                ),
+    return SizedBox(
+      width: UiVerticalPredictionTimeline.kDefaultWidth,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 40,
+            child: UiTextButton(
+              onPressed: () => _notifier.scrollToCurrentDate(_pageController),
+              padding: EdgeInsets.zero,
+              title: Text(
+                '${_getFormattedDate(_notifier.currentDate, locale)} '
+                '${isToday ? LocalizedMap(
+                    value: {
+                      languages.en: '(today)',
+                      languages.it: '(oggi)',
+                      languages.ru: '(сегодня)',
+                    },
+                  ).getValue(locale) : ''}',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.8),
+                    ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
-        ),
-        Icon(
-          Icons.arrow_drop_down_rounded,
-          color: Theme.of(context).primaryColor,
-        ),
-        Stack(
-          children: [
-            _buildPageView(),
-            if (_params.showArrowButtons)
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: context.colorScheme.surface,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(100),
-                      bottomRight: Radius.circular(100),
-                    ),
+          Expanded(
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                _buildPageView(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Icon(
+                    Icons.arrow_right_rounded,
+                    color: Theme.of(context).primaryColor,
                   ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        size: 16,
-                        color: context.colorScheme.onSurface.withOpacity(
-                          0.6,
+                ),
+                if (_params.showArrowButtons)
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: context.colorScheme.surface,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(100),
+                          bottomRight: Radius.circular(100),
                         ),
                       ),
-                      onPressed: () async => _pageController.previousPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_circle_up_rounded,
+                          size: 38,
+                          color: context.colorScheme.onSurface.withOpacity(
+                            0.6,
+                          ),
+                        ),
+                        onPressed: () async => _pageController.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        ),
                       ),
+                    ),
+                  ),
+                if (_params.showArrowButtons)
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: context.colorScheme.surface,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(100),
+                          topRight: Radius.circular(100),
+                        ),
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_circle_down_rounded,
+                          size: 38,
+                          color: context.colorScheme.onSurface.withOpacity(
+                            0.6,
+                          ),
+                        ),
+                        onPressed: () async => _pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        ),
+                      ),
+                    ),
+                  ),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 48),
+                    child: Text(
+                      _getFormattedDateMMYY(
+                        _calculateTopMostVisibleDate(),
+                        locale,
+                      ),
+                      style: context.textTheme.labelLarge,
                     ),
                   ),
                 ),
-              ),
-            if (_params.showArrowButtons)
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: context.colorScheme.surface,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(100),
-                      bottomLeft: Radius.circular(100),
-                    ),
-                  ),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 16,
-                        color: context.colorScheme.onSurface.withOpacity(
-                          0.6,
-                        ),
-                      ),
-                      onPressed: () async => _pageController.nextPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeInOut,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ],
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
+
+  DateTime _calculateTopMostVisibleDate() => _availableDates[
+      _notifier.selectedIndex - (_visibleItemCount / 2).round()];
 
   Widget _buildPageView() => _params.enableMouseWheelScroll
       ? Listener(
@@ -181,15 +205,12 @@ class _UiVerticalPredictionTimelineState
         )
       : _buildPageViewContent();
 
-  Widget _buildPageViewContent() => SizedBox(
-        width: UiVerticalPredictionTimeline.kDefaultWidth,
-        child: PageView.builder(
-          scrollDirection: Axis.vertical,
-          controller: _pageController,
-          onPageChanged: _onPageChanged,
-          itemCount: _availableDates.length,
-          itemBuilder: (final context, final index) => _buildDateItem(index),
-        ),
+  Widget _buildPageViewContent() => PageView.builder(
+        scrollDirection: Axis.vertical,
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        itemCount: _availableDates.length,
+        itemBuilder: (final context, final index) => _buildDateItem(index),
       );
 
   Widget _buildDateItem(final int index) => _params.enableMouseControls
@@ -199,19 +220,35 @@ class _UiVerticalPredictionTimelineState
         )
       : _buildDateButton(index);
 
-  Widget _buildDateButton(final int index) => UiBaseButton(
-        onPressed: () async => _pageController.animateToPage(
-          index,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
+  Widget _buildDateButton(final int index) {
+    final locale = useLocale(context);
+    final date = _availableDates[index];
+    final isToday = _isCurrentDate(date);
+    final isSelected = index == _notifier.selectedIndex;
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        UiBaseButton(
+          onPressed: () async => _pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          ),
+          builder: (final context, final focused, final onlyFocused) =>
+              UiPredictionDay(
+            day: _getDisplayText(_availableDates[index]),
+            isSelected: isSelected,
+            isCurrentDate: isToday,
+          ),
         ),
-        builder: (final context, final focused, final onlyFocused) =>
-            UiPredictionDay(
-          day: _getDisplayText(_availableDates[index]),
-          isSelected: index == _notifier.selectedIndex,
-          isCurrentDate: _isCurrentDate(_availableDates[index]),
-        ),
-      );
+        if (date.day == 1)
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(_getFormattedDateMMYY(date, locale)),
+          ),
+      ],
+    );
+  }
 
   Widget _buildSkeletonLoader() => Skeletonizer(
         child: Column(
@@ -273,12 +310,14 @@ class _UiVerticalPredictionTimelineState
   String _getFormattedDate(final DateTime date, final Locale locale) {
     switch (_notifier.presentationType) {
       case UiPresentationType.day:
-        return DateFormat('EEEE, d MMMM yyyy', locale.languageCode)
-            .format(date);
+        return DateFormat('EEEE, d', locale.languageCode).format(date);
       case UiPresentationType.month:
         return DateFormat('MMMM yyyy', locale.languageCode).format(date);
       case UiPresentationType.year:
         return date.year.toString();
     }
   }
+
+  String _getFormattedDateMMYY(final DateTime date, final Locale locale) =>
+      DateFormat('MMMM yyyy', locale.languageCode).format(date);
 }

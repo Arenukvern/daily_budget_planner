@@ -19,37 +19,52 @@ class UiPredictionScreen extends StatelessWidget {
     final state = uiPredictionNotifier.value;
 
     return UiScaffold(
-      body: Stack(
-        children: [
-          CustomScrollView(
-            slivers: [
-              _PredictionHeader(state: state),
-              const SliverGap(48),
-              LayoutBuilder(
-                builder: (final context, final constraints) {
-                  final isDesktop =
-                      UiLayout.fromConstraints(constraints).isDesktop;
-                  final bodyBuilder = isDesktop
-                      ? DesktopPredictionBody.new
-                      : MobilePredictionBody.new;
-                  return bodyBuilder(
+      body: LayoutBuilder(
+        builder: (final context, final constraints) {
+          final isDesktop = UiLayout.fromConstraints(constraints).isDesktop;
+
+          if (isDesktop) {
+            return Column(
+              children: [
+                _PredictionHeader(state: state),
+                Expanded(
+                  child: DesktopPredictionBody(
                     selectedDate: uiPredictionNotifier.selectedDate,
                     onDateChanged: uiPredictionNotifier.onSelectedDateChanged,
                     uiPredictionNotifier: uiPredictionNotifier,
-                  );
-                },
-              ).toSliver(),
-              const SliverGap(64),
-              UiSafeArea.bottom().toSliver(),
-            ],
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: _BottomActionBar(),
-          ),
-        ],
+                  ),
+                ),
+                UiPredictionBottomActionBar(),
+              ],
+            );
+          } else {
+            return Stack(
+              children: [
+                CustomScrollView(
+                  slivers: [
+                    PinnedHeaderSliver(
+                      child: _PredictionHeader(state: state),
+                    ),
+                    const SliverGap(48),
+                    MobilePredictionBody(
+                      selectedDate: uiPredictionNotifier.selectedDate,
+                      onDateChanged: uiPredictionNotifier.onSelectedDateChanged,
+                      uiPredictionNotifier: uiPredictionNotifier,
+                    ).toSliver(),
+                    const SliverGap(64),
+                    UiSafeArea.bottom().toSliver(),
+                  ],
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: UiPredictionBottomActionBar(),
+                ),
+              ],
+            );
+          }
+        },
       ),
     );
   }
@@ -63,78 +78,74 @@ class _PredictionHeader extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
-    return PinnedHeaderSliver(
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: context.colorScheme.surface.withOpacity(0.5),
-          borderRadius:
-              const BorderRadius.vertical(bottom: Radius.circular(16)),
-          border:
-              Border.all(color: context.colorScheme.onSurface.withOpacity(0.2)),
-        ),
-        child: Column(
-          children: [
-            UiSafeArea.top(),
-            const Gap(12),
-            Container(
-              constraints: BoxConstraints(maxWidth: 300),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                children: [
-                  _HeaderItem(
-                    onPressed: () async {},
-                    title: LocalizedMap(
-                      value: {
-                        languages.en: 'period',
-                        languages.it: 'periodo',
-                        languages.ru: 'период',
-                      },
-                    ).getValue(locale),
-                    value: LocalizedMap(
-                      value: {
-                        languages.en: 'Week',
-                        languages.it: 'Settimana',
-                        languages.ru: 'Неделя',
-                      },
-                    ).getValue(locale),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: context.colorScheme.surface.withOpacity(0.5),
+        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
+        border:
+            Border.all(color: context.colorScheme.onSurface.withOpacity(0.2)),
+      ),
+      child: Column(
+        children: [
+          UiSafeArea.top(),
+          const Gap(12),
+          Container(
+            constraints: BoxConstraints(maxWidth: 300),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: Row(
+              children: [
+                _HeaderItem(
+                  onPressed: () async {},
+                  title: LocalizedMap(
+                    value: {
+                      languages.en: 'period',
+                      languages.it: 'periodo',
+                      languages.ru: 'период',
+                    },
+                  ).getValue(locale),
+                  value: LocalizedMap(
+                    value: {
+                      languages.en: 'Week',
+                      languages.it: 'Settimana',
+                      languages.ru: 'Неделя',
+                    },
+                  ).getValue(locale),
+                ),
+                const Gap(6),
+                _HeaderItem(
+                  onPressed: () async => showExpensesTasksView(
+                    context: context,
                   ),
-                  const Gap(6),
-                  _HeaderItem(
-                    onPressed: () async => showExpensesTasksView(
-                      context: context,
-                    ),
-                    title: LocalizedMap(
-                      // TODO(arenukvern): add localization l10n
-                      value: {
-                        languages.en: 'regular expenses',
-                        languages.it: 'spese regolari',
-                        languages.ru: 'регулярные расходы',
-                      },
-                    ).getValue(locale),
-                    value: '\$${state.regularExpensesSum.toStringAsFixed(2)}',
-                    icon: Icons.arrow_drop_down_rounded,
-                  ),
-                  const Gap(6),
-                  _HeaderItem(
-                    onPressed: () async =>
-                        showIncomesTasksView(context: context),
-                    title: LocalizedMap(
-                      // TODO(arenukvern): add localization l10n
-                      value: {
-                        languages.en: 'regular income',
-                        languages.it: 'entrate regolari',
-                        languages.ru: 'регулярные доходы',
-                      },
-                    ).getValue(locale),
-                    value: '\$${state.regularIncomesSum.toStringAsFixed(2)}',
-                    icon: Icons.arrow_drop_up_rounded,
-                  ),
-                ],
-              ),
+                  title: LocalizedMap(
+                    // TODO(arenukvern): add localization l10n
+                    value: {
+                      languages.en: 'regular expenses',
+                      languages.it: 'spese regolari',
+                      languages.ru: 'регулярные расходы',
+                    },
+                  ).getValue(locale),
+                  value: '\$${state.regularExpensesSum.toStringAsFixed(2)}',
+                  icon: Icons.arrow_drop_down_rounded,
+                ),
+                const Gap(6),
+                _HeaderItem(
+                  onPressed: () async => showIncomesTasksView(context: context),
+                  title: LocalizedMap(
+                    // TODO(arenukvern): add localization l10n
+                    value: {
+                      languages.en: 'regular income',
+                      languages.it: 'entrate regolari',
+                      languages.ru: 'регулярные доходы',
+                    },
+                  ).getValue(locale),
+                  value: '\$${state.regularIncomesSum.toStringAsFixed(2)}',
+                  icon: Icons.arrow_drop_up_rounded,
+                ),
+              ],
             ),
-            const Gap(8),
-          ],
-        ),
+          ),
+          const Gap(8),
+        ],
       ),
     );
   }
@@ -239,12 +250,10 @@ class DesktopPredictionBody extends StatelessWidget {
   @override
   Widget build(final BuildContext context) => Row(
         children: [
-          const Gap(24),
           UiVerticalPredictionTimeline(
             notifier: uiPredictionNotifier.timelineNotifier,
             onDateChanged: onDateChanged,
           ),
-          const Gap(24),
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -478,7 +487,9 @@ class _StatisticItem extends StatelessWidget {
       );
 }
 
-class _BottomActionBar extends StatelessWidget {
+class UiPredictionBottomActionBar extends StatelessWidget {
+  const UiPredictionBottomActionBar({super.key});
+
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);

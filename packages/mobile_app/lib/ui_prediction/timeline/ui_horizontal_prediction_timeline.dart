@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/ui_prediction/timeline/timeline.dart';
 import 'package:skeletonizer/skeletonizer.dart'; // Make sure to add this package to your pubspec.yaml
 
 class UiHorizontalPredictionTimeline extends StatefulWidget {
@@ -24,8 +23,11 @@ class UiHorizontalPredictionTimeline extends StatefulWidget {
 class _UiHorizontalPredictionTimelineState
     extends State<UiHorizontalPredictionTimeline> {
   static const _defaultItemsCount = 5;
-  late final PageController _pageController;
-  late final List<DateTime> _dates;
+  late final PageController _pageController = PageController(
+    initialPage: _notifier.selectedIndex,
+    viewportFraction: _params.enableMouseControls ? 1 / _visibleItemCount : 1,
+  );
+  List<DateTime> get _availableDates => _notifier.value.availableDates;
   final _itemExtent = 58.0;
   int _visibleItemCount = _defaultItemsCount;
   UiPredictionTimelineParams get _params => widget.params;
@@ -43,14 +45,6 @@ class _UiHorizontalPredictionTimelineState
 
   UiTimelineNotifier get _notifier => widget.notifier;
   Future<void> _load() async {
-    await Future.microtask(() {
-      _pageController = PageController(
-        initialPage: _notifier.selectedIndex,
-        viewportFraction:
-            _params.enableMouseControls ? 1 / _visibleItemCount : 1,
-      );
-    });
-
     if (mounted) _notifier.isLoading = false;
   }
 
@@ -62,7 +56,7 @@ class _UiHorizontalPredictionTimelineState
 
   void _onPageChanged(final int index) {
     _notifier.selectedIndex = index;
-    widget.onDateChanged(_dates[_notifier.selectedIndex]);
+    widget.onDateChanged(_notifier.currentDate);
   }
 
   void _handleMouseScroll(final PointerSignalEvent event) {
@@ -81,7 +75,7 @@ class _UiHorizontalPredictionTimelineState
     }
 
     if (_notifier.isLoading) return _buildSkeletonLoader();
-    final isToday = _isCurrentDate(_dates[_notifier.selectedIndex]);
+    final isToday = _isCurrentDate(_notifier.currentDate);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -89,7 +83,7 @@ class _UiHorizontalPredictionTimelineState
           onPressed: () => _notifier.scrollToCurrentDate(_pageController),
           padding: EdgeInsets.zero,
           title: Text(
-            '${_getFormattedDate(_dates[_notifier.selectedIndex], locale)} '
+            '${_getFormattedDate(_notifier.currentDate, locale)} '
             '${isToday ? LocalizedMap(
                 value: {
                   languages.en: '(today)',
@@ -191,7 +185,7 @@ class _UiHorizontalPredictionTimelineState
         child: PageView.builder(
           controller: _pageController,
           onPageChanged: _onPageChanged,
-          itemCount: _dates.length,
+          itemCount: _availableDates.length,
           itemBuilder: (final context, final index) => _buildDateItem(index),
         ),
       );
@@ -211,9 +205,9 @@ class _UiHorizontalPredictionTimelineState
         ),
         builder: (final context, final focused, final onlyFocused) =>
             UiPredictionDay(
-          day: _getDisplayText(_dates[index]),
+          day: _getDisplayText(_availableDates[index]),
           isSelected: index == _notifier.selectedIndex,
-          isCurrentDate: _isCurrentDate(_dates[index]),
+          isCurrentDate: _isCurrentDate(_availableDates[index]),
         ),
       );
 
