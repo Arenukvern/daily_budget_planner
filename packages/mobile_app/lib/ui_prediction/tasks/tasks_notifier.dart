@@ -1,7 +1,7 @@
 import 'package:mobile_app/common_imports.dart';
 
 class TasksNotifier extends ChangeNotifier {
-  final _incomeTasks = PersonalIncomeTaskType.values
+  var _incomeTasks = PersonalIncomeTaskType.values
       .mapIndexed(
         (final index, final type) => Task(
           title: type.name,
@@ -16,7 +16,7 @@ class TasksNotifier extends ChangeNotifier {
       )
       .toList();
 
-  final _expenseTasks = PersonalExpenseTaskType.values
+  var _expenseTasks = PersonalExpenseTaskType.values
       .mapIndexed(
         (final index, final type) => Task(
           title: type.name,
@@ -74,8 +74,12 @@ class TasksNotifier extends ChangeNotifier {
       TaskTransactionType.income => _incomeTasks,
       TaskTransactionType.expense => _expenseTasks,
     };
-    // ignore: cascade_invocations
-    list.upsert(task, (final t) => t.id == task.id);
+    final updatedList = list.upsert(task, (final t) => t.id == task.id);
+    final _ = switch (task.transactionType) {
+      TaskTransactionType.income => _incomeTasks = updatedList,
+      TaskTransactionType.expense => _expenseTasks = updatedList,
+    };
+
     notifyListeners();
   }
 
