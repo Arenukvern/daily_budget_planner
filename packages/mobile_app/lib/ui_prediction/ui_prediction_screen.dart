@@ -255,20 +255,31 @@ class DesktopPredictionBody extends StatelessWidget {
             onDateChanged: onDateChanged,
           ),
           Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
               children: [
-                if (kDebugMode) ...[
-                  _TrendIndicator(),
-                  const Gap(6),
-                ],
-                _BudgetButton(uiPredictionNotifier: uiPredictionNotifier),
                 const Gap(24),
-                _DailyBudgetDisplay(
-                  dailyBudget: uiPredictionNotifier.value.dailyBudget,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _DailyBudgetDisplay(
+                      dailyBudget: uiPredictionNotifier.value.dailyBudget,
+                    ),
+                  ],
                 ),
-                const Gap(28),
+                const Gap(24),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (kDebugMode) ...[
+                      _TrendIndicator(),
+                      const Gap(6),
+                    ],
+                    _BudgetButton(
+                      uiPredictionNotifier: uiPredictionNotifier,
+                    ),
+                  ],
+                ),
+
                 // _DailyStatistics(
                 //   selectedDate: selectedDate,
                 //   uiPredictionNotifier: uiPredictionNotifier,
