@@ -90,10 +90,12 @@ class _PredictionHeader extends StatelessWidget {
           UiSafeArea.top(),
           const Gap(12),
           Container(
-            constraints: BoxConstraints(maxWidth: 300),
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Row(
+              spacing: 6,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Gap(6),
                 _HeaderItem(
                   onPressed: () async {},
                   title: LocalizedMap(
@@ -111,7 +113,7 @@ class _PredictionHeader extends StatelessWidget {
                     },
                   ).getValue(locale),
                 ),
-                const Gap(6),
+                Spacer(),
                 _HeaderItem(
                   onPressed: () async => showExpensesTasksView(
                     context: context,
@@ -127,7 +129,6 @@ class _PredictionHeader extends StatelessWidget {
                   value: '\$${state.regularExpensesSum.toStringAsFixed(2)}',
                   icon: Icons.arrow_drop_down_rounded,
                 ),
-                const Gap(6),
                 _HeaderItem(
                   onPressed: () async => showIncomesTasksView(context: context),
                   title: LocalizedMap(
@@ -141,6 +142,7 @@ class _PredictionHeader extends StatelessWidget {
                   value: '\$${state.regularIncomesSum.toStringAsFixed(2)}',
                   icon: Icons.arrow_drop_up_rounded,
                 ),
+                Spacer(),
               ],
             ),
           ),
@@ -164,34 +166,32 @@ class _HeaderItem extends StatelessWidget {
   final IconData? icon;
   final VoidCallback onPressed;
   @override
-  Widget build(final BuildContext context) => Expanded(
-        child: UiTextButton(
-          padding: EdgeInsets.zero,
-          onPressed: onPressed,
-          title: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  title,
-                  style: context.textTheme.labelSmall,
+  Widget build(final BuildContext context) => UiTextButton(
+        padding: EdgeInsets.zero,
+        onPressed: onPressed,
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                title,
+                style: context.textTheme.labelSmall,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) Icon(icon),
+                Text(
+                  value,
+                  style: context.textTheme.titleLarge,
                   textAlign: TextAlign.center,
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (icon != null) Icon(icon),
-                  Text(
-                    value,
-                    style: context.textTheme.titleLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       );
 }
