@@ -277,13 +277,13 @@ class DesktopPredictionBody extends StatelessWidget {
                     _BudgetButton(
                       uiPredictionNotifier: uiPredictionNotifier,
                     ),
+                    const Gap(24),
+                    _DailyStatistics(
+                      selectedDate: selectedDate,
+                      uiPredictionNotifier: uiPredictionNotifier,
+                    ),
                   ],
                 ),
-
-                // _DailyStatistics(
-                //   selectedDate: selectedDate,
-                //   uiPredictionNotifier: uiPredictionNotifier,
-                // ),
               ],
             ),
           ),
