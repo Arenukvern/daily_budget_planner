@@ -56,13 +56,13 @@ class _$UiTimelineStateCopyWithImpl<$Res, $Val extends UiTimelineState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? presentationType = freezed,
+    Object? presentationType = null,
     Object? selectedIndex = null,
     Object? availableDates = null,
     Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
-      presentationType: freezed == presentationType
+      presentationType: null == presentationType
           ? _value.presentationType
           : presentationType // ignore: cast_nullable_to_non_nullable
               as UiPresentationType,
@@ -110,13 +110,13 @@ class __$$UiTimelineStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? presentationType = freezed,
+    Object? presentationType = null,
     Object? selectedIndex = null,
     Object? availableDates = null,
     Object? isLoading = null,
   }) {
     return _then(_$UiTimelineStateImpl(
-      presentationType: freezed == presentationType
+      presentationType: null == presentationType
           ? _value.presentationType
           : presentationType // ignore: cast_nullable_to_non_nullable
               as UiPresentationType,
@@ -172,8 +172,8 @@ class _$UiTimelineStateImpl implements _UiTimelineState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UiTimelineStateImpl &&
-            const DeepCollectionEquality()
-                .equals(other.presentationType, presentationType) &&
+            (identical(other.presentationType, presentationType) ||
+                other.presentationType == presentationType) &&
             (identical(other.selectedIndex, selectedIndex) ||
                 other.selectedIndex == selectedIndex) &&
             const DeepCollectionEquality()
@@ -183,12 +183,8 @@ class _$UiTimelineStateImpl implements _UiTimelineState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(presentationType),
-      selectedIndex,
-      const DeepCollectionEquality().hash(_availableDates),
-      isLoading);
+  int get hashCode => Object.hash(runtimeType, presentationType, selectedIndex,
+      const DeepCollectionEquality().hash(_availableDates), isLoading);
 
   /// Create a copy of UiTimelineState
   /// with the given fields replaced by the non-null parameter values.

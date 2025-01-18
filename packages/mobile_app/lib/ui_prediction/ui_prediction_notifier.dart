@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/ui_prediction/timeline/timeline.dart';
 
 part 'ui_prediction_notifier.freezed.dart';
 
@@ -210,7 +209,8 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     // await budgetLocalApi.upsertBudget(budget);
   }
 
-  Future<void> upsertTransaction(final Transaction transaction) async {
+  Future<void> upsertTransaction(final TransactionEditorResult result) async {
+    final (:transaction, :schedule) = result;
     // await expensesLocalApi.upsertRegularExpense(expense);
     switch (transaction.type) {
       case TransactionType.expense:

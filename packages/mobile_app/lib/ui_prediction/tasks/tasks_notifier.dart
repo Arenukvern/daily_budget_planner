@@ -28,7 +28,7 @@ class TasksNotifier extends ChangeNotifier {
 
   /// these transactions are different, because they will be used
   /// as constructors for real transactions.
-  final Map<TransactionId, Transaction> _transactions = {};
+  var _transactions = <TransactionId, Transaction>{};
 
   Task getTaskById(
     final TaskId id, {
@@ -60,7 +60,7 @@ class TasksNotifier extends ChangeNotifier {
   /// 1. removes [transaction] from task
   /// 2. removes [transaction] from transactions
   void removeTransaction(final Transaction transaction, final Task task) {
-    _transactions.remove(transaction.id);
+    _transactions = {..._transactions}..remove(transaction.id);
     final updatedTask = task.copyWith(
       schedules: task.schedules
           .where((final s) => s.transactionId != transaction.id)
@@ -84,11 +84,10 @@ class TasksNotifier extends ChangeNotifier {
   }
 
   Future<void> upsertTransaction({
-    required final Transaction transaction,
-    required final TransactionSchedule schedule,
+    required final TransactionEditorResult result,
     required final Task task,
   }) async {
-    final updatedTransaction = transaction.copyWith(
+    final updatedTransaction = result.transaction.copyWith(
       taskId: task.id,
     );
 
@@ -97,12 +96,13 @@ class TasksNotifier extends ChangeNotifier {
         ...task.schedules,
         ScheduledTransaction(
           transactionId: updatedTransaction.id,
-          schedule: schedule,
+          schedule: result.schedule,
         ),
       ],
     );
 
-    _transactions[updatedTransaction.id] = updatedTransaction;
+    _transactions = {..._transactions}..[updatedTransaction.id] =
+        updatedTransaction;
     _upsertTask(updatedTask);
   }
 }

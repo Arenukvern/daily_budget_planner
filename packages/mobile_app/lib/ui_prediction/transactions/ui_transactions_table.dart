@@ -31,8 +31,8 @@ class UiTransactionsTable<T extends Transaction> extends HookWidget {
       columnBuilder: (final columnIndex) {
         switch (columnIndex) {
           case 0:
-            return TableSpan(
-              extent: const FixedTableSpanExtent(150),
+            return const TableSpan(
+              extent: FixedTableSpanExtent(150),
             );
           default:
             return const TableSpan(

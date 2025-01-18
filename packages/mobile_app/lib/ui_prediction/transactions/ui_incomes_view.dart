@@ -26,7 +26,7 @@ class UiIncomesView extends StatelessWidget {
       appBar: UiAppBar(
         titleText: isRegular ? 'Regular incomes' : 'Incomes',
         automaticallyImplyLeading: false,
-        trailing: UiTextActionButton.done(),
+        trailing: const UiTextActionButton.done(),
       ),
       children: [
         Expanded(
@@ -35,11 +35,11 @@ class UiIncomesView extends StatelessWidget {
             isRegular: isRegular,
           ),
         ),
-        UiTransactionsActionsBar(
+        const UiTransactionsActionsBar(
           tuple: (type: TransactionType.income,),
         ),
-        Gap(8),
-        UiSafeArea.bottom(),
+        const Gap(8),
+        const UiSafeArea.bottom(),
       ],
     );
   }

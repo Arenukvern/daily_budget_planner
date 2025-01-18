@@ -78,7 +78,7 @@ dependencies:
   url_launcher: ^6.3.0
   uuid: ^4.5.1
   xsoulspace_analytics:
-  xsoulspace_foundation: ^0.0.4
+  xsoulspace_foundation: ^0.0.5
   xsoulspace_monetization:
   xsoulspace_review: ^0.1.0
 
@@ -88,11 +88,10 @@ dev_dependencies:
   flutter_gen: ^5.7.0
   flutter_gen_runner: ^5.7.0
   flutter_launcher_icons: ^0.14.1
-  flutter_lints: ^5.0.0
   freezed: ^2.5.7
   go_router_builder: ^2.7.1
   json_serializable: ^6.8.0
-  xsoulspace_lints: ^0.0.11
+  xsoulspace_lints: ^0.0.13
 
 dependency_overrides:
   rxdart: 0.28.0

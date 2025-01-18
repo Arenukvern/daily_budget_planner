@@ -14,7 +14,7 @@ class UiTasksBarView extends StatefulWidget {
   });
   final TaskTransactionType taskTransactionType;
   final List<Task> tasks;
-  final ValueChanged<UiTaskState> onSelect;
+  final void Function(int index) onSelect;
 
   @override
   State<UiTasksBarView> createState() => _UiTasksBarViewState();
@@ -77,8 +77,7 @@ class _UiTasksBarViewState extends State<UiTasksBarView> {
               squeeze: 1.2,
               useMagnifier: true,
               scrollController: _scrollController,
-              onSelectedItemChanged: (final index) =>
-                  widget.onSelect((task: tasks[index], index: index)),
+              onSelectedItemChanged: (final index) => widget.onSelect(index),
               children: [
                 ...tasks.mapIndexed(
                   (final index, final task) => UiBaseButton(
@@ -115,7 +114,7 @@ class UiTipCard extends StatelessWidget {
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         vertical: 4,
         horizontal: 4,
       ),
@@ -126,8 +125,8 @@ class UiTipCard extends StatelessWidget {
       child: Text.rich(
         TextSpan(
           children: [
-            WidgetSpan(child: Icon(Icons.tips_and_updates)),
-            TextSpan(text: ' '),
+            const WidgetSpan(child: Icon(Icons.tips_and_updates)),
+            const TextSpan(text: ' '),
             TextSpan(text: text.getValue(locale)),
           ],
         ),
@@ -159,17 +158,17 @@ class UiTaskVerticalActionsBar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 2),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              spacing: 8,
               children: [
-                Gap(8),
                 AddTaskTransactionButton(
                   padding: const EdgeInsets.all(3),
                   task: task,
                   dto: TransactionEditorDto(
+                    isPeriodChangable: true,
                     isUsedForTaskPlanning: isUsedForTaskPlanning,
                   ),
                   currencyType: currencyType,
                 ),
-                Gap(8),
               ],
             ),
           ),
@@ -210,7 +209,7 @@ class UiTaskView extends StatelessWidget with HasStates {
             alignment: Alignment.centerLeft,
             child: Wrap(
               children: [
-                Text('From Today: '),
+                const Text('From Today: '),
                 // TODO(arenukvern): add localization l10n
                 Text(
                   '${transactions.sumForPeriod(Period.yearly).toStringAsFixed(2)} yearly • ',

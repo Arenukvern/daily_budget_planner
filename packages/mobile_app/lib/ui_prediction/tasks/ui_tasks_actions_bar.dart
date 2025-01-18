@@ -6,7 +6,7 @@ typedef UiTasksActionsBarTuple = ({
   Task task,
 });
 
-class UiTasksActionsBar extends StatelessWidget {
+class UiTasksActionsBar extends StatelessWidget with HasStates {
   const UiTasksActionsBar({required this.tuple, super.key});
   final UiTasksActionsBarTuple tuple;
   @override
@@ -21,8 +21,7 @@ class UiTasksActionsBar extends StatelessWidget {
         const UiBackButton(),
         UiTextButton(
           onPressed: () async {
-            final notifier = context.read<UiPredictionNotifier>();
-            final transaction = await showTransactionEditor(
+            final result = await showTransactionEditor(
               context,
               transaction: Transaction.create(
                 type: tuple.taskTransactionType.toTransactionType(),
@@ -30,19 +29,23 @@ class UiTasksActionsBar extends StatelessWidget {
                 currencyId: defaultCurrencyId,
                 taskId: tuple.task.id,
               ),
-              dto: TransactionEditorDto(
+              dto: const TransactionEditorDto(
                 isUsedForTaskPlanning: true,
                 isTaskChoosable: true,
+                isPeriodChangable: true,
               ),
             );
-            if (transaction == null) return;
-            return notifier.upsertTransaction(transaction);
+            if (result == null) return;
+            await tasksNotifier.upsertTransaction(
+              result: result,
+              task: tuple.task,
+            );
           },
           title: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.add),
-              Gap(4),
+              const Icon(Icons.add),
+              const Gap(4),
               Text(
                 LocalizedMap(
                   value: {

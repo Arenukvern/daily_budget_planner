@@ -3,7 +3,9 @@ part of 'ui_transaction_editor.dart';
 class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
   _EditingController({
     required final Transaction transaction,
+    required final TransactionSchedule schedule,
   })  : isEditing = transaction.isExists,
+        _schedule = schedule,
         _canCompose = transaction.isExists,
         super(
           LoadableContainer(
@@ -15,6 +17,12 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
   }
   bool get isNew => !isEditing;
   final bool isEditing;
+  TransactionSchedule _schedule = TransactionSchedule.empty;
+  TransactionSchedule get schedule => _schedule;
+  set schedule(final TransactionSchedule value) {
+    _schedule = value;
+    notifyListeners();
+  }
 
   late final _composedListenable = Listenable.merge([
     amount,
@@ -65,12 +73,12 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
   bool _canCompose = false;
   bool get canCompose => _canCompose;
 
-  Transaction? compose() {
+  TransactionEditorResult? composeResult() {
     if (!canCompose) return null;
     final amount = doubleFromJson(this.amount.text);
     // final coinPrice = doubleFromJson(this.coinPrice.text);
 
-    return transaction.copyWith(
+    final resultTransaction = transaction.copyWith(
       id: isNew ? TransactionId.newId() : transaction.id,
       input: switch (transaction.input.currencyType) {
         CurrencyType.fiat => InputMoney.fiat(amountWithTax: amount),
@@ -79,6 +87,10 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
             // coinPrice: coinPrice,
           ),
       },
+    );
+    return (
+      transaction: resultTransaction,
+      schedule: schedule,
     );
   }
 

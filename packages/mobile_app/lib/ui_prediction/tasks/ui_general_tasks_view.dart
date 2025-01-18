@@ -47,10 +47,10 @@ class UiGeneralTasksView extends StatefulWidget {
 
 class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
     with HasStates {
-  UiTaskState? _taskState;
-  List<Task> _tasks = [];
+  int? _taskIndex;
   TaskTransactionType _taskTransactionType = TaskTransactionType.income;
   late final CurrencyType _currencyType = widget.currencyType;
+
   @override
   void initState() {
     super.initState();
@@ -64,15 +64,17 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
     final bool notify = false,
   }) {
     _taskTransactionType = taskTransactionType;
-    _tasks = tasksNotifier.getTasks(_taskTransactionType);
-    _taskState = (task: _tasks.first, index: 0);
+    _taskIndex = 0;
     if (notify) setState(() {});
   }
 
   @override
   Widget build(final BuildContext context) {
-    final task = _taskState?.task ?? _tasks.first;
     final locale = useLocale(context);
+    final tasks = context.select<TasksNotifier, List<Task>>(
+      (final c) => c.getTasks(_taskTransactionType),
+    );
+    final task = tasks[_taskIndex ?? 0];
 
     return UiColumnScaffold(
       appBar: UiAppBar(
@@ -118,8 +120,8 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
               Center(
                 child: UiTasksBarView(
                   taskTransactionType: _taskTransactionType,
-                  tasks: _tasks,
-                  onSelect: (final value) => setState(() => _taskState = value),
+                  tasks: tasks,
+                  onSelect: (final value) => setState(() => _taskIndex = value),
                 ),
               ),
               UiTaskVerticalActionsBar(

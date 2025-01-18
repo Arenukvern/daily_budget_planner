@@ -37,7 +37,7 @@ class AddTaskTransactionButton extends StatelessWidget {
               },
       ).getValue(locale),
       onPressed: () async {
-        final transaction = await showTransactionEditor(
+        final result = await showTransactionEditor(
           context,
           transaction: Transaction.create(
             taskId: task.id,
@@ -47,15 +47,10 @@ class AddTaskTransactionButton extends StatelessWidget {
           ),
           dto: dto,
         );
-        if (transaction == null) return;
-        // TODO(arenukvern): ask for period
-        final schedule = TransactionSchedule(
-          period: Period.monthly,
-          dayOfMonth: 1,
-        );
+        if (result == null) return;
+
         await tasksNotifier.upsertTransaction(
-          transaction: transaction,
-          schedule: schedule,
+          result: result,
           task: task,
         );
         // TODO(arenukvern): upsert transaction

@@ -146,8 +146,8 @@ class Budget with _$Budget {
 extension type const TaxValue(int value) {
   factory TaxValue.fromJson(final int value) => TaxValue(value);
   int toJson() => value;
-  double get percentage => value / 100;
-  double amount(final double v) => v * percentage;
+  double get percentage => value == 0 ? 0 : value / 100;
+  double amount(final double v) => percentage == 0 ? v : v * percentage;
   static const zero = TaxValue(0);
 }
 
@@ -241,7 +241,7 @@ extension TransactionListX on List<Transaction> {
       0,
       (final previousValue, final e) {
         final diff = now.difference(e.transactionDate);
-        final days = diff.inDays;
+        final days = diff.inDays.whenZeroUse(1);
         final amount = e.input.amount(taxFree: taxFree);
         final periodDays = switch (period) {
           Period.daily => 1,
@@ -249,6 +249,7 @@ extension TransactionListX on List<Transaction> {
           Period.monthly => 30,
           Period.yearly => 365,
         };
+
         return previousValue + ((amount / days) * periodDays);
       },
     );

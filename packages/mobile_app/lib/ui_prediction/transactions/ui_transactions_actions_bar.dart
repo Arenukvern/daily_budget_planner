@@ -35,8 +35,8 @@ class UiTransactionsActionsBar extends StatelessWidget {
           title: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.add),
-              Gap(4),
+              const Icon(Icons.add),
+              const Gap(4),
               Text(
                 LocalizedMap(
                   value: {

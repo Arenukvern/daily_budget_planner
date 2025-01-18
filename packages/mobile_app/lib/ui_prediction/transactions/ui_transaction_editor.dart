@@ -9,11 +9,13 @@ class TransactionEditorDto {
     this.isTypeChangable = false,
     this.isTaskChoosable = false,
     this.isUsedForTaskPlanning = false,
+    this.isPeriodChangable = false,
     this.isCurrencyChoosable = Envs.isCryptoEnabled,
   });
   final bool isTypeChangable;
   final bool isTaskChoosable;
   final bool isUsedForTaskPlanning;
+  final bool isPeriodChangable;
   final bool isCurrencyChoosable;
   static const empty = TransactionEditorDto();
 }
@@ -36,10 +38,14 @@ Map<TransactionType, String> getTransactionTypeNames({
       TransactionType.transferIn: 'Transfer in',
       TransactionType.transferOut: 'Transfer out',
     };
-
-Future<Transaction?> showTransactionEditor(
+typedef TransactionEditorResult = ({
+  Transaction transaction,
+  TransactionSchedule schedule,
+});
+Future<TransactionEditorResult?> showTransactionEditor(
   final BuildContext context, {
   required final Transaction transaction,
+  final TransactionSchedule schedule = TransactionSchedule.empty,
   final TransactionEditorDto dto = TransactionEditorDto.empty,
 }) =>
     Navigator.push(
@@ -48,6 +54,7 @@ Future<Transaction?> showTransactionEditor(
         swipeDismissible: true,
         builder: (final context) => _TransactionEditor(
           transaction: transaction,
+          schedule: schedule,
           dto: dto,
         ),
       ),
@@ -56,10 +63,12 @@ Future<Transaction?> showTransactionEditor(
 class _TransactionEditor extends StatefulHookWidget {
   const _TransactionEditor({
     required this.transaction,
+    required this.schedule,
     required this.dto,
   });
 
   final Transaction transaction;
+  final TransactionSchedule schedule;
   final TransactionEditorDto dto;
   @override
   State<_TransactionEditor> createState() => _TransactionEditorState();
@@ -68,6 +77,7 @@ class _TransactionEditor extends StatefulHookWidget {
 class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
   late final _EditingController controller = _EditingController(
     transaction: widget.transaction,
+    schedule: widget.schedule,
   );
 
   @override
@@ -135,12 +145,13 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
           controller.setState((final state) => state.copyWith(note: value)),
     );
 
-    final padding = const EdgeInsets.symmetric(horizontal: 16);
+    const padding = EdgeInsets.symmetric(horizontal: 16);
 
     final taskTransactionType = transaction.type.toTaskTransactionType();
 
     final body = SingleChildScrollView(
       child: Column(
+        spacing: 16,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -153,7 +164,7 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
                     '${dto.isUsedForTaskPlanning ? '${isNew ? 'Plan' : 'Edit planned'} ' : '${isNew ? 'Add' : 'Edit'} '}'
                     '${transactionTypeNames[transaction.type]!}',
                   ),
-                  trailing: UiTextActionButton.cancel(),
+                  trailing: const UiTextActionButton.cancel(),
                 ),
               ),
             ],
@@ -169,7 +180,6 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
                     .setState((final state) => state.copyWith(taskId: value)),
               ),
             ),
-            Gap(16),
           ],
           if (dto.isCurrencyChoosable) ...[
             CurrencyTypeField(
@@ -178,7 +188,6 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
                 (final state) => state.copyWith(currencyType: value),
               ),
             ),
-            Gap(16),
           ],
           if (dto.isTypeChangable) ...[
             TransactionTypeField(
@@ -187,8 +196,8 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
               onChanged: (final value) => controller
                   .setState((final state) => state.copyWith(type: value)),
             ),
-            Gap(16),
           ],
+
           if (Envs.isCurrencySwitchingEnabled) ...[
             Padding(
               padding: padding,
@@ -204,11 +213,9 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
                 type: currencyType,
               ),
             ),
-            Gap(16),
           ],
           if (currencyType case CurrencyType.fiat) ...[
             nameField,
-            Gap(16),
           ],
 
           /// there is two cases:
@@ -222,16 +229,22 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
             CurrencyType.fiat => [amountField],
             CurrencyType.crypto => [
                 amountField,
-                Gap(16),
                 Padding(
                   padding: padding,
                   child: CoinPriceField(controller: controller.coinPrice),
                 ),
-                Gap(16),
               ],
           },
           if (currencyType case CurrencyType.crypto) noteField,
-          Gap(16),
+          if (dto.isPeriodChangable) ...[
+            Center(
+              child: SchedulePeriodSwitcher(
+                value: controller.schedule.period,
+                onValueChanged: (final period) => controller.schedule =
+                    controller.schedule.copyWith(period: period),
+              ),
+            ),
+          ],
           Padding(
             padding: padding,
             child: DatetimeField(
@@ -241,7 +254,7 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
               ),
             ),
           ),
-          Gap(24),
+          const Gap(8),
         ],
       ),
     );
@@ -254,7 +267,7 @@ class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
             child: UiTextButton(
               expands: true,
               onPressed: () {
-                final transaction = controller.compose();
+                final transaction = controller.composeResult();
                 if (transaction != null) {
                   Navigator.pop(context, transaction);
                 }
