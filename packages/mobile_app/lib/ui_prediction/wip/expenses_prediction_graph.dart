@@ -52,9 +52,7 @@ class ExpensesPredictionGraph extends StatelessWidget {
             ),
           ),
         ),
-        gridData: FlGridData(),
         borderData: FlBorderData(show: true),
-        lineTouchData: LineTouchData(),
         minX: _getMinX(),
         maxX: _getMaxX(),
         minY: _getMinY(),
@@ -75,6 +73,7 @@ class ExpensesPredictionGraph extends StatelessWidget {
       case Period.yearly:
         return '${date.month}/${date.year}';
     }
+    return '';
   }
 
   double _getMinX() {

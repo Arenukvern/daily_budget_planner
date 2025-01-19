@@ -1,5 +1,10 @@
 import 'package:mobile_app/common_imports.dart';
 
+typedef UiTransactionsSchedulesRecord = ({
+  List<ScheduledTransaction> scheduledTransactions,
+  Map<TransactionId, Transaction> transactions
+});
+
 class TasksNotifier extends ChangeNotifier {
   var _incomeTasks = PersonalIncomeTaskType.values
       .mapIndexed(
@@ -51,11 +56,14 @@ class TasksNotifier extends ChangeNotifier {
       }
           .where((final task) => task.status == TaskStatus.visible)
           .toList();
-  List<Transaction> getTransactionsByTask(final Task task) =>
-      task.transactionIds
-          .map((final id) => _transactions[id])
-          .nonNulls
-          .toList();
+
+  UiTransactionsSchedulesRecord getTransactionsByTask(final Task task) => (
+        transactions: task.transactionIds
+            .map((final id) => _transactions[id])
+            .nonNulls
+            .toMap(toKey: (final e) => e.id, toValue: (final e) => e),
+        scheduledTransactions: task.schedules,
+      );
 
   /// 1. removes [transaction] from task
   /// 2. removes [transaction] from transactions

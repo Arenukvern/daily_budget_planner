@@ -172,24 +172,24 @@ _$TransactionScheduleImpl _$$TransactionScheduleImplFromJson(
       periodType: $enumDecodeNullable(
               _$TransactionPeriodTypeEnumMap, json['periodType']) ??
           TransactionPeriodType.none,
-      period:
-          $enumDecodeNullable(_$PeriodEnumMap, json['period']) ?? Period.daily,
-      dayOfMonth: (json['dayOfMonth'] as num?)?.toInt() ?? 0,
-      dayOfWeek: (json['dayOfWeek'] as num?)?.toInt() ?? 0,
-      dayOfQuarter: (json['dayOfQuarter'] as num?)?.toInt() ?? 0,
-      date:
-          json['date'] == null ? null : DateTime.parse(json['date'] as String),
+      period: json['period'] == null
+          ? Period.daily
+          : Period.fromJson((json['period'] as num).toInt()),
+      startedAt: json['startedAt'] == null
+          ? null
+          : DateTime.parse(json['startedAt'] as String),
+      endedAt: json['endedAt'] == null
+          ? null
+          : DateTime.parse(json['endedAt'] as String),
     );
 
 Map<String, dynamic> _$$TransactionScheduleImplToJson(
         _$TransactionScheduleImpl instance) =>
     <String, dynamic>{
       'periodType': _$TransactionPeriodTypeEnumMap[instance.periodType]!,
-      'period': _$PeriodEnumMap[instance.period]!,
-      'dayOfMonth': instance.dayOfMonth,
-      'dayOfWeek': instance.dayOfWeek,
-      'dayOfQuarter': instance.dayOfQuarter,
-      'date': instance.date?.toIso8601String(),
+      'period': instance.period,
+      'startedAt': instance.startedAt?.toIso8601String(),
+      'endedAt': instance.endedAt?.toIso8601String(),
     };
 
 const _$TransactionPeriodTypeEnumMap = {
@@ -197,13 +197,6 @@ const _$TransactionPeriodTypeEnumMap = {
   TransactionPeriodType.bySpecificDate: 'bySpecificDate',
   TransactionPeriodType.byDayOfWeek: 'byDayOfWeek',
   TransactionPeriodType.byComputedDate: 'byComputedDate',
-};
-
-const _$PeriodEnumMap = {
-  Period.daily: 'daily',
-  Period.weekly: 'weekly',
-  Period.monthly: 'monthly',
-  Period.yearly: 'yearly',
 };
 
 _$FiatCurrencyImpl _$$FiatCurrencyImplFromJson(Map<String, dynamic> json) =>

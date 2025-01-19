@@ -1,6 +1,16 @@
 part of 'data_models.dart';
 
-enum Period { daily, weekly, monthly, yearly }
+extension type const Period(int inDays) {
+  factory Period.fromJson(final int days) => Period(days);
+  int toJson() => inDays;
+  static const daily = Period(1);
+  static const weekly = Period(7);
+  static const biweekly = Period(14);
+  static const monthly = Period(30);
+  static const quarterly = Period(90);
+  static const yearly = Period(365);
+  Duration get duration => Duration(days: inDays);
+}
 
 enum PredictionType { positive, negative, neutral }
 
@@ -235,23 +245,91 @@ class InputMoney with _$InputMoney {
 }
 
 extension TransactionListX on List<Transaction> {
-  double sumForPeriod(final Period period, {final bool taxFree = true}) {
-    final now = DateTime.now();
-    return fold(
-      0,
-      (final previousValue, final e) {
-        final diff = now.difference(e.transactionDate);
-        final days = diff.inDays.whenZeroUse(1);
-        final amount = e.input.amount(taxFree: taxFree);
-        final periodDays = switch (period) {
-          Period.daily => 1,
-          Period.weekly => 7,
-          Period.monthly => 30,
-          Period.yearly => 365,
-        };
+  double sum({final bool taxFree = true}) => fold(
+        0,
+        (final previousValue, final e) {
+          final amount = e.input.amount(taxFree: taxFree);
+          return previousValue + amount;
+        },
+      );
+}
 
-        return previousValue + ((amount / days) * periodDays);
-      },
+extension ScheduledTransactionListX on List<ScheduledTransaction> {
+  double sumForPeriod({
+    required final Map<TransactionId, Transaction> allTransactions,
+    required final DateTime startAt,
+    required final Period period,
+    final bool taxFree = true,
+  }) {
+    final range =
+        DateTimeRange(start: startAt, end: startAt.add(period.duration));
+    return sumForRange(
+      allTransactions: allTransactions,
+      range: range,
+      taxFree: taxFree,
     );
+  }
+
+  /// example:
+  ///
+  /// - regular salary has period in one month or every two weeks.
+  ///
+  /// - regular salary has start date and may have end date.
+  /// If there is no end date, then end date is end of period,
+  /// if there is end date and if it is less then period, then use end date,
+  /// otherwise use end of period.
+  double sumForRange({
+    required final Map<TransactionId, Transaction> allTransactions,
+    required final DateTimeRange range,
+    final bool taxFree = true,
+  }) =>
+      fold(
+        0,
+        (final previousValue, final e) {
+          final transaction = allTransactions[e.transactionId];
+          if (transaction == null) return previousValue;
+
+          final periodAmount = transaction.input.amount(taxFree: taxFree);
+          final schedule = e.schedule;
+          final period = schedule.period;
+          final occurancies = range.occuranciesInRangedPeriod(
+            period: period,
+            range: DateTimeRange(
+              start: schedule.startedAt ?? range.start,
+              end: schedule.endedAt ?? range.end,
+            ),
+          );
+          final totalAmount = periodAmount * occurancies;
+          return previousValue + totalAmount;
+        },
+      );
+}
+
+extension DateTimeRangeX on DateTimeRange {
+  /// calculate how many times transaction occurs in period
+  /// if transaction start date is before period start date, then use start date
+  /// if transaction end date is after period end date, then use end date
+  double occuranciesInRangedPeriod({
+    required final Period period,
+    required final DateTimeRange range,
+  }) {
+    final periodStart = range.start;
+    final periodEnd = range.end;
+
+    /// should always be positive
+    final startDiff = periodStart.difference(start);
+    if (!startDiff.isNegative) return 0;
+
+    /// should always be negative
+    final endDiff = periodEnd.difference(end);
+    if (endDiff.isNegative) return 0;
+
+    /// calculate start diff
+
+    final periodInDays = period.inDays;
+    final durationInDays =
+        duration.inDays - startDiff.inDays - (-1 * endDiff.inDays);
+    final occurrences = durationInDays / periodInDays;
+    return occurrences;
   }
 }

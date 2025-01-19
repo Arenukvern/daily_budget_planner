@@ -186,7 +186,8 @@ class UiTaskView extends StatelessWidget with HasStates {
   final Task task;
   @override
   Widget build(final BuildContext context) {
-    final transactions = context.select<TasksNotifier, List<Transaction>>(
+    final (:transactions, :scheduledTransactions) =
+        context.select<TasksNotifier, UiTransactionsSchedulesRecord>(
       (final c) => c.getTransactionsByTask(task),
     );
     void onRemove(final Transaction transaction) =>
@@ -207,17 +208,28 @@ class UiTaskView extends StatelessWidget with HasStates {
           ),
           Align(
             alignment: Alignment.centerLeft,
-            child: Wrap(
-              children: [
-                const Text('From Today: '),
-                // TODO(arenukvern): add localization l10n
-                Text(
-                  '${transactions.sumForPeriod(Period.yearly).toStringAsFixed(2)} yearly • ',
-                ),
-                Text(
-                  '${transactions.sumForPeriod(Period.monthly).toStringAsFixed(2)} monthly',
-                ),
-              ],
+            child: Builder(
+              builder: (final context) {
+                final now = dateTimeNowUtc();
+                final sumPerYear = scheduledTransactions.sumForPeriod(
+                  allTransactions: transactions,
+                  startAt: now,
+                  period: Period.yearly,
+                );
+                final sumPerMonth = scheduledTransactions.sumForPeriod(
+                  allTransactions: transactions,
+                  startAt: now,
+                  period: Period.monthly,
+                );
+                return Wrap(
+                  children: [
+                    const Text('From Today: '),
+                    // TODO(arenukvern): add localization l10n
+                    Text('${sumPerYear.toStringAsFixed(2)} yearly • '),
+                    Text('${sumPerMonth.toStringAsFixed(2)} monthly'),
+                  ],
+                );
+              },
             ),
           ),
         ],
@@ -225,13 +237,18 @@ class UiTaskView extends StatelessWidget with HasStates {
       decoration: BoxDecoration(
         color: context.colorScheme.primaryContainer,
       ),
+      // TODO(arenukvern): convert to listview.builder
       children: [
-        ...transactions.map(
-          (final transaction) => _UiTransactionCard(
-            transaction: transaction,
-            onRemove: onRemove,
-            key: ValueKey(transaction.id),
-          ),
+        ...scheduledTransactions.map(
+          (final schedule) {
+            final transaction = transactions[schedule.transactionId];
+            if (transaction == null) return const SizedBox.shrink();
+            return _UiTransactionCard(
+              transaction: transaction,
+              onRemove: onRemove,
+              key: ValueKey(schedule.transactionId),
+            );
+          },
         ),
       ],
     );

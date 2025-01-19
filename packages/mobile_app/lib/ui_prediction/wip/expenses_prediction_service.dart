@@ -11,7 +11,7 @@ class ExpensesPredictionService {
       (final sum, final budget) =>
           sum + budget.input.amount(taxFree: kAmountsTaxFree),
     );
-    final days = _getDaysInPeriod(period);
+    final days = period.inDays;
     return totalBudget / days;
   }
 
@@ -25,7 +25,7 @@ class ExpensesPredictionService {
       (final sum, final expense) =>
           sum + expense.input.amount(taxFree: kAmountsTaxFree),
     );
-    final days = _getDaysInPeriod(period);
+    final days = period.inDays;
     return totalExpense / days;
   }
 
@@ -63,26 +63,13 @@ class ExpensesPredictionService {
     );
   }
 
-  int _getDaysInPeriod(final Period period) {
-    switch (period) {
-      case Period.daily:
-        return 1;
-      case Period.weekly:
-        return 7;
-      case Period.monthly:
-        return 30;
-      case Period.yearly:
-        return 365;
-    }
-  }
-
   List<T> _getRecentData<T>({
     required final Iterable<T> data,
     required final Period period,
     required final DateTime Function(T) datetimeFromItem,
   }) {
     final now = DateTime.now();
-    final periodStart = now.subtract(Duration(days: _getDaysInPeriod(period)));
+    final periodStart = now.subtract(period.duration);
     return data
         .where((final item) => datetimeFromItem(item).isAfter(periodStart))
         .toList();

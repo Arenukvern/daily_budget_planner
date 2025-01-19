@@ -11,18 +11,19 @@ class SchedulePeriodSwitcher extends StatelessWidget {
   final ValueChanged<Period> onValueChanged;
 
   @override
-  Widget build(final BuildContext context) => CupertinoSlidingSegmentedControl(
-        children: const {
+  Widget build(final BuildContext context) =>
+      CupertinoSlidingSegmentedControl<int>(
+        children: {
           // TODO(arenukvern): add localization l10n
-          Period.daily: Text('Daily'),
-          Period.weekly: Text('Weekly'),
-          Period.monthly: Text('Monthly'),
-          Period.yearly: Text('Yearly'),
+          Period.daily.inDays: const Text('Daily'),
+          Period.weekly.inDays: const Text('Weekly'),
+          Period.monthly.inDays: const Text('Monthly'),
+          Period.yearly.inDays: const Text('Yearly'),
         },
-        groupValue: value,
+        groupValue: value.inDays,
         onValueChanged: (final newValue) {
           if (newValue == null) return;
-          onValueChanged(newValue);
+          onValueChanged(Period(newValue));
         },
       );
 }

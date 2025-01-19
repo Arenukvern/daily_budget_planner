@@ -1544,10 +1544,8 @@ TransactionSchedule _$TransactionScheduleFromJson(Map<String, dynamic> json) {
 mixin _$TransactionSchedule {
   TransactionPeriodType get periodType => throw _privateConstructorUsedError;
   Period get period => throw _privateConstructorUsedError;
-  int get dayOfMonth => throw _privateConstructorUsedError;
-  int get dayOfWeek => throw _privateConstructorUsedError;
-  int get dayOfQuarter => throw _privateConstructorUsedError;
-  DateTime? get date => throw _privateConstructorUsedError;
+  DateTime? get startedAt => throw _privateConstructorUsedError;
+  DateTime? get endedAt => throw _privateConstructorUsedError;
 
   /// Serializes this TransactionSchedule to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1568,10 +1566,8 @@ abstract class $TransactionScheduleCopyWith<$Res> {
   $Res call(
       {TransactionPeriodType periodType,
       Period period,
-      int dayOfMonth,
-      int dayOfWeek,
-      int dayOfQuarter,
-      DateTime? date});
+      DateTime? startedAt,
+      DateTime? endedAt});
 }
 
 /// @nodoc
@@ -1591,10 +1587,8 @@ class _$TransactionScheduleCopyWithImpl<$Res, $Val extends TransactionSchedule>
   $Res call({
     Object? periodType = null,
     Object? period = null,
-    Object? dayOfMonth = null,
-    Object? dayOfWeek = null,
-    Object? dayOfQuarter = null,
-    Object? date = freezed,
+    Object? startedAt = freezed,
+    Object? endedAt = freezed,
   }) {
     return _then(_value.copyWith(
       periodType: null == periodType
@@ -1605,21 +1599,13 @@ class _$TransactionScheduleCopyWithImpl<$Res, $Val extends TransactionSchedule>
           ? _value.period
           : period // ignore: cast_nullable_to_non_nullable
               as Period,
-      dayOfMonth: null == dayOfMonth
-          ? _value.dayOfMonth
-          : dayOfMonth // ignore: cast_nullable_to_non_nullable
-              as int,
-      dayOfWeek: null == dayOfWeek
-          ? _value.dayOfWeek
-          : dayOfWeek // ignore: cast_nullable_to_non_nullable
-              as int,
-      dayOfQuarter: null == dayOfQuarter
-          ? _value.dayOfQuarter
-          : dayOfQuarter // ignore: cast_nullable_to_non_nullable
-              as int,
-      date: freezed == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      endedAt: freezed == endedAt
+          ? _value.endedAt
+          : endedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ) as $Val);
   }
@@ -1636,10 +1622,8 @@ abstract class _$$TransactionScheduleImplCopyWith<$Res>
   $Res call(
       {TransactionPeriodType periodType,
       Period period,
-      int dayOfMonth,
-      int dayOfWeek,
-      int dayOfQuarter,
-      DateTime? date});
+      DateTime? startedAt,
+      DateTime? endedAt});
 }
 
 /// @nodoc
@@ -1657,10 +1641,8 @@ class __$$TransactionScheduleImplCopyWithImpl<$Res>
   $Res call({
     Object? periodType = null,
     Object? period = null,
-    Object? dayOfMonth = null,
-    Object? dayOfWeek = null,
-    Object? dayOfQuarter = null,
-    Object? date = freezed,
+    Object? startedAt = freezed,
+    Object? endedAt = freezed,
   }) {
     return _then(_$TransactionScheduleImpl(
       periodType: null == periodType
@@ -1671,21 +1653,13 @@ class __$$TransactionScheduleImplCopyWithImpl<$Res>
           ? _value.period
           : period // ignore: cast_nullable_to_non_nullable
               as Period,
-      dayOfMonth: null == dayOfMonth
-          ? _value.dayOfMonth
-          : dayOfMonth // ignore: cast_nullable_to_non_nullable
-              as int,
-      dayOfWeek: null == dayOfWeek
-          ? _value.dayOfWeek
-          : dayOfWeek // ignore: cast_nullable_to_non_nullable
-              as int,
-      dayOfQuarter: null == dayOfQuarter
-          ? _value.dayOfQuarter
-          : dayOfQuarter // ignore: cast_nullable_to_non_nullable
-              as int,
-      date: freezed == date
-          ? _value.date
-          : date // ignore: cast_nullable_to_non_nullable
+      startedAt: freezed == startedAt
+          ? _value.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      endedAt: freezed == endedAt
+          ? _value.endedAt
+          : endedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ));
   }
@@ -1697,10 +1671,8 @@ class _$TransactionScheduleImpl extends _TransactionSchedule {
   const _$TransactionScheduleImpl(
       {this.periodType = TransactionPeriodType.none,
       this.period = Period.daily,
-      this.dayOfMonth = 0,
-      this.dayOfWeek = 0,
-      this.dayOfQuarter = 0,
-      this.date})
+      this.startedAt,
+      this.endedAt})
       : super._();
 
   factory _$TransactionScheduleImpl.fromJson(Map<String, dynamic> json) =>
@@ -1713,20 +1685,13 @@ class _$TransactionScheduleImpl extends _TransactionSchedule {
   @JsonKey()
   final Period period;
   @override
-  @JsonKey()
-  final int dayOfMonth;
+  final DateTime? startedAt;
   @override
-  @JsonKey()
-  final int dayOfWeek;
-  @override
-  @JsonKey()
-  final int dayOfQuarter;
-  @override
-  final DateTime? date;
+  final DateTime? endedAt;
 
   @override
   String toString() {
-    return 'TransactionSchedule(periodType: $periodType, period: $period, dayOfMonth: $dayOfMonth, dayOfWeek: $dayOfWeek, dayOfQuarter: $dayOfQuarter, date: $date)';
+    return 'TransactionSchedule(periodType: $periodType, period: $period, startedAt: $startedAt, endedAt: $endedAt)';
   }
 
   @override
@@ -1737,19 +1702,15 @@ class _$TransactionScheduleImpl extends _TransactionSchedule {
             (identical(other.periodType, periodType) ||
                 other.periodType == periodType) &&
             (identical(other.period, period) || other.period == period) &&
-            (identical(other.dayOfMonth, dayOfMonth) ||
-                other.dayOfMonth == dayOfMonth) &&
-            (identical(other.dayOfWeek, dayOfWeek) ||
-                other.dayOfWeek == dayOfWeek) &&
-            (identical(other.dayOfQuarter, dayOfQuarter) ||
-                other.dayOfQuarter == dayOfQuarter) &&
-            (identical(other.date, date) || other.date == date));
+            (identical(other.startedAt, startedAt) ||
+                other.startedAt == startedAt) &&
+            (identical(other.endedAt, endedAt) || other.endedAt == endedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, periodType, period, dayOfMonth,
-      dayOfWeek, dayOfQuarter, date);
+  int get hashCode =>
+      Object.hash(runtimeType, periodType, period, startedAt, endedAt);
 
   /// Create a copy of TransactionSchedule
   /// with the given fields replaced by the non-null parameter values.
@@ -1772,10 +1733,8 @@ abstract class _TransactionSchedule extends TransactionSchedule {
   const factory _TransactionSchedule(
       {final TransactionPeriodType periodType,
       final Period period,
-      final int dayOfMonth,
-      final int dayOfWeek,
-      final int dayOfQuarter,
-      final DateTime? date}) = _$TransactionScheduleImpl;
+      final DateTime? startedAt,
+      final DateTime? endedAt}) = _$TransactionScheduleImpl;
   const _TransactionSchedule._() : super._();
 
   factory _TransactionSchedule.fromJson(Map<String, dynamic> json) =
@@ -1786,13 +1745,9 @@ abstract class _TransactionSchedule extends TransactionSchedule {
   @override
   Period get period;
   @override
-  int get dayOfMonth;
+  DateTime? get startedAt;
   @override
-  int get dayOfWeek;
-  @override
-  int get dayOfQuarter;
-  @override
-  DateTime? get date;
+  DateTime? get endedAt;
 
   /// Create a copy of TransactionSchedule
   /// with the given fields replaced by the non-null parameter values.

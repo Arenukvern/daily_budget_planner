@@ -103,10 +103,8 @@ class TransactionSchedule with _$TransactionSchedule {
   const factory TransactionSchedule({
     @Default(TransactionPeriodType.none) final TransactionPeriodType periodType,
     @Default(Period.daily) final Period period,
-    @Default(0) final int dayOfMonth,
-    @Default(0) final int dayOfWeek,
-    @Default(0) final int dayOfQuarter,
-    final DateTime? date,
+    final DateTime? startedAt,
+    final DateTime? endedAt,
   }) = _TransactionSchedule;
 
   const TransactionSchedule._();
