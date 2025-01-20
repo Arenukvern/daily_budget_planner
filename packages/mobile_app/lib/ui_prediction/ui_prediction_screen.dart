@@ -34,7 +34,7 @@ class UiPredictionScreen extends StatelessWidget {
                     uiPredictionNotifier: uiPredictionNotifier,
                   ),
                 ),
-                UiPredictionBottomActionBar(),
+                const UiPredictionBottomActionBar(),
               ],
             );
           } else {
@@ -52,10 +52,10 @@ class UiPredictionScreen extends StatelessWidget {
                       uiPredictionNotifier: uiPredictionNotifier,
                     ).toSliver(),
                     const SliverGap(64),
-                    UiSafeArea.bottom().toSliver(),
+                    const UiSafeArea.bottom().toSliver(),
                   ],
                 ),
-                Positioned(
+                const Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
@@ -78,6 +78,8 @@ class _PredictionHeader extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
+    final tasksNotifier = context.watch<TasksNotifier>();
+    const period = Period.monthly;
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colorScheme.surface.withOpacity(0.5),
@@ -87,7 +89,7 @@ class _PredictionHeader extends StatelessWidget {
       ),
       child: Column(
         children: [
-          UiSafeArea.top(),
+          const UiSafeArea.top(),
           const Gap(12),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -95,7 +97,7 @@ class _PredictionHeader extends StatelessWidget {
               spacing: 6,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Gap(6),
+                const Gap(6),
                 _HeaderItem(
                   onPressed: () async {},
                   title: LocalizedMap(
@@ -105,15 +107,16 @@ class _PredictionHeader extends StatelessWidget {
                       languages.ru: 'период',
                     },
                   ).getValue(locale),
-                  value: LocalizedMap(
-                    value: {
-                      languages.en: 'Week',
-                      languages.it: 'Settimana',
-                      languages.ru: 'Неделя',
-                    },
-                  ).getValue(locale),
+                  // TODO(arenukvern): add localization l10n
+                  value: switch (period) {
+                    Period.weekly => 'week',
+                    Period.monthly => 'month',
+                    Period.quarterly => 'quarter',
+                    Period.yearly => 'year',
+                    _ => '${period.inDays} days',
+                  },
                 ),
-                Spacer(),
+                const Spacer(),
                 _HeaderItem(
                   onPressed: () async => showExpensesTasksView(
                     context: context,
@@ -126,7 +129,11 @@ class _PredictionHeader extends StatelessWidget {
                       languages.ru: 'регулярные расходы',
                     },
                   ).getValue(locale),
-                  value: '\$${state.regularExpensesSum.toStringAsFixed(2)}',
+                  value: '\$${tasksNotifier.getPlannedIncomeSum(
+                        startAt: state.selectedDate,
+                        period: period,
+                        transactionType: TransactionType.expense,
+                      ).toStringAsFixed(2)}',
                   icon: Icons.arrow_drop_down_rounded,
                 ),
                 _HeaderItem(
@@ -139,10 +146,14 @@ class _PredictionHeader extends StatelessWidget {
                       languages.ru: 'регулярные доходы',
                     },
                   ).getValue(locale),
-                  value: '\$${state.regularIncomesSum.toStringAsFixed(2)}',
+                  value: '\$${tasksNotifier.getPlannedIncomeSum(
+                        startAt: state.selectedDate,
+                        period: period,
+                        transactionType: TransactionType.income,
+                      ).toStringAsFixed(2)}',
                   icon: Icons.arrow_drop_up_rounded,
                 ),
-                Spacer(),
+                const Spacer(),
               ],
             ),
           ),
@@ -513,8 +524,8 @@ class UiPredictionBottomActionBar extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.add),
-              Gap(4),
+              const Icon(Icons.add),
+              const Gap(4),
               Text(
                 LocalizedMap(
                   value: {
@@ -545,7 +556,7 @@ class BudgetBottomSheet extends HookWidget {
           minChildSize: 0.2,
           maxChildSize: 0.9,
           expand: false,
-          builder: (final _, final controller) => BudgetBottomSheet(),
+          builder: (final _, final controller) => const BudgetBottomSheet(),
         ),
       );
 
@@ -558,12 +569,12 @@ class BudgetBottomSheet extends HookWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          UiIOSDragHandle(),
+          const UiIOSDragHandle(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
             child: Text(
@@ -591,7 +602,7 @@ class BudgetBottomSheet extends HookWidget {
                     DateFormat('EEEE, d MMMM yyyy, h:mm a').format(budget.date),
                   ),
                   trailing: IconButton(
-                    icon: Icon(Icons.close),
+                    icon: const Icon(Icons.close),
                     onPressed: () async =>
                         uiPredictionNotifier.removeBudget(budget.id),
                   ),

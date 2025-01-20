@@ -292,12 +292,14 @@ extension ScheduledTransactionListX on List<ScheduledTransaction> {
           final periodAmount = transaction.input.amount(taxFree: taxFree);
           final schedule = e.schedule;
           final period = schedule.period;
+
+          final startedAt = schedule.startedAt ?? range.start;
+          final endedAt = schedule.endedAt ?? range.end;
+
           final occurancies = range.occuranciesInRangedPeriod(
             period: period,
-            range: DateTimeRange(
-              start: schedule.startedAt ?? range.start,
-              end: schedule.endedAt ?? range.end,
-            ),
+            periodStart: startedAt,
+            periodEnd: endedAt,
           );
           final totalAmount = periodAmount * occurancies;
           return previousValue + totalAmount;
@@ -311,20 +313,21 @@ extension DateTimeRangeX on DateTimeRange {
   /// if transaction end date is after period end date, then use end date
   double occuranciesInRangedPeriod({
     required final Period period,
-    required final DateTimeRange range,
+    required final DateTime periodStart,
+    required final DateTime periodEnd,
   }) {
-    final periodStart = range.start;
-    final periodEnd = range.end;
+    final isStartAfterRangeEnd = periodStart.isAfter(end);
+    final isEndBeforeRangeStart = periodEnd.isBefore(start);
+    if (isStartAfterRangeEnd || isEndBeforeRangeStart) return 0;
 
     /// should always be positive
-    final startDiff = periodStart.difference(start);
-    if (!startDiff.isNegative) return 0;
+    final startDiff = periodStart.isBefore(start)
+        ? Duration.zero
+        : periodStart.difference(start);
 
     /// should always be negative
-    final endDiff = periodEnd.difference(end);
-    if (endDiff.isNegative) return 0;
-
-    /// calculate start diff
+    final endDiff =
+        periodEnd.isAfter(end) ? Duration.zero : periodEnd.difference(end);
 
     final periodInDays = period.inDays;
     final durationInDays =

@@ -57,6 +57,28 @@ class TasksNotifier extends ChangeNotifier {
           .where((final task) => task.status == TaskStatus.visible)
           .toList();
 
+  double getPlannedIncomeSum({
+    required final DateTime startAt,
+    required final Period period,
+    required final TransactionType transactionType,
+  }) =>
+      switch (transactionType) {
+        TransactionType.income => _incomeTasks,
+        TransactionType.expense => _expenseTasks,
+        TransactionType.transferIn => throw UnsupportedError(''),
+        TransactionType.transferOut => throw UnsupportedError(''),
+      }
+          .map((final task) {
+        final (:scheduledTransactions, :transactions) =
+            getTransactionsByTask(task);
+
+        return scheduledTransactions.sumForPeriod(
+          allTransactions: transactions,
+          period: period,
+          startAt: startAt,
+        );
+      }).fold(0, (final a, final b) => a + b);
+
   UiTransactionsSchedulesRecord getTransactionsByTask(final Task task) => (
         transactions: task.transactionIds
             .map((final id) => _transactions[id])

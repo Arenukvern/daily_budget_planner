@@ -11,7 +11,7 @@ Future<void> showExpensesTasksView({
 }) async =>
     Navigator.of(context).push(
       CupertinoModalSheetRoute(
-        builder: (final _) => UiBottomSheetWrapper(
+        builder: (final _) => const UiBottomSheetWrapper(
           child: UiGeneralTasksView(
             taskTransactionType: TaskTransactionType.expense,
           ),
@@ -24,7 +24,7 @@ Future<void> showIncomesTasksView({
 }) async =>
     Navigator.of(context).push(
       CupertinoModalSheetRoute(
-        builder: (final _) => UiBottomSheetWrapper(
+        builder: (final _) => const UiBottomSheetWrapper(
           child: UiGeneralTasksView(
             taskTransactionType: TaskTransactionType.income,
           ),
@@ -111,7 +111,7 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
           },
         ),
         automaticallyImplyLeading: false,
-        trailing: UiTextActionButton.done(),
+        trailing: const UiTextActionButton.done(),
       ),
       children: [
         Expanded(
@@ -145,8 +145,8 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
             currencyType: _currencyType,
           ),
         ),
-        Gap(8),
-        UiSafeArea.bottom(),
+        const Gap(8),
+        const UiSafeArea.bottom(),
       ],
     );
   }

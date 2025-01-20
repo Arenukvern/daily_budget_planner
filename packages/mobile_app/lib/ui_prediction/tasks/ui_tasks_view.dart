@@ -210,7 +210,7 @@ class UiTaskView extends StatelessWidget with HasStates {
             alignment: Alignment.centerLeft,
             child: Builder(
               builder: (final context) {
-                final now = dateTimeNowUtc();
+                final now = DateTime.now();
                 final sumPerYear = scheduledTransactions.sumForPeriod(
                   allTransactions: transactions,
                   startAt: now,

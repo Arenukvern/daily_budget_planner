@@ -88,10 +88,13 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
           ),
       },
     );
-    return (
+    final result = (
       transaction: resultTransaction,
-      schedule: schedule,
+      schedule: schedule.copyWith(
+        startedAt: schedule.startedAt ?? resultTransaction.transactionDate,
+      ),
     );
+    return result;
   }
 
   @override
