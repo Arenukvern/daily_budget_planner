@@ -425,6 +425,7 @@ class _DailyStatistics extends StatelessWidget {
         balance: state.value.totalIncomesSum - state.value.totalExpensesSum,
       ),
     );
+
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 300),
       child: Wrap(
@@ -456,7 +457,7 @@ class _DailyStatistics extends StatelessWidget {
           ),
           _StatisticItem(
             onPressed: () {},
-            value: '\$${state..balance.toStringAsFixed(2)}',
+            value: '\$${balance.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
                 languages.en: 'End of Day Balance',
