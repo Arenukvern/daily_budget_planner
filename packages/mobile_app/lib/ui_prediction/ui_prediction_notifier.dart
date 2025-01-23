@@ -10,32 +10,38 @@ const kAmountsTaxFree = false;
 /// for example:
 /// if expense = -150, income = 50
 /// balance = -150 + 50 = -100
-typedef ExpenseTotalTuple = ({double balance, double expense, double income});
+typedef ExpenseTotalRecord = ({double balance, double expense, double income});
 
 @freezed
 class UiPredictionState with _$UiPredictionState {
   const factory UiPredictionState({
     required final DateTime selectedDate,
+    @Default(Period.monthly) final Period period,
     @Default([]) final List<Transaction> expenses,
     @Default([]) final List<Budget> budgets,
     @Default([]) final List<Transaction> incomes,
-    @Default(0) final double expensesSum,
-    @Default(0) final double regularExpensesSum,
-    @Default(0) final double incomesSum,
-    @Default(0) final double regularIncomesSum,
+
+    /// budget difference expenses
+    @Default(0) final double totalExpensesSum,
+    @Default(0) final double totalIncomesSum,
+
+    /// calculated from specific dates && !isRegular
+    @Default(0) final double oneTimeIncomesSum,
+
+    /// calculated from specific dates && !isRegular
+    @Default(0) final double oneTimeExpensesSum,
 
     /// is difference between regularIncomesSum + regularExpensesSum,
     /// divided by quantity of days left in the period setted in
     /// the income date.
     @Default(0) final double dailyBudget,
-
-    /// date of the income, when most of regular incomes are expected.
-    final DateTime? incomeDate,
+    @Default(kAmountsTaxFree) final bool isTaxFree,
+    @Default(false) final bool countWithTransfers,
   }) = _UiPredictionState;
 }
 
 class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
-    with HasLocalApis {
+    with HasLocalApis, HasStates {
   UiPredictionNotifier()
       : super(UiPredictionState(selectedDate: DateTime.now()));
   final timelineNotifier = UiTimelineNotifier(
@@ -46,9 +52,12 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
   );
   Future<void> onLoad() async {
     value = UiPredictionState(selectedDate: DateTime.now());
-    _recalculateExpenses();
-    _recalculateIncomes();
+    _recalculateTotalExpensesSum();
+    _recalculateTotalIncomesSum();
   }
+
+  DateTime get _startDate => value.selectedDate.toDayBeginning;
+  DateTime get _endDate => _startDate.add(value.period.duration).toDayEnd;
 
   @override
   void dispose() {
@@ -64,11 +73,63 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
 
   // TODO(arenukvern): make dependent from period
   double getExpensePredictionFor(final DateTime date) => 0;
-  // TODO(arenukvern): make dependent from period
-  ExpenseTotalTuple getExpenseFor(final DateTime date) => calculateTotalExpense(
-        date.subtract(1.days),
-        date,
-      );
+
+  Budget get recentBudget => value.budgets.firstOrNull ?? Budget.empty;
+
+  Future<void> removeBudget(final BudgetId budgetId) async {
+    final newBudgets =
+        value.budgets.where((final b) => b.id != budgetId).toList();
+    value = value.copyWith(budgets: newBudgets);
+  }
+
+  Future<void> upsertBudget(
+    final Budget budget, {
+    final bool isNew = false,
+  }) async {
+    final budgetIndex =
+        value.budgets.indexWhere((final b) => b.id == budget.id);
+    if (budgetIndex == -1) {
+      final updatedBudgets = [...value.budgets, budget]
+        ..sort((final a, final b) => b.date.compareTo(a.date));
+      value = value.copyWith(budgets: updatedBudgets);
+    } else {
+      final newBudgets = [...value.budgets]
+        ..[budgetIndex] = budget
+        ..sort((final a, final b) => b.date.compareTo(a.date));
+      value = value.copyWith(budgets: newBudgets);
+    }
+    // await budgetLocalApi.upsertBudget(budget);
+  }
+
+  Future<void> upsertTransaction(final TransactionEditorResult result) async {
+    final (:transaction, :schedule) = result;
+    // await expensesLocalApi.upsertRegularExpense(expense);
+    switch (transaction.type) {
+      case TransactionType.expense:
+        value = value.copyWith(
+          expenses: value.expenses
+              .upsert(transaction, (final e) => e.id == transaction.id),
+        );
+        _recalculateTotalExpensesSum();
+      case TransactionType.income:
+        value = value.copyWith(
+          incomes: value.incomes
+              .upsert(transaction, (final e) => e.id == transaction.id),
+        );
+        _recalculateTotalIncomesSum();
+      case TransactionType.transferIn:
+      case TransactionType.transferOut:
+      // TODO(arenukvern): implement
+    }
+  }
+
+  Future<void> upsertIncome(final Transaction income) async {
+    // await incomesLocalApi.upsertIncome(income);
+    value = value.copyWith(
+      incomes: value.incomes.upsert(income, (final i) => i.id == income.id),
+    );
+    _recalculateTotalIncomesSum();
+  }
 
   /// Calculates the total expense as the difference between all budgets
   /// for the given dates.
@@ -79,35 +140,32 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
   /// budgets within this period.
   ///
   /// Returns the total expense as a tuple with balance, expense, and income.
-  ExpenseTotalTuple calculateTotalExpense(
-    final DateTime startDate,
-    final DateTime endDate,
-  ) {
-    final dayEnd = endDate.dayEnd;
-    final maxStartDate = startDate.dayStart.subtract(const Duration(days: 31));
-
+  ExpenseTotalRecord _calculateTotalBudgetExpense({
+    required final DateTime startDate,
+    required final DateTime endDate,
+  }) {
     final relevantBudgets = value.budgets
         .where(
           (final budget) =>
-              budget.date.isBefore(dayEnd) || budget.date == dayEnd,
+              budget.date.isBefore(endDate) || budget.date == endDate,
         )
         .toList()
       ..sort((final a, final b) => b.date.compareTo(a.date));
     if (relevantBudgets.isEmpty) return (balance: 0, expense: 0, income: 0);
 
     final DateTime effectiveStartDate;
-    final closestBudgets = relevantBudgets
-        .where((final budget) => !budget.date.isAfter(startDate.dayEnd));
+    final closestBudgets =
+        relevantBudgets.where((final budget) => !budget.date.isAfter(endDate));
     // Find the budget closest to startDate.dayEnd
     final Budget closestBudget;
     if (closestBudgets.isEmpty) {
-      closestBudget = Budget(date: startDate.dayEnd);
+      closestBudget = Budget(date: endDate);
     } else if (closestBudgets.length == 1) {
       closestBudget = closestBudgets.first;
     } else {
       closestBudget = closestBudgets.reduce((final a, final b) {
-        final aDiff = a.date.difference(startDate.dayEnd).abs();
-        final bDiff = b.date.difference(startDate.dayEnd).abs();
+        final aDiff = a.date.difference(endDate).abs();
+        final bDiff = b.date.difference(endDate).abs();
         return aDiff < bDiff ? a : b;
       });
     }
@@ -122,8 +180,7 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
         relevantBudgets.lastOrNull?.date.isAfter(effectiveStartDate) == true) {
       final olderBudget = value.budgets.lastWhereOrNull(
         (final budget) =>
-            budget.date.isBefore(effectiveStartDate) &&
-            budget.date.isAfter(maxStartDate),
+            budget.date.isBefore(endDate) && budget.date.isAfter(startDate),
       );
       if (olderBudget != null) {
         relevantBudgets.add(olderBudget);
@@ -179,131 +236,88 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     );
   }
 
-  Budget get recentBudget {
-    if (value.budgets.isEmpty) return Budget.empty;
-    return value.budgets.first;
-  }
+  void _recalculateTotalExpensesSum() {
+    final (balance: _, expense: expenses, income: _) =
+        _calculateTotalBudgetExpense(
+      startDate: _startDate,
+      endDate: _endDate,
+    );
+    final oneTimeIncomesSum = _recalculateOneTimeTransactionsSum(
+      startDate: _startDate,
+      endDate: _endDate,
+      isTaxFree: value.isTaxFree,
+      transactionType: TransactionType.expense,
+    );
+    final oneTimeTransactionsSum = _recalculateOneTimeTransactionsSum(
+      startDate: _startDate,
+      endDate: _endDate,
+      isTaxFree: value.isTaxFree,
+      transactionType: TransactionType.transferOut,
+    );
+    final oneTimeSum = value.countWithTransfers
+        ? oneTimeIncomesSum + oneTimeTransactionsSum
+        : oneTimeIncomesSum;
 
-  Future<void> removeBudget(final BudgetId budgetId) async {
-    final newBudgets =
-        value.budgets.where((final b) => b.id != budgetId).toList();
-    value = value.copyWith(budgets: newBudgets);
-  }
-
-  Future<void> upsertBudget(
-    final Budget budget, {
-    final bool isNew = false,
-  }) async {
-    final budgetIndex =
-        value.budgets.indexWhere((final b) => b.id == budget.id);
-    if (budgetIndex == -1) {
-      final updatedBudgets = [...value.budgets, budget]
-        ..sort((final a, final b) => b.date.compareTo(a.date));
-      value = value.copyWith(budgets: updatedBudgets);
-    } else {
-      final newBudgets = [...value.budgets]
-        ..[budgetIndex] = budget
-        ..sort((final a, final b) => b.date.compareTo(a.date));
-      value = value.copyWith(budgets: newBudgets);
-    }
-    // await budgetLocalApi.upsertBudget(budget);
-  }
-
-  Future<void> upsertTransaction(final TransactionEditorResult result) async {
-    final (:transaction, :schedule) = result;
-    // await expensesLocalApi.upsertRegularExpense(expense);
-    switch (transaction.type) {
-      case TransactionType.expense:
-        value = value.copyWith(
-          expenses: value.expenses
-              .upsert(transaction, (final e) => e.id == transaction.id),
-        );
-        _recalculateExpenses();
-      case TransactionType.income:
-        value = value.copyWith(
-          incomes: value.incomes
-              .upsert(transaction, (final e) => e.id == transaction.id),
-        );
-        _recalculateIncomes();
-      case TransactionType.transferIn:
-      case TransactionType.transferOut:
-      // TODO(arenukvern): implement
-    }
-  }
-
-  void _recalculateExpenses() {
-    _setExpensesSum();
-    _setRegularExpensesSum();
-  }
-
-  void _recalculateIncomes() {
-    _setIncomesSum();
-    _setRegularIncomesSum();
-  }
-
-  Future<void> upsertIncome(final Transaction income) async {
-    // await incomesLocalApi.upsertIncome(income);
     value = value.copyWith(
-      incomes: value.incomes.upsert(income, (final i) => i.id == income.id),
+      totalExpensesSum: expenses > oneTimeSum ? expenses : oneTimeSum,
+      oneTimeExpensesSum: oneTimeSum,
     );
-    _recalculateIncomes();
   }
 
-  void _setExpensesSum() {
-    final double sum = value.expenses.fold(
-      0,
-      (final sum, final expense) =>
-          sum + expense.input.amount(taxFree: kAmountsTaxFree),
+  void _recalculateTotalIncomesSum() {
+    final (balance: _, expense: _, :income) = _calculateTotalBudgetExpense(
+      startDate: _startDate,
+      endDate: _endDate,
     );
-    value = value.copyWith(expensesSum: sum);
-  }
-
-  void _setRegularExpensesSum() {
-    final double sum =
-        value.expenses.where((final expense) => expense.isRegular).fold(
-              0,
-              (final sum, final expense) =>
-                  sum + expense.input.amount(taxFree: kAmountsTaxFree),
-            );
-    value = value.copyWith(regularExpensesSum: sum);
-  }
-
-  void _setIncomesSum() {
-    final double sum = value.incomes.fold(
-      0,
-      (final sum, final income) =>
-          sum + income.input.amount(taxFree: kAmountsTaxFree),
+    final oneTimeIncomesSum = _recalculateOneTimeTransactionsSum(
+      startDate: _startDate,
+      endDate: _endDate,
+      isTaxFree: value.isTaxFree,
+      transactionType: TransactionType.income,
     );
-    value = value.copyWith(incomesSum: sum);
+    final oneTimeTransactionsSum = _recalculateOneTimeTransactionsSum(
+      startDate: _startDate,
+      endDate: _endDate,
+      isTaxFree: value.isTaxFree,
+      transactionType: TransactionType.transferIn,
+    );
+    final oneTimeSum = value.countWithTransfers
+        ? oneTimeIncomesSum + oneTimeTransactionsSum
+        : oneTimeIncomesSum;
+    value = value.copyWith(
+      totalIncomesSum: income > oneTimeSum ? income : oneTimeSum,
+      oneTimeIncomesSum: oneTimeSum,
+    );
   }
 
-  void _setRegularIncomesSum() {
-    final double sum =
-        value.incomes.where((final income) => income.isRegular).fold(
-              0,
-              (final sum, final income) =>
-                  sum + income.input.amount(taxFree: kAmountsTaxFree),
-            );
-    value = value.copyWith(regularIncomesSum: sum);
-  }
+  double _recalculateOneTimeTransactionsSum({
+    required final DateTime startDate,
+    required final DateTime endDate,
+    required final bool isTaxFree,
+    required final TransactionType transactionType,
+  }) =>
+      switch (transactionType) {
+        TransactionType.income => value.incomes,
+        TransactionType.transferIn => value.incomes,
+        TransactionType.transferOut => value.incomes,
+        TransactionType.expense => value.expenses,
+      }
+          .where(
+            (final transaction) =>
+                !transaction.isRegular &&
+                transaction.transactionDate.isAfter(startDate) &&
+                transaction.transactionDate.isBefore(endDate),
+          )
+          .fold(
+            0,
+            (final sum, final transaction) =>
+                sum + transaction.input.amount(taxFree: isTaxFree),
+          );
 }
 
 /// Extension on [DateTime] to provide a method for getting the
 /// date without time.
-extension DateTimeWithoutTime on DateTime {
-  /// Returns a new [DateTime] instance with the same date but time
-  /// set to midnight.
-  ///
-  /// This is useful for comparing dates without considering the time component.
-  ///
-  /// Example:
-  /// ```dart
-  /// final dateTime = DateTime(2023, 5, 15, 14, 30);
-  /// final dateOnly = dateTime.withoutTime; // DateTime(2023, 5, 15, 0, 0, 0, 0)
-  /// ```
-  DateTime get dayStart => DateTime(year, month, day);
-  DateTime get dayEnd => DateTime(year, month, day, 23, 59, 59, 999);
-}
+extension DateTimeWithoutTime on DateTime {}
 
 // TODO(arenukvern): add to xsoulspace_foundation
 extension ListUpsertX<T> on List<T> {

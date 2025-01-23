@@ -17,21 +17,27 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$UiPredictionState {
   DateTime get selectedDate => throw _privateConstructorUsedError;
+  Period get period => throw _privateConstructorUsedError;
   List<Transaction> get expenses => throw _privateConstructorUsedError;
   List<Budget> get budgets => throw _privateConstructorUsedError;
   List<Transaction> get incomes => throw _privateConstructorUsedError;
-  double get expensesSum => throw _privateConstructorUsedError;
-  double get regularExpensesSum => throw _privateConstructorUsedError;
-  double get incomesSum => throw _privateConstructorUsedError;
-  double get regularIncomesSum => throw _privateConstructorUsedError;
+
+  /// budget difference expenses
+  double get totalExpensesSum => throw _privateConstructorUsedError;
+  double get totalIncomesSum => throw _privateConstructorUsedError;
+
+  /// calculated from specific dates && !isRegular
+  double get oneTimeIncomesSum => throw _privateConstructorUsedError;
+
+  /// calculated from specific dates && !isRegular
+  double get oneTimeExpensesSum => throw _privateConstructorUsedError;
 
   /// is difference between regularIncomesSum + regularExpensesSum,
   /// divided by quantity of days left in the period setted in
   /// the income date.
   double get dailyBudget => throw _privateConstructorUsedError;
-
-  /// date of the income, when most of regular incomes are expected.
-  DateTime? get incomeDate => throw _privateConstructorUsedError;
+  bool get isTaxFree => throw _privateConstructorUsedError;
+  bool get countWithTransfers => throw _privateConstructorUsedError;
 
   /// Create a copy of UiPredictionState
   /// with the given fields replaced by the non-null parameter values.
@@ -48,15 +54,17 @@ abstract class $UiPredictionStateCopyWith<$Res> {
   @useResult
   $Res call(
       {DateTime selectedDate,
+      Period period,
       List<Transaction> expenses,
       List<Budget> budgets,
       List<Transaction> incomes,
-      double expensesSum,
-      double regularExpensesSum,
-      double incomesSum,
-      double regularIncomesSum,
+      double totalExpensesSum,
+      double totalIncomesSum,
+      double oneTimeIncomesSum,
+      double oneTimeExpensesSum,
       double dailyBudget,
-      DateTime? incomeDate});
+      bool isTaxFree,
+      bool countWithTransfers});
 }
 
 /// @nodoc
@@ -75,21 +83,27 @@ class _$UiPredictionStateCopyWithImpl<$Res, $Val extends UiPredictionState>
   @override
   $Res call({
     Object? selectedDate = null,
+    Object? period = null,
     Object? expenses = null,
     Object? budgets = null,
     Object? incomes = null,
-    Object? expensesSum = null,
-    Object? regularExpensesSum = null,
-    Object? incomesSum = null,
-    Object? regularIncomesSum = null,
+    Object? totalExpensesSum = null,
+    Object? totalIncomesSum = null,
+    Object? oneTimeIncomesSum = null,
+    Object? oneTimeExpensesSum = null,
     Object? dailyBudget = null,
-    Object? incomeDate = freezed,
+    Object? isTaxFree = null,
+    Object? countWithTransfers = null,
   }) {
     return _then(_value.copyWith(
       selectedDate: null == selectedDate
           ? _value.selectedDate
           : selectedDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      period: null == period
+          ? _value.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as Period,
       expenses: null == expenses
           ? _value.expenses
           : expenses // ignore: cast_nullable_to_non_nullable
@@ -102,30 +116,34 @@ class _$UiPredictionStateCopyWithImpl<$Res, $Val extends UiPredictionState>
           ? _value.incomes
           : incomes // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
-      expensesSum: null == expensesSum
-          ? _value.expensesSum
-          : expensesSum // ignore: cast_nullable_to_non_nullable
+      totalExpensesSum: null == totalExpensesSum
+          ? _value.totalExpensesSum
+          : totalExpensesSum // ignore: cast_nullable_to_non_nullable
               as double,
-      regularExpensesSum: null == regularExpensesSum
-          ? _value.regularExpensesSum
-          : regularExpensesSum // ignore: cast_nullable_to_non_nullable
+      totalIncomesSum: null == totalIncomesSum
+          ? _value.totalIncomesSum
+          : totalIncomesSum // ignore: cast_nullable_to_non_nullable
               as double,
-      incomesSum: null == incomesSum
-          ? _value.incomesSum
-          : incomesSum // ignore: cast_nullable_to_non_nullable
+      oneTimeIncomesSum: null == oneTimeIncomesSum
+          ? _value.oneTimeIncomesSum
+          : oneTimeIncomesSum // ignore: cast_nullable_to_non_nullable
               as double,
-      regularIncomesSum: null == regularIncomesSum
-          ? _value.regularIncomesSum
-          : regularIncomesSum // ignore: cast_nullable_to_non_nullable
+      oneTimeExpensesSum: null == oneTimeExpensesSum
+          ? _value.oneTimeExpensesSum
+          : oneTimeExpensesSum // ignore: cast_nullable_to_non_nullable
               as double,
       dailyBudget: null == dailyBudget
           ? _value.dailyBudget
           : dailyBudget // ignore: cast_nullable_to_non_nullable
               as double,
-      incomeDate: freezed == incomeDate
-          ? _value.incomeDate
-          : incomeDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      isTaxFree: null == isTaxFree
+          ? _value.isTaxFree
+          : isTaxFree // ignore: cast_nullable_to_non_nullable
+              as bool,
+      countWithTransfers: null == countWithTransfers
+          ? _value.countWithTransfers
+          : countWithTransfers // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -140,15 +158,17 @@ abstract class _$$UiPredictionStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {DateTime selectedDate,
+      Period period,
       List<Transaction> expenses,
       List<Budget> budgets,
       List<Transaction> incomes,
-      double expensesSum,
-      double regularExpensesSum,
-      double incomesSum,
-      double regularIncomesSum,
+      double totalExpensesSum,
+      double totalIncomesSum,
+      double oneTimeIncomesSum,
+      double oneTimeExpensesSum,
       double dailyBudget,
-      DateTime? incomeDate});
+      bool isTaxFree,
+      bool countWithTransfers});
 }
 
 /// @nodoc
@@ -165,21 +185,27 @@ class __$$UiPredictionStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedDate = null,
+    Object? period = null,
     Object? expenses = null,
     Object? budgets = null,
     Object? incomes = null,
-    Object? expensesSum = null,
-    Object? regularExpensesSum = null,
-    Object? incomesSum = null,
-    Object? regularIncomesSum = null,
+    Object? totalExpensesSum = null,
+    Object? totalIncomesSum = null,
+    Object? oneTimeIncomesSum = null,
+    Object? oneTimeExpensesSum = null,
     Object? dailyBudget = null,
-    Object? incomeDate = freezed,
+    Object? isTaxFree = null,
+    Object? countWithTransfers = null,
   }) {
     return _then(_$UiPredictionStateImpl(
       selectedDate: null == selectedDate
           ? _value.selectedDate
           : selectedDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      period: null == period
+          ? _value.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as Period,
       expenses: null == expenses
           ? _value._expenses
           : expenses // ignore: cast_nullable_to_non_nullable
@@ -192,30 +218,34 @@ class __$$UiPredictionStateImplCopyWithImpl<$Res>
           ? _value._incomes
           : incomes // ignore: cast_nullable_to_non_nullable
               as List<Transaction>,
-      expensesSum: null == expensesSum
-          ? _value.expensesSum
-          : expensesSum // ignore: cast_nullable_to_non_nullable
+      totalExpensesSum: null == totalExpensesSum
+          ? _value.totalExpensesSum
+          : totalExpensesSum // ignore: cast_nullable_to_non_nullable
               as double,
-      regularExpensesSum: null == regularExpensesSum
-          ? _value.regularExpensesSum
-          : regularExpensesSum // ignore: cast_nullable_to_non_nullable
+      totalIncomesSum: null == totalIncomesSum
+          ? _value.totalIncomesSum
+          : totalIncomesSum // ignore: cast_nullable_to_non_nullable
               as double,
-      incomesSum: null == incomesSum
-          ? _value.incomesSum
-          : incomesSum // ignore: cast_nullable_to_non_nullable
+      oneTimeIncomesSum: null == oneTimeIncomesSum
+          ? _value.oneTimeIncomesSum
+          : oneTimeIncomesSum // ignore: cast_nullable_to_non_nullable
               as double,
-      regularIncomesSum: null == regularIncomesSum
-          ? _value.regularIncomesSum
-          : regularIncomesSum // ignore: cast_nullable_to_non_nullable
+      oneTimeExpensesSum: null == oneTimeExpensesSum
+          ? _value.oneTimeExpensesSum
+          : oneTimeExpensesSum // ignore: cast_nullable_to_non_nullable
               as double,
       dailyBudget: null == dailyBudget
           ? _value.dailyBudget
           : dailyBudget // ignore: cast_nullable_to_non_nullable
               as double,
-      incomeDate: freezed == incomeDate
-          ? _value.incomeDate
-          : incomeDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      isTaxFree: null == isTaxFree
+          ? _value.isTaxFree
+          : isTaxFree // ignore: cast_nullable_to_non_nullable
+              as bool,
+      countWithTransfers: null == countWithTransfers
+          ? _value.countWithTransfers
+          : countWithTransfers // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -225,21 +255,26 @@ class __$$UiPredictionStateImplCopyWithImpl<$Res>
 class _$UiPredictionStateImpl implements _UiPredictionState {
   const _$UiPredictionStateImpl(
       {required this.selectedDate,
+      this.period = Period.monthly,
       final List<Transaction> expenses = const [],
       final List<Budget> budgets = const [],
       final List<Transaction> incomes = const [],
-      this.expensesSum = 0,
-      this.regularExpensesSum = 0,
-      this.incomesSum = 0,
-      this.regularIncomesSum = 0,
+      this.totalExpensesSum = 0,
+      this.totalIncomesSum = 0,
+      this.oneTimeIncomesSum = 0,
+      this.oneTimeExpensesSum = 0,
       this.dailyBudget = 0,
-      this.incomeDate})
+      this.isTaxFree = kAmountsTaxFree,
+      this.countWithTransfers = false})
       : _expenses = expenses,
         _budgets = budgets,
         _incomes = incomes;
 
   @override
   final DateTime selectedDate;
+  @override
+  @JsonKey()
+  final Period period;
   final List<Transaction> _expenses;
   @override
   @JsonKey()
@@ -267,18 +302,23 @@ class _$UiPredictionStateImpl implements _UiPredictionState {
     return EqualUnmodifiableListView(_incomes);
   }
 
+  /// budget difference expenses
   @override
   @JsonKey()
-  final double expensesSum;
+  final double totalExpensesSum;
   @override
   @JsonKey()
-  final double regularExpensesSum;
+  final double totalIncomesSum;
+
+  /// calculated from specific dates && !isRegular
   @override
   @JsonKey()
-  final double incomesSum;
+  final double oneTimeIncomesSum;
+
+  /// calculated from specific dates && !isRegular
   @override
   @JsonKey()
-  final double regularIncomesSum;
+  final double oneTimeExpensesSum;
 
   /// is difference between regularIncomesSum + regularExpensesSum,
   /// divided by quantity of days left in the period setted in
@@ -286,14 +326,16 @@ class _$UiPredictionStateImpl implements _UiPredictionState {
   @override
   @JsonKey()
   final double dailyBudget;
-
-  /// date of the income, when most of regular incomes are expected.
   @override
-  final DateTime? incomeDate;
+  @JsonKey()
+  final bool isTaxFree;
+  @override
+  @JsonKey()
+  final bool countWithTransfers;
 
   @override
   String toString() {
-    return 'UiPredictionState(selectedDate: $selectedDate, expenses: $expenses, budgets: $budgets, incomes: $incomes, expensesSum: $expensesSum, regularExpensesSum: $regularExpensesSum, incomesSum: $incomesSum, regularIncomesSum: $regularIncomesSum, dailyBudget: $dailyBudget, incomeDate: $incomeDate)';
+    return 'UiPredictionState(selectedDate: $selectedDate, period: $period, expenses: $expenses, budgets: $budgets, incomes: $incomes, totalExpensesSum: $totalExpensesSum, totalIncomesSum: $totalIncomesSum, oneTimeIncomesSum: $oneTimeIncomesSum, oneTimeExpensesSum: $oneTimeExpensesSum, dailyBudget: $dailyBudget, isTaxFree: $isTaxFree, countWithTransfers: $countWithTransfers)';
   }
 
   @override
@@ -303,36 +345,41 @@ class _$UiPredictionStateImpl implements _UiPredictionState {
             other is _$UiPredictionStateImpl &&
             (identical(other.selectedDate, selectedDate) ||
                 other.selectedDate == selectedDate) &&
+            (identical(other.period, period) || other.period == period) &&
             const DeepCollectionEquality().equals(other._expenses, _expenses) &&
             const DeepCollectionEquality().equals(other._budgets, _budgets) &&
             const DeepCollectionEquality().equals(other._incomes, _incomes) &&
-            (identical(other.expensesSum, expensesSum) ||
-                other.expensesSum == expensesSum) &&
-            (identical(other.regularExpensesSum, regularExpensesSum) ||
-                other.regularExpensesSum == regularExpensesSum) &&
-            (identical(other.incomesSum, incomesSum) ||
-                other.incomesSum == incomesSum) &&
-            (identical(other.regularIncomesSum, regularIncomesSum) ||
-                other.regularIncomesSum == regularIncomesSum) &&
+            (identical(other.totalExpensesSum, totalExpensesSum) ||
+                other.totalExpensesSum == totalExpensesSum) &&
+            (identical(other.totalIncomesSum, totalIncomesSum) ||
+                other.totalIncomesSum == totalIncomesSum) &&
+            (identical(other.oneTimeIncomesSum, oneTimeIncomesSum) ||
+                other.oneTimeIncomesSum == oneTimeIncomesSum) &&
+            (identical(other.oneTimeExpensesSum, oneTimeExpensesSum) ||
+                other.oneTimeExpensesSum == oneTimeExpensesSum) &&
             (identical(other.dailyBudget, dailyBudget) ||
                 other.dailyBudget == dailyBudget) &&
-            (identical(other.incomeDate, incomeDate) ||
-                other.incomeDate == incomeDate));
+            (identical(other.isTaxFree, isTaxFree) ||
+                other.isTaxFree == isTaxFree) &&
+            (identical(other.countWithTransfers, countWithTransfers) ||
+                other.countWithTransfers == countWithTransfers));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       selectedDate,
+      period,
       const DeepCollectionEquality().hash(_expenses),
       const DeepCollectionEquality().hash(_budgets),
       const DeepCollectionEquality().hash(_incomes),
-      expensesSum,
-      regularExpensesSum,
-      incomesSum,
-      regularIncomesSum,
+      totalExpensesSum,
+      totalIncomesSum,
+      oneTimeIncomesSum,
+      oneTimeExpensesSum,
       dailyBudget,
-      incomeDate);
+      isTaxFree,
+      countWithTransfers);
 
   /// Create a copy of UiPredictionState
   /// with the given fields replaced by the non-null parameter values.
@@ -347,42 +394,52 @@ class _$UiPredictionStateImpl implements _UiPredictionState {
 abstract class _UiPredictionState implements UiPredictionState {
   const factory _UiPredictionState(
       {required final DateTime selectedDate,
+      final Period period,
       final List<Transaction> expenses,
       final List<Budget> budgets,
       final List<Transaction> incomes,
-      final double expensesSum,
-      final double regularExpensesSum,
-      final double incomesSum,
-      final double regularIncomesSum,
+      final double totalExpensesSum,
+      final double totalIncomesSum,
+      final double oneTimeIncomesSum,
+      final double oneTimeExpensesSum,
       final double dailyBudget,
-      final DateTime? incomeDate}) = _$UiPredictionStateImpl;
+      final bool isTaxFree,
+      final bool countWithTransfers}) = _$UiPredictionStateImpl;
 
   @override
   DateTime get selectedDate;
+  @override
+  Period get period;
   @override
   List<Transaction> get expenses;
   @override
   List<Budget> get budgets;
   @override
   List<Transaction> get incomes;
+
+  /// budget difference expenses
   @override
-  double get expensesSum;
+  double get totalExpensesSum;
   @override
-  double get regularExpensesSum;
+  double get totalIncomesSum;
+
+  /// calculated from specific dates && !isRegular
   @override
-  double get incomesSum;
+  double get oneTimeIncomesSum;
+
+  /// calculated from specific dates && !isRegular
   @override
-  double get regularIncomesSum;
+  double get oneTimeExpensesSum;
 
   /// is difference between regularIncomesSum + regularExpensesSum,
   /// divided by quantity of days left in the period setted in
   /// the income date.
   @override
   double get dailyBudget;
-
-  /// date of the income, when most of regular incomes are expected.
   @override
-  DateTime? get incomeDate;
+  bool get isTaxFree;
+  @override
+  bool get countWithTransfers;
 
   /// Create a copy of UiPredictionState
   /// with the given fields replaced by the non-null parameter values.

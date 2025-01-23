@@ -240,7 +240,6 @@ class MobilePredictionBody extends StatelessWidget {
           const Gap(28),
           _DailyStatistics(
             selectedDate: selectedDate,
-            uiPredictionNotifier: uiPredictionNotifier,
           ),
         ],
       );
@@ -291,7 +290,6 @@ class DesktopPredictionBody extends StatelessWidget {
                     const Gap(24),
                     _DailyStatistics(
                       selectedDate: selectedDate,
-                      uiPredictionNotifier: uiPredictionNotifier,
                     ),
                   ],
                 ),
@@ -413,16 +411,20 @@ class _DailyBudgetDisplay extends StatelessWidget {
 class _DailyStatistics extends StatelessWidget {
   const _DailyStatistics({
     required this.selectedDate,
-    required this.uiPredictionNotifier,
   });
 
   final DateTime selectedDate;
-  final UiPredictionNotifier uiPredictionNotifier;
 
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
-    final expense = uiPredictionNotifier.getExpenseFor(selectedDate);
+    final (:state, :balance) = context.select<UiPredictionNotifier,
+        ({UiPredictionState state, double balance})>(
+      (final state) => (
+        state: state.value,
+        balance: state.value.totalIncomesSum - state.value.totalExpensesSum,
+      ),
+    );
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 300),
       child: Wrap(
@@ -432,7 +434,7 @@ class _DailyStatistics extends StatelessWidget {
         children: [
           _StatisticItem(
             onPressed: () async => UiExpensesView.show(context: context),
-            value: '-\$${expense.expense.toStringAsFixed(2)}',
+            value: '-\$${state.totalExpensesSum.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
                 languages.en: 'Expenses',
@@ -443,7 +445,7 @@ class _DailyStatistics extends StatelessWidget {
           ),
           _StatisticItem(
             onPressed: () async => UiIncomesView.show(context: context),
-            value: '+\$${expense.income.toStringAsFixed(2)}',
+            value: '+\$${state.totalIncomesSum.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
                 languages.en: 'Income',
@@ -454,7 +456,7 @@ class _DailyStatistics extends StatelessWidget {
           ),
           _StatisticItem(
             onPressed: () {},
-            value: '\$${expense.balance.toStringAsFixed(2)}',
+            value: '\$${state..balance.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
                 languages.en: 'End of Day Balance',
