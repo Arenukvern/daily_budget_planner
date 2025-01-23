@@ -10,6 +10,7 @@ extension type const Period(int inDays) {
   static const quarterly = Period(90);
   static const yearly = Period(365);
   Duration get duration => Duration(days: inDays);
+  static List<Period> get values => [daily, weekly, monthly, quarterly, yearly];
 }
 
 enum PredictionType { positive, negative, neutral }
@@ -181,9 +182,10 @@ sealed class Transaction with _$Transaction {
     required final CurrencyType currencyType,
     required final CurrencyId currencyId,
     required final TaskId taskId,
+    required final DateTime transactionDate,
   }) =>
       Transaction(
-        transactionDate: DateTime.now(),
+        transactionDate: transactionDate,
         type: type,
         input: InputMoney.fromCurrency(
           type: currencyType,

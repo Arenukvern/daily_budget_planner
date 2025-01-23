@@ -79,7 +79,9 @@ class _PredictionHeader extends StatelessWidget {
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     final tasksNotifier = context.watch<TasksNotifier>();
-    const period = Period.monthly;
+    final period = context.select<UiPredictionNotifier, Period>(
+      (final state) => state.value.period,
+    );
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colorScheme.surface.withOpacity(0.5),
@@ -99,7 +101,60 @@ class _PredictionHeader extends StatelessWidget {
               children: [
                 const Gap(6),
                 _HeaderItem(
-                  onPressed: () async {},
+                  onPressed: () async {
+                    // TODO(arenukvern): description
+                    showCupertinoModalPopup(
+                      context: context,
+                      builder: (final context) => CupertinoActionSheet(
+                        title: const Text('Select Period'),
+                        actions: [
+                          CupertinoActionSheetAction(
+                            child: const Text('Weekly'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              context
+                                  .read<UiPredictionNotifier>()
+                                  .onSelectedPeriodChanged(Period.weekly);
+                            },
+                          ),
+                          CupertinoActionSheetAction(
+                            child: const Text('Monthly'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              context
+                                  .read<UiPredictionNotifier>()
+                                  .onSelectedPeriodChanged(Period.monthly);
+                            },
+                          ),
+                          CupertinoActionSheetAction(
+                            child: const Text('Quarterly'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              context
+                                  .read<UiPredictionNotifier>()
+                                  .onSelectedPeriodChanged(Period.quarterly);
+                            },
+                          ),
+                          CupertinoActionSheetAction(
+                            child: const Text('Yearly'),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              context
+                                  .read<UiPredictionNotifier>()
+                                  .onSelectedPeriodChanged(Period.yearly);
+                            },
+                          ),
+                        ],
+                        cancelButton: CupertinoActionSheetAction(
+                          isDestructiveAction: true,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                      ),
+                    );
+                  },
                   title: LocalizedMap(
                     value: {
                       languages.en: 'period',

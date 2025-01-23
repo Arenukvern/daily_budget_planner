@@ -52,8 +52,17 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
   );
   Future<void> onLoad() async {
     value = UiPredictionState(selectedDate: DateTime.now());
+    _recalculateSums();
+  }
+
+  void _recalculateSums() {
     _recalculateTotalExpensesSum();
     _recalculateTotalIncomesSum();
+  }
+
+  void onSelectedPeriodChanged(final Period period) {
+    value = value.copyWith(period: period);
+    _recalculateSums();
   }
 
   DateTime get _startDate => value.selectedDate.toDayBeginning;
@@ -69,6 +78,7 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
 
   void onSelectedDateChanged(final DateTime newDate) {
     value = value.copyWith(selectedDate: newDate);
+    _recalculateSums();
   }
 
   // TODO(arenukvern): make dependent from period

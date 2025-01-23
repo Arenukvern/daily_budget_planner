@@ -6,6 +6,15 @@ typedef UiTransactionsSchedulesRecord = ({
 });
 
 class TasksNotifier extends ChangeNotifier {
+  DateTime? _lastUpdatedTransactionDate;
+
+  DateTime? get lastUpdatedTransactionDate => _lastUpdatedTransactionDate;
+
+  set lastUpdatedTransactionDate(final DateTime? value) {
+    _lastUpdatedTransactionDate = value;
+    notifyListeners();
+  }
+
   var _incomeTasks = PersonalIncomeTaskType.values
       .mapIndexed(
         (final index, final type) => Task(
@@ -120,6 +129,7 @@ class TasksNotifier extends ChangeNotifier {
     final updatedTransaction = result.transaction.copyWith(
       taskId: task.id,
     );
+    lastUpdatedTransactionDate = updatedTransaction.transactionDate;
 
     final updatedTask = task.copyWith(
       schedules: [

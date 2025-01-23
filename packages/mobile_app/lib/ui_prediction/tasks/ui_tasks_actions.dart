@@ -1,4 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 
 class AddTaskTransactionButton extends StatelessWidget {
   const AddTaskTransactionButton({
@@ -16,6 +17,8 @@ class AddTaskTransactionButton extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final tasksNotifier = context.read<TasksNotifier>();
+    final transactionDate = useTaskTransactionSelectionDate(context);
+
     final defaultCurrencyId = useDefaultCurrencyId(
       context,
       currencyType: currencyType,
@@ -41,6 +44,7 @@ class AddTaskTransactionButton extends StatelessWidget {
           context,
           transaction: Transaction.create(
             taskId: task.id,
+            transactionDate: transactionDate,
             type: task.transactionType.toTransactionType(),
             currencyType: currencyType,
             currencyId: defaultCurrencyId,

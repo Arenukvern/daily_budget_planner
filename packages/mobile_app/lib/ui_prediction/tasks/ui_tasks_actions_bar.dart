@@ -6,6 +6,19 @@ typedef UiTasksActionsBarTuple = ({
   Task task,
 });
 
+DateTime useSelectionDate(final BuildContext context) =>
+    context.select<UiPredictionNotifier, DateTime>(
+      (final state) => state.selectedDate,
+    );
+
+DateTime useTaskTransactionSelectionDate(final BuildContext context) {
+  final predictionNotifier = context.read<UiPredictionNotifier>();
+  final lastUpdatedTransactionDate = context.select<TasksNotifier, DateTime?>(
+    (final state) => state.lastUpdatedTransactionDate,
+  );
+  return lastUpdatedTransactionDate ?? predictionNotifier.value.selectedDate;
+}
+
 class UiTasksActionsBar extends StatelessWidget with HasStates {
   const UiTasksActionsBar({required this.tuple, super.key});
   final UiTasksActionsBarTuple tuple;
@@ -15,6 +28,8 @@ class UiTasksActionsBar extends StatelessWidget with HasStates {
       context,
       currencyType: tuple.currencyType,
     );
+    final transactionDate = useTaskTransactionSelectionDate(context);
+
     final locale = useLocale(context);
     return UiBottomActionBar(
       children: [
@@ -28,6 +43,7 @@ class UiTasksActionsBar extends StatelessWidget with HasStates {
                 currencyType: tuple.currencyType,
                 currencyId: defaultCurrencyId,
                 taskId: tuple.task.id,
+                transactionDate: transactionDate,
               ),
               dto: const TransactionEditorDto(
                 isUsedForTaskPlanning: true,

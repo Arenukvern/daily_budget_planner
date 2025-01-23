@@ -38,10 +38,12 @@ Map<TransactionType, String> getTransactionTypeNames({
       TransactionType.transferIn: 'Transfer in',
       TransactionType.transferOut: 'Transfer out',
     };
+
 typedef TransactionEditorResult = ({
   Transaction transaction,
   TransactionSchedule schedule,
 });
+
 Future<TransactionEditorResult?> showTransactionEditor(
   final BuildContext context, {
   required final Transaction transaction,

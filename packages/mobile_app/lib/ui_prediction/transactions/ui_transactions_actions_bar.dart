@@ -1,4 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 
 typedef UiTransactionsActionsBarTuple = ({
   TransactionType type,
@@ -14,6 +15,8 @@ class UiTransactionsActionsBar extends StatelessWidget {
     final defaultCurrencyId = context
         .read<FinSettingsNotifier>()
         .getDefaultCurrencyId(Envs.kDefaultCurrencyType);
+    final transactionDate = useSelectionDate(context);
+
     return UiBottomActionBar(
       children: [
         const UiBackButton(),
@@ -27,6 +30,7 @@ class UiTransactionsActionsBar extends StatelessWidget {
                 currencyType: Envs.kDefaultCurrencyType,
                 currencyId: defaultCurrencyId,
                 taskId: TaskId.empty,
+                transactionDate: transactionDate,
               ),
             );
             if (transaction == null) return;
