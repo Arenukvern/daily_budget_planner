@@ -7,6 +7,11 @@ typedef UiPopupButtonController = ({
   VoidCallback open,
 });
 
+enum UiPopupButtonScaleDirection {
+  up,
+  down,
+}
+
 UiPopupButtonController useUiPopupButtonController() {
   final isPopupVisible = useState(false);
   final menuController = useMemoized(MenuController.new);
@@ -42,6 +47,7 @@ class UiPopupButton extends HookWidget {
     required this.buttonBuilder,
     required this.controller,
     this.shouldRotate = true,
+    this.scaleDirection = UiPopupButtonScaleDirection.up,
     super.key,
   });
 
@@ -60,6 +66,9 @@ class UiPopupButton extends HookWidget {
 
   /// Whether to apply rotation animation to the button when menu is open
   final bool shouldRotate;
+
+  /// The direction in which the menu should scale
+  final UiPopupButtonScaleDirection scaleDirection;
 
   @override
   Widget build(final BuildContext context) {
@@ -96,8 +105,9 @@ class UiPopupButton extends HookWidget {
         surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
       ),
       menuChildren: [
-        Builder(
-          builder: menuBuilder,
+        Provider<UiPopupButton>(
+          create: (final context) => this,
+          builder: (final context, final child) => menuBuilder(context),
         ).animate().fade(duration: 50.milliseconds),
       ],
       builder: (final context, final controller, final child) => buildButton(),

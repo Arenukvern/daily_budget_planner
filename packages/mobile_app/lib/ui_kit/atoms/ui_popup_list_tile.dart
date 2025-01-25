@@ -53,58 +53,63 @@ class UiPopupListTile extends StatelessWidget {
   final bool isSelected;
 
   @override
-  Widget build(final BuildContext context) => Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: isLoading ? null : onTap,
-          borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+  Widget build(final BuildContext context) {
+    final menuController = context.read<UiPopupButton>();
+    final scaleDirection = menuController.scaleDirection;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: isLoading ? null : onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
+          child: DefaultTextStyle(
+            style: context.textTheme.bodyLarge!.copyWith(
+              color: isSelected
+                  ? context.colorScheme.primary
+                  : context.colorScheme.onSurface,
+              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
             ),
-            child: DefaultTextStyle(
-              style: context.textTheme.bodyLarge!.copyWith(
-                color: isSelected
-                    ? context.colorScheme.primary
-                    : context.colorScheme.onSurface,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-              ),
-              child: Row(
-                children: [
-                  if (icon != null || iconData != null) ...[
-                    icon ??
-                        Icon(
-                          iconData,
-                          size: 20,
-                          color: context.colorScheme.onSurface.withOpacity(0.8),
-                        ),
-                    const Gap(12),
-                  ],
-                  Expanded(
-                    child: Text(title),
-                  ),
-                  const Gap(16),
-                  if (isLoading)
-                    const UiCircularProgress.uncentered()
-                  else if (isSelected)
-                    Icon(
-                      Icons.check,
-                      size: 18,
-                      color: context.colorScheme.primary,
-                    )
-                  else
-                    Icon(
-                      Icons.chevron_right,
-                      size: 20,
-                      color: context.colorScheme.onSurface.withOpacity(0.5),
-                    ),
+            child: Row(
+              children: [
+                if (icon != null || iconData != null) ...[
+                  icon ??
+                      Icon(
+                        iconData,
+                        size: 20,
+                        color: context.colorScheme.onSurface.withOpacity(0.8),
+                      ),
+                  const Gap(12),
                 ],
-              ),
+                Expanded(
+                  child: Text(title),
+                ),
+                const Gap(16),
+                if (isLoading)
+                  const UiCircularProgress.uncentered()
+                else if (isSelected)
+                  Icon(
+                    Icons.check,
+                    size: 18,
+                    color: context.colorScheme.primary,
+                  )
+                else
+                  Icon(
+                    Icons.chevron_right,
+                    size: 20,
+                    color: context.colorScheme.onSurface.withOpacity(0.5),
+                  ),
+              ],
             ),
           ),
         ),
-      )
-          .animate(target: isLoading ? 0.95 : 1.0)
-          .scaleY(duration: 100.milliseconds);
+      ),
+    )
+        .animate(target: isLoading ? 0.95 : 1.0)
+        .scaleY(duration: 100.milliseconds);
+  }
 }
