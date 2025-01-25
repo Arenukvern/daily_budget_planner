@@ -182,6 +182,7 @@ class PeriodSelectorButton extends HookWidget {
 
     return UiPopupButton(
       controller: controller,
+      scaleDirection: UiPopupButtonScaleDirection.down,
       menuBuilder: (final context) => UiPopupDecoration(
         child: _PeriodMenu(
           onPeriodSelected: (final newPeriod) {

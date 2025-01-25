@@ -108,8 +108,10 @@ class UiPopupListTile extends StatelessWidget {
           ),
         ),
       ),
-    )
-        .animate(target: isLoading ? 0.95 : 1.0)
-        .scaleY(duration: 100.milliseconds);
+    ).animate(target: isLoading ? 0.95 : 1.0).scaleY(
+          duration: 100.milliseconds,
+          end: scaleDirection == UiPopupButtonScaleDirection.up ? 0.95 : 1.0,
+          begin: scaleDirection == UiPopupButtonScaleDirection.up ? 1.0 : 0.95,
+        );
   }
 }

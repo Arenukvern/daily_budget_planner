@@ -39,32 +39,35 @@ class UiPopupDecoration extends StatelessWidget {
   final double surfaceOpacity;
 
   @override
-  Widget build(final BuildContext context) => Card(
-        elevation: 0,
-        color: context.colorScheme.surface.withOpacity(surfaceOpacity),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(borderRadius),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: blurSigma,
-              sigmaY: blurSigma,
-            ),
-            child: Container(
-              constraints: BoxConstraints(maxWidth: maxWidth),
-              child: child,
-            ),
+  Widget build(final BuildContext context) {
+    final scaleDirection = context.read<UiPopupButton>().scaleDirection;
+    return Card(
+      elevation: 0,
+      color: context.colorScheme.surface.withOpacity(surfaceOpacity),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: blurSigma,
+            sigmaY: blurSigma,
+          ),
+          child: Container(
+            constraints: BoxConstraints(maxWidth: maxWidth),
+            child: child,
           ),
         ),
-      )
-          .animate()
-          .slideY(
-            begin: 0.1,
-            duration: 200.milliseconds,
-            curve: Curves.easeOutExpo,
-          )
-          .scale(
-            begin: const Offset(0.95, 0.95),
-            duration: 200.milliseconds,
-            curve: Curves.easeOutExpo,
-          );
+      ),
+    )
+        .animate()
+        .slideY(
+          begin: scaleDirection == UiPopupButtonScaleDirection.up ? 0.1 : -0.1,
+          duration: 200.milliseconds,
+          curve: Curves.easeOutExpo,
+        )
+        .scale(
+          begin: const Offset(0.95, 0.95),
+          duration: 200.milliseconds,
+          curve: Curves.easeOutExpo,
+        );
+  }
 }
