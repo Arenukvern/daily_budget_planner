@@ -12,7 +12,7 @@ class FinSettingsNotifier
     extends ValueNotifier<LoadableContainer<FinSettingsModel>>
     with HasLocalApis, HasStates {
   FinSettingsNotifier()
-      : super(LoadableContainer(value: FinSettingsModel.empty));
+      : super(const LoadableContainer(value: FinSettingsModel.empty));
   CurrencyId getDefaultCurrencyId(final CurrencyType type) => switch (type) {
         CurrencyType.fiat => value.value.fiatCurrencyId,
         CurrencyType.crypto => value.value.cryptoCurrencyId,
