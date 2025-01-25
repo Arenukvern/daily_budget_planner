@@ -7,6 +7,7 @@ export 'ui_icon_buttons.dart';
 export 'ui_language_switcher_menu.dart';
 export 'ui_loader.dart';
 export 'ui_localized_text.dart';
+export 'ui_popup_list_tile.dart';
 export 'ui_popup_menu_button.dart';
 export 'ui_safe_area.dart';
 export 'ui_segmented_button.dart';

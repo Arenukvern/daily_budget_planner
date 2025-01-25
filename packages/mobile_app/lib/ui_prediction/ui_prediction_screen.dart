@@ -100,76 +100,8 @@ class _PredictionHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Gap(6),
-                _HeaderItem(
-                  onPressed: () async {
-                    // TODO(arenukvern): description
-                    showCupertinoModalPopup(
-                      context: context,
-                      builder: (final context) => CupertinoActionSheet(
-                        title: const Text('Select Period'),
-                        actions: [
-                          CupertinoActionSheetAction(
-                            child: const Text('Weekly'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              context
-                                  .read<UiPredictionNotifier>()
-                                  .onSelectedPeriodChanged(Period.weekly);
-                            },
-                          ),
-                          CupertinoActionSheetAction(
-                            child: const Text('Monthly'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              context
-                                  .read<UiPredictionNotifier>()
-                                  .onSelectedPeriodChanged(Period.monthly);
-                            },
-                          ),
-                          CupertinoActionSheetAction(
-                            child: const Text('Quarterly'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              context
-                                  .read<UiPredictionNotifier>()
-                                  .onSelectedPeriodChanged(Period.quarterly);
-                            },
-                          ),
-                          CupertinoActionSheetAction(
-                            child: const Text('Yearly'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              context
-                                  .read<UiPredictionNotifier>()
-                                  .onSelectedPeriodChanged(Period.yearly);
-                            },
-                          ),
-                        ],
-                        cancelButton: CupertinoActionSheetAction(
-                          isDestructiveAction: true,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Cancel'),
-                        ),
-                      ),
-                    );
-                  },
-                  title: LocalizedMap(
-                    value: {
-                      languages.en: 'period',
-                      languages.it: 'periodo',
-                      languages.ru: 'период',
-                    },
-                  ).getValue(locale),
-                  // TODO(arenukvern): add localization l10n
-                  value: switch (period) {
-                    Period.weekly => 'week',
-                    Period.monthly => 'month',
-                    Period.quarterly => 'quarter',
-                    Period.yearly => 'year',
-                    _ => '${period.inDays} days',
-                  },
+                PeriodSelectorButton(
+                  period: period,
                 ),
                 const Spacer(),
                 _HeaderItem(
@@ -217,6 +149,121 @@ class _PredictionHeader extends StatelessWidget {
       ),
     );
   }
+}
+
+class PeriodSelectorButton extends HookWidget {
+  const PeriodSelectorButton({
+    required this.period,
+    super.key,
+  });
+
+  final Period period;
+
+  @override
+  Widget build(final BuildContext context) {
+    final locale = useLocale(context);
+    final controller = useUiPopupButtonController();
+
+    final periodTitle = LocalizedMap(
+      value: {
+        languages.en: 'period',
+        languages.it: 'periodo',
+        languages.ru: 'период',
+      },
+    ).getValue(locale);
+
+    final periodValue = switch (period) {
+      Period.weekly => 'week',
+      Period.monthly => 'month',
+      Period.quarterly => 'quarter',
+      Period.yearly => 'year',
+      _ => '${period.inDays} days',
+    };
+
+    return UiPopupButton(
+      controller: controller,
+      menuBuilder: (final context) => UiPopupDecoration(
+        child: _PeriodMenu(
+          onPeriodSelected: (final newPeriod) {
+            context
+                .read<UiPredictionNotifier>()
+                .onSelectedPeriodChanged(newPeriod);
+            controller.close();
+          },
+          selectedPeriod: period,
+        ),
+      ),
+      shouldRotate: false,
+      buttonBuilder: (final context, final isVisible, final onPressed) =>
+          _HeaderItem(
+        onPressed: onPressed,
+        title: periodTitle,
+        value: periodValue,
+      ),
+    );
+  }
+}
+
+class _PeriodMenu extends StatelessWidget {
+  const _PeriodMenu({
+    required this.onPeriodSelected,
+    required this.selectedPeriod,
+  });
+
+  final ValueChanged<Period> onPeriodSelected;
+  final Period selectedPeriod;
+
+  @override
+  Widget build(final BuildContext context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _PeriodMenuItem(
+            title: 'Weekly',
+            period: Period.weekly,
+            selectedPeriod: selectedPeriod,
+            onSelect: onPeriodSelected,
+          ),
+          _PeriodMenuItem(
+            title: 'Monthly',
+            period: Period.monthly,
+            selectedPeriod: selectedPeriod,
+            onSelect: onPeriodSelected,
+          ),
+          _PeriodMenuItem(
+            title: 'Quarterly',
+            period: Period.quarterly,
+            selectedPeriod: selectedPeriod,
+            onSelect: onPeriodSelected,
+          ),
+          _PeriodMenuItem(
+            title: 'Yearly',
+            period: Period.yearly,
+            selectedPeriod: selectedPeriod,
+            onSelect: onPeriodSelected,
+          ),
+        ],
+      );
+}
+
+class _PeriodMenuItem extends StatelessWidget {
+  const _PeriodMenuItem({
+    required this.title,
+    required this.period,
+    required this.selectedPeriod,
+    required this.onSelect,
+  });
+
+  final String title;
+  final Period period;
+  final Period selectedPeriod;
+  final ValueChanged<Period> onSelect;
+
+  @override
+  Widget build(final BuildContext context) => UiPopupListTile(
+        onTap: () => onSelect(period),
+        title: title,
+        isSelected: selectedPeriod == period,
+      );
 }
 
 class _HeaderItem extends StatelessWidget {
