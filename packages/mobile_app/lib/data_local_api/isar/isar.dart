@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,6 +33,7 @@ final class IsarDb extends ComplexLocalDb {
     final dir = Platform.isIOS
         ? await getLibraryDirectory()
         : await getApplicationDocumentsDirectory();
+
     _db ??= Isar.open(
       schemas: [
         BudgetIsarCollectionSchema,
@@ -42,6 +44,7 @@ final class IsarDb extends ComplexLocalDb {
       name: _isarDbVersion,
       directory: dir.path,
     );
+    if (kIsWeb) await Isar.initialize();
   }
 
   IsarCollection<String, BudgetIsarCollection> get budgets =>
