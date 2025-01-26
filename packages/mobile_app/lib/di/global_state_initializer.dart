@@ -51,14 +51,14 @@ class GlobalStateInitializer
         AppPathsController.of(context).toExplanation(isFirstTimeOpening: true);
       }
       await purchaseIntializer.init();
-
+      await finSettingsNotifier.onLoad();
+      await dictionariesNotifier.onLoad();
       await Future.wait([
+        tasksNotifier.loadTasks(),
         weeklyCubit.onLoad(),
         monthlyCubit.onLoad(),
         storeReviewRequester.onLoad(),
-        dictionariesNotifier.onLoad(),
       ]);
-      await finSettingsNotifier.onLoad();
     });
   }
 

@@ -1,6 +1,7 @@
 part of 'ui_transaction_editor.dart';
 
-class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
+class _EditingController extends ValueNotifier<LoadableContainer<Transaction>>
+    with HasStates {
   _EditingController({
     required final Transaction transaction,
     required final TransactionSchedule schedule,
@@ -12,9 +13,7 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
             value: transaction,
             isLoaded: transaction.isExists,
           ),
-        ) {
-    onLoad();
-  }
+        );
   bool get isNew => !isEditing;
   final bool isEditing;
   TransactionSchedule _schedule = TransactionSchedule.empty;
@@ -28,10 +27,11 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
     amount,
     coinPrice,
   ]);
-  void onLoad() {
+  void onLoad({
+    required final bool isTaxFree,
+  }) {
     _composedListenable.addListener(notifyListeners);
-
-    final rawAmount = transaction.input.amount(taxFree: kAmountsTaxFree);
+    final rawAmount = transaction.input.amount(taxFree: isTaxFree);
     if (rawAmount > 0) amount.text = rawAmount.toString();
     // TODO(arenukvern): description
     // coinPrice.text = transaction?.input.coinPrice.toString() ?? '';
@@ -88,11 +88,16 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>> {
           ),
       },
     );
-    final result = (
-      transaction: resultTransaction,
+    final scheduledTransaction = ScheduledTransaction(
       schedule: schedule.copyWith(
         startedAt: schedule.startedAt ?? resultTransaction.transactionDate,
       ),
+      transactionId: resultTransaction.id,
+      taskId: resultTransaction.taskId,
+    );
+    final result = (
+      transaction: resultTransaction,
+      scheduledTransaction: scheduledTransaction,
     );
     return result;
   }

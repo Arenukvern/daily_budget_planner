@@ -2,6 +2,7 @@ export 'input_field_decorator.dart';
 export 'ui_base_button.dart';
 export 'ui_date_time_field.dart';
 export 'ui_divider.dart';
+export 'ui_drag_handle.dart';
 export 'ui_focused_box.dart';
 export 'ui_icon_buttons.dart';
 export 'ui_language_switcher_menu.dart';

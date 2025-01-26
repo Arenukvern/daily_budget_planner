@@ -16,7 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
   universal_io: ^2.2.2
-  xsoulspace_foundation: ^0.0.5
+  xsoulspace_foundation: ^0.0.7
 
 dev_dependencies:
   lints: ^5.1.1

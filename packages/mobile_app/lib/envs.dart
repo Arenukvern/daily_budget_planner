@@ -12,6 +12,8 @@ class Envs {
     'MONETIZATION',
     defaultValue: 'free',
   );
+// TODO(arenukvern): handle taxes
+  static const isAmountsTaxFree = false;
   static const isCryptoEnabled = bool.fromEnvironment('CRYPTO_ENABLED');
   static const isCurrencySwitchingEnabled =
       bool.fromEnvironment('CURRENCY_SWITCHING_ENABLED');

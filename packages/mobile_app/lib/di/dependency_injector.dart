@@ -40,11 +40,13 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   );
   final localDb = PrefsDb();
   final isarDb = IsarDb();
+
   r<LocalDbI>(localDb);
   r<IsarDb>(isarDb, dispose: (final i) => i.close());
   rl(UserLocalApi.new);
   rl(AppSettingsLocalApi.new);
-  rl(BudgetLocalApi.new);
+  rl(SimpleBudgetLocalApi.new);
+  rl(BudgetPredictionLocalApi.new);
   rl(DictionariesLocalApi.new);
   rl(FinSettingsLocalApi.new);
   rl(TransactionsLocalApi.new);
@@ -83,6 +85,8 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   );
   rl(DictionariesNotifier.new, dispose: (final i) => i.dispose());
   rl(FinSettingsNotifier.new, dispose: (final i) => i.dispose());
+  rl(TasksDistributor.new, dispose: (final i) => i.dispose());
+  rl(TransactionsDistributor.new, dispose: (final i) => i.dispose());
   rl(TasksNotifier.new, dispose: (final i) => i.dispose());
   rl(
     () => SubscriptionManager(
@@ -116,12 +120,29 @@ mixin HasLocalApis {
   AppSettingsLocalApi get appSettingsApi => _g();
   UserLocalApi get userLocalApi => _g();
   FinSettingsLocalApi get finSettingsLocalApi => _g();
-  BudgetLocalApi get budgetLocalApi => _g();
+
+  SimpleBudgetLocalApi get simpleBudgetLocalApi => _g();
+  BudgetPredictionLocalApi get budgetPredictionLocalApi => _g();
+
   DictionariesLocalApi get dictionariesLocalApi => _g();
   TransactionsLocalApi get transactionsLocalApi => _g();
+  ScheduledTransactionsLocalApi get scheduledTransactionsLocalApi => _g();
   TasksLocalApi get tasksLocalApi => _g();
 }
 
+/// Distributors cannot access any Notifiers directly.
+/// They have simple mission - to distribute and store runtime data
+/// for ui access.
+mixin HasDistributors {
+  TasksDistributor get tasksDistributor => _g();
+  TransactionsDistributor get transactionsDistributor => _g();
+}
+
+/// These states should not be used in each other,
+/// but they can access Distributors via [HasDistributors]
+///
+/// States can and should have business logic, but should minimize
+/// state usage to make ui management more effective.
 mixin HasStates {
   UserNotifier get userNotifier => _g();
   AppStatusNotifier get appStatusNotifier => _g();
@@ -135,6 +156,7 @@ mixin HasStates {
   DictionariesNotifier get dictionariesNotifier => _g();
   TasksNotifier get tasksNotifier => _g();
   FinSettingsNotifier get finSettingsNotifier => _g();
+  // UiPredictionNotifier get uiPredictionNotifier => _g();
 }
 
 mixin HasAnalytics {

@@ -23,4 +23,12 @@ extension DateTimeX on DateTime {
   /// ```
   DateTime get toDayBeginning => DateTime(year, month, day);
   DateTime get toDayEnd => toDayBeginning.add(1.days).subtract(1.seconds);
+
+  /// Returns true if the date is today.
+  bool get isToday => isSameDay(DateTime.now());
+
+  /// Returns true if the date is the same day as the other date.
+  bool isSameDay(final DateTime other) =>
+      toDayBeginning == other.toDayBeginning;
+  DateTime addPeriod(final Period period) => add(period.duration);
 }

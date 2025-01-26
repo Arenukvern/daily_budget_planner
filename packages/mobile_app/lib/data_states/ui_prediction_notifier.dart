@@ -1,25 +1,23 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_app/common_imports.dart';
 
-part 'ui_prediction_notifier.freezed.dart';
-
-// TODO(arenukvern): handle taxes
-const kAmountsTaxFree = false;
+part 'prediction_notifier.freezed.dart';
 
 /// balance = expenses + income
 /// for example:
 /// if expense = -150, income = 50
 /// balance = -150 + 50 = -100
-typedef ExpenseTotalRecord = ({double balance, double expense, double income});
+typedef TransactionsBalanceRecord = ({
+  double balance,
+  double expense,
+  double income
+});
 
 @freezed
 class UiPredictionState with _$UiPredictionState {
   const factory UiPredictionState({
     required final DateTime selectedDate,
     @Default(Period.monthly) final Period period,
-    @Default([]) final List<Transaction> expenses,
-    @Default([]) final List<Budget> budgets,
-    @Default([]) final List<Transaction> incomes,
 
     /// budget difference expenses
     @Default(0) final double totalExpensesSum,
@@ -35,7 +33,7 @@ class UiPredictionState with _$UiPredictionState {
     /// divided by quantity of days left in the period setted in
     /// the income date.
     @Default(0) final double dailyBudget,
-    @Default(kAmountsTaxFree) final bool isTaxFree,
+    @Default(Envs.isAmountsTaxFree) final bool isTaxFree,
     @Default(false) final bool countWithTransfers,
   }) = _UiPredictionState;
 }
@@ -90,6 +88,7 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     final newBudgets =
         value.budgets.where((final b) => b.id != budgetId).toList();
     value = value.copyWith(budgets: newBudgets);
+    await budgetPredictionLocalApi.deleteBudget(budgetId);
   }
 
   Future<void> upsertBudget(
@@ -108,12 +107,17 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
         ..sort((final a, final b) => b.date.compareTo(a.date));
       value = value.copyWith(budgets: newBudgets);
     }
-    // await budgetLocalApi.upsertBudget(budget);
+    await budgetPredictionLocalApi.upsertBudget(budget);
   }
 
   Future<void> upsertTransaction(final TransactionEditorResult result) async {
-    final (:transaction, :schedule) = result;
-    // await expensesLocalApi.upsertRegularExpense(expense);
+    final (:transaction, :scheduledTransaction) = result;
+    await transactionsLocalApi.upsertTransaction(transaction);
+    if (scheduledTransaction.isSet) {
+      await scheduledTransactionsLocalApi.upsertScheduledTransaction(
+        scheduledTransaction,
+      );
+    }
     switch (transaction.type) {
       case TransactionType.expense:
         value = value.copyWith(
@@ -134,7 +138,7 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
   }
 
   Future<void> upsertIncome(final Transaction income) async {
-    // await incomesLocalApi.upsertIncome(income);
+    await transactionsLocalApi.upsertTransaction(income);
     value = value.copyWith(
       incomes: value.incomes.upsert(income, (final i) => i.id == income.id),
     );
@@ -150,7 +154,7 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
   /// budgets within this period.
   ///
   /// Returns the total expense as a tuple with balance, expense, and income.
-  ExpenseTotalRecord _calculateTotalBudgetExpense({
+  TransactionsBalanceRecord _calculateTotalBudgetExpense({
     required final DateTime startDate,
     required final DateTime endDate,
   }) {

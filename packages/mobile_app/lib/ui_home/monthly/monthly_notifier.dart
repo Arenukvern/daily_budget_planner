@@ -21,7 +21,7 @@ class MonthlyNotifier
 
   static const id = BudgetModelId(value: 'monthly_budget');
   Future<void> onLoad() async {
-    var budget = await budgetLocalApi.getMonthlyBudget(id);
+    var budget = await simpleBudgetLocalApi.getMonthlyBudget(id);
     if (budget.nextBudgetDay?.isBefore(today) == true) {
       budget = budget.copyWith(nextBudgetDay: today.add(Duration(days: 1)));
     }
@@ -38,7 +38,7 @@ class MonthlyNotifier
     if (amountController.text != amount) {
       amountController.text = amount;
     }
-    unawaited(budgetLocalApi.upsertMonthlyBudget(updatedBudget));
+    unawaited(simpleBudgetLocalApi.upsertMonthlyBudget(updatedBudget));
   }
 
   void onSavingsChange(final String savings) {
@@ -49,7 +49,7 @@ class MonthlyNotifier
     if (savingsController.text != savings) {
       savingsController.text = savings;
     }
-    unawaited(budgetLocalApi.upsertMonthlyBudget(updatedBudget));
+    unawaited(simpleBudgetLocalApi.upsertMonthlyBudget(updatedBudget));
   }
 
   final today = DateTime.now();
@@ -90,6 +90,6 @@ class MonthlyNotifier
     if (datetime == null) return;
     final updatedBudget = budget.copyWith(nextBudgetDay: datetime);
     value = value.copyWith(value: updatedBudget);
-    unawaited(budgetLocalApi.upsertMonthlyBudget(updatedBudget));
+    unawaited(simpleBudgetLocalApi.upsertMonthlyBudget(updatedBudget));
   }
 }

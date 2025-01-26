@@ -1,6 +1,10 @@
 export 'app_settings_notifier.dart';
 export 'app_status_notifier.dart';
+export 'budgets_distributor.dart';
 export 'dictionaries_notifier.dart';
 export 'fin_settings_notifier.dart';
+export 'tasks_distributor.dart';
 export 'tasks_notifier.dart';
+export 'transactions_notifier.dart';
+export 'ui_prediction_notifier.dart';
 export 'user_notifier.dart';

@@ -1,5 +1,7 @@
 import 'package:mobile_app/common_imports.dart';
 
+/// A horizontal line for popup bottom sheet for which user
+/// can drag and close the sheet.
 class UiIOSDragHandle extends StatelessWidget {
   const UiIOSDragHandle({super.key});
 

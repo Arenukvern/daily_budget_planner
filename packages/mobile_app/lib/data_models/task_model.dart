@@ -75,14 +75,11 @@ class Task with _$Task {
     @Default(TaskTransactionType.income)
     final TaskTransactionType transactionType,
     @Default([]) final List<CategoryId> categoryIds,
-    @Default([]) final List<ScheduledTransaction> schedules,
   }) = _Task;
   const Task._();
   factory Task.fromJson(final Map<String, dynamic> json) =>
       _$TaskFromJson(json);
   static const empty = Task();
-  List<TransactionId> get transactionIds =>
-      schedules.map((final e) => e.transactionId).toList();
 }
 
 @freezed
@@ -98,6 +95,9 @@ class ScheduledTransaction with _$ScheduledTransaction {
   factory ScheduledTransaction.fromJson(final Map<String, dynamic> json) =>
       _$ScheduledTransactionFromJson(json);
   static const empty = ScheduledTransaction();
+
+  bool get isNotSet => transactionId == TransactionId.empty;
+  bool get isSet => !isNotSet;
 }
 
 /// Represents a monetary value in a specific fiat or crypto currency

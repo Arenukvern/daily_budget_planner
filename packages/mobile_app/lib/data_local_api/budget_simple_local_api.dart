@@ -1,6 +1,21 @@
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/ui_home/monthly/monthly_view.dart';
+import 'package:mobile_app/ui_home/weekly/weekly_view.dart';
 
-class BudgetLocalApi with HasLocalApis {
+/// {@template simple_budget_local_api}
+/// Simple local storage implementation for managing budgets using
+/// Isar database. Is used for [MonthlyView] and [WeeklyView].
+///
+/// This API provides CRUD operations for:
+/// - [MonthlyBudgetModel]
+/// - [WeeklyBudgetModel]
+///
+/// Features:
+/// - Data persistence with Isar
+/// - Support for future model migrations
+/// - Maintains data integrity during async operations
+/// {@endtemplate}
+class SimpleBudgetLocalApi with HasLocalApis {
   Future<MonthlyBudgetModel> getMonthlyBudget(final BudgetModelId id) =>
       localDb.getItem(
         key: id.value,

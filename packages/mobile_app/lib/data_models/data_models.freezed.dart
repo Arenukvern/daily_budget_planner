@@ -988,8 +988,6 @@ mixin _$Task {
       throw _privateConstructorUsedError;
   TaskTransactionType get transactionType => throw _privateConstructorUsedError;
   List<CategoryId> get categoryIds => throw _privateConstructorUsedError;
-  List<ScheduledTransaction> get schedules =>
-      throw _privateConstructorUsedError;
 
   /// Serializes this Task to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1014,8 +1012,7 @@ abstract class $TaskCopyWith<$Res> {
       PersonalIncomeTaskType personalIncomeType,
       PersonalExpenseTaskType personalExpenseType,
       TaskTransactionType transactionType,
-      List<CategoryId> categoryIds,
-      List<ScheduledTransaction> schedules});
+      List<CategoryId> categoryIds});
 }
 
 /// @nodoc
@@ -1042,7 +1039,6 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
     Object? personalExpenseType = null,
     Object? transactionType = null,
     Object? categoryIds = null,
-    Object? schedules = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -1081,10 +1077,6 @@ class _$TaskCopyWithImpl<$Res, $Val extends Task>
           ? _value.categoryIds
           : categoryIds // ignore: cast_nullable_to_non_nullable
               as List<CategoryId>,
-      schedules: null == schedules
-          ? _value.schedules
-          : schedules // ignore: cast_nullable_to_non_nullable
-              as List<ScheduledTransaction>,
     ) as $Val);
   }
 }
@@ -1105,8 +1097,7 @@ abstract class _$$TaskImplCopyWith<$Res> implements $TaskCopyWith<$Res> {
       PersonalIncomeTaskType personalIncomeType,
       PersonalExpenseTaskType personalExpenseType,
       TaskTransactionType transactionType,
-      List<CategoryId> categoryIds,
-      List<ScheduledTransaction> schedules});
+      List<CategoryId> categoryIds});
 }
 
 /// @nodoc
@@ -1130,7 +1121,6 @@ class __$$TaskImplCopyWithImpl<$Res>
     Object? personalExpenseType = null,
     Object? transactionType = null,
     Object? categoryIds = null,
-    Object? schedules = null,
   }) {
     return _then(_$TaskImpl(
       id: null == id
@@ -1169,10 +1159,6 @@ class __$$TaskImplCopyWithImpl<$Res>
           ? _value._categoryIds
           : categoryIds // ignore: cast_nullable_to_non_nullable
               as List<CategoryId>,
-      schedules: null == schedules
-          ? _value._schedules
-          : schedules // ignore: cast_nullable_to_non_nullable
-              as List<ScheduledTransaction>,
     ));
   }
 }
@@ -1189,10 +1175,8 @@ class _$TaskImpl extends _Task {
       this.personalIncomeType = PersonalIncomeTaskType.salary,
       this.personalExpenseType = PersonalExpenseTaskType.other,
       this.transactionType = TaskTransactionType.income,
-      final List<CategoryId> categoryIds = const [],
-      final List<ScheduledTransaction> schedules = const []})
+      final List<CategoryId> categoryIds = const []})
       : _categoryIds = categoryIds,
-        _schedules = schedules,
         super._();
 
   factory _$TaskImpl.fromJson(Map<String, dynamic> json) =>
@@ -1231,18 +1215,9 @@ class _$TaskImpl extends _Task {
     return EqualUnmodifiableListView(_categoryIds);
   }
 
-  final List<ScheduledTransaction> _schedules;
-  @override
-  @JsonKey()
-  List<ScheduledTransaction> get schedules {
-    if (_schedules is EqualUnmodifiableListView) return _schedules;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_schedules);
-  }
-
   @override
   String toString() {
-    return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType, transactionType: $transactionType, categoryIds: $categoryIds, schedules: $schedules)';
+    return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType, transactionType: $transactionType, categoryIds: $categoryIds)';
   }
 
   @override
@@ -1262,9 +1237,7 @@ class _$TaskImpl extends _Task {
             (identical(other.transactionType, transactionType) ||
                 other.transactionType == transactionType) &&
             const DeepCollectionEquality()
-                .equals(other._categoryIds, _categoryIds) &&
-            const DeepCollectionEquality()
-                .equals(other._schedules, _schedules));
+                .equals(other._categoryIds, _categoryIds));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1279,8 +1252,7 @@ class _$TaskImpl extends _Task {
       personalIncomeType,
       personalExpenseType,
       transactionType,
-      const DeepCollectionEquality().hash(_categoryIds),
-      const DeepCollectionEquality().hash(_schedules));
+      const DeepCollectionEquality().hash(_categoryIds));
 
   /// Create a copy of Task
   /// with the given fields replaced by the non-null parameter values.
@@ -1308,8 +1280,7 @@ abstract class _Task extends Task {
       final PersonalIncomeTaskType personalIncomeType,
       final PersonalExpenseTaskType personalExpenseType,
       final TaskTransactionType transactionType,
-      final List<CategoryId> categoryIds,
-      final List<ScheduledTransaction> schedules}) = _$TaskImpl;
+      final List<CategoryId> categoryIds}) = _$TaskImpl;
   const _Task._() : super._();
 
   factory _Task.fromJson(Map<String, dynamic> json) = _$TaskImpl.fromJson;
@@ -1332,8 +1303,6 @@ abstract class _Task extends Task {
   TaskTransactionType get transactionType;
   @override
   List<CategoryId> get categoryIds;
-  @override
-  List<ScheduledTransaction> get schedules;
 
   /// Create a copy of Task
   /// with the given fields replaced by the non-null parameter values.

@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/add_budget_dialog.dart';
-import 'package:mobile_app/ui_prediction/ui_drag_handle.dart';
 
 class UiPredictionScreen extends StatelessWidget {
   const UiPredictionScreen({super.key});
@@ -13,6 +12,7 @@ class UiPredictionScreen extends StatelessWidget {
         context,
         MaterialPageRoute(builder: (final _) => const UiPredictionScreen()),
       );
+
   @override
   Widget build(final BuildContext context) {
     final uiPredictionNotifier = context.watch<UiPredictionNotifier>();

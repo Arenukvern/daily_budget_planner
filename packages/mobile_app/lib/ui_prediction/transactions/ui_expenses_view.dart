@@ -18,7 +18,8 @@ class UiExpensesView extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final expenses = context.select<UiPredictionNotifier, List<Transaction>>(
+    // TODO(arenukvern):  add pagination
+    final expenses = context.select<TransactionsDistributor, List<Transaction>>(
       (final state) => state.value.expenses,
     );
 

@@ -16,22 +16,22 @@ class TaskIdField extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     // TODO(arenukvern): add localization l10n
-    final labelText = 'category';
+    const labelText = 'category';
+    final task = context.select<TasksDistributor, Task>(
+      (final s) => s.getTaskById(taskId, transactionType: transactionType),
+    );
     if (readonly) {
-      final task = context.select<TasksNotifier, Task>(
-        (final s) => s.getTaskById(taskId, transactionType: transactionType),
-      );
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('#${task.title}', style: context.textTheme.titleMedium),
-          Gap(4),
+          const Gap(4),
           Text(labelText, style: context.textTheme.labelMedium),
         ],
       );
     }
-
-    final tasks = context.select<TasksNotifier, List<Task>>(
+    // TODO(arenukvern): add separate widget - hook blocked by if condition
+    final tasks = context.select<TasksDistributor, List<Task>>(
       (final s) => s.getTasks(transactionType),
     );
     return InputFieldDecorator(

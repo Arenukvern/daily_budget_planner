@@ -1,6 +1,7 @@
 import 'package:isar/isar.dart';
-import 'package:mobile_app/data_local_api/data_local_api.dart';
-import 'package:mobile_app/data_models/data_models.dart';
+import 'package:mobile_app/common_imports.dart';
+
+part 'tasks_local_api_seeder.dart';
 
 /// {@template tasks_local_api}
 /// Local storage implementation for managing tasks using Isar database.
@@ -29,7 +30,7 @@ import 'package:mobile_app/data_models/data_models.dart';
 /// @ai When implementing task operations, ensure proper error handling
 /// and maintain data consistency across related collections.
 /// {@endtemplate}
-final class TasksLocalApi extends LocalApi {
+final class TasksLocalApi extends ComplexLocalApi {
   /// Returns the Isar collection for tasks
   IsarCollection<String, TaskIsarCollection> get _tasks => isarDb.tasks;
 
@@ -38,11 +39,28 @@ final class TasksLocalApi extends LocalApi {
   /// Throws [LocalApiException] if the operation fails
   Future<void> upsertTask(final Task task) async {
     try {
-      final model = TaskIsarCollection.fromDomain(task);
-      _tasks.put(model);
+      isar.write((final db) {
+        final model = TaskIsarCollection.fromDomain(task);
+        db.taskIsarCollections.put(model);
+      });
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to create task',
+        error: e,
+        stackTrace: s,
+      );
+    }
+  }
+
+  Future<void> upsertTasks(final List<Task> tasks) async {
+    try {
+      isar.write((final db) {
+        final models = tasks.map(TaskIsarCollection.fromDomain).toList();
+        db.taskIsarCollections.putAll(models);
+      });
+    } catch (e, s) {
+      throw LocalApiException(
+        message: 'Failed to upsert tasks',
         error: e,
         stackTrace: s,
       );
@@ -54,7 +72,9 @@ final class TasksLocalApi extends LocalApi {
   /// Throws [LocalApiException] if the operation fails
   Future<void> deleteTask(final TaskId id) async {
     try {
-      _tasks.delete(id.value);
+      isar.write((final db) {
+        db.taskIsarCollections.delete(id.value);
+      });
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to delete task',
@@ -75,6 +95,54 @@ final class TasksLocalApi extends LocalApi {
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to get task',
+        error: e,
+        stackTrace: s,
+      );
+    }
+  }
+
+  Future<List<Task>> getIncomeTasks({
+    required final TaskType taskType,
+  }) async {
+    try {
+      final tasks = _tasks
+          .where()
+          .transactionTypeEqualTo(TaskTransactionType.income)
+          .taskTypeEqualTo(taskType)
+          .findAll()
+          .map((final e) => e.toDomain())
+          .toList();
+      if (tasks.isNotEmpty) return tasks;
+      final seedTasks = TasksLocalApiSeeder.getIncomeTasks(taskType);
+      await upsertTasks(seedTasks);
+      return seedTasks;
+    } catch (e, s) {
+      throw LocalApiException(
+        message: 'Failed to get income tasks',
+        error: e,
+        stackTrace: s,
+      );
+    }
+  }
+
+  Future<List<Task>> getExpenseTasks({
+    required final TaskType taskType,
+  }) async {
+    try {
+      final tasks = _tasks
+          .where()
+          .transactionTypeEqualTo(TaskTransactionType.expense)
+          .taskTypeEqualTo(taskType)
+          .findAll()
+          .map((final e) => e.toDomain())
+          .toList();
+      if (tasks.isNotEmpty) return tasks;
+      final seedTasks = TasksLocalApiSeeder.getExpenseTasks(taskType);
+      await upsertTasks(seedTasks);
+      return seedTasks;
+    } catch (e, s) {
+      throw LocalApiException(
+        message: 'Failed to get expense tasks',
         error: e,
         stackTrace: s,
       );
@@ -103,7 +171,9 @@ final class TasksLocalApi extends LocalApi {
   /// Throws [LocalApiException] if the operation fails
   Future<void> deleteAllTasks() async {
     try {
-      _tasks.clear();
+      isar.write((final db) {
+        db.taskIsarCollections.clear();
+      });
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to delete all tasks',

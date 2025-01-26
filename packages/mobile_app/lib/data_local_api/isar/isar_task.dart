@@ -24,11 +24,19 @@ class TaskIsarCollection with IsarIdMixin {
 
     return TaskIsarCollection()
       ..id = task.id.value
+      ..taskType = task.type
+      ..transactionType = task.transactionType
+      ..personalIncomeType = task.personalIncomeType
+      ..personalExpenseType = task.personalExpenseType
       ..taskJson = jsonEncode(taskJson);
   }
 
   /// Full task data as JSON string
   String taskJson = '';
+  TaskType taskType = TaskType.personal;
+  TaskTransactionType transactionType = TaskTransactionType.income;
+  PersonalIncomeTaskType personalIncomeType = PersonalIncomeTaskType.salary;
+  PersonalExpenseTaskType personalExpenseType = PersonalExpenseTaskType.other;
 
   /// Converts [TaskIsarCollection] to domain [Task] model
   Task toDomain() {

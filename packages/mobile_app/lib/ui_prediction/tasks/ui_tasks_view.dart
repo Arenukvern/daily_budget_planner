@@ -190,7 +190,7 @@ class UiTaskView extends StatelessWidget with HasStates {
         context.select<TasksNotifier, UiTransactionsSchedulesRecord>(
       (final c) => c.getTransactionsByTask(task),
     );
-    void onRemove(final Transaction transaction) =>
+    Future<void> onRemove(final Transaction transaction) async =>
         tasksNotifier.removeTransaction(transaction, task);
     return CupertinoListSection(
       backgroundColor: Colors.transparent,
@@ -210,20 +210,26 @@ class UiTaskView extends StatelessWidget with HasStates {
             alignment: Alignment.centerLeft,
             child: Builder(
               builder: (final context) {
-                final now = DateTime.now();
+                final selectedDate =
+                    context.select<UiPredictionNotifier, DateTime>(
+                  (final c) => c.selectedDate,
+                );
                 final sumPerYear = scheduledTransactions.sumForPeriod(
                   allTransactions: transactions,
-                  startAt: now,
+                  startAt: selectedDate,
                   period: Period.yearly,
                 );
                 final sumPerMonth = scheduledTransactions.sumForPeriod(
                   allTransactions: transactions,
-                  startAt: now,
+                  startAt: selectedDate,
                   period: Period.monthly,
                 );
                 return Wrap(
                   children: [
-                    const Text('From Today: '),
+                    // TODO(arenukvern): add selected date changer
+                    Text(
+                      'From ${selectedDate.isToday ? 'Today' : DateFormat('yyyy-MM-dd').format(selectedDate)}: ',
+                    ),
                     // TODO(arenukvern): add localization l10n
                     Text('${sumPerYear.toStringAsFixed(2)} yearly • '),
                     Text('${sumPerMonth.toStringAsFixed(2)} monthly'),

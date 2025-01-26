@@ -18,7 +18,8 @@ class UiIncomesView extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final incomes = context.select<UiPredictionNotifier, List<Transaction>>(
+    // TODO(arenukvern):  add pagination
+    final incomes = context.select<TransactionsDistributor, List<Transaction>>(
       (final state) => state.value.incomes,
     );
 

@@ -27,7 +27,7 @@ import 'package:mobile_app/data_models/data_models.dart';
 /// @ai When implementing transaction operations, ensure proper error handling
 /// and maintain data consistency across related collections.
 /// {@endtemplate}
-final class ScheduledTransactionsLocalApi extends LocalApi {
+final class ScheduledTransactionsLocalApi extends ComplexLocalApi {
   /// Returns the Isar collection for scheduled transactions
   IsarCollection<String, ScheduledTransactionIsarCollection>
       get _scheduledTransactions => isarDb.scheduledTransactions;
@@ -54,6 +54,25 @@ final class ScheduledTransactionsLocalApi extends LocalApi {
     }
   }
 
+  Future<void> upsertScheduledTransactions(
+    final List<ScheduledTransaction> scheduledTransactions,
+  ) async {
+    try {
+      isar.write((final db) {
+        final models = scheduledTransactions
+            .map(ScheduledTransactionIsarCollection.fromDomain)
+            .toList();
+        db.scheduledTransactionIsarCollections.putAll(models);
+      });
+    } catch (e, s) {
+      throw LocalApiException(
+        message: 'Failed to upsert scheduled transactions',
+        error: e,
+        stackTrace: s,
+      );
+    }
+  }
+
   /// Deletes a scheduled transaction by ID
   ///
   /// Throws [LocalApiException] if the operation fails
@@ -61,7 +80,9 @@ final class ScheduledTransactionsLocalApi extends LocalApi {
     final TransactionId id,
   ) async {
     try {
-      _scheduledTransactions.delete(id.value);
+      isar.write((final db) {
+        db.scheduledTransactionIsarCollections.delete(id.value);
+      });
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to delete scheduled transaction',
@@ -139,7 +160,9 @@ final class ScheduledTransactionsLocalApi extends LocalApi {
   /// Throws [LocalApiException] if the operation fails
   Future<void> deleteAllScheduledTransactions() async {
     try {
-      _scheduledTransactions.clear();
+      isar.write((final db) {
+        db.scheduledTransactionIsarCollections.clear();
+      });
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to delete all transactions',

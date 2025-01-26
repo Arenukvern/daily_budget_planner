@@ -41,7 +41,7 @@ Map<TransactionType, String> getTransactionTypeNames({
 
 typedef TransactionEditorResult = ({
   Transaction transaction,
-  TransactionSchedule schedule,
+  ScheduledTransaction scheduledTransaction,
 });
 
 Future<TransactionEditorResult?> showTransactionEditor(

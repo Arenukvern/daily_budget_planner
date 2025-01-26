@@ -8,7 +8,6 @@ import 'package:path_provider/path_provider.dart';
 
 part 'isar.g.dart';
 part 'isar_budget.dart';
-part 'isar_expense.dart';
 part 'isar_scheduled_transaction.dart';
 part 'isar_task.dart';
 part 'isar_transaction.dart';

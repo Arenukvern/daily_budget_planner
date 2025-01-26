@@ -29,7 +29,7 @@ import 'package:mobile_app/data_models/data_models.dart';
 /// @ai When implementing transaction operations, ensure proper error handling
 /// and maintain data consistency across related collections.
 /// {@endtemplate}
-final class TransactionsLocalApi extends LocalApi {
+final class TransactionsLocalApi extends ComplexLocalApi {
   /// Returns the Isar collection for transactions
   IsarCollection<String, TransactionIsarCollection> get _transactions =>
       isarDb.transactions;
@@ -52,12 +52,31 @@ final class TransactionsLocalApi extends LocalApi {
     }
   }
 
-  /// Deletes a transaction by ID
-  ///
+  /// Throws [LocalApiException] if the operation fails
+  Future<void> upsertTransactions(
+    final List<Transaction> transactions,
+  ) async {
+    try {
+      isar.write((final db) {
+        final models =
+            transactions.map(TransactionIsarCollection.fromDomain).toList();
+        db.transactionIsarCollections.putAll(models);
+      });
+    } catch (e, s) {
+      throw LocalApiException(
+        message: 'Failed to upsert transactions',
+        error: e,
+        stackTrace: s,
+      );
+    }
+  }
+
   /// Throws [LocalApiException] if the operation fails
   Future<void> deleteTransaction(final TransactionId id) async {
     try {
-      _transactions.delete(id.value);
+      isar.write((final db) {
+        db.transactionIsarCollections.delete(id.value);
+      });
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to delete transaction',
@@ -69,7 +88,6 @@ final class TransactionsLocalApi extends LocalApi {
 
   /// Retrieves a transaction by ID
   ///
-  /// Returns null if not found
   /// Throws [LocalApiException] if the operation fails
   Future<Transaction> getTransaction(final TransactionId id) async {
     try {
@@ -84,8 +102,6 @@ final class TransactionsLocalApi extends LocalApi {
     }
   }
 
-  /// Retrieves all transactions
-  ///
   /// Throws [LocalApiException] if the operation fails
   Future<List<Transaction>> getAllTransactions() async {
     try {
@@ -100,8 +116,6 @@ final class TransactionsLocalApi extends LocalApi {
     }
   }
 
-  /// Retrieves transactions by task ID
-  ///
   /// Throws [LocalApiException] if the operation fails
   Future<List<Transaction>> getTransactionsByTaskId(final TaskId taskId) async {
     try {
@@ -117,8 +131,6 @@ final class TransactionsLocalApi extends LocalApi {
     }
   }
 
-  /// Retrieves transactions within a date range
-  ///
   /// Throws [LocalApiException] if the operation fails
   Future<List<Transaction>> getTransactionsByDateRange({
     required final DateTime start,
@@ -143,7 +155,9 @@ final class TransactionsLocalApi extends LocalApi {
   /// Throws [LocalApiException] if the operation fails
   Future<void> deleteAllTransactions() async {
     try {
-      _transactions.clear();
+      isar.write((final db) {
+        db.transactionIsarCollections.clear();
+      });
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to delete all transactions',

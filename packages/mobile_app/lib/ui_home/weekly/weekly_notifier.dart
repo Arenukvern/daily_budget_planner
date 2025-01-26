@@ -20,7 +20,7 @@ class WeeklyNotifier extends ValueNotifier<LoadableContainer<WeeklyBudgetModel>>
   static const BudgetModelId id = BudgetModelId(value: 'weekly_budget');
 
   Future<void> onLoad() async {
-    final budget = await budgetLocalApi.getWeeklyBudget(id);
+    final budget = await simpleBudgetLocalApi.getWeeklyBudget(id);
     amountController.text = budget.amount.toStringAsFixed(2);
     value = LoadableContainer.loaded(budget);
   }
@@ -30,6 +30,6 @@ class WeeklyNotifier extends ValueNotifier<LoadableContainer<WeeklyBudgetModel>>
       amount: double.tryParse(amount) ?? 0,
     );
     value = value.copyWith(value: updatedBudget);
-    unawaited(budgetLocalApi.upsertWeeklyBudget(updatedBudget));
+    unawaited(simpleBudgetLocalApi.upsertWeeklyBudget(updatedBudget));
   }
 }
