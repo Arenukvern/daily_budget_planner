@@ -13,20 +13,27 @@ part of 'isar.dart';
 /// related collections.
 /// {@endtemplate}
 @collection
-class IsarScheduledTransactionCollection with IsarIdMixin {
-  IsarScheduledTransactionCollection();
+class ScheduledTransactionIsarCollection with IsarIdMixin {
+  ScheduledTransactionIsarCollection();
 
-  factory IsarScheduledTransactionCollection.fromDomain(
+  factory ScheduledTransactionIsarCollection.fromDomain(
     final ScheduledTransaction scheduledTransaction,
   ) {
     final scheduledTransactionJson = scheduledTransaction.toJson();
 
-    return IsarScheduledTransactionCollection()
+    return ScheduledTransactionIsarCollection()
       ..id = scheduledTransaction.transactionId.value
-      ..scheduledTransactionJson = jsonEncode(scheduledTransactionJson);
+      ..startedAt = scheduledTransaction.schedule.startedAt
+      ..endedAt = scheduledTransaction.schedule.endedAt
+      ..scheduledTransactionJson = jsonEncode(scheduledTransactionJson)
+      ..taskId = scheduledTransaction.taskId.value;
   }
 
   String scheduledTransactionJson = '';
+  String taskId = '';
+
+  DateTime? startedAt;
+  DateTime? endedAt;
 
   ScheduledTransaction toDomain() {
     final scheduledTransactionJsonMap = jsonDecodeMap(scheduledTransactionJson);

@@ -1350,6 +1350,9 @@ ScheduledTransaction _$ScheduledTransactionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ScheduledTransaction {
   TransactionId get transactionId => throw _privateConstructorUsedError;
+
+  /// it may have no task id if it is a one time transaction
+  TaskId get taskId => throw _privateConstructorUsedError;
   TransactionSchedule get schedule => throw _privateConstructorUsedError;
 
   /// Serializes this ScheduledTransaction to a JSON map.
@@ -1368,7 +1371,10 @@ abstract class $ScheduledTransactionCopyWith<$Res> {
           $Res Function(ScheduledTransaction) then) =
       _$ScheduledTransactionCopyWithImpl<$Res, ScheduledTransaction>;
   @useResult
-  $Res call({TransactionId transactionId, TransactionSchedule schedule});
+  $Res call(
+      {TransactionId transactionId,
+      TaskId taskId,
+      TransactionSchedule schedule});
 
   $TransactionScheduleCopyWith<$Res> get schedule;
 }
@@ -1390,6 +1396,7 @@ class _$ScheduledTransactionCopyWithImpl<$Res,
   @override
   $Res call({
     Object? transactionId = null,
+    Object? taskId = null,
     Object? schedule = null,
   }) {
     return _then(_value.copyWith(
@@ -1397,6 +1404,10 @@ class _$ScheduledTransactionCopyWithImpl<$Res,
           ? _value.transactionId
           : transactionId // ignore: cast_nullable_to_non_nullable
               as TransactionId,
+      taskId: null == taskId
+          ? _value.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
+              as TaskId,
       schedule: null == schedule
           ? _value.schedule
           : schedule // ignore: cast_nullable_to_non_nullable
@@ -1423,7 +1434,10 @@ abstract class _$$ScheduledTransactionImplCopyWith<$Res>
       __$$ScheduledTransactionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({TransactionId transactionId, TransactionSchedule schedule});
+  $Res call(
+      {TransactionId transactionId,
+      TaskId taskId,
+      TransactionSchedule schedule});
 
   @override
   $TransactionScheduleCopyWith<$Res> get schedule;
@@ -1443,6 +1457,7 @@ class __$$ScheduledTransactionImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? transactionId = null,
+    Object? taskId = null,
     Object? schedule = null,
   }) {
     return _then(_$ScheduledTransactionImpl(
@@ -1450,6 +1465,10 @@ class __$$ScheduledTransactionImplCopyWithImpl<$Res>
           ? _value.transactionId
           : transactionId // ignore: cast_nullable_to_non_nullable
               as TransactionId,
+      taskId: null == taskId
+          ? _value.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
+              as TaskId,
       schedule: null == schedule
           ? _value.schedule
           : schedule // ignore: cast_nullable_to_non_nullable
@@ -1463,6 +1482,7 @@ class __$$ScheduledTransactionImplCopyWithImpl<$Res>
 class _$ScheduledTransactionImpl extends _ScheduledTransaction {
   const _$ScheduledTransactionImpl(
       {this.transactionId = TransactionId.empty,
+      this.taskId = TaskId.empty,
       this.schedule = TransactionSchedule.empty})
       : super._();
 
@@ -1472,13 +1492,18 @@ class _$ScheduledTransactionImpl extends _ScheduledTransaction {
   @override
   @JsonKey()
   final TransactionId transactionId;
+
+  /// it may have no task id if it is a one time transaction
+  @override
+  @JsonKey()
+  final TaskId taskId;
   @override
   @JsonKey()
   final TransactionSchedule schedule;
 
   @override
   String toString() {
-    return 'ScheduledTransaction(transactionId: $transactionId, schedule: $schedule)';
+    return 'ScheduledTransaction(transactionId: $transactionId, taskId: $taskId, schedule: $schedule)';
   }
 
   @override
@@ -1488,13 +1513,14 @@ class _$ScheduledTransactionImpl extends _ScheduledTransaction {
             other is _$ScheduledTransactionImpl &&
             (identical(other.transactionId, transactionId) ||
                 other.transactionId == transactionId) &&
+            (identical(other.taskId, taskId) || other.taskId == taskId) &&
             (identical(other.schedule, schedule) ||
                 other.schedule == schedule));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, transactionId, schedule);
+  int get hashCode => Object.hash(runtimeType, transactionId, taskId, schedule);
 
   /// Create a copy of ScheduledTransaction
   /// with the given fields replaced by the non-null parameter values.
@@ -1517,6 +1543,7 @@ class _$ScheduledTransactionImpl extends _ScheduledTransaction {
 abstract class _ScheduledTransaction extends ScheduledTransaction {
   const factory _ScheduledTransaction(
       {final TransactionId transactionId,
+      final TaskId taskId,
       final TransactionSchedule schedule}) = _$ScheduledTransactionImpl;
   const _ScheduledTransaction._() : super._();
 
@@ -1525,6 +1552,10 @@ abstract class _ScheduledTransaction extends ScheduledTransaction {
 
   @override
   TransactionId get transactionId;
+
+  /// it may have no task id if it is a one time transaction
+  @override
+  TaskId get taskId;
   @override
   TransactionSchedule get schedule;
 

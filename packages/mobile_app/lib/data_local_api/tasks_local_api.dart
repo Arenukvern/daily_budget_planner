@@ -68,10 +68,10 @@ final class TasksLocalApi extends LocalApi {
   ///
   /// Returns null if not found
   /// Throws [LocalApiException] if the operation fails
-  Future<Task?> getTask(final TaskId id) async {
+  Future<Task> getTask(final TaskId id) async {
     try {
       final model = _tasks.get(id.value);
-      return model?.toDomain();
+      return model?.toDomain() ?? Task.empty;
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to get task',

@@ -36,7 +36,7 @@ final class IsarDb extends ComplexLocalDb {
       schemas: [
         BudgetIsarCollectionSchema,
         TransactionIsarCollectionSchema,
-        IsarScheduledTransactionCollectionSchema,
+        ScheduledTransactionIsarCollectionSchema,
         TaskIsarCollectionSchema,
       ],
       name: _isarDbVersion,
@@ -49,6 +49,9 @@ final class IsarDb extends ComplexLocalDb {
 
   IsarCollection<String, TransactionIsarCollection> get transactions =>
       db.transactionIsarCollections;
+
+  IsarCollection<String, ScheduledTransactionIsarCollection>
+      get scheduledTransactions => db.scheduledTransactionIsarCollections;
 
   IsarCollection<String, TaskIsarCollection> get tasks =>
       db.taskIsarCollections;

@@ -153,6 +153,9 @@ _$ScheduledTransactionImpl _$$ScheduledTransactionImplFromJson(
       transactionId: json['transactionId'] == null
           ? TransactionId.empty
           : TransactionId.fromJson(json['transactionId'] as String),
+      taskId: json['taskId'] == null
+          ? TaskId.empty
+          : TaskId.fromJson(json['taskId'] as String),
       schedule: json['schedule'] == null
           ? TransactionSchedule.empty
           : TransactionSchedule.fromJson(
@@ -163,6 +166,7 @@ Map<String, dynamic> _$$ScheduledTransactionImplToJson(
         _$ScheduledTransactionImpl instance) =>
     <String, dynamic>{
       'transactionId': instance.transactionId,
+      'taskId': instance.taskId,
       'schedule': instance.schedule,
     };
 

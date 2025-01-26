@@ -71,10 +71,10 @@ final class TransactionsLocalApi extends LocalApi {
   ///
   /// Returns null if not found
   /// Throws [LocalApiException] if the operation fails
-  Future<Transaction?> getTransaction(final TransactionId id) async {
+  Future<Transaction> getTransaction(final TransactionId id) async {
     try {
       final model = _transactions.get(id.value);
-      return model?.toDomain();
+      return model?.toDomain() ?? Transaction.empty;
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to get transaction',

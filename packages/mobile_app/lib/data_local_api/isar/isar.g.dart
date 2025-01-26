@@ -1387,20 +1387,32 @@ extension ExpenseIsarCollectionQueryProperty3<R1, R2>
 // ignore_for_file: duplicate_ignore, invalid_use_of_protected_member, lines_longer_than_80_chars, constant_identifier_names, avoid_js_rounded_ints, no_leading_underscores_for_local_identifiers, require_trailing_commas, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_in_if_null_operators, library_private_types_in_public_api, prefer_const_constructors
 // ignore_for_file: type=lint
 
-extension GetIsarScheduledTransactionCollectionCollection on Isar {
-  IsarCollection<String, IsarScheduledTransactionCollection>
-      get isarScheduledTransactionCollections => this.collection();
+extension GetScheduledTransactionIsarCollectionCollection on Isar {
+  IsarCollection<String, ScheduledTransactionIsarCollection>
+      get scheduledTransactionIsarCollections => this.collection();
 }
 
-const IsarScheduledTransactionCollectionSchema = IsarGeneratedSchema(
+const ScheduledTransactionIsarCollectionSchema = IsarGeneratedSchema(
   schema: IsarSchema(
-    name: 'IsarScheduledTransactionCollection',
+    name: 'ScheduledTransactionIsarCollection',
     idName: 'isarId',
     embedded: false,
     properties: [
       IsarPropertySchema(
         name: 'scheduledTransactionJson',
         type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'taskId',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'startedAt',
+        type: IsarType.dateTime,
+      ),
+      IsarPropertySchema(
+        name: 'endedAt',
+        type: IsarType.dateTime,
       ),
       IsarPropertySchema(
         name: 'id',
@@ -1413,35 +1425,59 @@ const IsarScheduledTransactionCollectionSchema = IsarGeneratedSchema(
     ],
     indexes: [],
   ),
-  converter: IsarObjectConverter<String, IsarScheduledTransactionCollection>(
-    serialize: serializeIsarScheduledTransactionCollection,
-    deserialize: deserializeIsarScheduledTransactionCollection,
-    deserializeProperty: deserializeIsarScheduledTransactionCollectionProp,
+  converter: IsarObjectConverter<String, ScheduledTransactionIsarCollection>(
+    serialize: serializeScheduledTransactionIsarCollection,
+    deserialize: deserializeScheduledTransactionIsarCollection,
+    deserializeProperty: deserializeScheduledTransactionIsarCollectionProp,
   ),
   embeddedSchemas: [],
 );
 
 @isarProtected
-int serializeIsarScheduledTransactionCollection(
-    IsarWriter writer, IsarScheduledTransactionCollection object) {
+int serializeScheduledTransactionIsarCollection(
+    IsarWriter writer, ScheduledTransactionIsarCollection object) {
   IsarCore.writeString(writer, 1, object.scheduledTransactionJson);
-  IsarCore.writeString(writer, 2, object.id);
-  IsarCore.writeString(writer, 3, object.isarId);
+  IsarCore.writeString(writer, 2, object.taskId);
+  IsarCore.writeLong(writer, 3,
+      object.startedAt?.toUtc().microsecondsSinceEpoch ?? -9223372036854775808);
+  IsarCore.writeLong(writer, 4,
+      object.endedAt?.toUtc().microsecondsSinceEpoch ?? -9223372036854775808);
+  IsarCore.writeString(writer, 5, object.id);
+  IsarCore.writeString(writer, 6, object.isarId);
   return Isar.fastHash(object.isarId);
 }
 
 @isarProtected
-IsarScheduledTransactionCollection
-    deserializeIsarScheduledTransactionCollection(IsarReader reader) {
-  final object = IsarScheduledTransactionCollection();
+ScheduledTransactionIsarCollection
+    deserializeScheduledTransactionIsarCollection(IsarReader reader) {
+  final object = ScheduledTransactionIsarCollection();
   object.scheduledTransactionJson = IsarCore.readString(reader, 1) ?? '';
-  object.id = IsarCore.readString(reader, 2) ?? '';
-  object.isarId = IsarCore.readString(reader, 3) ?? '';
+  object.taskId = IsarCore.readString(reader, 2) ?? '';
+  {
+    final value = IsarCore.readLong(reader, 3);
+    if (value == -9223372036854775808) {
+      object.startedAt = null;
+    } else {
+      object.startedAt =
+          DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true).toLocal();
+    }
+  }
+  {
+    final value = IsarCore.readLong(reader, 4);
+    if (value == -9223372036854775808) {
+      object.endedAt = null;
+    } else {
+      object.endedAt =
+          DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true).toLocal();
+    }
+  }
+  object.id = IsarCore.readString(reader, 5) ?? '';
+  object.isarId = IsarCore.readString(reader, 6) ?? '';
   return object;
 }
 
 @isarProtected
-dynamic deserializeIsarScheduledTransactionCollectionProp(
+dynamic deserializeScheduledTransactionIsarCollectionProp(
     IsarReader reader, int property) {
   switch (property) {
     case 1:
@@ -1449,30 +1485,58 @@ dynamic deserializeIsarScheduledTransactionCollectionProp(
     case 2:
       return IsarCore.readString(reader, 2) ?? '';
     case 3:
-      return IsarCore.readString(reader, 3) ?? '';
+      {
+        final value = IsarCore.readLong(reader, 3);
+        if (value == -9223372036854775808) {
+          return null;
+        } else {
+          return DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true)
+              .toLocal();
+        }
+      }
+    case 4:
+      {
+        final value = IsarCore.readLong(reader, 4);
+        if (value == -9223372036854775808) {
+          return null;
+        } else {
+          return DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true)
+              .toLocal();
+        }
+      }
+    case 5:
+      return IsarCore.readString(reader, 5) ?? '';
+    case 6:
+      return IsarCore.readString(reader, 6) ?? '';
     default:
       throw ArgumentError('Unknown property: $property');
   }
 }
 
-sealed class _IsarScheduledTransactionCollectionUpdate {
+sealed class _ScheduledTransactionIsarCollectionUpdate {
   bool call({
     required String isarId,
     String? scheduledTransactionJson,
+    String? taskId,
+    DateTime? startedAt,
+    DateTime? endedAt,
     String? id,
   });
 }
 
-class _IsarScheduledTransactionCollectionUpdateImpl
-    implements _IsarScheduledTransactionCollectionUpdate {
-  const _IsarScheduledTransactionCollectionUpdateImpl(this.collection);
+class _ScheduledTransactionIsarCollectionUpdateImpl
+    implements _ScheduledTransactionIsarCollectionUpdate {
+  const _ScheduledTransactionIsarCollectionUpdateImpl(this.collection);
 
-  final IsarCollection<String, IsarScheduledTransactionCollection> collection;
+  final IsarCollection<String, ScheduledTransactionIsarCollection> collection;
 
   @override
   bool call({
     required String isarId,
     Object? scheduledTransactionJson = ignore,
+    Object? taskId = ignore,
+    Object? startedAt = ignore,
+    Object? endedAt = ignore,
     Object? id = ignore,
   }) {
     return collection.updateProperties([
@@ -1480,98 +1544,122 @@ class _IsarScheduledTransactionCollectionUpdateImpl
         ], {
           if (scheduledTransactionJson != ignore)
             1: scheduledTransactionJson as String?,
-          if (id != ignore) 2: id as String?,
+          if (taskId != ignore) 2: taskId as String?,
+          if (startedAt != ignore) 3: startedAt as DateTime?,
+          if (endedAt != ignore) 4: endedAt as DateTime?,
+          if (id != ignore) 5: id as String?,
         }) >
         0;
   }
 }
 
-sealed class _IsarScheduledTransactionCollectionUpdateAll {
+sealed class _ScheduledTransactionIsarCollectionUpdateAll {
   int call({
     required List<String> isarId,
     String? scheduledTransactionJson,
+    String? taskId,
+    DateTime? startedAt,
+    DateTime? endedAt,
     String? id,
   });
 }
 
-class _IsarScheduledTransactionCollectionUpdateAllImpl
-    implements _IsarScheduledTransactionCollectionUpdateAll {
-  const _IsarScheduledTransactionCollectionUpdateAllImpl(this.collection);
+class _ScheduledTransactionIsarCollectionUpdateAllImpl
+    implements _ScheduledTransactionIsarCollectionUpdateAll {
+  const _ScheduledTransactionIsarCollectionUpdateAllImpl(this.collection);
 
-  final IsarCollection<String, IsarScheduledTransactionCollection> collection;
+  final IsarCollection<String, ScheduledTransactionIsarCollection> collection;
 
   @override
   int call({
     required List<String> isarId,
     Object? scheduledTransactionJson = ignore,
+    Object? taskId = ignore,
+    Object? startedAt = ignore,
+    Object? endedAt = ignore,
     Object? id = ignore,
   }) {
     return collection.updateProperties(isarId, {
       if (scheduledTransactionJson != ignore)
         1: scheduledTransactionJson as String?,
-      if (id != ignore) 2: id as String?,
+      if (taskId != ignore) 2: taskId as String?,
+      if (startedAt != ignore) 3: startedAt as DateTime?,
+      if (endedAt != ignore) 4: endedAt as DateTime?,
+      if (id != ignore) 5: id as String?,
     });
   }
 }
 
-extension IsarScheduledTransactionCollectionUpdate
-    on IsarCollection<String, IsarScheduledTransactionCollection> {
-  _IsarScheduledTransactionCollectionUpdate get update =>
-      _IsarScheduledTransactionCollectionUpdateImpl(this);
+extension ScheduledTransactionIsarCollectionUpdate
+    on IsarCollection<String, ScheduledTransactionIsarCollection> {
+  _ScheduledTransactionIsarCollectionUpdate get update =>
+      _ScheduledTransactionIsarCollectionUpdateImpl(this);
 
-  _IsarScheduledTransactionCollectionUpdateAll get updateAll =>
-      _IsarScheduledTransactionCollectionUpdateAllImpl(this);
+  _ScheduledTransactionIsarCollectionUpdateAll get updateAll =>
+      _ScheduledTransactionIsarCollectionUpdateAllImpl(this);
 }
 
-sealed class _IsarScheduledTransactionCollectionQueryUpdate {
+sealed class _ScheduledTransactionIsarCollectionQueryUpdate {
   int call({
     String? scheduledTransactionJson,
+    String? taskId,
+    DateTime? startedAt,
+    DateTime? endedAt,
     String? id,
   });
 }
 
-class _IsarScheduledTransactionCollectionQueryUpdateImpl
-    implements _IsarScheduledTransactionCollectionQueryUpdate {
-  const _IsarScheduledTransactionCollectionQueryUpdateImpl(this.query,
+class _ScheduledTransactionIsarCollectionQueryUpdateImpl
+    implements _ScheduledTransactionIsarCollectionQueryUpdate {
+  const _ScheduledTransactionIsarCollectionQueryUpdateImpl(this.query,
       {this.limit});
 
-  final IsarQuery<IsarScheduledTransactionCollection> query;
+  final IsarQuery<ScheduledTransactionIsarCollection> query;
   final int? limit;
 
   @override
   int call({
     Object? scheduledTransactionJson = ignore,
+    Object? taskId = ignore,
+    Object? startedAt = ignore,
+    Object? endedAt = ignore,
     Object? id = ignore,
   }) {
     return query.updateProperties(limit: limit, {
       if (scheduledTransactionJson != ignore)
         1: scheduledTransactionJson as String?,
-      if (id != ignore) 2: id as String?,
+      if (taskId != ignore) 2: taskId as String?,
+      if (startedAt != ignore) 3: startedAt as DateTime?,
+      if (endedAt != ignore) 4: endedAt as DateTime?,
+      if (id != ignore) 5: id as String?,
     });
   }
 }
 
-extension IsarScheduledTransactionCollectionQueryUpdate
-    on IsarQuery<IsarScheduledTransactionCollection> {
-  _IsarScheduledTransactionCollectionQueryUpdate get updateFirst =>
-      _IsarScheduledTransactionCollectionQueryUpdateImpl(this, limit: 1);
+extension ScheduledTransactionIsarCollectionQueryUpdate
+    on IsarQuery<ScheduledTransactionIsarCollection> {
+  _ScheduledTransactionIsarCollectionQueryUpdate get updateFirst =>
+      _ScheduledTransactionIsarCollectionQueryUpdateImpl(this, limit: 1);
 
-  _IsarScheduledTransactionCollectionQueryUpdate get updateAll =>
-      _IsarScheduledTransactionCollectionQueryUpdateImpl(this);
+  _ScheduledTransactionIsarCollectionQueryUpdate get updateAll =>
+      _ScheduledTransactionIsarCollectionQueryUpdateImpl(this);
 }
 
-class _IsarScheduledTransactionCollectionQueryBuilderUpdateImpl
-    implements _IsarScheduledTransactionCollectionQueryUpdate {
-  const _IsarScheduledTransactionCollectionQueryBuilderUpdateImpl(this.query,
+class _ScheduledTransactionIsarCollectionQueryBuilderUpdateImpl
+    implements _ScheduledTransactionIsarCollectionQueryUpdate {
+  const _ScheduledTransactionIsarCollectionQueryBuilderUpdateImpl(this.query,
       {this.limit});
 
-  final QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QOperations> query;
+  final QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QOperations> query;
   final int? limit;
 
   @override
   int call({
     Object? scheduledTransactionJson = ignore,
+    Object? taskId = ignore,
+    Object? startedAt = ignore,
+    Object? endedAt = ignore,
     Object? id = ignore,
   }) {
     final q = query.build();
@@ -1579,7 +1667,10 @@ class _IsarScheduledTransactionCollectionQueryBuilderUpdateImpl
       return q.updateProperties(limit: limit, {
         if (scheduledTransactionJson != ignore)
           1: scheduledTransactionJson as String?,
-        if (id != ignore) 2: id as String?,
+        if (taskId != ignore) 2: taskId as String?,
+        if (startedAt != ignore) 3: startedAt as DateTime?,
+        if (endedAt != ignore) 4: endedAt as DateTime?,
+        if (id != ignore) 5: id as String?,
       });
     } finally {
       q.close();
@@ -1587,24 +1678,24 @@ class _IsarScheduledTransactionCollectionQueryBuilderUpdateImpl
   }
 }
 
-extension IsarScheduledTransactionCollectionQueryBuilderUpdate on QueryBuilder<
-    IsarScheduledTransactionCollection,
-    IsarScheduledTransactionCollection,
+extension ScheduledTransactionIsarCollectionQueryBuilderUpdate on QueryBuilder<
+    ScheduledTransactionIsarCollection,
+    ScheduledTransactionIsarCollection,
     QOperations> {
-  _IsarScheduledTransactionCollectionQueryUpdate get updateFirst =>
-      _IsarScheduledTransactionCollectionQueryBuilderUpdateImpl(this, limit: 1);
+  _ScheduledTransactionIsarCollectionQueryUpdate get updateFirst =>
+      _ScheduledTransactionIsarCollectionQueryBuilderUpdateImpl(this, limit: 1);
 
-  _IsarScheduledTransactionCollectionQueryUpdate get updateAll =>
-      _IsarScheduledTransactionCollectionQueryBuilderUpdateImpl(this);
+  _ScheduledTransactionIsarCollectionQueryUpdate get updateAll =>
+      _ScheduledTransactionIsarCollectionQueryBuilderUpdateImpl(this);
 }
 
-extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
-    IsarScheduledTransactionCollection,
-    IsarScheduledTransactionCollection,
+extension ScheduledTransactionIsarCollectionQueryFilter on QueryBuilder<
+    ScheduledTransactionIsarCollection,
+    ScheduledTransactionIsarCollection,
     QFilterCondition> {
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> scheduledTransactionJsonEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1621,8 +1712,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> scheduledTransactionJsonGreaterThan(
     String value, {
     bool caseSensitive = true,
@@ -1639,8 +1730,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> scheduledTransactionJsonGreaterThanOrEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1657,8 +1748,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> scheduledTransactionJsonLessThan(
     String value, {
     bool caseSensitive = true,
@@ -1675,8 +1766,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> scheduledTransactionJsonLessThanOrEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1693,8 +1784,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> scheduledTransactionJsonBetween(
     String lower,
     String upper, {
@@ -1713,8 +1804,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> scheduledTransactionJsonStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -1731,8 +1822,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> scheduledTransactionJsonEndsWith(
     String value, {
     bool caseSensitive = true,
@@ -1748,8 +1839,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterFilterCondition>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterFilterCondition>
       scheduledTransactionJsonContains(String value,
           {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1763,8 +1854,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterFilterCondition>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterFilterCondition>
       scheduledTransactionJsonMatches(String pattern,
           {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1779,8 +1870,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> scheduledTransactionJsonIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1793,8 +1884,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> scheduledTransactionJsonIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
@@ -1806,8 +1897,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> idEqualTo(
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> taskIdEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1822,8 +1913,10 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> idGreaterThan(
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> taskIdGreaterThan(
     String value, {
     bool caseSensitive = true,
   }) {
@@ -1839,8 +1932,428 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> taskIdGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> taskIdLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> taskIdLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> taskIdBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 2,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> taskIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> taskIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterFilterCondition>
+      taskIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterFilterCondition>
+      taskIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 2,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> taskIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 2,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> taskIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 2,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> startedAtIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 3));
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> startedAtIsNotNull() {
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 3));
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> startedAtEqualTo(
+    DateTime? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 3,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> startedAtGreaterThan(
+    DateTime? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 3,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> startedAtGreaterThanOrEqualTo(
+    DateTime? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 3,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> startedAtLessThan(
+    DateTime? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 3,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> startedAtLessThanOrEqualTo(
+    DateTime? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 3,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> startedAtBetween(
+    DateTime? lower,
+    DateTime? upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 3,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> endedAtIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 4));
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> endedAtIsNotNull() {
+    return QueryBuilder.apply(not(), (query) {
+      return query.addFilterCondition(const IsNullCondition(property: 4));
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> endedAtEqualTo(
+    DateTime? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 4,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> endedAtGreaterThan(
+    DateTime? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 4,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> endedAtGreaterThanOrEqualTo(
+    DateTime? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 4,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> endedAtLessThan(
+    DateTime? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 4,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterFilterCondition> endedAtLessThanOrEqualTo(
+    DateTime? value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 4,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> endedAtBetween(
+    DateTime? lower,
+    DateTime? upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 4,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> idEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> idGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> idGreaterThanOrEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1848,7 +2361,7 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 2,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1856,15 +2369,15 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> idLessThan(
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> idLessThan(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 2,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1873,8 +2386,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> idLessThanOrEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1882,7 +2395,7 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 2,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1890,8 +2403,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> idBetween(
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> idBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -1899,7 +2412,7 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 2,
+          property: 5,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -1908,15 +2421,15 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> idStartsWith(
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> idStartsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 2,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1924,15 +2437,15 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> idEndsWith(
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> idEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 2,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1940,13 +2453,13 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterFilterCondition>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterFilterCondition>
       idContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 2,
+          property: 5,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -1954,13 +2467,13 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterFilterCondition>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterFilterCondition>
       idMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 2,
+          property: 5,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -1968,12 +2481,12 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> idIsEmpty() {
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> idIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 2,
+          property: 5,
           value: '',
         ),
       );
@@ -1981,28 +2494,28 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> idIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 2,
+          property: 5,
           value: '',
         ),
       );
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> isarIdEqualTo(
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> isarIdEqualTo(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EqualCondition(
-          property: 3,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2011,8 +2524,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> isarIdGreaterThan(
     String value, {
     bool caseSensitive = true,
@@ -2020,7 +2533,7 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterCondition(
-          property: 3,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2029,8 +2542,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> isarIdGreaterThanOrEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -2038,7 +2551,7 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         GreaterOrEqualCondition(
-          property: 3,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2046,15 +2559,15 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> isarIdLessThan(
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> isarIdLessThan(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessCondition(
-          property: 3,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2063,8 +2576,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> isarIdLessThanOrEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -2072,7 +2585,7 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         LessOrEqualCondition(
-          property: 3,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2080,8 +2593,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> isarIdBetween(
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> isarIdBetween(
     String lower,
     String upper, {
     bool caseSensitive = true,
@@ -2089,7 +2602,7 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         BetweenCondition(
-          property: 3,
+          property: 6,
           lower: lower,
           upper: upper,
           caseSensitive: caseSensitive,
@@ -2099,8 +2612,8 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> isarIdStartsWith(
     String value, {
     bool caseSensitive = true,
@@ -2108,7 +2621,7 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         StartsWithCondition(
-          property: 3,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2116,15 +2629,15 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection, QAfterFilterCondition> isarIdEndsWith(
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterFilterCondition> isarIdEndsWith(
     String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         EndsWithCondition(
-          property: 3,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2132,13 +2645,13 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterFilterCondition>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterFilterCondition>
       isarIdContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         ContainsCondition(
-          property: 3,
+          property: 6,
           value: value,
           caseSensitive: caseSensitive,
         ),
@@ -2146,13 +2659,13 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterFilterCondition>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterFilterCondition>
       isarIdMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         MatchesCondition(
-          property: 3,
+          property: 6,
           wildcard: pattern,
           caseSensitive: caseSensitive,
         ),
@@ -2161,13 +2674,13 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> isarIdIsEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const EqualCondition(
-          property: 3,
+          property: 6,
           value: '',
         ),
       );
@@ -2175,13 +2688,13 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterFilterCondition> isarIdIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
         const GreaterCondition(
-          property: 3,
+          property: 6,
           value: '',
         ),
       );
@@ -2189,17 +2702,17 @@ extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
   }
 }
 
-extension IsarScheduledTransactionCollectionQueryObject on QueryBuilder<
-    IsarScheduledTransactionCollection,
-    IsarScheduledTransactionCollection,
+extension ScheduledTransactionIsarCollectionQueryObject on QueryBuilder<
+    ScheduledTransactionIsarCollection,
+    ScheduledTransactionIsarCollection,
     QFilterCondition> {}
 
-extension IsarScheduledTransactionCollectionQuerySortBy on QueryBuilder<
-    IsarScheduledTransactionCollection,
-    IsarScheduledTransactionCollection,
+extension ScheduledTransactionIsarCollectionQuerySortBy on QueryBuilder<
+    ScheduledTransactionIsarCollection,
+    ScheduledTransactionIsarCollection,
     QSortBy> {
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterSortBy>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterSortBy>
       sortByScheduledTransactionJson({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
@@ -2209,8 +2722,8 @@ extension IsarScheduledTransactionCollectionQuerySortBy on QueryBuilder<
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterSortBy>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterSortBy>
       sortByScheduledTransactionJsonDesc({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
@@ -2222,9 +2735,9 @@ extension IsarScheduledTransactionCollectionQuerySortBy on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
-      QAfterSortBy> sortById({bool caseSensitive = true}) {
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterSortBy> sortByTaskId({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         2,
@@ -2234,9 +2747,9 @@ extension IsarScheduledTransactionCollectionQuerySortBy on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
-      QAfterSortBy> sortByIdDesc({bool caseSensitive = true}) {
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterSortBy> sortByTaskIdDesc({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
         2,
@@ -2246,25 +2759,78 @@ extension IsarScheduledTransactionCollectionQuerySortBy on QueryBuilder<
     });
   }
 
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterSortBy> sortByStartedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterSortBy> sortByStartedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterSortBy> sortByEndedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(4);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterSortBy> sortByEndedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(4, sort: Sort.desc);
+    });
+  }
+
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
-      QAfterSortBy> sortByIsarId({bool caseSensitive = true}) {
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterSortBy> sortById({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        3,
+        5,
         caseSensitive: caseSensitive,
       );
     });
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterSortBy> sortByIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        5,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterSortBy> sortByIsarId({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        6,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterSortBy> sortByIsarIdDesc({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(
-        3,
+        6,
         sort: Sort.desc,
         caseSensitive: caseSensitive,
       );
@@ -2272,20 +2838,20 @@ extension IsarScheduledTransactionCollectionQuerySortBy on QueryBuilder<
   }
 }
 
-extension IsarScheduledTransactionCollectionQuerySortThenBy on QueryBuilder<
-    IsarScheduledTransactionCollection,
-    IsarScheduledTransactionCollection,
+extension ScheduledTransactionIsarCollectionQuerySortThenBy on QueryBuilder<
+    ScheduledTransactionIsarCollection,
+    ScheduledTransactionIsarCollection,
     QSortThenBy> {
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterSortBy>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterSortBy>
       thenByScheduledTransactionJson({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(1, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterSortBy>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterSortBy>
       thenByScheduledTransactionJsonDesc({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(1, sort: Sort.desc, caseSensitive: caseSensitive);
@@ -2293,48 +2859,94 @@ extension IsarScheduledTransactionCollectionQuerySortThenBy on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
-      QAfterSortBy> thenById({bool caseSensitive = true}) {
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterSortBy> thenByTaskId({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(2, caseSensitive: caseSensitive);
     });
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
-      QAfterSortBy> thenByIdDesc({bool caseSensitive = true}) {
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterSortBy> thenByTaskIdDesc({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(2, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 
-  QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
-      QAfterSortBy> thenByIsarId({bool caseSensitive = true}) {
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterSortBy> thenByStartedAt() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(3, caseSensitive: caseSensitive);
+      return query.addSortBy(3);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterSortBy> thenByStartedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterSortBy> thenByEndedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(4);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterSortBy> thenByEndedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(4, sort: Sort.desc);
     });
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterSortBy> thenById({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterSortBy> thenByIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterSortBy> thenByIsarId({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
       QAfterSortBy> thenByIsarIdDesc({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(3, sort: Sort.desc, caseSensitive: caseSensitive);
+      return query.addSortBy(6, sort: Sort.desc, caseSensitive: caseSensitive);
     });
   }
 }
 
-extension IsarScheduledTransactionCollectionQueryWhereDistinct on QueryBuilder<
-    IsarScheduledTransactionCollection,
-    IsarScheduledTransactionCollection,
+extension ScheduledTransactionIsarCollectionQueryWhereDistinct on QueryBuilder<
+    ScheduledTransactionIsarCollection,
+    ScheduledTransactionIsarCollection,
     QDistinct> {
-  QueryBuilder<IsarScheduledTransactionCollection,
-          IsarScheduledTransactionCollection, QAfterDistinct>
+  QueryBuilder<ScheduledTransactionIsarCollection,
+          ScheduledTransactionIsarCollection, QAfterDistinct>
       distinctByScheduledTransactionJson({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(1, caseSensitive: caseSensitive);
@@ -2342,86 +2954,174 @@ extension IsarScheduledTransactionCollectionQueryWhereDistinct on QueryBuilder<
   }
 
   QueryBuilder<
-      IsarScheduledTransactionCollection,
-      IsarScheduledTransactionCollection,
-      QAfterDistinct> distinctById({bool caseSensitive = true}) {
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterDistinct> distinctByTaskId({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(2, caseSensitive: caseSensitive);
     });
   }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterDistinct> distinctByStartedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(3);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection, QAfterDistinct> distinctByEndedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(4);
+    });
+  }
+
+  QueryBuilder<
+      ScheduledTransactionIsarCollection,
+      ScheduledTransactionIsarCollection,
+      QAfterDistinct> distinctById({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(5, caseSensitive: caseSensitive);
+    });
+  }
 }
 
-extension IsarScheduledTransactionCollectionQueryProperty1 on QueryBuilder<
-    IsarScheduledTransactionCollection,
-    IsarScheduledTransactionCollection,
+extension ScheduledTransactionIsarCollectionQueryProperty1 on QueryBuilder<
+    ScheduledTransactionIsarCollection,
+    ScheduledTransactionIsarCollection,
     QProperty> {
-  QueryBuilder<IsarScheduledTransactionCollection, String, QAfterProperty>
+  QueryBuilder<ScheduledTransactionIsarCollection, String, QAfterProperty>
       scheduledTransactionJsonProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(1);
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection, String, QAfterProperty>
-      idProperty() {
+  QueryBuilder<ScheduledTransactionIsarCollection, String, QAfterProperty>
+      taskIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(2);
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection, String, QAfterProperty>
-      isarIdProperty() {
+  QueryBuilder<ScheduledTransactionIsarCollection, DateTime?, QAfterProperty>
+      startedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(3);
     });
   }
+
+  QueryBuilder<ScheduledTransactionIsarCollection, DateTime?, QAfterProperty>
+      endedAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection, String, QAfterProperty>
+      idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection, String, QAfterProperty>
+      isarIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(6);
+    });
+  }
 }
 
-extension IsarScheduledTransactionCollectionQueryProperty2<R>
-    on QueryBuilder<IsarScheduledTransactionCollection, R, QAfterProperty> {
-  QueryBuilder<IsarScheduledTransactionCollection, (R, String), QAfterProperty>
+extension ScheduledTransactionIsarCollectionQueryProperty2<R>
+    on QueryBuilder<ScheduledTransactionIsarCollection, R, QAfterProperty> {
+  QueryBuilder<ScheduledTransactionIsarCollection, (R, String), QAfterProperty>
       scheduledTransactionJsonProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(1);
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection, (R, String), QAfterProperty>
-      idProperty() {
+  QueryBuilder<ScheduledTransactionIsarCollection, (R, String), QAfterProperty>
+      taskIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(2);
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection, (R, String), QAfterProperty>
-      isarIdProperty() {
+  QueryBuilder<ScheduledTransactionIsarCollection, (R, DateTime?),
+      QAfterProperty> startedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(3);
     });
   }
+
+  QueryBuilder<ScheduledTransactionIsarCollection, (R, DateTime?),
+      QAfterProperty> endedAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection, (R, String), QAfterProperty>
+      idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection, (R, String), QAfterProperty>
+      isarIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(6);
+    });
+  }
 }
 
-extension IsarScheduledTransactionCollectionQueryProperty3<R1, R2>
-    on QueryBuilder<IsarScheduledTransactionCollection, (R1, R2),
+extension ScheduledTransactionIsarCollectionQueryProperty3<R1, R2>
+    on QueryBuilder<ScheduledTransactionIsarCollection, (R1, R2),
         QAfterProperty> {
-  QueryBuilder<IsarScheduledTransactionCollection, (R1, R2, String),
+  QueryBuilder<ScheduledTransactionIsarCollection, (R1, R2, String),
       QOperations> scheduledTransactionJsonProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(1);
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection, (R1, R2, String),
-      QOperations> idProperty() {
+  QueryBuilder<ScheduledTransactionIsarCollection, (R1, R2, String),
+      QOperations> taskIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(2);
     });
   }
 
-  QueryBuilder<IsarScheduledTransactionCollection, (R1, R2, String),
-      QOperations> isarIdProperty() {
+  QueryBuilder<ScheduledTransactionIsarCollection, (R1, R2, DateTime?),
+      QOperations> startedAtProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addProperty(3);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection, (R1, R2, DateTime?),
+      QOperations> endedAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection, (R1, R2, String),
+      QOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
+    });
+  }
+
+  QueryBuilder<ScheduledTransactionIsarCollection, (R1, R2, String),
+      QOperations> isarIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(6);
     });
   }
 }

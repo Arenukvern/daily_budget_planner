@@ -89,6 +89,9 @@ class Task with _$Task {
 class ScheduledTransaction with _$ScheduledTransaction {
   const factory ScheduledTransaction({
     @Default(TransactionId.empty) final TransactionId transactionId,
+
+    /// it may have no task id if it is a one time transaction
+    @Default(TaskId.empty) final TaskId taskId,
     @Default(TransactionSchedule.empty) final TransactionSchedule schedule,
   }) = _ScheduledTransaction;
   const ScheduledTransaction._();
