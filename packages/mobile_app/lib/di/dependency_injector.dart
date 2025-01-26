@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/data_local_api/data_local_api.dart';
 import 'package:mobile_app/ui_home/monthly/monthly_cubit.dart';
 import 'package:mobile_app/ui_home/weekly/weekly_cubit.dart';
 import 'package:mobile_app/ui_paywalls/ui_paywalls.dart';
@@ -33,9 +34,11 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   r<AnalyticsService>(analyticsManager.analyticsService);
   final localDb = PrefsDb();
   r<LocalDbI>(localDb);
+  r<IsarDb>(IsarDb());
   rl(UserLocalApi.new);
   rl(AppSettingsLocalApi.new);
   rl(BudgetLocalApi.new);
+  rl(TransactionsLocalApi.new);
 
   /// ********************************************
   /// *      STATES
@@ -101,7 +104,9 @@ mixin HasLocalApis {
   FinSettingsLocalApi get finSettingsLocalApi => _g();
   BudgetLocalApi get budgetLocalApi => _g();
   DictionariesLocalApi get dictionariesLocalApi => _g();
+  TransactionsLocalApi get transactionsLocalApi => _g();
 }
+
 mixin HasStates {
   UserNotifier get userNotifier => _g();
   AppStatusNotifier get appStatusNotifier => _g();
@@ -116,8 +121,13 @@ mixin HasStates {
   TasksNotifier get tasksNotifier => _g();
   FinSettingsNotifier get finSettingsNotifier => _g();
 }
+
 mixin HasAnalytics {
   AnalyticsManager get analyticsManager => _g();
   AnalyticsService get analyticsService => _g();
   CrashlyticsService get crashlyticsService => _g();
+}
+
+mixin HasComplexLocalDb {
+  IsarDb get isarDb => _g();
 }

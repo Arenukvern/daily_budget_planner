@@ -1380,3 +1380,2647 @@ extension ExpenseIsarCollectionQueryProperty3<R1, R2>
     });
   }
 }
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, invalid_use_of_protected_member, lines_longer_than_80_chars, constant_identifier_names, avoid_js_rounded_ints, no_leading_underscores_for_local_identifiers, require_trailing_commas, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_in_if_null_operators, library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: type=lint
+
+extension GetIsarScheduledTransactionCollectionCollection on Isar {
+  IsarCollection<String, IsarScheduledTransactionCollection>
+      get isarScheduledTransactionCollections => this.collection();
+}
+
+const IsarScheduledTransactionCollectionSchema = IsarGeneratedSchema(
+  schema: IsarSchema(
+    name: 'IsarScheduledTransactionCollection',
+    idName: 'isarId',
+    embedded: false,
+    properties: [
+      IsarPropertySchema(
+        name: 'scheduledTransactionJson',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'id',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'isarId',
+        type: IsarType.string,
+      ),
+    ],
+    indexes: [],
+  ),
+  converter: IsarObjectConverter<String, IsarScheduledTransactionCollection>(
+    serialize: serializeIsarScheduledTransactionCollection,
+    deserialize: deserializeIsarScheduledTransactionCollection,
+    deserializeProperty: deserializeIsarScheduledTransactionCollectionProp,
+  ),
+  embeddedSchemas: [],
+);
+
+@isarProtected
+int serializeIsarScheduledTransactionCollection(
+    IsarWriter writer, IsarScheduledTransactionCollection object) {
+  IsarCore.writeString(writer, 1, object.scheduledTransactionJson);
+  IsarCore.writeString(writer, 2, object.id);
+  IsarCore.writeString(writer, 3, object.isarId);
+  return Isar.fastHash(object.isarId);
+}
+
+@isarProtected
+IsarScheduledTransactionCollection
+    deserializeIsarScheduledTransactionCollection(IsarReader reader) {
+  final object = IsarScheduledTransactionCollection();
+  object.scheduledTransactionJson = IsarCore.readString(reader, 1) ?? '';
+  object.id = IsarCore.readString(reader, 2) ?? '';
+  return object;
+}
+
+@isarProtected
+dynamic deserializeIsarScheduledTransactionCollectionProp(
+    IsarReader reader, int property) {
+  switch (property) {
+    case 1:
+      return IsarCore.readString(reader, 1) ?? '';
+    case 2:
+      return IsarCore.readString(reader, 2) ?? '';
+    case 3:
+      return IsarCore.readString(reader, 3) ?? '';
+    default:
+      throw ArgumentError('Unknown property: $property');
+  }
+}
+
+sealed class _IsarScheduledTransactionCollectionUpdate {
+  bool call({
+    required String isarId,
+    String? scheduledTransactionJson,
+    String? id,
+  });
+}
+
+class _IsarScheduledTransactionCollectionUpdateImpl
+    implements _IsarScheduledTransactionCollectionUpdate {
+  const _IsarScheduledTransactionCollectionUpdateImpl(this.collection);
+
+  final IsarCollection<String, IsarScheduledTransactionCollection> collection;
+
+  @override
+  bool call({
+    required String isarId,
+    Object? scheduledTransactionJson = ignore,
+    Object? id = ignore,
+  }) {
+    return collection.updateProperties([
+          isarId
+        ], {
+          if (scheduledTransactionJson != ignore)
+            1: scheduledTransactionJson as String?,
+          if (id != ignore) 2: id as String?,
+        }) >
+        0;
+  }
+}
+
+sealed class _IsarScheduledTransactionCollectionUpdateAll {
+  int call({
+    required List<String> isarId,
+    String? scheduledTransactionJson,
+    String? id,
+  });
+}
+
+class _IsarScheduledTransactionCollectionUpdateAllImpl
+    implements _IsarScheduledTransactionCollectionUpdateAll {
+  const _IsarScheduledTransactionCollectionUpdateAllImpl(this.collection);
+
+  final IsarCollection<String, IsarScheduledTransactionCollection> collection;
+
+  @override
+  int call({
+    required List<String> isarId,
+    Object? scheduledTransactionJson = ignore,
+    Object? id = ignore,
+  }) {
+    return collection.updateProperties(isarId, {
+      if (scheduledTransactionJson != ignore)
+        1: scheduledTransactionJson as String?,
+      if (id != ignore) 2: id as String?,
+    });
+  }
+}
+
+extension IsarScheduledTransactionCollectionUpdate
+    on IsarCollection<String, IsarScheduledTransactionCollection> {
+  _IsarScheduledTransactionCollectionUpdate get update =>
+      _IsarScheduledTransactionCollectionUpdateImpl(this);
+
+  _IsarScheduledTransactionCollectionUpdateAll get updateAll =>
+      _IsarScheduledTransactionCollectionUpdateAllImpl(this);
+}
+
+sealed class _IsarScheduledTransactionCollectionQueryUpdate {
+  int call({
+    String? scheduledTransactionJson,
+    String? id,
+  });
+}
+
+class _IsarScheduledTransactionCollectionQueryUpdateImpl
+    implements _IsarScheduledTransactionCollectionQueryUpdate {
+  const _IsarScheduledTransactionCollectionQueryUpdateImpl(this.query,
+      {this.limit});
+
+  final IsarQuery<IsarScheduledTransactionCollection> query;
+  final int? limit;
+
+  @override
+  int call({
+    Object? scheduledTransactionJson = ignore,
+    Object? id = ignore,
+  }) {
+    return query.updateProperties(limit: limit, {
+      if (scheduledTransactionJson != ignore)
+        1: scheduledTransactionJson as String?,
+      if (id != ignore) 2: id as String?,
+    });
+  }
+}
+
+extension IsarScheduledTransactionCollectionQueryUpdate
+    on IsarQuery<IsarScheduledTransactionCollection> {
+  _IsarScheduledTransactionCollectionQueryUpdate get updateFirst =>
+      _IsarScheduledTransactionCollectionQueryUpdateImpl(this, limit: 1);
+
+  _IsarScheduledTransactionCollectionQueryUpdate get updateAll =>
+      _IsarScheduledTransactionCollectionQueryUpdateImpl(this);
+}
+
+class _IsarScheduledTransactionCollectionQueryBuilderUpdateImpl
+    implements _IsarScheduledTransactionCollectionQueryUpdate {
+  const _IsarScheduledTransactionCollectionQueryBuilderUpdateImpl(this.query,
+      {this.limit});
+
+  final QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QOperations> query;
+  final int? limit;
+
+  @override
+  int call({
+    Object? scheduledTransactionJson = ignore,
+    Object? id = ignore,
+  }) {
+    final q = query.build();
+    try {
+      return q.updateProperties(limit: limit, {
+        if (scheduledTransactionJson != ignore)
+          1: scheduledTransactionJson as String?,
+        if (id != ignore) 2: id as String?,
+      });
+    } finally {
+      q.close();
+    }
+  }
+}
+
+extension IsarScheduledTransactionCollectionQueryBuilderUpdate on QueryBuilder<
+    IsarScheduledTransactionCollection,
+    IsarScheduledTransactionCollection,
+    QOperations> {
+  _IsarScheduledTransactionCollectionQueryUpdate get updateFirst =>
+      _IsarScheduledTransactionCollectionQueryBuilderUpdateImpl(this, limit: 1);
+
+  _IsarScheduledTransactionCollectionQueryUpdate get updateAll =>
+      _IsarScheduledTransactionCollectionQueryBuilderUpdateImpl(this);
+}
+
+extension IsarScheduledTransactionCollectionQueryFilter on QueryBuilder<
+    IsarScheduledTransactionCollection,
+    IsarScheduledTransactionCollection,
+    QFilterCondition> {
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> scheduledTransactionJsonEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> scheduledTransactionJsonGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> scheduledTransactionJsonGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> scheduledTransactionJsonLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> scheduledTransactionJsonLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> scheduledTransactionJsonBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 1,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> scheduledTransactionJsonStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> scheduledTransactionJsonEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterFilterCondition>
+      scheduledTransactionJsonContains(String value,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterFilterCondition>
+      scheduledTransactionJsonMatches(String pattern,
+          {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 1,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> scheduledTransactionJsonIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 1,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> scheduledTransactionJsonIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 1,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> idEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> idGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> idGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> idLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> idLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> idBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 2,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> idStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> idEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterFilterCondition>
+      idContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 2,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterFilterCondition>
+      idMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 2,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> idIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 2,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> idIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 2,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> isarIdEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> isarIdGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> isarIdGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> isarIdLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> isarIdLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> isarIdBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 3,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> isarIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection, QAfterFilterCondition> isarIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterFilterCondition>
+      isarIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterFilterCondition>
+      isarIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 3,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> isarIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 3,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterFilterCondition> isarIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 3,
+          value: '',
+        ),
+      );
+    });
+  }
+}
+
+extension IsarScheduledTransactionCollectionQueryObject on QueryBuilder<
+    IsarScheduledTransactionCollection,
+    IsarScheduledTransactionCollection,
+    QFilterCondition> {}
+
+extension IsarScheduledTransactionCollectionQuerySortBy on QueryBuilder<
+    IsarScheduledTransactionCollection,
+    IsarScheduledTransactionCollection,
+    QSortBy> {
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterSortBy>
+      sortByScheduledTransactionJson({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        1,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterSortBy>
+      sortByScheduledTransactionJsonDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        1,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterSortBy> sortById({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        2,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterSortBy> sortByIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        2,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterSortBy> sortByIsarId({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        3,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterSortBy> sortByIsarIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        3,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+}
+
+extension IsarScheduledTransactionCollectionQuerySortThenBy on QueryBuilder<
+    IsarScheduledTransactionCollection,
+    IsarScheduledTransactionCollection,
+    QSortThenBy> {
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterSortBy>
+      thenByScheduledTransactionJson({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(1, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterSortBy>
+      thenByScheduledTransactionJsonDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(1, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterSortBy> thenById({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(2, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterSortBy> thenByIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(2, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterSortBy> thenByIsarId({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterSortBy> thenByIsarIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+}
+
+extension IsarScheduledTransactionCollectionQueryWhereDistinct on QueryBuilder<
+    IsarScheduledTransactionCollection,
+    IsarScheduledTransactionCollection,
+    QDistinct> {
+  QueryBuilder<IsarScheduledTransactionCollection,
+          IsarScheduledTransactionCollection, QAfterDistinct>
+      distinctByScheduledTransactionJson({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(1, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<
+      IsarScheduledTransactionCollection,
+      IsarScheduledTransactionCollection,
+      QAfterDistinct> distinctById({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(2, caseSensitive: caseSensitive);
+    });
+  }
+}
+
+extension IsarScheduledTransactionCollectionQueryProperty1 on QueryBuilder<
+    IsarScheduledTransactionCollection,
+    IsarScheduledTransactionCollection,
+    QProperty> {
+  QueryBuilder<IsarScheduledTransactionCollection, String, QAfterProperty>
+      scheduledTransactionJsonProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection, String, QAfterProperty>
+      idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection, String, QAfterProperty>
+      isarIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+}
+
+extension IsarScheduledTransactionCollectionQueryProperty2<R>
+    on QueryBuilder<IsarScheduledTransactionCollection, R, QAfterProperty> {
+  QueryBuilder<IsarScheduledTransactionCollection, (R, String), QAfterProperty>
+      scheduledTransactionJsonProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection, (R, String), QAfterProperty>
+      idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection, (R, String), QAfterProperty>
+      isarIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+}
+
+extension IsarScheduledTransactionCollectionQueryProperty3<R1, R2>
+    on QueryBuilder<IsarScheduledTransactionCollection, (R1, R2),
+        QAfterProperty> {
+  QueryBuilder<IsarScheduledTransactionCollection, (R1, R2, String),
+      QOperations> scheduledTransactionJsonProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection, (R1, R2, String),
+      QOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<IsarScheduledTransactionCollection, (R1, R2, String),
+      QOperations> isarIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+}
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, invalid_use_of_protected_member, lines_longer_than_80_chars, constant_identifier_names, avoid_js_rounded_ints, no_leading_underscores_for_local_identifiers, require_trailing_commas, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_in_if_null_operators, library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: type=lint
+
+extension GetTransactionIsarCollectionCollection on Isar {
+  IsarCollection<String, TransactionIsarCollection>
+      get transactionIsarCollections => this.collection();
+}
+
+const TransactionIsarCollectionSchema = IsarGeneratedSchema(
+  schema: IsarSchema(
+    name: 'TransactionIsarCollection',
+    idName: 'isarId',
+    embedded: false,
+    properties: [
+      IsarPropertySchema(
+        name: 'transactionJson',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'transactionDate',
+        type: IsarType.dateTime,
+      ),
+      IsarPropertySchema(
+        name: 'taskId',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'type',
+        type: IsarType.byte,
+        enumMap: {"expense": 0, "income": 1, "transferIn": 2, "transferOut": 3},
+      ),
+      IsarPropertySchema(
+        name: 'id',
+        type: IsarType.string,
+      ),
+      IsarPropertySchema(
+        name: 'isarId',
+        type: IsarType.string,
+      ),
+    ],
+    indexes: [
+      IsarIndexSchema(
+        name: 'transactionDate',
+        properties: [
+          "transactionDate",
+        ],
+        unique: false,
+        hash: false,
+      ),
+      IsarIndexSchema(
+        name: 'taskId',
+        properties: [
+          "taskId",
+        ],
+        unique: false,
+        hash: false,
+      ),
+    ],
+  ),
+  converter: IsarObjectConverter<String, TransactionIsarCollection>(
+    serialize: serializeTransactionIsarCollection,
+    deserialize: deserializeTransactionIsarCollection,
+    deserializeProperty: deserializeTransactionIsarCollectionProp,
+  ),
+  embeddedSchemas: [],
+);
+
+@isarProtected
+int serializeTransactionIsarCollection(
+    IsarWriter writer, TransactionIsarCollection object) {
+  IsarCore.writeString(writer, 1, object.transactionJson);
+  IsarCore.writeLong(
+      writer, 2, object.transactionDate.toUtc().microsecondsSinceEpoch);
+  IsarCore.writeString(writer, 3, object.taskId);
+  IsarCore.writeByte(writer, 4, object.type.index);
+  IsarCore.writeString(writer, 5, object.id);
+  IsarCore.writeString(writer, 6, object.isarId);
+  return Isar.fastHash(object.isarId);
+}
+
+@isarProtected
+TransactionIsarCollection deserializeTransactionIsarCollection(
+    IsarReader reader) {
+  final object = TransactionIsarCollection();
+  object.transactionJson = IsarCore.readString(reader, 1) ?? '';
+  {
+    final value = IsarCore.readLong(reader, 2);
+    if (value == -9223372036854775808) {
+      object.transactionDate =
+          DateTime.fromMillisecondsSinceEpoch(0, isUtc: true).toLocal();
+    } else {
+      object.transactionDate =
+          DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true).toLocal();
+    }
+  }
+  object.taskId = IsarCore.readString(reader, 3) ?? '';
+  {
+    if (IsarCore.readNull(reader, 4)) {
+      object.type = TransactionType.expense;
+    } else {
+      object.type =
+          _transactionIsarCollectionType[IsarCore.readByte(reader, 4)] ??
+              TransactionType.expense;
+    }
+  }
+  object.id = IsarCore.readString(reader, 5) ?? '';
+  return object;
+}
+
+@isarProtected
+dynamic deserializeTransactionIsarCollectionProp(
+    IsarReader reader, int property) {
+  switch (property) {
+    case 1:
+      return IsarCore.readString(reader, 1) ?? '';
+    case 2:
+      {
+        final value = IsarCore.readLong(reader, 2);
+        if (value == -9223372036854775808) {
+          return DateTime.fromMillisecondsSinceEpoch(0, isUtc: true).toLocal();
+        } else {
+          return DateTime.fromMicrosecondsSinceEpoch(value, isUtc: true)
+              .toLocal();
+        }
+      }
+    case 3:
+      return IsarCore.readString(reader, 3) ?? '';
+    case 4:
+      {
+        if (IsarCore.readNull(reader, 4)) {
+          return TransactionType.expense;
+        } else {
+          return _transactionIsarCollectionType[IsarCore.readByte(reader, 4)] ??
+              TransactionType.expense;
+        }
+      }
+    case 5:
+      return IsarCore.readString(reader, 5) ?? '';
+    case 6:
+      return IsarCore.readString(reader, 6) ?? '';
+    default:
+      throw ArgumentError('Unknown property: $property');
+  }
+}
+
+sealed class _TransactionIsarCollectionUpdate {
+  bool call({
+    required String isarId,
+    String? transactionJson,
+    DateTime? transactionDate,
+    String? taskId,
+    TransactionType? type,
+    String? id,
+  });
+}
+
+class _TransactionIsarCollectionUpdateImpl
+    implements _TransactionIsarCollectionUpdate {
+  const _TransactionIsarCollectionUpdateImpl(this.collection);
+
+  final IsarCollection<String, TransactionIsarCollection> collection;
+
+  @override
+  bool call({
+    required String isarId,
+    Object? transactionJson = ignore,
+    Object? transactionDate = ignore,
+    Object? taskId = ignore,
+    Object? type = ignore,
+    Object? id = ignore,
+  }) {
+    return collection.updateProperties([
+          isarId
+        ], {
+          if (transactionJson != ignore) 1: transactionJson as String?,
+          if (transactionDate != ignore) 2: transactionDate as DateTime?,
+          if (taskId != ignore) 3: taskId as String?,
+          if (type != ignore) 4: type as TransactionType?,
+          if (id != ignore) 5: id as String?,
+        }) >
+        0;
+  }
+}
+
+sealed class _TransactionIsarCollectionUpdateAll {
+  int call({
+    required List<String> isarId,
+    String? transactionJson,
+    DateTime? transactionDate,
+    String? taskId,
+    TransactionType? type,
+    String? id,
+  });
+}
+
+class _TransactionIsarCollectionUpdateAllImpl
+    implements _TransactionIsarCollectionUpdateAll {
+  const _TransactionIsarCollectionUpdateAllImpl(this.collection);
+
+  final IsarCollection<String, TransactionIsarCollection> collection;
+
+  @override
+  int call({
+    required List<String> isarId,
+    Object? transactionJson = ignore,
+    Object? transactionDate = ignore,
+    Object? taskId = ignore,
+    Object? type = ignore,
+    Object? id = ignore,
+  }) {
+    return collection.updateProperties(isarId, {
+      if (transactionJson != ignore) 1: transactionJson as String?,
+      if (transactionDate != ignore) 2: transactionDate as DateTime?,
+      if (taskId != ignore) 3: taskId as String?,
+      if (type != ignore) 4: type as TransactionType?,
+      if (id != ignore) 5: id as String?,
+    });
+  }
+}
+
+extension TransactionIsarCollectionUpdate
+    on IsarCollection<String, TransactionIsarCollection> {
+  _TransactionIsarCollectionUpdate get update =>
+      _TransactionIsarCollectionUpdateImpl(this);
+
+  _TransactionIsarCollectionUpdateAll get updateAll =>
+      _TransactionIsarCollectionUpdateAllImpl(this);
+}
+
+sealed class _TransactionIsarCollectionQueryUpdate {
+  int call({
+    String? transactionJson,
+    DateTime? transactionDate,
+    String? taskId,
+    TransactionType? type,
+    String? id,
+  });
+}
+
+class _TransactionIsarCollectionQueryUpdateImpl
+    implements _TransactionIsarCollectionQueryUpdate {
+  const _TransactionIsarCollectionQueryUpdateImpl(this.query, {this.limit});
+
+  final IsarQuery<TransactionIsarCollection> query;
+  final int? limit;
+
+  @override
+  int call({
+    Object? transactionJson = ignore,
+    Object? transactionDate = ignore,
+    Object? taskId = ignore,
+    Object? type = ignore,
+    Object? id = ignore,
+  }) {
+    return query.updateProperties(limit: limit, {
+      if (transactionJson != ignore) 1: transactionJson as String?,
+      if (transactionDate != ignore) 2: transactionDate as DateTime?,
+      if (taskId != ignore) 3: taskId as String?,
+      if (type != ignore) 4: type as TransactionType?,
+      if (id != ignore) 5: id as String?,
+    });
+  }
+}
+
+extension TransactionIsarCollectionQueryUpdate
+    on IsarQuery<TransactionIsarCollection> {
+  _TransactionIsarCollectionQueryUpdate get updateFirst =>
+      _TransactionIsarCollectionQueryUpdateImpl(this, limit: 1);
+
+  _TransactionIsarCollectionQueryUpdate get updateAll =>
+      _TransactionIsarCollectionQueryUpdateImpl(this);
+}
+
+class _TransactionIsarCollectionQueryBuilderUpdateImpl
+    implements _TransactionIsarCollectionQueryUpdate {
+  const _TransactionIsarCollectionQueryBuilderUpdateImpl(this.query,
+      {this.limit});
+
+  final QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QOperations> query;
+  final int? limit;
+
+  @override
+  int call({
+    Object? transactionJson = ignore,
+    Object? transactionDate = ignore,
+    Object? taskId = ignore,
+    Object? type = ignore,
+    Object? id = ignore,
+  }) {
+    final q = query.build();
+    try {
+      return q.updateProperties(limit: limit, {
+        if (transactionJson != ignore) 1: transactionJson as String?,
+        if (transactionDate != ignore) 2: transactionDate as DateTime?,
+        if (taskId != ignore) 3: taskId as String?,
+        if (type != ignore) 4: type as TransactionType?,
+        if (id != ignore) 5: id as String?,
+      });
+    } finally {
+      q.close();
+    }
+  }
+}
+
+extension TransactionIsarCollectionQueryBuilderUpdate on QueryBuilder<
+    TransactionIsarCollection, TransactionIsarCollection, QOperations> {
+  _TransactionIsarCollectionQueryUpdate get updateFirst =>
+      _TransactionIsarCollectionQueryBuilderUpdateImpl(this, limit: 1);
+
+  _TransactionIsarCollectionQueryUpdate get updateAll =>
+      _TransactionIsarCollectionQueryBuilderUpdateImpl(this);
+}
+
+const _transactionIsarCollectionType = {
+  0: TransactionType.expense,
+  1: TransactionType.income,
+  2: TransactionType.transferIn,
+  3: TransactionType.transferOut,
+};
+
+extension TransactionIsarCollectionQueryFilter on QueryBuilder<
+    TransactionIsarCollection, TransactionIsarCollection, QFilterCondition> {
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionJsonEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionJsonGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionJsonGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionJsonLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionJsonLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionJsonBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 1,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionJsonStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionJsonEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+          QAfterFilterCondition>
+      transactionJsonContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 1,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+          QAfterFilterCondition>
+      transactionJsonMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 1,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionJsonIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 1,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionJsonIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 1,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionDateEqualTo(
+    DateTime value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 2,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionDateGreaterThan(
+    DateTime value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 2,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionDateGreaterThanOrEqualTo(
+    DateTime value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 2,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionDateLessThan(
+    DateTime value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 2,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionDateLessThanOrEqualTo(
+    DateTime value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 2,
+          value: value,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> transactionDateBetween(
+    DateTime lower,
+    DateTime upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 2,
+          lower: lower,
+          upper: upper,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> taskIdEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> taskIdGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> taskIdGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> taskIdLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> taskIdLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> taskIdBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 3,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> taskIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> taskIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+          QAfterFilterCondition>
+      taskIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 3,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+          QAfterFilterCondition>
+      taskIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 3,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> taskIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 3,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> taskIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 3,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> typeEqualTo(
+    TransactionType value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 4,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> typeGreaterThan(
+    TransactionType value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 4,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> typeGreaterThanOrEqualTo(
+    TransactionType value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 4,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> typeLessThan(
+    TransactionType value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 4,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> typeLessThanOrEqualTo(
+    TransactionType value,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 4,
+          value: value.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> typeBetween(
+    TransactionType lower,
+    TransactionType upper,
+  ) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 4,
+          lower: lower.index,
+          upper: upper.index,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> idEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> idGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> idGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> idLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> idLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> idBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 5,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> idStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> idEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+          QAfterFilterCondition>
+      idContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 5,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+          QAfterFilterCondition>
+      idMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 5,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> idIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 5,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> idIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 5,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> isarIdEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EqualCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> isarIdGreaterThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> isarIdGreaterThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        GreaterOrEqualCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> isarIdLessThan(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> isarIdLessThanOrEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        LessOrEqualCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> isarIdBetween(
+    String lower,
+    String upper, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        BetweenCondition(
+          property: 6,
+          lower: lower,
+          upper: upper,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> isarIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        StartsWithCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> isarIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        EndsWithCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+          QAfterFilterCondition>
+      isarIdContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        ContainsCondition(
+          property: 6,
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+          QAfterFilterCondition>
+      isarIdMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        MatchesCondition(
+          property: 6,
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> isarIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const EqualCondition(
+          property: 6,
+          value: '',
+        ),
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterFilterCondition> isarIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(
+        const GreaterCondition(
+          property: 6,
+          value: '',
+        ),
+      );
+    });
+  }
+}
+
+extension TransactionIsarCollectionQueryObject on QueryBuilder<
+    TransactionIsarCollection, TransactionIsarCollection, QFilterCondition> {}
+
+extension TransactionIsarCollectionQuerySortBy on QueryBuilder<
+    TransactionIsarCollection, TransactionIsarCollection, QSortBy> {
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByTransactionJson({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        1,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByTransactionJsonDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        1,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByTransactionDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(2);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByTransactionDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(2, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByTaskId({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        3,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByTaskIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        3,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(4);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(4, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortById({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        5,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        5,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByIsarId({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        6,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> sortByIsarIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(
+        6,
+        sort: Sort.desc,
+        caseSensitive: caseSensitive,
+      );
+    });
+  }
+}
+
+extension TransactionIsarCollectionQuerySortThenBy on QueryBuilder<
+    TransactionIsarCollection, TransactionIsarCollection, QSortThenBy> {
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByTransactionJson({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(1, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByTransactionJsonDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(1, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByTransactionDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(2);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByTransactionDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(2, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByTaskId({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByTaskIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(3, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(4);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(4, sort: Sort.desc);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenById({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(5, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByIsarId({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterSortBy> thenByIsarIdDesc({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(6, sort: Sort.desc, caseSensitive: caseSensitive);
+    });
+  }
+}
+
+extension TransactionIsarCollectionQueryWhereDistinct on QueryBuilder<
+    TransactionIsarCollection, TransactionIsarCollection, QDistinct> {
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterDistinct> distinctByTransactionJson({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(1, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterDistinct> distinctByTransactionDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(2);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterDistinct> distinctByTaskId({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(3, caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterDistinct> distinctByType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(4);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionIsarCollection,
+      QAfterDistinct> distinctById({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(5, caseSensitive: caseSensitive);
+    });
+  }
+}
+
+extension TransactionIsarCollectionQueryProperty1 on QueryBuilder<
+    TransactionIsarCollection, TransactionIsarCollection, QProperty> {
+  QueryBuilder<TransactionIsarCollection, String, QAfterProperty>
+      transactionJsonProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, DateTime, QAfterProperty>
+      transactionDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, String, QAfterProperty>
+      taskIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, TransactionType, QAfterProperty>
+      typeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, String, QAfterProperty> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, String, QAfterProperty>
+      isarIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(6);
+    });
+  }
+}
+
+extension TransactionIsarCollectionQueryProperty2<R>
+    on QueryBuilder<TransactionIsarCollection, R, QAfterProperty> {
+  QueryBuilder<TransactionIsarCollection, (R, String), QAfterProperty>
+      transactionJsonProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, (R, DateTime), QAfterProperty>
+      transactionDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, (R, String), QAfterProperty>
+      taskIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, (R, TransactionType), QAfterProperty>
+      typeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, (R, String), QAfterProperty>
+      idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, (R, String), QAfterProperty>
+      isarIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(6);
+    });
+  }
+}
+
+extension TransactionIsarCollectionQueryProperty3<R1, R2>
+    on QueryBuilder<TransactionIsarCollection, (R1, R2), QAfterProperty> {
+  QueryBuilder<TransactionIsarCollection, (R1, R2, String), QOperations>
+      transactionJsonProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(1);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, (R1, R2, DateTime), QOperations>
+      transactionDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(2);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, (R1, R2, String), QOperations>
+      taskIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(3);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, (R1, R2, TransactionType),
+      QOperations> typeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(4);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, (R1, R2, String), QOperations>
+      idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(5);
+    });
+  }
+
+  QueryBuilder<TransactionIsarCollection, (R1, R2, String), QOperations>
+      isarIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addProperty(6);
+    });
+  }
+}

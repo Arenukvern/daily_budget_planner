@@ -2,4 +2,8 @@ export 'app_settings_local_api.dart';
 export 'budget_local_api.dart';
 export 'dictionaries_local_api.dart';
 export 'fin_settings_local_api.dart';
+export 'isar/isar.dart';
+export 'local_api.dart';
+export 'local_api_exceptions.dart';
+export 'transactions_local_api.dart';
 export 'user_local_api.dart';

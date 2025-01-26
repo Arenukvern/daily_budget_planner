@@ -1,11 +1,16 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:isar/isar.dart';
+import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/data_models/data_models.dart';
 import 'package:path_provider/path_provider.dart';
 
 part 'isar.g.dart';
 part 'isar_budget.dart';
 part 'isar_expense.dart';
+part 'isar_scheduled_transaction.dart';
+part 'isar_transaction.dart';
 
 const _isarDbVersion = 'isar_4';
 
@@ -30,6 +35,8 @@ final class IsarDb extends ComplexLocalDb {
     _db ??= Isar.open(
       schemas: [
         BudgetIsarCollectionSchema,
+        TransactionIsarCollectionSchema,
+        IsarScheduledTransactionCollectionSchema,
       ],
       name: _isarDbVersion,
       directory: dir.path,
@@ -38,6 +45,9 @@ final class IsarDb extends ComplexLocalDb {
 
   IsarCollection<String, BudgetIsarCollection> get budgets =>
       db.budgetIsarCollections;
+
+  IsarCollection<String, TransactionIsarCollection> get transactions =>
+      db.transactionIsarCollections;
 
   @override
   Future<void> close() async {
