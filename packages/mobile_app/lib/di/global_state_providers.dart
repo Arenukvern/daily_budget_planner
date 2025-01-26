@@ -1,6 +1,6 @@
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/ui_home/monthly/monthly_cubit.dart';
-import 'package:mobile_app/ui_home/weekly/weekly_cubit.dart';
+import 'package:mobile_app/ui_home/monthly/monthly_notifier.dart';
+import 'package:mobile_app/ui_home/weekly/weekly_notifier.dart';
 
 class GlobalStateProviders extends StatelessWidget {
   const GlobalStateProviders({required this.builder, super.key});
@@ -21,8 +21,8 @@ class GlobalStateProviders extends StatelessWidget {
         ChangeNotifierProvider<AppSettingsNotifier>.value(value: g()),
         ChangeNotifierProvider<FinSettingsNotifier>.value(value: g()),
         ChangeNotifierProvider<SubscriptionManager>.value(value: g()),
-        ChangeNotifierProvider<WeeklyCubit>.value(value: g()),
-        ChangeNotifierProvider<MonthlyCubit>.value(value: g()),
+        ChangeNotifierProvider<WeeklyNotifier>.value(value: g()),
+        ChangeNotifierProvider<MonthlyNotifier>.value(value: g()),
         ChangeNotifierProvider<MonetizationStatusNotifier>.value(value: g()),
         Provider<AnalyticsManager>.value(value: g()),
         Provider<AnalyticsService>.value(value: g()),

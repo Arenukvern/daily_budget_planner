@@ -1,6 +1,6 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_home/hooks/use_tab_controller_listener.dart';
-import 'package:mobile_app/ui_home/monthly/monthly_cubit.dart';
+import 'package:mobile_app/ui_home/monthly/monthly_notifier.dart';
 import 'package:mobile_app/ui_home/widgets/widgets.dart';
 
 class MonthlyView extends StatefulHookWidget {
@@ -17,14 +17,14 @@ class _MonthlyViewState extends State<MonthlyView>
   }
 
   void _requestSavingsFocus() {
-    final monthlyCubit = context.read<MonthlyCubit>();
+    final monthlyCubit = context.read<MonthlyNotifier>();
     unawaited(SoftKeyboard.open());
     monthlyCubit.savingsFocusNode.requestFocus();
   }
 
   void _requestAmountFocusByIndex(final int index) {
     if (index != 0) return;
-    final monthlyCubit = context.read<MonthlyCubit>();
+    final monthlyCubit = context.read<MonthlyNotifier>();
     unawaited(SoftKeyboard.open());
     monthlyCubit.amountFocusNode.requestFocus();
   }
@@ -32,7 +32,7 @@ class _MonthlyViewState extends State<MonthlyView>
   @override
   Widget build(final BuildContext context) {
     super.build(context);
-    final monthlyCubit = context.watch<MonthlyCubit>();
+    final monthlyCubit = context.watch<MonthlyNotifier>();
     final locale = useLocale(context);
     useTabControllerListenerState(
       onTabChanged: _requestAmountFocusByIndex,
@@ -49,7 +49,7 @@ class _MonthlyViewState extends State<MonthlyView>
 
   Widget _buildLandscapeLayout(
     final BuildContext context,
-    final MonthlyCubit monthlyCubit,
+    final MonthlyNotifier monthlyCubit,
     final Locale locale,
   ) =>
       ListView(
@@ -83,7 +83,7 @@ class _MonthlyViewState extends State<MonthlyView>
 
   Widget _buildMobileLayout(
     final BuildContext context,
-    final MonthlyCubit monthlyCubit,
+    final MonthlyNotifier monthlyCubit,
     final Locale locale,
   ) =>
       ListView(
@@ -98,7 +98,7 @@ class _MonthlyViewState extends State<MonthlyView>
 
   Widget _buildInputSection(
     final BuildContext context,
-    final MonthlyCubit monthlyCubit,
+    final MonthlyNotifier monthlyCubit,
     final Locale locale,
   ) =>
       Column(
@@ -251,7 +251,7 @@ class _MonthlyViewState extends State<MonthlyView>
 
   Widget _buildResultsSection(
     final BuildContext context,
-    final MonthlyCubit monthlyCubit,
+    final MonthlyNotifier monthlyCubit,
     final Locale locale,
   ) =>
       Column(

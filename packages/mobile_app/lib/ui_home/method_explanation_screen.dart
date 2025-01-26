@@ -3,7 +3,7 @@
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_home/hooks/use_monetization_type.dart';
-import 'package:mobile_app/ui_home/monthly/monthly_cubit.dart';
+import 'package:mobile_app/ui_home/monthly/monthly_notifier.dart';
 
 /// A localized map for money prefix symbols based on language.
 final kMoneyPrefix = LocalizedMap(
@@ -33,7 +33,7 @@ class MethodExplanationScreen extends HookWidget {
     final expenses = useState<double?>(null);
     final nextSalaryDate = useState<DateTime?>(null);
     final dailyBudget = useState<double?>(null);
-    final monthlyCubit = context.read<MonthlyCubit>();
+    final monthlyCubit = context.read<MonthlyNotifier>();
 
     void calculateDailyBudget() {
       if (currentBalance.value != null &&

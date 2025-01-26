@@ -27,17 +27,20 @@ class _PreloadingScreenState extends State<PreloadingScreen> {
 }
 
 class GlobalStateInitializer
-    with HasLocalApis, HasStates, HasAnalytics
+    with HasLocalApis, HasStates, HasAnalytics, HasComplexLocalDbs
     implements StateInitializer, Disposable {
   @override
   Future<void> onLoad(final BuildContext context) async {
-    await localDb.init();
+    await Future.wait([
+      localDb.init(),
+      isarDb.open(),
+    ]);
     // FlutterNativeSplash.remove();
     await Future.wait([
       userNotifier.loadProfile(),
       appSettingsNotifier.onLoad(),
     ]);
-    final guideVisibility = GuideVisibility();
+    const guideVisibility = GuideVisibility();
     final hasSeenGuide = await guideVisibility.hasSeenGuide;
 
     WidgetsBinding.instance.addPostFrameCallback((final timeStamp) async {
@@ -63,6 +66,7 @@ class GlobalStateInitializer
   void dispose() {}
 }
 
+@immutable
 class GuideVisibility with HasLocalApis {
   const GuideVisibility();
   static const _key = 'has_seen_guide';

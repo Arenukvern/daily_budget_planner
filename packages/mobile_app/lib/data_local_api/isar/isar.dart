@@ -3,13 +3,13 @@ import 'dart:io';
 
 import 'package:isar/isar.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_models/data_models.dart';
 import 'package:path_provider/path_provider.dart';
 
 part 'isar.g.dart';
 part 'isar_budget.dart';
 part 'isar_expense.dart';
 part 'isar_scheduled_transaction.dart';
+part 'isar_task.dart';
 part 'isar_transaction.dart';
 
 const _isarDbVersion = 'isar_4';
@@ -37,6 +37,7 @@ final class IsarDb extends ComplexLocalDb {
         BudgetIsarCollectionSchema,
         TransactionIsarCollectionSchema,
         IsarScheduledTransactionCollectionSchema,
+        TaskIsarCollectionSchema,
       ],
       name: _isarDbVersion,
       directory: dir.path,
@@ -48,6 +49,9 @@ final class IsarDb extends ComplexLocalDb {
 
   IsarCollection<String, TransactionIsarCollection> get transactions =>
       db.transactionIsarCollections;
+
+  IsarCollection<String, TaskIsarCollection> get tasks =>
+      db.taskIsarCollections;
 
   @override
   Future<void> close() async {
@@ -62,4 +66,5 @@ mixin IsarIdMixin {
   String id = '';
   @Id()
   String get isarId => id;
+  set isarId(final String value) => id = value;
 }

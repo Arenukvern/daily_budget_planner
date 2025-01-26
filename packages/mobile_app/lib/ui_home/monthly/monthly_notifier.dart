@@ -1,8 +1,9 @@
 import 'package:mobile_app/common_imports.dart';
 
-class MonthlyCubit extends ValueNotifier<LoadableContainer<MonthlyBudgetModel>>
+class MonthlyNotifier
+    extends ValueNotifier<LoadableContainer<MonthlyBudgetModel>>
     with HasLocalApis {
-  MonthlyCubit()
+  MonthlyNotifier()
       : super(const LoadableContainer(value: MonthlyBudgetModel.initial));
   final amountController = TextEditingController();
   final savingsController = TextEditingController();

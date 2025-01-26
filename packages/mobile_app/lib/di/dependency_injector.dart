@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/data_local_api.dart';
-import 'package:mobile_app/ui_home/monthly/monthly_cubit.dart';
-import 'package:mobile_app/ui_home/weekly/weekly_cubit.dart';
+import 'package:mobile_app/data_local_api/tasks_local_api.dart';
+import 'package:mobile_app/ui_home/monthly/monthly_notifier.dart';
+import 'package:mobile_app/ui_home/weekly/weekly_notifier.dart';
 import 'package:mobile_app/ui_paywalls/ui_paywalls.dart';
 
 /// Shortcuts
@@ -29,25 +29,35 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   /// ********************************************
   /// *      API
   /// ********************************************
-  r<AnalyticsManager>(analyticsManager);
-  r<CrashlyticsService>(analyticsManager.crashlyticsService);
-  r<AnalyticsService>(analyticsManager.analyticsService);
+  r<AnalyticsManager>(analyticsManager, dispose: (final i) => i.dispose());
+  r<CrashlyticsService>(
+    analyticsManager.crashlyticsService,
+    dispose: (final i) => i.dispose(),
+  );
+  r<AnalyticsService>(
+    analyticsManager.analyticsService,
+    dispose: (final i) => i.dispose(),
+  );
   final localDb = PrefsDb();
+  final isarDb = IsarDb();
   r<LocalDbI>(localDb);
-  r<IsarDb>(IsarDb());
+  r<IsarDb>(isarDb, dispose: (final i) => i.close());
   rl(UserLocalApi.new);
   rl(AppSettingsLocalApi.new);
   rl(BudgetLocalApi.new);
+  rl(DictionariesLocalApi.new);
+  rl(FinSettingsLocalApi.new);
   rl(TransactionsLocalApi.new);
+  rl(TasksLocalApi.new);
 
   /// ********************************************
   /// *      STATES
   /// ********************************************
   final localeNotifier = UiLocaleNotifier(Locales.fallback);
-  r(localeNotifier);
-  rl(AppSettingsNotifier.new);
-  rl(UserNotifier.new);
-  rl(AppStatusNotifier.new);
+  r(localeNotifier, dispose: (final i) => i.dispose());
+  rl(AppSettingsNotifier.new, dispose: (final i) => i.dispose());
+  rl(UserNotifier.new, dispose: (final i) => i.dispose());
+  rl(AppStatusNotifier.new, dispose: (final i) => i.dispose());
   // TODO(arenukvern): create a factory for this
   rl<PurchaseManager>(
     () => switch (Envs.storeTarget) {
@@ -66,25 +76,28 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
       _ => NoopPurchaseManager(),
     },
   );
-  rl(UiPredictionNotifier.new);
-  rl(() => MonetizationStatusNotifier(Envs.monetizationType));
-  rl(DictionariesLocalApi.new);
-  rl(DictionariesNotifier.new);
-  rl(FinSettingsLocalApi.new);
-  rl(FinSettingsNotifier.new);
-  rl(TasksNotifier.new);
+  rl(UiPredictionNotifier.new, dispose: (final i) => i.dispose());
+  rl(
+    () => MonetizationStatusNotifier(Envs.monetizationType),
+    dispose: (final i) => i.dispose(),
+  );
+  rl(DictionariesNotifier.new, dispose: (final i) => i.dispose());
+  rl(FinSettingsNotifier.new, dispose: (final i) => i.dispose());
+  rl(TasksNotifier.new, dispose: (final i) => i.dispose());
   rl(
     () => SubscriptionManager(
       productIds: MonetizationProducts.subscriptions,
       purchaseManager: _g(),
       monetizationTypeNotifier: _g(),
     ),
+    dispose: (final i) => i.dispose(),
   );
   rl(
     () => StoreReviewRequester(
       localDb: localDb,
       getLocale: () => localeNotifier.value,
     ),
+    dispose: (final i) => i.dispose(),
   );
   rl(
     () => PurchaseInitializer(
@@ -92,9 +105,10 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
       purchaseManager: _g(),
       subscriptionManager: _g(),
     ),
+    dispose: (final i) => i.dispose(),
   );
-  rl(WeeklyCubit.new);
-  rl(MonthlyCubit.new);
+  rl(WeeklyNotifier.new, dispose: (final i) => i.dispose());
+  rl(MonthlyNotifier.new, dispose: (final i) => i.dispose());
 }
 
 mixin HasLocalApis {
@@ -105,6 +119,7 @@ mixin HasLocalApis {
   BudgetLocalApi get budgetLocalApi => _g();
   DictionariesLocalApi get dictionariesLocalApi => _g();
   TransactionsLocalApi get transactionsLocalApi => _g();
+  TasksLocalApi get tasksLocalApi => _g();
 }
 
 mixin HasStates {
@@ -114,8 +129,8 @@ mixin HasStates {
   AppSettingsNotifier get appSettingsNotifier => _g();
   PurchaseInitializer get purchaseIntializer => _g();
   SubscriptionManager get subscriptionManager => _g();
-  WeeklyCubit get weeklyCubit => _g();
-  MonthlyCubit get monthlyCubit => _g();
+  WeeklyNotifier get weeklyCubit => _g();
+  MonthlyNotifier get monthlyCubit => _g();
   StoreReviewRequester get storeReviewRequester => _g();
   DictionariesNotifier get dictionariesNotifier => _g();
   TasksNotifier get tasksNotifier => _g();
@@ -128,6 +143,6 @@ mixin HasAnalytics {
   CrashlyticsService get crashlyticsService => _g();
 }
 
-mixin HasComplexLocalDb {
+mixin HasComplexLocalDbs {
   IsarDb get isarDb => _g();
 }

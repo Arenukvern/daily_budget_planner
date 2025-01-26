@@ -1,6 +1,6 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_home/hooks/use_tab_controller_listener.dart';
-import 'package:mobile_app/ui_home/weekly/weekly_cubit.dart';
+import 'package:mobile_app/ui_home/weekly/weekly_notifier.dart';
 import 'package:mobile_app/ui_home/widgets/copy_button.dart';
 
 class WeeklyView extends StatefulHookWidget {
@@ -18,7 +18,7 @@ class _WeeklyViewState extends State<WeeklyView>
 
   void _requestAmountFocusByIndex(final int index) {
     if (index != 1) return;
-    final monthlyCubit = context.read<WeeklyCubit>();
+    final monthlyCubit = context.read<WeeklyNotifier>();
     unawaited(SoftKeyboard.open());
     monthlyCubit.amountFocusNode.requestFocus();
   }
@@ -26,7 +26,7 @@ class _WeeklyViewState extends State<WeeklyView>
   @override
   Widget build(final BuildContext context) {
     super.build(context);
-    final weeklyCubit = context.watch<WeeklyCubit>();
+    final weeklyCubit = context.watch<WeeklyNotifier>();
     useTabControllerListenerState(
       onTabChanged: _requestAmountFocusByIndex,
     );
