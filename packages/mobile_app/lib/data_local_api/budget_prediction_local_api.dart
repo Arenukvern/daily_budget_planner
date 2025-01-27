@@ -85,10 +85,30 @@ final class BudgetPredictionLocalApi extends ComplexLocalApi {
   /// Retrieves all tasks
   ///
   /// Throws [LocalApiException] if the operation fails
-  Future<List<Budget>> getAllBudgets() async {
+  Future<PagingControllerPageModel<Budget>> getBudgetForPeriod({
+    required final DateTime startDate,
+    required final Period period,
+    required final PageLimitRecord pageLimit,
+  }) async {
     try {
-      final models = _budgets.where().findAll();
-      return models.map((final e) => e.toDomain()).toList();
+      final endDate = startDate.addPeriod(period);
+      final query = _budgets
+          .where()
+          .createdAtGreaterThanOrEqualTo(startDate)
+          .createdAtLessThanOrEqualTo(endDate);
+
+      final itemsCount = query.count();
+      final pagesCount = (itemsCount / pageLimit.limit).ceil();
+      final items = query.findAll(
+        offset: pageLimit.page * pageLimit.limit,
+        limit: pageLimit.limit,
+      );
+
+      return PagingControllerPageModel(
+        values: items.map((final e) => e.toDomain()).toList(),
+        currentPage: pageLimit.page,
+        pagesCount: pagesCount,
+      );
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to get all budgets',

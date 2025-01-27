@@ -53,7 +53,14 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl(TasksLocalApi.new);
 
   /// ********************************************
-  /// *      STATES
+  /// *      DISTRIBUTORS
+  /// ********************************************
+  rl(TasksDistributor.new, dispose: (final i) => i.dispose());
+  rl(TransactionsDistributor.new, dispose: (final i) => i.dispose());
+  rl(BudgetsDistributor.new, dispose: (final i) => i.dispose());
+
+  /// ********************************************
+  /// *      Notifiers
   /// ********************************************
   final localeNotifier = UiLocaleNotifier(Locales.fallback);
   r(localeNotifier, dispose: (final i) => i.dispose());
@@ -61,6 +68,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl(UserNotifier.new, dispose: (final i) => i.dispose());
   rl(AppStatusNotifier.new, dispose: (final i) => i.dispose());
   // TODO(arenukvern): create a factory for this
+  /// possible conflicts with purchase managers
   rl<PurchaseManager>(
     () => switch (Envs.storeTarget) {
       InstallPlatformTarget.rustore => FlutterRustoreBillingManager(
@@ -85,8 +93,6 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   );
   rl(DictionariesNotifier.new, dispose: (final i) => i.dispose());
   rl(FinSettingsNotifier.new, dispose: (final i) => i.dispose());
-  rl(TasksDistributor.new, dispose: (final i) => i.dispose());
-  rl(TransactionsDistributor.new, dispose: (final i) => i.dispose());
   rl(TasksNotifier.new, dispose: (final i) => i.dispose());
   rl(
     () => SubscriptionManager(
@@ -136,6 +142,7 @@ mixin HasLocalApis {
 mixin HasDistributors {
   TasksDistributor get tasksDistributor => _g();
   TransactionsDistributor get transactionsDistributor => _g();
+  BudgetsDistributor get budgetsDistributor => _g();
 }
 
 /// These states should not be used in each other,

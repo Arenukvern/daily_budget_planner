@@ -1,11 +1,6 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 
-typedef UiTaskState = ({Task task, int index});
-
-ValueNotifier<UiTaskState> useUiTaskState(final Task initialTask) =>
-    useState((task: initialTask, index: 0));
-
 Future<void> showExpensesTasksView({
   required final BuildContext context,
 }) async =>
@@ -71,7 +66,7 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
-    final tasks = context.select<TasksNotifier, List<Task>>(
+    final tasks = context.select<TasksDistributor, List<Task>>(
       (final c) => c.getTasks(_taskTransactionType),
     );
     final task = tasks[_taskIndex ?? 0];

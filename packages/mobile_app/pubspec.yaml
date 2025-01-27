@@ -79,7 +79,7 @@ dependencies:
   url_launcher: ^6.3.0
   uuid: ^4.5.1
   xsoulspace_analytics:
-  xsoulspace_foundation: ^0.0.7
+  xsoulspace_foundation: ^0.0.9
   xsoulspace_monetization:
   xsoulspace_review: ^0.1.0
 

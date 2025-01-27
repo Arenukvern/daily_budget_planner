@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_app/common_imports.dart';
 
-part 'prediction_notifier.freezed.dart';
+part 'ui_prediction_notifier.freezed.dart';
 
 /// balance = expenses + income
 /// for example:
@@ -35,11 +35,12 @@ class UiPredictionState with _$UiPredictionState {
     @Default(0) final double dailyBudget,
     @Default(Envs.isAmountsTaxFree) final bool isTaxFree,
     @Default(false) final bool countWithTransfers,
+    @Default(TaskType.personal) final TaskType taskType,
   }) = _UiPredictionState;
 }
 
 class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
-    with HasLocalApis, HasStates {
+    with HasLocalApis, HasStates, HasDistributors {
   UiPredictionNotifier()
       : super(UiPredictionState(selectedDate: DateTime.now()));
   final timelineNotifier = UiTimelineNotifier(
@@ -82,13 +83,9 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
   // TODO(arenukvern): make dependent from period
   double getExpensePredictionFor(final DateTime date) => 0;
 
-  Budget get recentBudget => value.budgets.firstOrNull ?? Budget.empty;
-
   Future<void> removeBudget(final BudgetId budgetId) async {
-    final newBudgets =
-        value.budgets.where((final b) => b.id != budgetId).toList();
-    value = value.copyWith(budgets: newBudgets);
     await budgetPredictionLocalApi.deleteBudget(budgetId);
+    budgetsDistributor.deleteBudget(budgetId);
   }
 
   Future<void> upsertBudget(

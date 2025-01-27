@@ -1,6 +1,5 @@
 import 'package:isar/isar.dart';
-import 'package:mobile_app/data_local_api/data_local_api.dart';
-import 'package:mobile_app/data_models/data_models.dart';
+import 'package:mobile_app/common_imports.dart';
 
 /// {@template transactions_local_api}
 /// Local storage implementation for managing transactions using Isar database.
@@ -116,9 +115,13 @@ final class TransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  /// Use this query to get transactions with [TaskId]
+  /// To get all transactions without [TaskId], use [getAllTransactions]
+  ///
   /// Throws [LocalApiException] if the operation fails
   Future<List<Transaction>> getTransactionsByTaskId(final TaskId taskId) async {
     try {
+      assert(taskId.value.isNotEmpty, 'TaskId cannot be empty');
       final models =
           _transactions.where().taskIdEqualTo(taskId.value).findAll();
       return models.map((final e) => e.toDomain()).toList();
@@ -131,15 +134,32 @@ final class TransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  /// Use this query to get transactions without [TaskId]
+  /// For those, use [getTransactionsByTaskId]
   /// Throws [LocalApiException] if the operation fails
-  Future<List<Transaction>> getTransactionsByDateRange({
+  Future<PagingControllerPageModel<Transaction>> getTransactionsByDateRange({
     required final DateTime start,
-    required final DateTime end,
+    required final Period period,
+    required final PageLimitRecord pageLimit,
   }) async {
     try {
-      final models =
-          _transactions.where().transactionDateBetween(start, end).findAll();
-      return models.map((final e) => e.toDomain()).toList();
+      final end = start.addPeriod(period);
+      final query = _transactions
+          .where()
+          .taskIdIsEmpty()
+          .transactionDateGreaterThanOrEqualTo(start)
+          .transactionDateLessThanOrEqualTo(end);
+      final itemsCount = query.count();
+      final pagesCount = (itemsCount / pageLimit.limit).ceil();
+      final models = query.findAll(
+        offset: pageLimit.page * pageLimit.limit,
+        limit: pageLimit.limit,
+      );
+      return PagingControllerPageModel(
+        values: models.map((final e) => e.toDomain()).toList(),
+        currentPage: pageLimit.page,
+        pagesCount: pagesCount,
+      );
     } catch (e, s) {
       throw LocalApiException(
         message: 'Failed to get transactions by date range',

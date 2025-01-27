@@ -1,5 +1,7 @@
 import 'package:mobile_app/common_imports.dart';
 
+const _kAmountsTaxFree = false;
+
 class ExpensesPredictionService {
   double calculateAverageDailyBudget(
     final List<Budget> budgets,
@@ -9,7 +11,7 @@ class ExpensesPredictionService {
     final double totalBudget = budgets.fold(
       0,
       (final sum, final budget) =>
-          sum + budget.input.amount(taxFree: kAmountsTaxFree),
+          sum + budget.input.amount(taxFree: _kAmountsTaxFree),
     );
     final days = period.inDays;
     return totalBudget / days;
@@ -23,7 +25,7 @@ class ExpensesPredictionService {
     final double totalExpense = expenses.fold(
       0,
       (final sum, final expense) =>
-          sum + expense.input.amount(taxFree: kAmountsTaxFree),
+          sum + expense.input.amount(taxFree: _kAmountsTaxFree),
     );
     final days = period.inDays;
     return totalExpense / days;
@@ -41,7 +43,7 @@ class ExpensesPredictionService {
     );
     return _calculateTrend(
       recentBudgets
-          .map((final b) => b.input.amount(taxFree: kAmountsTaxFree))
+          .map((final b) => b.input.amount(taxFree: _kAmountsTaxFree))
           .toList(),
     );
   }
@@ -58,7 +60,7 @@ class ExpensesPredictionService {
     );
     return _calculateTrend(
       recentExpenses
-          .map((final e) => e.input.amount(taxFree: kAmountsTaxFree))
+          .map((final e) => e.input.amount(taxFree: _kAmountsTaxFree))
           .toList(),
     );
   }

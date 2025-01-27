@@ -15,6 +15,30 @@ class BudgetsDistributor with ChangeNotifier {
   BudgetsDistributor();
 
   var _budgets = <_BudgetRequestKey, List<Budget>>{}.unmodifiable;
+  var _recentBudget = Budget.empty;
+
+  Budget get recentBudget => _recentBudget;
+  void setRecentBudget(final Budget budget) {
+    _recentBudget = budget;
+    notifyListeners();
+  }
+
+  void deleteBudget(final BudgetId budgetId) {
+    final updatedBudgetRequests = <_BudgetRequestKey, List<Budget>>{};
+    for (final MapEntry(:key, value: budgets) in _budgets.entries) {
+      final updatedBudgets = <Budget>[];
+      for (final budget in budgets) {
+        if (budget.id != budgetId) {
+          updatedBudgets.add(budget);
+        }
+      }
+      if (updatedBudgets.isNotEmpty) {
+        updatedBudgetRequests.addAll({key: updatedBudgets});
+      }
+    }
+    _budgets = updatedBudgetRequests.unmodifiable;
+    notifyListeners();
+  }
 
   void onLoad({
     required final DateTime startDate,

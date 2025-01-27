@@ -191,7 +191,7 @@ class UiTaskView extends StatelessWidget with HasStates {
       (final c) => c.getTransactionsByTask(task),
     );
     Future<void> onRemove(final Transaction transaction) async =>
-        tasksNotifier.removeTransaction(transaction, task);
+        tasksNotifier.removeTransaction(transaction: transaction, task: task);
     return CupertinoListSection(
       backgroundColor: Colors.transparent,
       header: Column(
