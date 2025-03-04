@@ -6,7 +6,7 @@ typedef UiTransactionsSchedulesRecord = ({
 });
 
 class TasksNotifier extends ChangeNotifier
-    with HasLocalApis, HasStates, HasDistributors {
+    with HasLocalApis, HasNotifiers, HasDistributors {
   // TODO(arenukvern): cache somewere else
   DateTime? _lastUpdatedTransactionDate;
   DateTime? get lastUpdatedTransactionDate => _lastUpdatedTransactionDate;
@@ -53,7 +53,7 @@ class TasksNotifier extends ChangeNotifier
     );
     final transactions =
         await transactionsLocalApi.getTransactionsByTaskId(task.id);
-    transactionsDistributor.loadTransactionsForTask(
+    tasksTransactionsDistributor.loadTransactionsForTask(
       task: task,
       scheduledTransactions: scheduledTransactions,
       transactions: transactions,
@@ -67,7 +67,7 @@ class TasksNotifier extends ChangeNotifier
     await scheduledTransactionsLocalApi
         .deleteScheduledTransaction(transaction.id);
     await transactionsLocalApi.deleteTransaction(transaction.id);
-    transactionsDistributor.removeTransaction(
+    tasksTransactionsDistributor.removeTransaction(
       transaction: transaction,
       task: task,
     );
@@ -99,7 +99,7 @@ class TasksNotifier extends ChangeNotifier
       taskId: task.id,
     );
     lastUpdatedTransactionDate = updatedTransaction.transactionDate;
-    transactionsDistributor.upsertTransaction(
+    tasksTransactionsDistributor.upsertTransaction(
       transaction: updatedTransaction,
       scheduledTransaction: updatedScheduledTransaction,
       task: task,

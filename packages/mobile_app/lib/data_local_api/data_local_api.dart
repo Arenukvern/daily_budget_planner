@@ -1,11 +1,11 @@
 export 'abstract/complex_local_api.dart';
 export 'abstract/local_api_exceptions.dart';
 export 'app_settings_local_api.dart';
-export 'budget_prediction_local_api.dart';
 export 'budget_simple_local_api.dart';
 export 'dictionaries_local_api.dart';
 export 'fin_settings_local_api.dart';
 export 'isar/isar.dart';
+export 'manual_budgets_local_api.dart';
 export 'scheduled_transactions_local_api.dart';
 export 'transactions_local_api.dart';
 export 'user_local_api.dart';

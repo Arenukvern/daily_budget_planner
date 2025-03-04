@@ -5,6 +5,6 @@ export 'dictionaries_notifier.dart';
 export 'fin_settings_notifier.dart';
 export 'tasks_distributor.dart';
 export 'tasks_notifier.dart';
-export 'transactions_notifier.dart';
+export 'tasks_transactions_notifier.dart';
 export 'ui_prediction_notifier.dart';
 export 'user_notifier.dart';

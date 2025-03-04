@@ -176,7 +176,7 @@ class UiTaskVerticalActionsBar extends StatelessWidget {
       );
 }
 
-class UiTaskView extends StatelessWidget with HasStates {
+class UiTaskView extends StatelessWidget with HasNotifiers {
   const UiTaskView({
     required this.currencyType,
     required this.task,
@@ -186,9 +186,9 @@ class UiTaskView extends StatelessWidget with HasStates {
   final Task task;
   @override
   Widget build(final BuildContext context) {
-    final (:transactions, :scheduledTransactions) =
-        context.select<TasksNotifier, UiTransactionsSchedulesRecord>(
-      (final c) => c.getTransactionsByTask(task),
+    final (:transactions, :scheduledTransactions) = context
+        .select<TasksTransactionsDistributor, UiTransactionsSchedulesRecord>(
+      (final c) => c.getTransactionsByTaskId(task.id),
     );
     Future<void> onRemove(final Transaction transaction) async =>
         tasksNotifier.removeTransaction(transaction: transaction, task: task);
@@ -271,29 +271,34 @@ class _UiTransactionCard extends StatelessWidget {
   final ValueChanged<Transaction> onRemove;
 
   @override
-  Widget build(final BuildContext context) => CupertinoListTile(
-        leading: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            '${transaction.input.amount(taxFree: kAmountsTaxFree).toStringAsFixed(2)} '
-            // TODO(arenukvern): show only currency different from default
-            '${transaction.input.currencyId.toJson()}',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
+  Widget build(final BuildContext context) {
+    final isTaxFree = context.select<UiPredictionNotifier, bool>(
+      (final c) => c.value.isTaxFree,
+    );
+    return CupertinoListTile(
+      leading: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          '${transaction.input.amount(taxFree: isTaxFree).toStringAsFixed(2)} '
+          // TODO(arenukvern): show only currency different from default
+          '${transaction.input.currencyId.toJson()}',
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        title: Text(transaction.description),
-        leadingSize: 48,
-        additionalInfo: Text(
-          DateFormat('yyyy-MM-dd').format(transaction.transactionDate),
-          style: context.textTheme.bodySmall,
+      ),
+      title: Text(transaction.description),
+      leadingSize: 48,
+      additionalInfo: Text(
+        DateFormat('yyyy-MM-dd').format(transaction.transactionDate),
+        style: context.textTheme.bodySmall,
+      ),
+      trailing: UiBaseButton(
+        onPressed: () => onRemove(transaction),
+        builder: (final context, final focused, final onlyFocused) => Icon(
+          Icons.remove,
+          color:
+              focused ? null : context.colorScheme.onSurface.withOpacity(0.5),
         ),
-        trailing: UiBaseButton(
-          onPressed: () => onRemove(transaction),
-          builder: (final context, final focused, final onlyFocused) => Icon(
-            Icons.remove,
-            color:
-                focused ? null : context.colorScheme.onSurface.withOpacity(0.5),
-          ),
-        ),
-      );
+      ),
+    );
+  }
 }

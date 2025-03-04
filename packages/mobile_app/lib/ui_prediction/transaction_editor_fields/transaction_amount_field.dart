@@ -1,7 +1,7 @@
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobile_app/common_imports.dart';
 
-class TransactionAmountField extends StatelessWidget with HasStates {
+class TransactionAmountField extends StatelessWidget with HasNotifiers {
   const TransactionAmountField({
     required this.controller,
     required this.currencyType,

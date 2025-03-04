@@ -41,7 +41,7 @@ class UiGeneralTasksView extends StatefulWidget {
 }
 
 class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
-    with HasStates {
+    with HasNotifiers {
   int? _taskIndex;
   TaskTransactionType _taskTransactionType = TaskTransactionType.income;
   late final CurrencyType _currencyType = widget.currencyType;
@@ -70,6 +70,13 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
       (final c) => c.getTasks(_taskTransactionType),
     );
     final task = tasks[_taskIndex ?? 0];
+    final (:startDate, :period) = context
+        .select<UiPredictionNotifier, ({DateTime startDate, Period period})>(
+      (final c) => (
+        startDate: c.value.selectedDate,
+        period: c.value.period,
+      ),
+    );
 
     return UiColumnScaffold(
       appBar: UiAppBar(
@@ -116,7 +123,16 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
                 child: UiTasksBarView(
                   taskTransactionType: _taskTransactionType,
                   tasks: tasks,
-                  onSelect: (final value) => setState(() => _taskIndex = value),
+                  onSelect: (final value) async {
+                    setState(() => _taskIndex = value);
+                    unawaited(
+                      tasksNotifier.loadTransactionsForTask(
+                        task: task,
+                        startDate: startDate,
+                        period: period,
+                      ),
+                    );
+                  },
                 ),
               ),
               UiTaskVerticalActionsBar(

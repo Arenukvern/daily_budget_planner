@@ -1,7 +1,7 @@
 import 'package:flutter/scheduler.dart';
 import 'package:mobile_app/common_imports.dart';
 
-class CurrencyAutoCompleter extends HookWidget with HasStates {
+class CurrencyAutoCompleter extends HookWidget with HasNotifiers {
   const CurrencyAutoCompleter({
     required this.onSelected,
     required this.type,
@@ -38,7 +38,7 @@ class CurrencyAutoCompleter extends HookWidget with HasStates {
   }
 }
 
-class _CurrencyAutocompleter extends HookWidget with HasStates {
+class _CurrencyAutocompleter extends HookWidget with HasNotifiers {
   const _CurrencyAutocompleter({
     required this.options,
     required this.isLoading,

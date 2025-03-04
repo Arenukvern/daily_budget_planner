@@ -46,7 +46,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl(UserLocalApi.new);
   rl(AppSettingsLocalApi.new);
   rl(SimpleBudgetLocalApi.new);
-  rl(BudgetPredictionLocalApi.new);
+  rl(ManualBudgetsLocalApi.new);
   rl(DictionariesLocalApi.new);
   rl(FinSettingsLocalApi.new);
   rl(TransactionsLocalApi.new);
@@ -56,7 +56,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   /// *      DISTRIBUTORS
   /// ********************************************
   rl(TasksDistributor.new, dispose: (final i) => i.dispose());
-  rl(TransactionsDistributor.new, dispose: (final i) => i.dispose());
+  rl(TasksTransactionsDistributor.new, dispose: (final i) => i.dispose());
   rl(BudgetsDistributor.new, dispose: (final i) => i.dispose());
 
   /// ********************************************
@@ -128,7 +128,7 @@ mixin HasLocalApis {
   FinSettingsLocalApi get finSettingsLocalApi => _g();
 
   SimpleBudgetLocalApi get simpleBudgetLocalApi => _g();
-  BudgetPredictionLocalApi get budgetPredictionLocalApi => _g();
+  ManualBudgetsLocalApi get manualBudgetsLocalApi => _g();
 
   DictionariesLocalApi get dictionariesLocalApi => _g();
   TransactionsLocalApi get transactionsLocalApi => _g();
@@ -141,7 +141,7 @@ mixin HasLocalApis {
 /// for ui access.
 mixin HasDistributors {
   TasksDistributor get tasksDistributor => _g();
-  TransactionsDistributor get transactionsDistributor => _g();
+  TasksTransactionsDistributor get tasksTransactionsDistributor => _g();
   BudgetsDistributor get budgetsDistributor => _g();
 }
 
@@ -150,7 +150,7 @@ mixin HasDistributors {
 ///
 /// States can and should have business logic, but should minimize
 /// state usage to make ui management more effective.
-mixin HasStates {
+mixin HasNotifiers {
   UserNotifier get userNotifier => _g();
   AppStatusNotifier get appStatusNotifier => _g();
   UiLocaleNotifier get localeNotifier => _g();

@@ -1,7 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_app/common_imports.dart';
 
-class DictionariesNotifier extends ChangeNotifier with HasLocalApis, HasStates {
+class DictionariesNotifier extends ChangeNotifier
+    with HasLocalApis, HasNotifiers {
   DictionariesNotifier();
   bool isLoading = true;
   final fiatCurrencies = <CurrencyId, FiatCurrency>{};

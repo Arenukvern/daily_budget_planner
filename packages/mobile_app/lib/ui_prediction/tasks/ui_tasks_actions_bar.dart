@@ -19,7 +19,7 @@ DateTime useTaskTransactionSelectionDate(final BuildContext context) {
   return lastUpdatedTransactionDate ?? predictionNotifier.value.selectedDate;
 }
 
-class UiTasksActionsBar extends StatelessWidget with HasStates {
+class UiTasksActionsBar extends StatelessWidget with HasNotifiers {
   const UiTasksActionsBar({required this.tuple, super.key});
   final UiTasksActionsBarTuple tuple;
   @override

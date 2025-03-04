@@ -116,7 +116,7 @@ class _PredictionHeader extends StatelessWidget {
                       languages.ru: 'регулярные расходы',
                     },
                   ).getValue(locale),
-                  value: '\$${tasksNotifier.getPlannedIncomeSum(
+                  value: '\$${tasksNotifier.getPlannedExpensesSum(
                         startAt: state.selectedDate,
                         period: period,
                         transactionType: TransactionType.expense,
@@ -133,7 +133,7 @@ class _PredictionHeader extends StatelessWidget {
                       languages.ru: 'регулярные доходы',
                     },
                   ).getValue(locale),
-                  value: '\$${tasksNotifier.getPlannedIncomeSum(
+                  value: '\$${tasksNotifier.getPlannedIncomesSum(
                         startAt: state.selectedDate,
                         period: period,
                         transactionType: TransactionType.income,

@@ -76,7 +76,8 @@ class _TransactionEditor extends StatefulHookWidget {
   State<_TransactionEditor> createState() => _TransactionEditorState();
 }
 
-class _TransactionEditorState extends State<_TransactionEditor> with HasStates {
+class _TransactionEditorState extends State<_TransactionEditor>
+    with HasNotifiers {
   late final _EditingController controller = _EditingController(
     transaction: widget.transaction,
     schedule: widget.schedule,

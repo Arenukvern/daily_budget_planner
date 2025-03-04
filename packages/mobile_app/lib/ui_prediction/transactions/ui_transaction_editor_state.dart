@@ -1,7 +1,7 @@
 part of 'ui_transaction_editor.dart';
 
 class _EditingController extends ValueNotifier<LoadableContainer<Transaction>>
-    with HasStates {
+    with HasNotifiers {
   _EditingController({
     required final Transaction transaction,
     required final TransactionSchedule schedule,

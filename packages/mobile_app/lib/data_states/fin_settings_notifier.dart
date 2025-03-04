@@ -10,7 +10,7 @@ CurrencyId useDefaultCurrencyId(
 
 class FinSettingsNotifier
     extends ValueNotifier<LoadableContainer<FinSettingsModel>>
-    with HasLocalApis, HasStates {
+    with HasLocalApis, HasNotifiers {
   FinSettingsNotifier()
       : super(const LoadableContainer(value: FinSettingsModel.empty));
   CurrencyId getDefaultCurrencyId(final CurrencyType type) => switch (type) {

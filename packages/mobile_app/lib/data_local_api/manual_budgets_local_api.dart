@@ -27,7 +27,7 @@ import 'package:mobile_app/common_imports.dart';
 /// @ai When implementing transaction operations, ensure proper error handling
 /// and maintain data consistency across related collections.
 /// {@endtemplate}
-final class BudgetPredictionLocalApi extends ComplexLocalApi {
+final class ManualBudgetsLocalApi extends ComplexLocalApi {
   IsarCollection<String, BudgetIsarCollection> get _budgets => isarDb.budgets;
 
   /// Creates a new task or updates an existing one

@@ -21,7 +21,7 @@ final _kSubscriptions = [
 /// and monthly. It uses a clean, appealing design that matches the app's style
 /// and includes bullet points highlighting the benefits of each plan.
 class Ui2024MonthlySubscriptionPaywall extends HookWidget
-    with HasStates, HasAnalytics {
+    with HasNotifiers, HasAnalytics {
   const Ui2024MonthlySubscriptionPaywall({super.key});
   Future<void> onBuyPressed(
     final BuildContext context,

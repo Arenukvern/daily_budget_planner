@@ -40,9 +40,10 @@ class UiPredictionState with _$UiPredictionState {
 }
 
 class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
-    with HasLocalApis, HasStates, HasDistributors {
+    with HasLocalApis, HasNotifiers, HasDistributors {
   UiPredictionNotifier()
       : super(UiPredictionState(selectedDate: DateTime.now()));
+  bool get _amountsTaxFree => Envs.isAmountsTaxFree;
   final timelineNotifier = UiTimelineNotifier(
     state: UiTimelineState.create(
       presentationType: UiPresentationType.day,
@@ -84,7 +85,7 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
   double getExpensePredictionFor(final DateTime date) => 0;
 
   Future<void> removeBudget(final BudgetId budgetId) async {
-    await budgetPredictionLocalApi.deleteBudget(budgetId);
+    await manualBudgetsLocalApi.deleteBudget(budgetId);
     budgetsDistributor.deleteBudget(budgetId);
   }
 
@@ -92,24 +93,14 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     final Budget budget, {
     final bool isNew = false,
   }) async {
-    final budgetIndex =
-        value.budgets.indexWhere((final b) => b.id == budget.id);
-    if (budgetIndex == -1) {
-      final updatedBudgets = [...value.budgets, budget]
-        ..sort((final a, final b) => b.date.compareTo(a.date));
-      value = value.copyWith(budgets: updatedBudgets);
-    } else {
-      final newBudgets = [...value.budgets]
-        ..[budgetIndex] = budget
-        ..sort((final a, final b) => b.date.compareTo(a.date));
-      value = value.copyWith(budgets: newBudgets);
-    }
-    await budgetPredictionLocalApi.upsertBudget(budget);
+    await manualBudgetsLocalApi.upsertBudget(budget);
+    budgetsDistributor.upsertBudget(budget);
   }
 
   Future<void> upsertTransaction(final TransactionEditorResult result) async {
     final (:transaction, :scheduledTransaction) = result;
     await transactionsLocalApi.upsertTransaction(transaction);
+
     if (scheduledTransaction.isSet) {
       await scheduledTransactionsLocalApi.upsertScheduledTransaction(
         scheduledTransaction,
@@ -117,16 +108,8 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     }
     switch (transaction.type) {
       case TransactionType.expense:
-        value = value.copyWith(
-          expenses: value.expenses
-              .upsert(transaction, (final e) => e.id == transaction.id),
-        );
         _recalculateTotalExpensesSum();
       case TransactionType.income:
-        value = value.copyWith(
-          incomes: value.incomes
-              .upsert(transaction, (final e) => e.id == transaction.id),
-        );
         _recalculateTotalIncomesSum();
       case TransactionType.transferIn:
       case TransactionType.transferOut:
@@ -136,9 +119,7 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
 
   Future<void> upsertIncome(final Transaction income) async {
     await transactionsLocalApi.upsertTransaction(income);
-    value = value.copyWith(
-      incomes: value.incomes.upsert(income, (final i) => i.id == income.id),
-    );
+
     _recalculateTotalIncomesSum();
   }
 
@@ -155,6 +136,7 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     required final DateTime startDate,
     required final DateTime endDate,
   }) {
+    manualBudgetsLocalApi.
     final relevantBudgets = value.budgets
         .where(
           (final budget) =>
@@ -201,7 +183,7 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     if (relevantBudgets.isEmpty) return (balance: 0, expense: 0, income: 0);
     if (relevantBudgets.length == 1) {
       final budget = relevantBudgets.first;
-      final amount = budget.input.amount(taxFree: kAmountsTaxFree);
+      final amount = budget.input.amount(taxFree: _amountsTaxFree);
       if (budget.date.isBefore(effectiveStartDate) ||
           budget.date == effectiveStartDate) {
         return (
@@ -220,11 +202,11 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     double expense = 0;
     double income = 0;
     double previousAmount =
-        relevantBudgets.first.input.amount(taxFree: kAmountsTaxFree);
+        relevantBudgets.first.input.amount(taxFree: _amountsTaxFree);
 
     for (int i = 1; i < relevantBudgets.length; i++) {
       final difference =
-          relevantBudgets[i].input.amount(taxFree: kAmountsTaxFree) -
+          relevantBudgets[i].input.amount(taxFree: _amountsTaxFree) -
               previousAmount;
       if (difference < 0) {
         expense += difference.abs();
@@ -232,16 +214,16 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
         income += difference;
       }
       previousAmount =
-          relevantBudgets[i].input.amount(taxFree: kAmountsTaxFree);
+          relevantBudgets[i].input.amount(taxFree: _amountsTaxFree);
     }
 
     // If the period starts after the last budget, consider it as an expense
     if (startDate.isAfter(relevantBudgets.last.date)) {
-      expense += relevantBudgets.last.input.amount(taxFree: kAmountsTaxFree);
+      expense += relevantBudgets.last.input.amount(taxFree: _amountsTaxFree);
     }
 
     return (
-      balance: relevantBudgets.last.input.amount(taxFree: kAmountsTaxFree),
+      balance: relevantBudgets.last.input.amount(taxFree: _amountsTaxFree),
       expense: expense,
       income: income,
     );
@@ -309,9 +291,9 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
   }) =>
       switch (transactionType) {
         TransactionType.income => value.incomes,
-        TransactionType.transferIn => value.incomes,
-        TransactionType.transferOut => value.incomes,
         TransactionType.expense => value.expenses,
+        TransactionType.transferIn => [],
+        TransactionType.transferOut => [],
       }
           .where(
             (final transaction) =>
