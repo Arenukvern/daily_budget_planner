@@ -1,8 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_app/common_imports.dart';
 
-part 'ui_prediction_notifier.freezed.dart';
-
 /// balance = expenses + income
 /// for example:
 /// if expense = -150, income = 50
@@ -13,36 +11,8 @@ typedef TransactionsBalanceRecord = ({
   double income
 });
 
-@freezed
-class UiPredictionState with _$UiPredictionState {
-  const factory UiPredictionState({
-    required final DateTime selectedDate,
-    @Default(Period.monthly) final Period period,
-
-    /// budget difference expenses
-    @Default(0) final double totalExpensesSum,
-    @Default(0) final double totalIncomesSum,
-
-    /// calculated from specific dates && !isRegular
-    @Default(0) final double oneTimeIncomesSum,
-
-    /// calculated from specific dates && !isRegular
-    @Default(0) final double oneTimeExpensesSum,
-
-    /// is difference between regularIncomesSum + regularExpensesSum,
-    /// divided by quantity of days left in the period setted in
-    /// the income date.
-    @Default(0) final double dailyBudget,
-    @Default(Envs.isAmountsTaxFree) final bool isTaxFree,
-    @Default(false) final bool countWithTransfers,
-    @Default(TaskType.personal) final TaskType taskType,
-  }) = _UiPredictionState;
-}
-
-class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
-    with HasLocalApis, HasNotifiers, HasDistributors {
-  UiPredictionNotifier()
-      : super(UiPredictionState(selectedDate: DateTime.now()));
+class UiPredictionNotifier with HasLocalApis, HasNotifiers, HasDistributors {
+  UiPredictionNotifier();
   bool get _amountsTaxFree => Envs.isAmountsTaxFree;
   final timelineNotifier = UiTimelineNotifier(
     state: UiTimelineState.create(
@@ -136,14 +106,13 @@ class UiPredictionNotifier extends ValueNotifier<UiPredictionState>
     required final DateTime startDate,
     required final DateTime endDate,
   }) {
-    manualBudgetsLocalApi.
-    final relevantBudgets = value.budgets
-        .where(
-          (final budget) =>
-              budget.date.isBefore(endDate) || budget.date == endDate,
-        )
-        .toList()
-      ..sort((final a, final b) => b.date.compareTo(a.date));
+    final relevantBudgets = manualBudgetsLocalApi.getBudgetForPeriod(
+      startDate: startDate,
+      period: value.period,
+      pageLimit: (page: 1, limit: 100),
+    );
+
+    //  ..sort((final a, final b) => b.date.compareTo(a.date));
     if (relevantBudgets.isEmpty) return (balance: 0, expense: 0, income: 0);
 
     final DateTime effectiveStartDate;
