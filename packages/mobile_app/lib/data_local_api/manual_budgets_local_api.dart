@@ -82,10 +82,34 @@ final class ManualBudgetsLocalApi extends ComplexLocalApi {
     }
   }
 
-  /// Retrieves all tasks
+  /// Retrieves all budgets for period without pagination
   ///
   /// Throws [LocalApiException] if the operation fails
-  Future<PagingControllerPageModel<Budget>> getBudgetForPeriod({
+  Future<List<Budget>> getAllBudgetsForPeriod({
+    required final DateTime startDate,
+    required final Period period,
+  }) async {
+    try {
+      final endDate = startDate.addPeriod(period);
+      final query = _budgets
+          .where()
+          .createdAtGreaterThanOrEqualTo(startDate)
+          .createdAtLessThanOrEqualTo(endDate);
+      final items = query.findAll();
+      return items.map((final e) => e.toDomain()).toList();
+    } catch (e, s) {
+      throw LocalApiException(
+        message: 'Failed to get all budgets for period',
+        error: e,
+        stackTrace: s,
+      );
+    }
+  }
+
+  /// Retrieves budgets for a given period with pagination
+  ///
+  /// Throws [LocalApiException] if the operation fails
+  Future<PagingControllerPageModel<Budget>> getPaginatedBudgetForPeriod({
     required final DateTime startDate,
     required final Period period,
     required final PageLimitRecord pageLimit,
@@ -111,7 +135,7 @@ final class ManualBudgetsLocalApi extends ComplexLocalApi {
       );
     } catch (e, s) {
       throw LocalApiException(
-        message: 'Failed to get all budgets',
+        message: 'Failed to get paginated budgets',
         error: e,
         stackTrace: s,
       );

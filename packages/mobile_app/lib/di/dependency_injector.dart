@@ -53,11 +53,16 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl(TasksLocalApi.new);
 
   /// ********************************************
-  /// *      DISTRIBUTORS
+  /// *      RESOURCES
   /// ********************************************
   rl(TasksResource.new, dispose: (final i) => i.dispose());
   rl(TasksTransactionsResource.new, dispose: (final i) => i.dispose());
   rl(BudgetsResource.new, dispose: (final i) => i.dispose());
+  rl(RecentBudgetResource.new, dispose: (final i) => i.dispose());
+  rl(PredictionConfigResource.new, dispose: (final i) => i.dispose());
+  rl(OneTimeSumsResource.new, dispose: (final i) => i.dispose());
+  rl(TotalSumResource.new, dispose: (final i) => i.dispose());
+  rl(DailyBudgetResource.new, dispose: (final i) => i.dispose());
 
   /// ********************************************
   /// *      Notifiers
@@ -86,7 +91,6 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
       _ => NoopPurchaseManager(),
     },
   );
-  rl(UiPredictionNotifier.new);
   rl(
     () => UiTimelineNotifier(
       state: UiTimelineState.create(
@@ -152,6 +156,7 @@ mixin HasResources {
   TasksResource get tasksResource => _g();
   TasksTransactionsResource get tasksTransactionsResource => _g();
   BudgetsResource get budgetsResource => _g();
+  RecentBudgetResource get recentBudgetResource => _g();
   PredictionConfigResource get predictionConfigResource => _g();
   OneTimeSumsResource get oneTimeSumsResource => _g();
   TotalSumResource get totalSumResource => _g();
@@ -176,7 +181,6 @@ mixin HasNotifiers {
   DictionariesNotifier get dictionariesNotifier => _g();
   TasksNotifier get tasksNotifier => _g();
   FinSettingsNotifier get finSettingsNotifier => _g();
-  UiPredictionNotifier get uiPredictionNotifier => _g();
   UiTimelineNotifier get uiTimelineNotifier => _g();
 }
 

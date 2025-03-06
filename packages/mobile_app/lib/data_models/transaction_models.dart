@@ -43,7 +43,7 @@ enum TransactionType {
 
 extension type const TransactionId(String value) {
   factory TransactionId.fromJson(final String value) => TransactionId(value);
-  factory TransactionId.newId() => TransactionId(createId());
+  factory TransactionId.newId() => TransactionId(IdCreator.create());
   static const empty = TransactionId('');
   bool get isEmpty => value.isEmpty;
   bool get isNotEmpty => value.isNotEmpty;

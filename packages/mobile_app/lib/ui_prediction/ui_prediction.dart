@@ -1,4 +1,3 @@
-export '../data_states/ui_prediction_notifier.dart';
 export 'tasks/tasks.dart';
 export 'timeline/timeline.dart';
 export 'transactions/ui_expenses_view.dart';

@@ -12,4 +12,6 @@ extension TotalSumResourceX on TotalSumResource {
 
   double get totalIncomesSum => _totalIncomesSum;
   set totalIncomesSum(final double v) => setState(() => _totalIncomesSum = v);
+
+  double get balance => totalIncomesSum - totalExpensesSum;
 }

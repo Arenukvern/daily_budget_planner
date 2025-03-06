@@ -22,7 +22,6 @@ class UiTransactionsActionsBar extends StatelessWidget {
         const UiBackButton(),
         UiTextButton(
           onPressed: () async {
-            final notifier = context.read<UiPredictionNotifier>();
             final transaction = await showTransactionEditor(
               context,
               transaction: Transaction.create(
@@ -34,7 +33,7 @@ class UiTransactionsActionsBar extends StatelessWidget {
               ),
             );
             if (transaction == null) return;
-            return notifier.upsertTransaction(transaction);
+            return const UpsertTransactionCommand().execute(transaction);
           },
           title: Row(
             mainAxisSize: MainAxisSize.min,

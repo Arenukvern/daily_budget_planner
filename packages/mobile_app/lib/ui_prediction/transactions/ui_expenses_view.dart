@@ -38,7 +38,7 @@ class UiExpensesView extends StatelessWidget {
           ),
         ),
         const UiTransactionsActionsBar(
-          tuple: (type: TransactionType.expense,),
+          tuple: (type: TransactionType.expense),
         ),
         const Gap(8),
         const UiSafeArea.bottom(),

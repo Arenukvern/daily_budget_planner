@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/add_budget_dialog.dart';
+import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 
 class UiPredictionScreen extends StatelessWidget {
   const UiPredictionScreen({super.key});
@@ -20,16 +21,13 @@ class UiPredictionScreen extends StatelessWidget {
             final isDesktop = UiLayout.fromConstraints(constraints).isDesktop;
 
             if (isDesktop) {
-              return Column(
+              return const Column(
                 children: [
-                  _PredictionHeader(state: state),
+                  _PredictionHeader(),
                   Expanded(
-                    child: DesktopPredictionBody(
-                      selectedDate: uiPredictionNotifier.selectedDate,
-                      onDateChanged: uiPredictionNotifier.onSelectedDateChanged,
-                    ),
+                    child: DesktopPredictionBody(),
                   ),
-                  const UiPredictionBottomActionBar(),
+                  UiPredictionBottomActionBar(),
                 ],
               );
             } else {
@@ -37,16 +35,11 @@ class UiPredictionScreen extends StatelessWidget {
                 children: [
                   CustomScrollView(
                     slivers: [
-                      PinnedHeaderSliver(
-                        child: _PredictionHeader(state: state),
+                      const PinnedHeaderSliver(
+                        child: _PredictionHeader(),
                       ),
                       const SliverGap(48),
-                      MobilePredictionBody(
-                        selectedDate: uiPredictionNotifier.selectedDate,
-                        onDateChanged:
-                            uiPredictionNotifier.onSelectedDateChanged,
-                        uiPredictionNotifier: uiPredictionNotifier,
-                      ).toSliver(),
+                      const MobilePredictionBody().toSliver(),
                       const SliverGap(64),
                       const UiSafeArea.bottom().toSliver(),
                     ],
@@ -66,17 +59,16 @@ class UiPredictionScreen extends StatelessWidget {
 }
 
 class _PredictionHeader extends StatelessWidget {
-  const _PredictionHeader({required this.state});
-
-  final UiPredictionState state;
+  const _PredictionHeader();
 
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     final tasksNotifier = context.watch<TasksNotifier>();
-    final period = context.select<UiPredictionNotifier, Period>(
-      (final state) => state.value.period,
+    final period = context.select<PredictionConfigResource, Period>(
+      (final state) => state.period,
     );
+    final selectedDate = useSelectionDate(context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colorScheme.surface.withOpacity(0.5),
@@ -112,7 +104,7 @@ class _PredictionHeader extends StatelessWidget {
                     },
                   ).getValue(locale),
                   value: '\$${tasksNotifier.getPlannedExpensesSum(
-                        startAt: state.selectedDate,
+                        startAt: selectedDate,
                         period: period,
                         transactionType: TransactionType.expense,
                       ).toStringAsFixed(2)}',
@@ -129,7 +121,7 @@ class _PredictionHeader extends StatelessWidget {
                     },
                   ).getValue(locale),
                   value: '\$${tasksNotifier.getPlannedIncomesSum(
-                        startAt: state.selectedDate,
+                        startAt: selectedDate,
                         period: period,
                         transactionType: TransactionType.income,
                       ).toStringAsFixed(2)}',
@@ -306,91 +298,91 @@ class _HeaderItem extends StatelessWidget {
 
 class MobilePredictionBody extends StatelessWidget {
   const MobilePredictionBody({
-    required this.selectedDate,
-    required this.onDateChanged,
-    required this.uiPredictionNotifier,
     super.key,
   });
 
-  final DateTime selectedDate;
-  final ValueChanged<DateTime> onDateChanged;
-  final UiPredictionNotifier uiPredictionNotifier;
-
   @override
-  Widget build(final BuildContext context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (kDebugMode) ...[
-            _TrendIndicator(),
-            const Gap(6),
-          ],
-          _BudgetButton(uiPredictionNotifier: uiPredictionNotifier),
-          const Gap(24),
-          _DailyBudgetDisplay(
-            dailyBudget: uiPredictionNotifier.value.dailyBudget,
-          ),
-          const Gap(24),
-          UiHorizontalPredictionTimeline(
-            notifier: context.read(),
-            onDateChanged: onDateChanged,
-          ),
-          const Gap(28),
-          _DailyStatistics(
-            selectedDate: selectedDate,
-          ),
+  Widget build(final BuildContext context) {
+    final selectedDate = useSelectionDate(context);
+    final dailyBudget = context.watch<DailyBudgetResource>();
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (kDebugMode) ...[
+          _TrendIndicator(),
+          const Gap(6),
         ],
-      );
+        const _BudgetButton(),
+        const Gap(24),
+        _DailyBudgetDisplay(
+          dailyBudget: dailyBudget.value,
+        ),
+        const Gap(24),
+        UiHorizontalPredictionTimeline(
+          notifier: context.read(),
+          onDateChanged:
+              const UpdatePredictionConfigCommand().onSelectedDateChanged,
+        ),
+        const Gap(28),
+        _DailyStatistics(
+          selectedDate: selectedDate,
+        ),
+      ],
+    );
+  }
 }
 
 class DesktopPredictionBody extends StatelessWidget {
   const DesktopPredictionBody({
-    required this.selectedDate,
-    required this.onDateChanged,
     super.key,
   });
 
-  final DateTime selectedDate;
-  final ValueChanged<DateTime> onDateChanged;
-
   @override
-  Widget build(final BuildContext context) => Row(
-        children: [
-          UiVerticalPredictionTimeline(
-            notifier: context.read(),
-            onDateChanged: onDateChanged,
-          ),
-          Expanded(
-            child: Row(
-              children: [
-                const Gap(24),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _DailyBudgetDisplay(
-                      dailyBudget: uiPredictionNotifier.value.dailyBudget,
-                    ),
+  Widget build(final BuildContext context) {
+    final selectedDate = useSelectionDate(context);
+    final dailyBudget = context.watch<DailyBudgetResource>();
+
+    return Row(
+      children: [
+        UiVerticalPredictionTimeline(
+          notifier: context.read(),
+          onDateChanged:
+              const UpdatePredictionConfigCommand().onSelectedDateChanged,
+        ),
+        Expanded(
+          child: Row(
+            children: [
+              const Gap(24),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _DailyBudgetDisplay(
+                    dailyBudget: dailyBudget.value,
+                  ),
+                ],
+              ),
+              const Gap(24),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (kDebugMode) ...[
+                    _TrendIndicator(),
+                    const Gap(6),
                   ],
-                ),
-                const Gap(24),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (kDebugMode) ...[
-                      _TrendIndicator(),
-                      const Gap(6),
-                    ],
-                    const _BudgetButton(),
-                    const Gap(24),
-                    _DailyStatistics(
-                      selectedDate: selectedDate,
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                  const _BudgetButton(),
+                  const Gap(24),
+                  _DailyStatistics(
+                    selectedDate: selectedDate,
+                  ),
+                ],
+              ),
+            ],
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
 
 class _TrendIndicator extends StatelessWidget {
@@ -431,6 +423,9 @@ class _BudgetButton extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
+    final recentBudget = context.select<RecentBudgetResource, Budget>(
+      (final state) => state.recentBudget,
+    );
     return UiBaseButton(
       onPressed: () async => BudgetBottomSheet.show(context),
       builder: (final _, final __, final ___) => Row(
@@ -444,7 +439,7 @@ class _BudgetButton extends StatelessWidget {
           const Gap(8),
           Text(
             // TODO(arenukvern): description
-            '\$${uiPredictionNotifier.recentBudget.input.amount(taxFree: true).toStringAsFixed(2)} '
+            '\$${recentBudget.input.amount(taxFree: true).toStringAsFixed(2)} '
             '${LocalizedMap(
               value: {
                 languages.en: '- left',
@@ -509,13 +504,7 @@ class _DailyStatistics extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
-    final (:state, :balance) = context.select<UiPredictionNotifier,
-        ({UiPredictionState state, double balance})>(
-      (final state) => (
-        state: state.value,
-        balance: state.value.totalIncomesSum - state.value.totalExpensesSum,
-      ),
-    );
+    final totalSumResource = context.watch<TotalSumResource>();
 
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 300),
@@ -526,7 +515,7 @@ class _DailyStatistics extends StatelessWidget {
         children: [
           _StatisticItem(
             onPressed: () async => UiExpensesView.show(context: context),
-            value: '-\$${state.totalExpensesSum.toStringAsFixed(2)}',
+            value: '-\$${totalSumResource.totalExpensesSum.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
                 languages.en: 'Expenses',
@@ -537,7 +526,7 @@ class _DailyStatistics extends StatelessWidget {
           ),
           _StatisticItem(
             onPressed: () async => UiIncomesView.show(context: context),
-            value: '+\$${state.totalIncomesSum.toStringAsFixed(2)}',
+            value: '+\$${totalSumResource.totalIncomesSum.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
                 languages.en: 'Income',
@@ -548,7 +537,7 @@ class _DailyStatistics extends StatelessWidget {
           ),
           _StatisticItem(
             onPressed: () {},
-            value: '\$${balance.toStringAsFixed(2)}',
+            value: '\$${totalSumResource.balance.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
                 languages.en: 'End of Day Balance',
@@ -656,9 +645,8 @@ class BudgetBottomSheet extends HookWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final uiPredictionNotifier = context.watch<UiPredictionNotifier>();
-    final state = uiPredictionNotifier.value;
     final locale = useLocale(context);
+    final budgets = context.watch<BudgetsResource>();
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -684,9 +672,9 @@ class BudgetBottomSheet extends HookWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: state.budgets.length,
+              itemCount: budgets.length,
               itemBuilder: (final context, final index) {
-                final budget = state.budgets[index];
+                final budget = budgets.orderedValues[index];
                 return ListTile(
                   title: Text(
                     // TODO(arenukvern): description
@@ -698,7 +686,7 @@ class BudgetBottomSheet extends HookWidget {
                   trailing: IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: () async =>
-                        uiPredictionNotifier.removeBudget(budget.id),
+                        const RemoveBudgetCommand().execute(budget.id),
                   ),
                 );
               },

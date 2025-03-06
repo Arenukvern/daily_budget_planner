@@ -7,16 +7,16 @@ typedef UiTasksActionsBarTuple = ({
 });
 
 DateTime useSelectionDate(final BuildContext context) =>
-    context.select<UiPredictionNotifier, DateTime>(
+    context.select<PredictionConfigResource, DateTime>(
       (final state) => state.selectedDate,
     );
 
 DateTime useTaskTransactionSelectionDate(final BuildContext context) {
-  final predictionNotifier = context.read<UiPredictionNotifier>();
+  final selectedDate = useSelectionDate(context);
   final lastUpdatedTransactionDate = context.select<TasksNotifier, DateTime?>(
     (final state) => state.lastUpdatedTransactionDate,
   );
-  return lastUpdatedTransactionDate ?? predictionNotifier.value.selectedDate;
+  return lastUpdatedTransactionDate ?? selectedDate;
 }
 
 class UiTasksActionsBar extends StatelessWidget with HasNotifiers {

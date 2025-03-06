@@ -70,11 +70,11 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
       (final c) => c.getTasks(_taskTransactionType),
     );
     final task = tasks[_taskIndex ?? 0];
-    final (:startDate, :period) = context
-        .select<UiPredictionNotifier, ({DateTime startDate, Period period})>(
+    final (:startDate, :period) = context.select<PredictionConfigResource,
+        ({DateTime startDate, Period period})>(
       (final c) => (
-        startDate: c.value.selectedDate,
-        period: c.value.period,
+        startDate: c.startDate,
+        period: c.period,
       ),
     );
 

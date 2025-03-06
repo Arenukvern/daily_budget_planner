@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_commands/budget_cmds/budget_cmds.dart';
 
 class AddBudgetDialog extends HookWidget {
   const AddBudgetDialog({
@@ -63,7 +62,7 @@ class AddBudgetDialog extends HookWidget {
           onPressed: () async {
             if (Form.of(context).validate()) {
               final newBudget = Budget(
-                id: BudgetId(id.value.whenEmptyUse(createId())),
+                id: BudgetId(id.value.whenEmptyUse(IdCreator.create())),
                 input: InputMoney.fiat(
                   amountWithTax: double.parse(amountController.text),
                   // currencyId: CurrencyId.usd,

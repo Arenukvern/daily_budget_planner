@@ -2,6 +2,7 @@
 
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 
 const _kItemExtent = 48.0;
 
@@ -210,10 +211,7 @@ class UiTaskView extends StatelessWidget with HasNotifiers {
             alignment: Alignment.centerLeft,
             child: Builder(
               builder: (final context) {
-                final selectedDate =
-                    context.select<UiPredictionNotifier, DateTime>(
-                  (final c) => c.selectedDate,
-                );
+                final selectedDate = useSelectionDate(context);
                 final sumPerYear = scheduledTransactions.sumForPeriod(
                   allTransactions: transactions,
                   startAt: selectedDate,
@@ -272,8 +270,8 @@ class _UiTransactionCard extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final isTaxFree = context.select<UiPredictionNotifier, bool>(
-      (final c) => c.value.isTaxFree,
+    final isTaxFree = context.select<PredictionConfigResource, bool>(
+      (final c) => c.isTaxFree,
     );
     return CupertinoListTile(
       leading: FittedBox(

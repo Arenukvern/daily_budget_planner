@@ -14,7 +14,7 @@ enum TaskStatus {
 
 extension type const TaskId(String value) {
   factory TaskId.fromJson(final String value) => TaskId(value);
-  factory TaskId.create() => TaskId(createId());
+  factory TaskId.create() => TaskId(IdCreator.create());
   static const empty = TaskId('');
   bool get isEmpty => value.isEmpty;
   bool get isNotEmpty => !isEmpty;

@@ -1,9 +1,9 @@
-class UpsertTransactionCommand {
-  void execute() {
-    final transaction = _upsertTransaction();
-  }
+import 'package:mobile_app/common_imports.dart';
 
-  Future<void> upsertTransaction(final TransactionEditorResult result) async {
+class UpsertTransactionCommand with HasLocalApis {
+  const UpsertTransactionCommand();
+
+  Future<void> execute(final TransactionEditorResult result) async {
     final (:transaction, :scheduledTransaction) = result;
     await transactionsLocalApi.upsertTransaction(transaction);
 
