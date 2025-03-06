@@ -14,60 +14,55 @@ class UiPredictionScreen extends StatelessWidget {
       );
 
   @override
-  Widget build(final BuildContext context) {
-    final uiPredictionNotifier = context.watch<UiPredictionNotifier>();
-    final state = uiPredictionNotifier.value;
+  Widget build(final BuildContext context) => UiScaffold(
+        body: LayoutBuilder(
+          builder: (final context, final constraints) {
+            final isDesktop = UiLayout.fromConstraints(constraints).isDesktop;
 
-    return UiScaffold(
-      body: LayoutBuilder(
-        builder: (final context, final constraints) {
-          final isDesktop = UiLayout.fromConstraints(constraints).isDesktop;
-
-          if (isDesktop) {
-            return Column(
-              children: [
-                _PredictionHeader(state: state),
-                Expanded(
-                  child: DesktopPredictionBody(
-                    selectedDate: uiPredictionNotifier.selectedDate,
-                    onDateChanged: uiPredictionNotifier.onSelectedDateChanged,
-                    uiPredictionNotifier: uiPredictionNotifier,
-                  ),
-                ),
-                const UiPredictionBottomActionBar(),
-              ],
-            );
-          } else {
-            return Stack(
-              children: [
-                CustomScrollView(
-                  slivers: [
-                    PinnedHeaderSliver(
-                      child: _PredictionHeader(state: state),
-                    ),
-                    const SliverGap(48),
-                    MobilePredictionBody(
+            if (isDesktop) {
+              return Column(
+                children: [
+                  _PredictionHeader(state: state),
+                  Expanded(
+                    child: DesktopPredictionBody(
                       selectedDate: uiPredictionNotifier.selectedDate,
                       onDateChanged: uiPredictionNotifier.onSelectedDateChanged,
-                      uiPredictionNotifier: uiPredictionNotifier,
-                    ).toSliver(),
-                    const SliverGap(64),
-                    const UiSafeArea.bottom().toSliver(),
-                  ],
-                ),
-                const Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: UiPredictionBottomActionBar(),
-                ),
-              ],
-            );
-          }
-        },
-      ),
-    );
-  }
+                    ),
+                  ),
+                  const UiPredictionBottomActionBar(),
+                ],
+              );
+            } else {
+              return Stack(
+                children: [
+                  CustomScrollView(
+                    slivers: [
+                      PinnedHeaderSliver(
+                        child: _PredictionHeader(state: state),
+                      ),
+                      const SliverGap(48),
+                      MobilePredictionBody(
+                        selectedDate: uiPredictionNotifier.selectedDate,
+                        onDateChanged:
+                            uiPredictionNotifier.onSelectedDateChanged,
+                        uiPredictionNotifier: uiPredictionNotifier,
+                      ).toSliver(),
+                      const SliverGap(64),
+                      const UiSafeArea.bottom().toSliver(),
+                    ],
+                  ),
+                  const Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: UiPredictionBottomActionBar(),
+                  ),
+                ],
+              );
+            }
+          },
+        ),
+      );
 }
 
 class _PredictionHeader extends StatelessWidget {
@@ -351,19 +346,17 @@ class DesktopPredictionBody extends StatelessWidget {
   const DesktopPredictionBody({
     required this.selectedDate,
     required this.onDateChanged,
-    required this.uiPredictionNotifier,
     super.key,
   });
 
   final DateTime selectedDate;
   final ValueChanged<DateTime> onDateChanged;
-  final UiPredictionNotifier uiPredictionNotifier;
 
   @override
   Widget build(final BuildContext context) => Row(
         children: [
           UiVerticalPredictionTimeline(
-            notifier: uiPredictionNotifier.timelineNotifier,
+            notifier: context.read(),
             onDateChanged: onDateChanged,
           ),
           Expanded(
@@ -386,9 +379,7 @@ class DesktopPredictionBody extends StatelessWidget {
                       _TrendIndicator(),
                       const Gap(6),
                     ],
-                    _BudgetButton(
-                      uiPredictionNotifier: uiPredictionNotifier,
-                    ),
+                    const _BudgetButton(),
                     const Gap(24),
                     _DailyStatistics(
                       selectedDate: selectedDate,
@@ -435,9 +426,7 @@ class _TrendIndicator extends StatelessWidget {
 }
 
 class _BudgetButton extends StatelessWidget {
-  const _BudgetButton({required this.uiPredictionNotifier});
-
-  final UiPredictionNotifier uiPredictionNotifier;
+  const _BudgetButton();
 
   @override
   Widget build(final BuildContext context) {
