@@ -1,7 +1,7 @@
 import 'package:mobile_app/common_imports.dart';
 
 @stateDistributor
-class TasksDistributor extends ChangeNotifier {
+class TasksResource extends ChangeNotifier {
   var _incomeTasks = <Task>[].unmodifiable;
   var _expenseTasks = <Task>[].unmodifiable;
 

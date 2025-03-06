@@ -6,7 +6,7 @@ typedef UiTransactionsSchedulesRecord = ({
 });
 
 class TasksNotifier extends ChangeNotifier
-    with HasLocalApis, HasNotifiers, HasDistributors {
+    with HasLocalApis, HasNotifiers, HasResources {
   // TODO(arenukvern): cache somewere else
   DateTime? _lastUpdatedTransactionDate;
   DateTime? get lastUpdatedTransactionDate => _lastUpdatedTransactionDate;
@@ -25,7 +25,7 @@ class TasksNotifier extends ChangeNotifier
 
   Future<void> _loadIncomeTasks() async {
     final incomeTasks = await tasksLocalApi.getIncomeTasks(taskType: tasksType);
-    tasksDistributor.loadIncomeTasks(
+    tasksResource.loadIncomeTasks(
       tasks: incomeTasks,
       taskType: tasksType,
     );
@@ -34,7 +34,7 @@ class TasksNotifier extends ChangeNotifier
   Future<void> _loadExpenseTasks() async {
     final expenseTasks =
         await tasksLocalApi.getExpenseTasks(taskType: tasksType);
-    tasksDistributor.loadExpenseTasks(
+    tasksResource.loadExpenseTasks(
       tasks: expenseTasks,
       taskType: tasksType,
     );
@@ -53,7 +53,7 @@ class TasksNotifier extends ChangeNotifier
     );
     final transactions =
         await transactionsLocalApi.getTransactionsByTaskId(task.id);
-    tasksTransactionsDistributor.loadTransactionsForTask(
+    tasksTransactionsResource.loadTransactionsForTask(
       task: task,
       scheduledTransactions: scheduledTransactions,
       transactions: transactions,
@@ -67,7 +67,7 @@ class TasksNotifier extends ChangeNotifier
     await scheduledTransactionsLocalApi
         .deleteScheduledTransaction(transaction.id);
     await transactionsLocalApi.deleteTransaction(transaction.id);
-    tasksTransactionsDistributor.removeTransaction(
+    tasksTransactionsResource.removeTransaction(
       transaction: transaction,
       task: task,
     );
@@ -75,17 +75,17 @@ class TasksNotifier extends ChangeNotifier
 
   Future<void> upsertTask(final Task task) async {
     final list = switch (task.transactionType) {
-      TaskTransactionType.income => tasksDistributor.incomeTasks,
-      TaskTransactionType.expense => tasksDistributor.expenseTasks,
+      TaskTransactionType.income => tasksResource.incomeTasks,
+      TaskTransactionType.expense => tasksResource.expenseTasks,
     };
     final updatedList = list.upsert(task, (final t) => t.id == task.id);
     final tasksLoader = switch (task.transactionType) {
-      TaskTransactionType.income => tasksDistributor.loadIncomeTasks,
-      TaskTransactionType.expense => tasksDistributor.loadExpenseTasks,
+      TaskTransactionType.income => tasksResource.loadIncomeTasks,
+      TaskTransactionType.expense => tasksResource.loadExpenseTasks,
     };
     tasksLoader(tasks: updatedList, taskType: tasksType);
     await tasksLocalApi.upsertTask(task);
-    tasksDistributor.upsertTask(task);
+    tasksResource.upsertTask(task);
   }
 
   Future<void> upsertTransaction({
@@ -99,7 +99,7 @@ class TasksNotifier extends ChangeNotifier
       taskId: task.id,
     );
     lastUpdatedTransactionDate = updatedTransaction.transactionDate;
-    tasksTransactionsDistributor.upsertTransaction(
+    tasksTransactionsResource.upsertTransaction(
       transaction: updatedTransaction,
       scheduledTransaction: updatedScheduledTransaction,
       task: task,

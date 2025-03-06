@@ -55,9 +55,9 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   /// ********************************************
   /// *      DISTRIBUTORS
   /// ********************************************
-  rl(TasksDistributor.new, dispose: (final i) => i.dispose());
-  rl(TasksTransactionsDistributor.new, dispose: (final i) => i.dispose());
-  rl(BudgetsDistributor.new, dispose: (final i) => i.dispose());
+  rl(TasksResource.new, dispose: (final i) => i.dispose());
+  rl(TasksTransactionsResource.new, dispose: (final i) => i.dispose());
+  rl(BudgetsResource.new, dispose: (final i) => i.dispose());
 
   /// ********************************************
   /// *      Notifiers
@@ -136,17 +136,17 @@ mixin HasLocalApis {
   TasksLocalApi get tasksLocalApi => _g();
 }
 
-/// Distributors cannot access any Notifiers directly.
+/// Resources cannot access any Notifiers directly.
 /// They have simple mission - to distribute and store runtime data
 /// for ui access.
-mixin HasDistributors {
-  TasksDistributor get tasksDistributor => _g();
-  TasksTransactionsDistributor get tasksTransactionsDistributor => _g();
-  BudgetsDistributor get budgetsDistributor => _g();
+mixin HasResources {
+  TasksResource get tasksResource => _g();
+  TasksTransactionsResource get tasksTransactionsResource => _g();
+  BudgetsResource get budgetsResource => _g();
 }
 
 /// These states should not be used in each other,
-/// but they can access Distributors via [HasDistributors]
+/// but they can access Distributors via [HasResources]
 ///
 /// States can and should have business logic, but should minimize
 /// state usage to make ui management more effective.

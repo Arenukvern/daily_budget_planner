@@ -20,7 +20,7 @@ class UiIncomesView extends StatelessWidget {
   Widget build(final BuildContext context) {
     // TODO(arenukvern):  add pagination
     final incomes =
-        context.select<TasksTransactionsDistributor, List<Transaction>>(
+        context.select<TasksTransactionsResource, List<Transaction>>(
       (final state) => state.value.incomes,
     );
 

@@ -17,7 +17,7 @@ class TaskIdField extends StatelessWidget {
   Widget build(final BuildContext context) {
     // TODO(arenukvern): add localization l10n
     const labelText = 'category';
-    final task = context.select<TasksDistributor, Task>(
+    final task = context.select<TasksResource, Task>(
       (final s) => s.getTaskById(taskId, transactionType: transactionType),
     );
     if (readonly) {
@@ -31,7 +31,7 @@ class TaskIdField extends StatelessWidget {
       );
     }
     // TODO(arenukvern): add separate widget - hook blocked by if condition
-    final tasks = context.select<TasksDistributor, List<Task>>(
+    final tasks = context.select<TasksResource, List<Task>>(
       (final s) => s.getTasks(transactionType),
     );
     return InputFieldDecorator(

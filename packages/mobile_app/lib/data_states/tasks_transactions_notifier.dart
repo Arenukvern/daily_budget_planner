@@ -1,8 +1,8 @@
 import 'package:mobile_app/common_imports.dart';
 
 @stateDistributor
-class TasksTransactionsDistributor with ChangeNotifier {
-  TasksTransactionsDistributor();
+class TasksTransactionsResource with ChangeNotifier {
+  TasksTransactionsResource();
   var _transactions = <TransactionId, Transaction>{}.unmodifiable;
   var _tasksTransactions = <TaskId, List<ScheduledTransaction>>{}.unmodifiable;
 

@@ -1,8 +1,8 @@
 import 'package:mobile_app/common_imports.dart';
 
 @stateDistributor
-class BudgetsDistributor with ChangeNotifier {
-  BudgetsDistributor();
+class BudgetsResource with ChangeNotifier {
+  BudgetsResource();
 
   var _recentBudget = Budget.empty;
 

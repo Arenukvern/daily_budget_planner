@@ -187,7 +187,7 @@ class UiTaskView extends StatelessWidget with HasNotifiers {
   @override
   Widget build(final BuildContext context) {
     final (:transactions, :scheduledTransactions) = context
-        .select<TasksTransactionsDistributor, UiTransactionsSchedulesRecord>(
+        .select<TasksTransactionsResource, UiTransactionsSchedulesRecord>(
       (final c) => c.getTransactionsByTaskId(task.id),
     );
     Future<void> onRemove(final Transaction transaction) async =>

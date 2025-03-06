@@ -66,7 +66,7 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
-    final tasks = context.select<TasksDistributor, List<Task>>(
+    final tasks = context.select<TasksResource, List<Task>>(
       (final c) => c.getTasks(_taskTransactionType),
     );
     final task = tasks[_taskIndex ?? 0];
