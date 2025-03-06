@@ -4,7 +4,9 @@ import 'package:mobile_app/common_imports.dart';
 class OneTimeSumsResource extends ChangeNotifier {
   double _oneTimeIncomesSum = 0;
   double _oneTimeExpensesSum = 0;
+}
 
+extension OneTimeSumsResourceX on OneTimeSumsResource {
   double get oneTimeIncomesSum => _oneTimeIncomesSum;
   set oneTimeIncomesSum(final double v) =>
       setState(() => _oneTimeIncomesSum = v);

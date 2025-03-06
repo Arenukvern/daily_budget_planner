@@ -3,7 +3,7 @@ import 'package:mobile_app/common_imports.dart';
 
 part 'ui_prediction_timeline_notifier.freezed.dart';
 
-// Date Generation Strategy
+/// Date Generation Strategy
 class DateGenerationStrategy {
   DateGenerationStrategy._();
   static List<DateTime> generateDates({
@@ -75,7 +75,7 @@ class UiTimelineState with _$UiTimelineState {
       );
 }
 
-// Reusable Timeline Notifier
+/// Reusable Timeline Notifier
 class UiTimelineNotifier extends ValueNotifier<UiTimelineState> {
   UiTimelineNotifier({
     required final UiTimelineState state,

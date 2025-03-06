@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/data_commands/budget_cmds/budget_cmds.dart';
 
 class AddBudgetDialog extends HookWidget {
   const AddBudgetDialog({
@@ -59,7 +60,7 @@ class AddBudgetDialog extends HookWidget {
           ),
         ),
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             if (Form.of(context).validate()) {
               final newBudget = Budget(
                 id: BudgetId(id.value.whenEmptyUse(createId())),
@@ -69,11 +70,7 @@ class AddBudgetDialog extends HookWidget {
                 ),
                 date: selectedDate.value,
               );
-              unawaited(
-                context
-                    .read<UiPredictionNotifier>()
-                    .upsertBudget(newBudget, isNew: true),
-              );
+              unawaited(const UpsertBudgetCommand().execute(newBudget));
               Navigator.of(context).pop();
             }
           },

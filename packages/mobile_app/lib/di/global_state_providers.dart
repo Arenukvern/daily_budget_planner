@@ -13,7 +13,8 @@ class GlobalStateProviders extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<UiPredictionNotifier>.value(value: g()),
+        Provider<UiPredictionNotifier>.value(value: g()),
+        ChangeNotifierProvider<UiTimelineNotifier>.value(value: g()),
         ChangeNotifierProvider<TasksNotifier>.value(value: g()),
         ChangeNotifierProvider<UserNotifier>.value(value: g()),
         ChangeNotifierProvider<UiLocaleNotifier>.value(value: g()),

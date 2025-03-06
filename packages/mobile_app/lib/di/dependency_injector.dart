@@ -86,7 +86,16 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
       _ => NoopPurchaseManager(),
     },
   );
-  rl(UiPredictionNotifier.new, dispose: (final i) => i.dispose());
+  rl(UiPredictionNotifier.new);
+  rl(
+    () => UiTimelineNotifier(
+      state: UiTimelineState.create(
+        presentationType: UiPresentationType.day,
+        initialDate: DateTime.now(),
+      ),
+    ),
+    dispose: (final i) => i.dispose(),
+  );
   rl(
     () => MonetizationStatusNotifier(Envs.monetizationType),
     dispose: (final i) => i.dispose(),
@@ -163,7 +172,8 @@ mixin HasNotifiers {
   DictionariesNotifier get dictionariesNotifier => _g();
   TasksNotifier get tasksNotifier => _g();
   FinSettingsNotifier get finSettingsNotifier => _g();
-  // UiPredictionNotifier get uiPredictionNotifier => _g();
+  UiPredictionNotifier get uiPredictionNotifier => _g();
+  UiTimelineNotifier get uiTimelineNotifier => _g();
 }
 
 mixin HasAnalytics {

@@ -337,7 +337,7 @@ class MobilePredictionBody extends StatelessWidget {
           ),
           const Gap(24),
           UiHorizontalPredictionTimeline(
-            notifier: uiPredictionNotifier.timelineNotifier,
+            notifier: context.read(),
             onDateChanged: onDateChanged,
           ),
           const Gap(28),
