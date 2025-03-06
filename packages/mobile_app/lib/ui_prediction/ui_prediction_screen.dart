@@ -186,8 +186,7 @@ class PeriodSelectorButton extends HookWidget {
       menuBuilder: (final context) => UiPopupDecoration(
         child: _PeriodMenu(
           onPeriodSelected: (final newPeriod) {
-            context
-                .read<UiPredictionNotifier>()
+            const UpdatePredictionConfigCommand()
                 .onSelectedPeriodChanged(newPeriod);
             controller.close();
           },

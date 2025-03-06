@@ -1,4 +1,3 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_app/common_imports.dart';
 
 class UiPredictionNotifier with HasLocalApis, HasNotifiers, HasResources {
@@ -11,16 +10,6 @@ class UiPredictionNotifier with HasLocalApis, HasNotifiers, HasResources {
   void _recalculateSums() {
     _recalculateTotalExpensesSum();
     _recalculateTotalIncomesSum();
-  }
-
-  void onSelectedPeriodChanged(final Period period) {
-    value = value.copyWith(period: period);
-    _recalculateSums();
-  }
-
-  void onSelectedDateChanged(final DateTime newDate) {
-    value = value.copyWith(selectedDate: newDate);
-    _recalculateSums();
   }
 
   // TODO(arenukvern): make dependent from period

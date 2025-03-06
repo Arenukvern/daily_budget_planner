@@ -152,6 +152,10 @@ mixin HasResources {
   TasksResource get tasksResource => _g();
   TasksTransactionsResource get tasksTransactionsResource => _g();
   BudgetsResource get budgetsResource => _g();
+  PredictionConfigResource get predictionConfigResource => _g();
+  OneTimeSumsResource get oneTimeSumsResource => _g();
+  TotalSumResource get totalSumResource => _g();
+  DailyBudgetResource get dailyBudgetResource => _g();
 }
 
 /// These states should not be used in each other,
