@@ -3,11 +3,11 @@ import 'package:mobile_app/common_imports.dart';
 typedef CalculateOnetimeTransactionsSumCmdParams = ({
   DateTime startDate,
   DateTime endDate,
-  bool isTaxFree,
   TransactionType transactionType,
 });
 
 class CalculateOnetimeTransactionsSumCmd with HasResources {
+  const CalculateOnetimeTransactionsSumCmd();
   void execute(final CalculateOnetimeTransactionsSumCmdParams params) {
     // TODO(arenukvern): description
     final transactions = switch (params.transactionType) {
@@ -31,19 +31,19 @@ class CalculateOnetimeTransactionsSumCmd with HasResources {
   double _calculateOneTimeTransactionsSum(
     final CalculateOnetimeTransactionsSumCmdParams params, {
     required final List<Transaction> transactions,
-  }) =>
-      transactions
-          .where(
-            (final transaction) =>
-                !transaction.isRegular &&
-                transaction.transactionDate.isAfter(params.startDate) &&
-                transaction.transactionDate.isBefore(params.endDate),
-          )
-          .fold(
-            0,
-            (final sum, final transaction) =>
-                sum +
-                transaction.input
-                    .amount(taxFree: predictionConfigResource.isTaxFree),
-          );
+  }) {
+    final isTextFree = predictionConfigResource.isTaxFree;
+    return transactions
+        .where(
+          (final transaction) =>
+              !transaction.isRegular &&
+              transaction.transactionDate.isAfter(params.startDate) &&
+              transaction.transactionDate.isBefore(params.endDate),
+        )
+        .fold(
+          0,
+          (final sum, final transaction) =>
+              sum + transaction.input.amount(taxFree: isTextFree),
+        );
+  }
 }

@@ -61,7 +61,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl(BudgetsResource.new, dispose: (final i) => i.dispose());
   rl(RecentBudgetResource.new, dispose: (final i) => i.dispose());
   rl(PredictionConfigResource.new, dispose: (final i) => i.dispose());
-  rl(OneTimeSumsResource.new, dispose: (final i) => i.dispose());
+  rl(OneTimeSumResource.new, dispose: (final i) => i.dispose());
   rl(TotalSumResource.new, dispose: (final i) => i.dispose());
   rl(DailyBudgetResource.new, dispose: (final i) => i.dispose());
 
@@ -164,7 +164,7 @@ mixin HasResources {
   /// ********************************************
   /// *      SUM RESOURCES
   /// ********************************************
-  OneTimeSumsResource get oneTimeSumsResource => _g();
+  OneTimeSumResource get oneTimeSumsResource => _g();
   PlannedSumResource get plannedSumsResource => _g();
   TotalSumResource get totalSumResource => _g();
 }

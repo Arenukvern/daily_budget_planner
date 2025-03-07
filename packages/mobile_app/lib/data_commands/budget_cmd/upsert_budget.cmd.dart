@@ -4,6 +4,6 @@ class UpsertBudgetCommand with HasLocalApis, HasResources {
   const UpsertBudgetCommand();
   Future<void> execute(final Budget budget) async {
     await manualBudgetsLocalApi.upsertBudget(budget);
-    budgetsResource.upsertBudget(budget);
+    budgetsResource[budget.id] = budget;
   }
 }

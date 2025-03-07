@@ -12,14 +12,16 @@ class UpsertTransactionCommand with HasLocalApis {
         scheduledTransaction,
       );
     }
-    switch (transaction.type) {
-      case TransactionType.expense:
-        _recalculateTotalExpensesSum();
-      case TransactionType.income:
-        _recalculateTotalIncomesSum();
-      case TransactionType.transferIn:
-      case TransactionType.transferOut:
-      // TODO(arenukvern): implement
-    }
+    // TODO(arenukvern): description
+
+    // switch (transaction.type) {
+    //   case TransactionType.expense:
+    //     _recalculateTotalExpensesSum();
+    //   case TransactionType.income:
+    //     _recalculateTotalIncomesSum();
+    //   case TransactionType.transferIn:
+    //   case TransactionType.transferOut:
+    //   // TODO(arenukvern): implement
+    // }
   }
 }

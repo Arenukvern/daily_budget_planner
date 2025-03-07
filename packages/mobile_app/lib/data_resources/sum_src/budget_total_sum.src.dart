@@ -1,13 +1,13 @@
 import 'package:mobile_app/common_imports.dart';
 
-/// calculated by comparing [OneTimeSumResource] and [BudgetTotalSumResource]
-class TotalSumResource extends ChangeNotifier {
+/// calculated from budgets difference
+class BudgetTotalSumResource extends ChangeNotifier {
   double _expensesSum = 0;
   double _incomesSum = 0;
   double _balance = 0;
 }
 
-extension TotalSumResourceX on TotalSumResource {
+extension BudgetTotalSumResourceX on BudgetTotalSumResource {
   double get expensesSum => _expensesSum;
   set expensesSum(final double v) => setState(() => _expensesSum = v);
 

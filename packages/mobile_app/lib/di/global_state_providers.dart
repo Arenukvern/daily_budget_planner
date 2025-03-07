@@ -14,7 +14,7 @@ class GlobalStateProviders extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<PredictionConfigResource>.value(value: g()),
-        ChangeNotifierProvider<OneTimeSumsResource>.value(value: g()),
+        ChangeNotifierProvider<OneTimeSumResource>.value(value: g()),
         ChangeNotifierProvider<TotalSumResource>.value(value: g()),
         ChangeNotifierProvider<DailyBudgetResource>.value(value: g()),
         ChangeNotifierProvider<TasksResource>.value(value: g()),
