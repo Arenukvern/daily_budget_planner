@@ -94,7 +94,7 @@ class _PredictionHeader extends StatelessWidget {
                 Builder(
                   builder: (final context) {
                     final plannedExpensesSum =
-                        context.select<PlannedTotalSumResource, double>(
+                        context.select<PlannedSumResource, double>(
                       (final state) => state.expensesSum,
                     );
 
@@ -118,7 +118,7 @@ class _PredictionHeader extends StatelessWidget {
                 Builder(
                   builder: (final context) {
                     final plannedIncomesSum =
-                        context.select<PlannedTotalSumResource, double>(
+                        context.select<PlannedSumResource, double>(
                       (final state) => state.incomesSum,
                     );
                     return _HeaderItem(

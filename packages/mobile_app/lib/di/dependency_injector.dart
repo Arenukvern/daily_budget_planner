@@ -50,6 +50,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl(DictionariesLocalApi.new);
   rl(FinSettingsLocalApi.new);
   rl(TransactionsLocalApi.new);
+  rl(ScheduledTransactionsLocalApi.new);
   rl(TasksLocalApi.new);
 
   /// ********************************************
@@ -158,9 +159,14 @@ mixin HasResources {
   BudgetsResource get budgetsResource => _g();
   RecentBudgetResource get recentBudgetResource => _g();
   PredictionConfigResource get predictionConfigResource => _g();
-  OneTimeSumsResource get oneTimeSumsResource => _g();
-  TotalSumResource get totalSumResource => _g();
   DailyBudgetResource get dailyBudgetResource => _g();
+
+  /// ********************************************
+  /// *      SUM RESOURCES
+  /// ********************************************
+  OneTimeSumsResource get oneTimeSumsResource => _g();
+  PlannedSumResource get plannedSumsResource => _g();
+  TotalSumResource get totalSumResource => _g();
 }
 
 /// These states should not be used in each other,

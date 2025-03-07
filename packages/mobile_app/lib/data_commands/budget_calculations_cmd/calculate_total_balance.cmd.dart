@@ -1,3 +1,5 @@
+import 'package:mobile_app/common_imports.dart';
+
 /// balance = expenses + income
 /// for example:
 /// if expense = -150, income = 50
@@ -8,7 +10,8 @@ typedef TransactionsBalanceRecord = ({
   double income
 });
 
-class CalculateTotalBalanceCmd {
+class CalculateTotalBalanceCmd with HasResources {
+  const CalculateTotalBalanceCmd();
   void execute() {
     final totalBalance = _calculateTotalBalance();
   }
