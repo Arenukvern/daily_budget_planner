@@ -24,6 +24,7 @@ class CalculateTotalBalanceCmd with HasResources, HasLocalApis {
   Future<void> execute(final CalculateTotalBalanceCmdParams params) async {
     final (:balance, :expense, :income) = await _calculateTotalBalance(params);
     totalSumResource
+      ..balance = balance
       ..expensesSum = expense
       ..incomesSum = income;
   }

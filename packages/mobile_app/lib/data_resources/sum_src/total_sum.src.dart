@@ -4,6 +4,7 @@ import 'package:mobile_app/common_imports.dart';
 class TotalSumResource extends ChangeNotifier {
   double _expensesSum = 0;
   double _incomesSum = 0;
+  double _balance = 0;
 }
 
 extension TotalSumResourceX on TotalSumResource {
@@ -13,5 +14,6 @@ extension TotalSumResourceX on TotalSumResource {
   double get incomesSum => _incomesSum;
   set incomesSum(final double v) => setState(() => _incomesSum = v);
 
-  double get balance => incomesSum - expensesSum;
+  set balance(final double v) => setState(() => _balance = v);
+  double get balance => _balance.whenZeroUse(incomesSum - expensesSum);
 }
