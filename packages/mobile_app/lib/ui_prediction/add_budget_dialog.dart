@@ -13,11 +13,10 @@ class AddBudgetDialog extends HookWidget {
   static Future<void> show(
     final BuildContext context, {
     final Transaction? initialValue,
-  }) =>
-      showDialog(
-        context: context,
-        builder: (final context) => AddBudgetDialog(initialValue: initialValue),
-      );
+  }) => showDialog(
+    context: context,
+    builder: (final context) => AddBudgetDialog(initialValue: initialValue),
+  );
 
   @override
   Widget build(final BuildContext context) {
@@ -26,8 +25,9 @@ class AddBudgetDialog extends HookWidget {
     final amountController = useTextEditingController(
       text: initialValue?.input.amountWithTax.toString() ?? '',
     );
-    final selectedDate =
-        useState(initialValue?.transactionDate ?? DateTime.now());
+    final selectedDate = useState(
+      initialValue?.transactionDate ?? DateTime.now(),
+    );
 
     return AlertDialog(
       insetPadding:
@@ -59,7 +59,7 @@ class AddBudgetDialog extends HookWidget {
           ),
         ),
         ElevatedButton(
-          onPressed: () async {
+          onPressed: () {
             if (Form.of(context).validate()) {
               final newBudget = Budget(
                 id: BudgetId(id.value.whenEmptyUse(IdCreator.create())),
@@ -179,22 +179,28 @@ class _BudgetFormState extends State<_BudgetForm> {
     final pickedDate = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
+      initialEntryMode: DatePickerEntryMode.input,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
     if (pickedDate == null) return;
-    final pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.fromDateTime(_selectedDate),
-    );
-    if (pickedTime == null) return;
+    // TODO(arenukvern): description
+    const bool isTimeEabled = false;
+    TimeOfDay? pickedTime;
+    if (isTimeEabled) {
+      pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(_selectedDate),
+      );
+      if (pickedTime == null) return;
+    }
     setState(() {
       _selectedDate = DateTime(
         pickedDate.year,
         pickedDate.month,
         pickedDate.day,
-        pickedTime.hour,
-        pickedTime.minute,
+        pickedTime?.hour ?? 0,
+        pickedTime?.minute ?? 0,
       );
     });
   }

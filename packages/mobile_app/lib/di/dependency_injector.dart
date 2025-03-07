@@ -64,6 +64,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl(OneTimeSumResource.new, dispose: (final i) => i.dispose());
   rl(TotalSumResource.new, dispose: (final i) => i.dispose());
   rl(DailyBudgetResource.new, dispose: (final i) => i.dispose());
+  rl(PlannedSumResource.new, dispose: (final i) => i.dispose());
 
   /// ********************************************
   /// *      Notifiers
@@ -78,15 +79,14 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl<PurchaseManager>(
     () => switch (Envs.storeTarget) {
       InstallPlatformTarget.rustore => FlutterRustoreBillingManager(
-          consoleApplicationId: Envs.rustoreApplicationId,
-          // ignore: avoid_redundant_argument_values
-          enableLogger: Envs.logging,
-          deeplinkScheme: Envs.appScheme,
-          productTypeChecker: MonetizationProducts.productTypeChecker,
-        ),
+        consoleApplicationId: Envs.rustoreApplicationId,
+        // ignore: avoid_redundant_argument_values
+        enableLogger: Envs.logging,
+        deeplinkScheme: Envs.appScheme,
+        productTypeChecker: MonetizationProducts.productTypeChecker,
+      ),
       InstallPlatformTarget.appleStore ||
-      InstallPlatformTarget.googlePlay =>
-        NoopPurchaseManager(),
+      InstallPlatformTarget.googlePlay => NoopPurchaseManager(),
       // TODO(arenukvern): description
       // InAppPurchaseManager(),
       _ => NoopPurchaseManager(),

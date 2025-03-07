@@ -20,6 +20,7 @@ class GlobalStateProviders extends StatelessWidget {
         ChangeNotifierProvider<TasksResource>.value(value: g()),
         ChangeNotifierProvider<TasksTransactionsResource>.value(value: g()),
         ChangeNotifierProvider<BudgetsResource>.value(value: g()),
+        ChangeNotifierProvider<PlannedSumResource>.value(value: g()),
         ChangeNotifierProvider<RecentBudgetResource>.value(value: g()),
         ChangeNotifierProvider<UiTimelineNotifier>.value(value: g()),
         ChangeNotifierProvider<TasksNotifier>.value(value: g()),
