@@ -10,10 +10,22 @@ typedef TransactionsBalanceRecord = ({
   double income
 });
 
-class CalculateTotalBalanceCmd with HasResources {
+typedef CalculateTotalBalanceCmdParams = ({
+  DateTime startDate,
+  Period period,
+});
+
+extension CalculateTotalBalanceCmdParamsX on CalculateTotalBalanceCmdParams {
+  DateTime get endDate => startDate.add(period.duration);
+}
+
+class CalculateTotalBalanceCmd with HasResources, HasLocalApis {
   const CalculateTotalBalanceCmd();
-  void execute() {
-    final totalBalance = _calculateTotalBalance();
+  Future<void> execute(final CalculateTotalBalanceCmdParams params) async {
+    final (:balance, :expense, :income) = await _calculateTotalBalance(params);
+    totalSumResource
+      ..expensesSum = expense
+      ..incomesSum = income;
   }
 
   /// Calculates the total expense as the difference between all budgets
@@ -25,18 +37,20 @@ class CalculateTotalBalanceCmd with HasResources {
   /// budgets within this period.
   ///
   /// Returns the total expense as a tuple with balance, expense, and income.
-  TransactionsBalanceRecord _calculateTotalBalance({
-    required final DateTime startDate,
-    required final DateTime endDate,
-  }) {
-    final relevantBudgets = manualBudgetsLocalApi.getBudgetForPeriod(
+  Future<TransactionsBalanceRecord> _calculateTotalBalance(
+    final CalculateTotalBalanceCmdParams params,
+  ) async {
+    const emptyResult = (balance: .0, expense: .0, income: .0);
+    final taxFree = predictionConfigResource.isTaxFree;
+    final (:startDate, :period) = params;
+    final endDate = params.endDate;
+    final relevantBudgets = await manualBudgetsLocalApi.getAllBudgetsForPeriod(
       startDate: startDate,
-      period: value.period,
-      pageLimit: (page: 1, limit: 100),
+      period: period,
     );
 
     //  ..sort((final a, final b) => b.date.compareTo(a.date));
-    if (relevantBudgets.isEmpty) return (balance: 0, expense: 0, income: 0);
+    if (relevantBudgets.isEmpty) return emptyResult;
 
     final DateTime effectiveStartDate;
     final closestBudgets =
@@ -63,30 +77,31 @@ class CalculateTotalBalanceCmd with HasResources {
 
     if (relevantBudgets.isEmpty ||
         relevantBudgets.lastOrNull?.date.isAfter(effectiveStartDate) == true) {
-      final olderBudget = value.budgets.lastWhereOrNull(
-        (final budget) =>
-            budget.date.isBefore(endDate) && budget.date.isAfter(startDate),
+      final oldestBudget =
+          await manualBudgetsLocalApi.getOldestBudgetBetweenDates(
+        startDate: startDate,
+        endDate: endDate,
       );
-      if (olderBudget != null) {
-        relevantBudgets.add(olderBudget);
+      if (oldestBudget != null) {
+        relevantBudgets.add(oldestBudget);
       }
     }
     relevantBudgets.sort((final a, final b) => a.date.compareTo(b.date));
-    if (relevantBudgets.isEmpty) return (balance: 0, expense: 0, income: 0);
+    if (relevantBudgets.isEmpty) return emptyResult;
     if (relevantBudgets.length == 1) {
       final budget = relevantBudgets.first;
-      final amount = budget.input.amount(taxFree: _amountsTaxFree);
+      final amount = budget.input.amount(taxFree: taxFree);
       if (budget.date.isBefore(effectiveStartDate) ||
           budget.date == effectiveStartDate) {
         return (
           balance: amount,
-          expense: 0,
-          income: 0,
+          expense: .0,
+          income: .0,
         );
       }
       return (
         balance: amount,
-        expense: 0,
+        expense: .0,
         income: amount,
       );
     }
@@ -94,28 +109,26 @@ class CalculateTotalBalanceCmd with HasResources {
     double expense = 0;
     double income = 0;
     double previousAmount =
-        relevantBudgets.first.input.amount(taxFree: _amountsTaxFree);
+        relevantBudgets.first.input.amount(taxFree: taxFree);
 
     for (int i = 1; i < relevantBudgets.length; i++) {
       final difference =
-          relevantBudgets[i].input.amount(taxFree: _amountsTaxFree) -
-              previousAmount;
+          relevantBudgets[i].input.amount(taxFree: taxFree) - previousAmount;
       if (difference < 0) {
         expense += difference.abs();
       } else {
         income += difference;
       }
-      previousAmount =
-          relevantBudgets[i].input.amount(taxFree: _amountsTaxFree);
+      previousAmount = relevantBudgets[i].input.amount(taxFree: taxFree);
     }
 
     // If the period starts after the last budget, consider it as an expense
     if (startDate.isAfter(relevantBudgets.last.date)) {
-      expense += relevantBudgets.last.input.amount(taxFree: _amountsTaxFree);
+      expense += relevantBudgets.last.input.amount(taxFree: taxFree);
     }
 
     return (
-      balance: relevantBudgets.last.input.amount(taxFree: _amountsTaxFree),
+      balance: relevantBudgets.last.input.amount(taxFree: taxFree),
       expense: expense,
       income: income,
     );

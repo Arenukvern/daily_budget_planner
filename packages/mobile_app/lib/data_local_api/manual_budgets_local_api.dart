@@ -82,6 +82,33 @@ final class ManualBudgetsLocalApi extends ComplexLocalApi {
     }
   }
 
+  /// Retrives [Budget] between [startDate] and [endDate]
+  ///
+  /// Returns null if not found
+  /// Throws [LocalApiException] if the operation fails
+  Future<Budget?> getOldestBudgetBetweenDates({
+    required final DateTime startDate,
+    required final DateTime endDate,
+  }) async {
+    try {
+      final query = _budgets
+          .where()
+          .createdAtGreaterThanOrEqualTo(startDate)
+          .createdAtLessThanOrEqualTo(endDate)
+          .sortByCreatedAtDesc();
+
+      /// finding last one
+      final item = query.findFirst();
+      return item?.toDomain();
+    } catch (e, s) {
+      throw LocalApiException(
+        message: 'Failed to get budget between dates',
+        error: e,
+        stackTrace: s,
+      );
+    }
+  }
+
   /// Retrieves all budgets for period without pagination
   ///
   /// Throws [LocalApiException] if the operation fails
