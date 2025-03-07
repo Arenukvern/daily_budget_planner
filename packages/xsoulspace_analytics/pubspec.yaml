@@ -5,7 +5,7 @@ description: Analytics & crash reporting tools for the app
 version: 0.1.0
 
 environment:
-  sdk: ">=3.6.0 <4.0.0"
+  sdk: ">=3.7.0 <4.0.0"
 resolution: workspace
 
 dependencies:
@@ -16,8 +16,8 @@ dependencies:
   flutter:
     sdk: flutter
   universal_io: ^2.2.2
-  xsoulspace_foundation: ^0.0.9
+  xsoulspace_foundation: ^0.0.11
 
 dev_dependencies:
   lints: ^5.1.1
-  xsoulspace_lints: ^0.0.13
+  xsoulspace_lints: ^0.0.14

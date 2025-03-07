@@ -230,12 +230,12 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
 
 SPEC CHECKSUMS:
-  connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
-  device_info_plus: ce1b7762849d3ec103d0e0517299f2db7ad60720
+  connectivity_plus: 3f6c9057f4cd64198dc826edfb0542892f825343
+  device_info_plus: a56e6e74dbbd2bb92f2da12c64ddd4f67a749041
   Firebase: 98e6bf5278170668a7983e12971a66b2cd57fc8c
-  firebase_analytics: 30ff72f6d4847ff0b479d8edd92fc8582e719072
-  firebase_core: e88f946a4601cb1854178cb07da241bba5a6508e
-  firebase_crashlytics: e09adc8a2db53e71b3ef3d085deb688a0c17467a
+  firebase_analytics: 2a95a7399041072e75c504e53661bb78c6565d62
+  firebase_core: a80622fa9e9f18e20d5b7b902c2138248dcf8b77
+  firebase_crashlytics: 70ecbf9bc524f45d04d7e6788a010093c0e40da2
   FirebaseAnalytics: c36efd5710c60c17558650fa58c2066eca7e9265
   FirebaseCore: a282032ae9295c795714ded2ec9c522fc237f8da
   FirebaseCoreExtension: f1bc67a4702931a7caa097d8e4ac0a1b0d16720e
@@ -244,24 +244,24 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 6ef4a1c7eb2a61ee1f74727d7f6ce2e72acf1414
   FirebaseRemoteConfigInterop: ca12abf9da0003efd3a476b2dff4f7a04fd31b4f
   FirebaseSessions: 655ff17f3cc1a635cbdc2d69b953878001f9e25b
-  flutter_platform_alert: 49f22b31593e29e7a5e65f1b80f8d3de02b95dd4
+  flutter_platform_alert: 8fa7a7c21f95b26d08b4a3891936ca27e375f284
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   GoogleAppMeasurement: 76d4f8b36b03bd8381fa9a7fe2cc7f99c0a2e93a
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
-  in_app_purchase_storekit: 8c3b0b3eb1b0f04efbff401c3de6266d4258d433
-  in_app_review: a850789fad746e89bce03d4aeee8078b45a53fd0
-  isar_flutter_libs: 43385c99864c168fadba7c9adeddc5d38838ca6a
+  in_app_purchase_storekit: e126ef1b89e4a9fdf07e28f005f82632b4609437
+  in_app_review: ffac7b4a0a71cdaecb1383807e7a8244b09e6d93
+  isar_flutter_libs: a65381780401f81ad6bf3f2e7cd0de5698fb98c4
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
-  package_info_plus: d2f71247aab4b6521434f887276093acc70d214c
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  package_info_plus: 4f85435d47d3cdedb9b420d168afd080840708ea
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  share_plus: a182a58e04e51647c0481aadabbc4de44b3a2bce
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
-  store_checker: 387169de0dffe57b6370d54cc027e9f95051b57f
-  url_launcher_macos: c82c93949963e55b228a30115bd219499a6fe404
+  share_plus: cac22951fc595d1698939fcf05ca102ba2fe169c
+  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  store_checker: 0b5120a0f0a0f36af7b4be01a049e6006151dc16
+  url_launcher_macos: 0fba8ddabfc33ce0a9afe7c5fef5aab3d8d2d673
 
 PODFILE CHECKSUM: c5fcc3e744222f965ea6343614217d4fca29a33b
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

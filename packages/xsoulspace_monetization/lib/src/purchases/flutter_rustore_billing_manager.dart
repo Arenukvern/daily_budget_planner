@@ -50,10 +50,15 @@ class FlutterRustoreBillingManager implements PurchaseManager {
   /// [productTypeChecker] is the function to check the product type
   /// if it is returned from Rustore.
   final PurchaseProductType? Function(PurchaseProductId productId)?
-      productTypeChecker;
+  productTypeChecker;
 
   @override
-  Future<bool> isAvailable() async => RustoreBillingClient.available();
+  // ignore: prefer_expression_function_bodies
+  Future<bool> isAvailable() async {
+    // TODO(arenukvern): migrate to new method
+    // final result = await RustoreBillingClient.available();
+    return true;
+  }
 
   @override
   Future<bool> init() async {
@@ -126,8 +131,10 @@ class FlutterRustoreBillingManager implements PurchaseManager {
         details.productType == expectedType,
         'Product type must be $expectedType',
       );
-      final purchase =
-          await RustoreBillingClient.purchase(details.productId.value, null);
+      final purchase = await RustoreBillingClient.purchase(
+        details.productId.value,
+        null,
+      );
       if (purchase.successPurchase == null) {
         return PurchaseResult.failure(
           'Purchase failed. ${purchase.invalidPurchase} ${purchase.invalidInvoice}',
@@ -138,8 +145,7 @@ class FlutterRustoreBillingManager implements PurchaseManager {
           status: switch (expectedType) {
             PurchaseProductType.consumable => PurchaseStatus.restored,
             PurchaseProductType.nonConsumable ||
-            PurchaseProductType.subscription =>
-              PurchaseStatus.purchased,
+            PurchaseProductType.subscription => PurchaseStatus.purchased,
           },
           purchaseId: PurchaseId(purchase.successPurchase!.purchaseId),
           purchaseType: expectedType,
@@ -149,9 +155,10 @@ class FlutterRustoreBillingManager implements PurchaseManager {
           price: details.price,
           currency: details.currency,
           purchaseDate: DateTime.now(),
-          expiryDate: expectedType == PurchaseProductType.subscription
-              ? DateTime.now().add(details.duration)
-              : null,
+          expiryDate:
+              expectedType == PurchaseProductType.subscription
+                  ? DateTime.now().add(details.duration)
+                  : null,
         ),
       );
     } catch (e) {
@@ -184,27 +191,25 @@ class FlutterRustoreBillingManager implements PurchaseManager {
   @override
   Future<List<PurchaseProductDetails>> getSubscriptions(
     final List<PurchaseProductId> productIds,
-  ) =>
-      _getProducts(productIds, PurchaseProductType.subscription);
+  ) => _getProducts(productIds, PurchaseProductType.subscription);
 
   @override
   Future<List<PurchaseProductDetails>> getConsumables(
     final List<PurchaseProductId> productIds,
-  ) =>
-      _getProducts(productIds, PurchaseProductType.consumable);
+  ) => _getProducts(productIds, PurchaseProductType.consumable);
 
   @override
   Future<List<PurchaseProductDetails>> getNonConsumables(
     final List<PurchaseProductId> productIds,
-  ) =>
-      _getProducts(productIds, PurchaseProductType.nonConsumable);
+  ) => _getProducts(productIds, PurchaseProductType.nonConsumable);
 
   Future<List<PurchaseProductDetails>> _getProducts(
     final List<PurchaseProductId> productIds,
     final PurchaseProductType type,
   ) async {
-    final productsResponse =
-        await RustoreBillingClient.products(productIds.toJson());
+    final productsResponse = await RustoreBillingClient.products(
+      productIds.toJson(),
+    );
     return productsResponse.products.nonNulls
         .where(
           (final product) =>
@@ -260,9 +265,10 @@ class FlutterRustoreBillingManager implements PurchaseManager {
   Future<RestoreResult> restore() async {
     try {
       final purchasesResponse = await RustoreBillingClient.purchases();
-      final restoredPurchases = purchasesResponse.purchases.nonNulls
-          .map(_mapToPurchaseDetails)
-          .toList();
+      final restoredPurchases =
+          purchasesResponse.purchases.nonNulls
+              .map(_mapToPurchaseDetails)
+              .toList();
       return RestoreResult.success(restoredPurchases);
     } catch (e) {
       return RestoreResult.failure(e.toString());
@@ -270,9 +276,7 @@ class FlutterRustoreBillingManager implements PurchaseManager {
   }
 
   @override
-  Future<PurchaseDetails> getPurchaseInfo(
-    final PurchaseId purchaseId,
-  ) async {
+  Future<PurchaseDetails> getPurchaseInfo(final PurchaseId purchaseId) async {
     final purchase = await RustoreBillingClient.purchaseInfo(purchaseId.value);
     return _mapToPurchaseDetails(purchase);
   }
@@ -310,7 +314,7 @@ class FlutterRustoreBillingManager implements PurchaseManager {
         'Product type must be subscription',
       );
       await RustoreBillingClient.deletePurchase(details.productId.value);
-      return CancelResult.success();
+      return const CancelResult.success();
     } catch (e) {
       return CancelResult.failure(e.toString());
     }
@@ -318,8 +322,9 @@ class FlutterRustoreBillingManager implements PurchaseManager {
 
   static Duration getDurationFromProductId(final PurchaseProductId id) {
     final parts = id.value.split('_');
-    final unitIndex = parts
-        .indexWhere((final part) => ['day', 'month', 'year'].contains(part));
+    final unitIndex = parts.indexWhere(
+      (final part) => ['day', 'month', 'year'].contains(part),
+    );
 
     if (unitIndex == -1 || unitIndex + 1 >= parts.length) return Duration.zero;
 
