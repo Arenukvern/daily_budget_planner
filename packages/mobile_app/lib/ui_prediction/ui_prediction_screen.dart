@@ -91,41 +91,51 @@ class _PredictionHeader extends StatelessWidget {
                   period: period,
                 ),
                 const Spacer(),
-                _HeaderItem(
-                  onPressed: () async => showExpensesTasksView(
-                    context: context,
-                  ),
-                  title: LocalizedMap(
-                    // TODO(arenukvern): add localization l10n
-                    value: {
-                      languages.en: 'regular expenses',
-                      languages.it: 'spese regolari',
-                      languages.ru: 'регулярные расходы',
-                    },
-                  ).getValue(locale),
-                  value: '\$${tasksNotifier.getPlannedExpensesSum(
-                        startAt: selectedDate,
-                        period: period,
-                        transactionType: TransactionType.expense,
-                      ).toStringAsFixed(2)}',
-                  icon: Icons.arrow_drop_down_rounded,
+                Builder(
+                  builder: (final context) {
+                    final plannedExpensesSum =
+                        context.select<PlannedTotalSumResource, double>(
+                      (final state) => state.expensesSum,
+                    );
+
+                    return _HeaderItem(
+                      onPressed: () async => showExpensesTasksView(
+                        context: context,
+                      ),
+                      title: LocalizedMap(
+                        // TODO(arenukvern): add localization l10n
+                        value: {
+                          languages.en: 'regular expenses',
+                          languages.it: 'spese regolari',
+                          languages.ru: 'регулярные расходы',
+                        },
+                      ).getValue(locale),
+                      value: '\$${plannedExpensesSum.toStringAsFixed(2)}',
+                      icon: Icons.arrow_drop_down_rounded,
+                    );
+                  },
                 ),
-                _HeaderItem(
-                  onPressed: () async => showIncomesTasksView(context: context),
-                  title: LocalizedMap(
-                    // TODO(arenukvern): add localization l10n
-                    value: {
-                      languages.en: 'regular income',
-                      languages.it: 'entrate regolari',
-                      languages.ru: 'регулярные доходы',
-                    },
-                  ).getValue(locale),
-                  value: '\$${tasksNotifier.getPlannedIncomesSum(
-                        startAt: selectedDate,
-                        period: period,
-                        transactionType: TransactionType.income,
-                      ).toStringAsFixed(2)}',
-                  icon: Icons.arrow_drop_up_rounded,
+                Builder(
+                  builder: (final context) {
+                    final plannedIncomesSum =
+                        context.select<PlannedTotalSumResource, double>(
+                      (final state) => state.incomesSum,
+                    );
+                    return _HeaderItem(
+                      onPressed: () async =>
+                          showIncomesTasksView(context: context),
+                      title: LocalizedMap(
+                        // TODO(arenukvern): add localization l10n
+                        value: {
+                          languages.en: 'regular income',
+                          languages.it: 'entrate regolari',
+                          languages.ru: 'регулярные доходы',
+                        },
+                      ).getValue(locale),
+                      value: '\$${plannedIncomesSum.toStringAsFixed(2)}',
+                      icon: Icons.arrow_drop_up_rounded,
+                    );
+                  },
                 ),
                 const Spacer(),
               ],
@@ -515,7 +525,7 @@ class _DailyStatistics extends StatelessWidget {
         children: [
           _StatisticItem(
             onPressed: () async => UiExpensesView.show(context: context),
-            value: '-\$${totalSumResource.totalExpensesSum.toStringAsFixed(2)}',
+            value: '-\$${totalSumResource.expensesSum.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
                 languages.en: 'Expenses',
@@ -526,7 +536,7 @@ class _DailyStatistics extends StatelessWidget {
           ),
           _StatisticItem(
             onPressed: () async => UiIncomesView.show(context: context),
-            value: '+\$${totalSumResource.totalIncomesSum.toStringAsFixed(2)}',
+            value: '+\$${totalSumResource.incomesSum.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
                 languages.en: 'Income',

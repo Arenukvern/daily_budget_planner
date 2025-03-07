@@ -71,7 +71,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   r(localeNotifier, dispose: (final i) => i.dispose());
   rl(AppSettingsNotifier.new, dispose: (final i) => i.dispose());
   rl(UserNotifier.new, dispose: (final i) => i.dispose());
-  rl(AppStatusNotifier.new, dispose: (final i) => i.dispose());
+  rl(AppStatusResource.new, dispose: (final i) => i.dispose());
   // TODO(arenukvern): create a factory for this
   /// possible conflicts with purchase managers
   rl<PurchaseManager>(
@@ -170,7 +170,7 @@ mixin HasResources {
 /// state usage to make ui management more effective.
 mixin HasNotifiers {
   UserNotifier get userNotifier => _g();
-  AppStatusNotifier get appStatusNotifier => _g();
+  AppStatusResource get appStatusNotifier => _g();
   UiLocaleNotifier get localeNotifier => _g();
   AppSettingsNotifier get appSettingsNotifier => _g();
   PurchaseInitializer get purchaseIntializer => _g();

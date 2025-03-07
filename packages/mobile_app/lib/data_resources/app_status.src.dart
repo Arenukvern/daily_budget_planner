@@ -7,6 +7,6 @@ enum AppStatus {
 }
 
 @stateDistributor
-class AppStatusNotifier extends ValueNotifier<AppStatus> {
-  AppStatusNotifier() : super(AppStatus.loading);
+class AppStatusResource extends ValueNotifier<AppStatus> {
+  AppStatusResource() : super(AppStatus.loading);
 }

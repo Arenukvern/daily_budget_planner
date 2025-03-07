@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_other/privacy_screen.dart';
 import 'package:mobile_app/ui_other/terms_screen.dart';
@@ -67,7 +66,7 @@ String? _handleRootRedirect(
   final BuildContext context,
   final GoRouterState state,
 ) {
-  final appStatus = context.read<AppStatusNotifier>().value;
+  final appStatus = context.read<AppStatusResource>().value;
   final location = state.uri.toString();
   // Prevent anyone from navigating away from `/` if app is starting up.
   if (appStatus == AppStatus.loading && location != ScreenPaths.root.value) {
