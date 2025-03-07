@@ -19,10 +19,10 @@ class UiExpensesView extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     // TODO(arenukvern):  add pagination
-    final expenses =
-        context.select<TasksTransactionsResource, List<Transaction>>(
-      (final state) => state.value.expenses,
-    );
+    final expenses = <Transaction>[];
+    // context.select<TasksTransactionsResource, List<Transaction>>(
+    //   (final state) => state.value.expenses,
+    // );
 
     return UiColumnScaffold(
       appBar: UiAppBar(

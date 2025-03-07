@@ -19,10 +19,10 @@ class UiIncomesView extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     // TODO(arenukvern):  add pagination
-    final incomes =
-        context.select<TasksTransactionsResource, List<Transaction>>(
-      (final state) => state.value.incomes,
-    );
+    final incomes = <Transaction>[];
+    //     context.select<TasksTransactionsResource, List<Transaction>>(
+    //   (final state) => state.value.incomes,
+    // );
 
     return UiColumnScaffold(
       appBar: UiAppBar(
