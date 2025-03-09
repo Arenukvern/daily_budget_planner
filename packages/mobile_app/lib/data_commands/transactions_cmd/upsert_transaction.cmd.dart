@@ -1,27 +1,32 @@
 import 'package:mobile_app/common_imports.dart';
 
-class UpsertTransactionCommand with HasLocalApis {
+class UpsertTransactionCommand with HasResources, HasLocalApis {
   const UpsertTransactionCommand();
 
-  Future<void> execute(final TransactionEditorResult result) async {
+  Future<void> execute({
+    required final TransactionEditorResult result,
+    final TaskId taskId = TaskId.empty,
+  }) async {
     final (:transaction, :scheduledTransaction) = result;
-    await transactionsLocalApi.upsertTransaction(transaction);
+    final updatedTransaction = transaction.copyWith(taskId: taskId);
+    final updatedScheduledTransaction = scheduledTransaction.copyWith(
+      taskId: taskId,
+    );
+    await transactionsLocalApi.upsertTransaction(updatedTransaction);
 
-    if (scheduledTransaction.isSet) {
+    if (updatedScheduledTransaction.isSet) {
       await scheduledTransactionsLocalApi.upsertScheduledTransaction(
-        scheduledTransaction,
+        updatedScheduledTransaction,
       );
     }
-    // TODO(arenukvern): description
 
-    // switch (transaction.type) {
-    //   case TransactionType.expense:
-    //     _recalculateTotalExpensesSum();
-    //   case TransactionType.income:
-    //     _recalculateTotalIncomesSum();
-    //   case TransactionType.transferIn:
-    //   case TransactionType.transferOut:
-    //   // TODO(arenukvern): implement
-    // }
+    tasksTransactionsResource.upsertTransaction(
+      transaction: updatedTransaction,
+      scheduledTransaction: updatedScheduledTransaction,
+      taskId: taskId,
+    );
+
+    transactionsConfigResource.lastUpdatedTransactionDate =
+        updatedTransaction.transactionDate;
   }
 }

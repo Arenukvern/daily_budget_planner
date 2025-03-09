@@ -44,28 +44,28 @@ class _UiTasksBarViewState extends State<UiTasksBarView> {
               text: LocalizedMap(
                 value: switch (widget.taskTransactionType) {
                   TaskTransactionType.income => {
-                      languages.en:
-                          'Use categories to plan your regular incomes, '
-                              'for example, salary, cashback etc. ',
-                      languages.ru:
-                          'Используйте категории для планирования регулярных доходов, '
-                              ' например, зарплата, кэшбэк и т.д. ',
-                      languages.it:
-                          'Usa le categorie per pianificare le tue entrate periodiche, '
-                              'come il salario, il caffè, ecc. ',
-                    },
+                    languages.en:
+                        'Use categories to plan your regular incomes, '
+                        'for example, salary, cashback etc. ',
+                    languages.ru:
+                        'Используйте категории для планирования регулярных доходов, '
+                        ' например, зарплата, кэшбэк и т.д. ',
+                    languages.it:
+                        'Usa le categorie per pianificare le tue entrate periodiche, '
+                        'come il salario, il caffè, ecc. ',
+                  },
                   TaskTransactionType.expense => {
-                      languages.en:
-                          'Use categories to plan your regular expenses which '
-                              'are usually huge, for example, rent, train, insurance, etc. ',
-                      languages.ru:
-                          'Используйте категории для планирования регулярных расходов, '
-                              'которые обычно значительны, например, аренда, поездки на работу, '
-                              'страхование и т.д. ',
-                      languages.it:
-                          'Usa le categorie per pianificare le tue spese periodiche, '
-                              "che di solito sono grandi, come l'affitto, il treno, l'assicurazione, ecc. ",
-                    },
+                    languages.en:
+                        'Use categories to plan your regular expenses which '
+                        'are usually huge, for example, rent, train, insurance, etc. ',
+                    languages.ru:
+                        'Используйте категории для планирования регулярных расходов, '
+                        'которые обычно значительны, например, аренда, поездки на работу, '
+                        'страхование и т.д. ',
+                    languages.it:
+                        'Usa le categorie per pianificare le tue spese periodiche, '
+                        "che di solito sono grandi, come l'affitto, il treno, l'assicurazione, ecc. ",
+                  },
                 },
               ),
             ),
@@ -83,19 +83,20 @@ class _UiTasksBarViewState extends State<UiTasksBarView> {
                 ...tasks.mapIndexed(
                   (final index, final task) => UiBaseButton(
                     pressedScale: 1,
-                    onPressed: () async => _scrollController.animateToItem(
-                      index,
-                      duration: 200.milliseconds,
-                      curve: Curves.easeInOut,
-                    ),
+                    onPressed:
+                        () async => _scrollController.animateToItem(
+                          index,
+                          duration: 200.milliseconds,
+                          curve: Curves.easeInOut,
+                        ),
                     builder:
                         (final context, final focused, final onlyFocused) =>
                             Center(
-                      child: Text(
-                        task.title,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                              child: Text(
+                                task.title,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
                   ),
                 ),
               ],
@@ -115,10 +116,7 @@ class UiTipCard extends StatelessWidget {
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 4,
-        horizontal: 4,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
       decoration: BoxDecoration(
         color: context.colorScheme.primaryContainer.withOpacity(0.3),
         borderRadius: UiBorderRadius.medium,
@@ -149,50 +147,49 @@ class UiTaskVerticalActionsBar extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: context.colorScheme.primaryContainer.withOpacity(0.3),
-            borderRadius: UiBorderRadius.medium,
-          ),
-          margin: EdgeInsets.zero,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 2),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 8,
-              children: [
-                AddTaskTransactionButton(
-                  padding: const EdgeInsets.all(3),
-                  task: task,
-                  dto: TransactionEditorDto(
-                    isPeriodChangable: true,
-                    isUsedForTaskPlanning: isUsedForTaskPlanning,
-                  ),
-                  currencyType: currencyType,
-                ),
-              ],
+    child: Container(
+      decoration: BoxDecoration(
+        color: context.colorScheme.primaryContainer.withOpacity(0.3),
+        borderRadius: UiBorderRadius.medium,
+      ),
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 2),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 8,
+          children: [
+            AddTaskTransactionButton(
+              padding: const EdgeInsets.all(3),
+              task: task,
+              dto: TransactionEditorDto(
+                isPeriodChangable: true,
+                isUsedForTaskPlanning: isUsedForTaskPlanning,
+              ),
+              currencyType: currencyType,
             ),
-          ),
+          ],
         ),
-      );
+      ),
+    ),
+  );
 }
 
 class UiTaskView extends StatelessWidget with HasNotifiers {
-  const UiTaskView({
-    required this.currencyType,
-    required this.task,
-    super.key,
-  });
+  const UiTaskView({required this.currencyType, required this.task, super.key});
   final CurrencyType currencyType;
   final Task task;
   @override
   Widget build(final BuildContext context) {
     final (:transactions, :scheduledTransactions) = context
-        .select<TasksTransactionsResource, UiTransactionsSchedulesRecord>(
-      (final c) => c.getTransactionsByTaskId(task.id),
-    );
+        .select<TaskTransactionsResource, UiTransactionsSchedulesRecord>(
+          (final c) => c.getTransactionsByTaskId(task.id),
+        );
     Future<void> onRemove(final Transaction transaction) async =>
-        tasksNotifier.removeTransaction(transaction: transaction, task: task);
+        const RemoveTransactionCommand().execute(
+          transactionId: transaction.id,
+          taskId: task.id,
+        );
     return CupertinoListSection(
       backgroundColor: Colors.transparent,
       header: Column(
@@ -238,22 +235,18 @@ class UiTaskView extends StatelessWidget with HasNotifiers {
           ),
         ],
       ),
-      decoration: BoxDecoration(
-        color: context.colorScheme.primaryContainer,
-      ),
+      decoration: BoxDecoration(color: context.colorScheme.primaryContainer),
       // TODO(arenukvern): convert to listview.builder
       children: [
-        ...scheduledTransactions.map(
-          (final schedule) {
-            final transaction = transactions[schedule.transactionId];
-            if (transaction == null) return const SizedBox.shrink();
-            return _UiTransactionCard(
-              transaction: transaction,
-              onRemove: onRemove,
-              key: ValueKey(schedule.transactionId),
-            );
-          },
-        ),
+        ...scheduledTransactions.map((final schedule) {
+          final transaction = transactions[schedule.transactionId];
+          if (transaction == null) return const SizedBox.shrink();
+          return _UiTransactionCard(
+            transaction: transaction,
+            onRemove: onRemove,
+            key: ValueKey(schedule.transactionId),
+          );
+        }),
       ],
     );
   }
@@ -291,11 +284,14 @@ class _UiTransactionCard extends StatelessWidget {
       ),
       trailing: UiBaseButton(
         onPressed: () => onRemove(transaction),
-        builder: (final context, final focused, final onlyFocused) => Icon(
-          Icons.remove,
-          color:
-              focused ? null : context.colorScheme.onSurface.withOpacity(0.5),
-        ),
+        builder:
+            (final context, final focused, final onlyFocused) => Icon(
+              Icons.remove,
+              color:
+                  focused
+                      ? null
+                      : context.colorScheme.onSurface.withOpacity(0.5),
+            ),
       ),
     );
   }

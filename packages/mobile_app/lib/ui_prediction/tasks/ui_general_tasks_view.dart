@@ -3,29 +3,29 @@ import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 
 Future<void> showExpensesTasksView({
   required final BuildContext context,
-}) async =>
-    Navigator.of(context).push(
-      CupertinoModalSheetRoute(
-        builder: (final _) => const UiBottomSheetWrapper(
+}) async => Navigator.of(context).push(
+  CupertinoModalSheetRoute(
+    builder:
+        (final _) => const UiBottomSheetWrapper(
           child: UiGeneralTasksView(
             taskTransactionType: TaskTransactionType.expense,
           ),
         ),
-      ),
-    );
+  ),
+);
 
 Future<void> showIncomesTasksView({
   required final BuildContext context,
-}) async =>
-    Navigator.of(context).push(
-      CupertinoModalSheetRoute(
-        builder: (final _) => const UiBottomSheetWrapper(
+}) async => Navigator.of(context).push(
+  CupertinoModalSheetRoute(
+    builder:
+        (final _) => const UiBottomSheetWrapper(
           child: UiGeneralTasksView(
             taskTransactionType: TaskTransactionType.income,
           ),
         ),
-      ),
-    );
+  ),
+);
 
 class UiGeneralTasksView extends StatefulWidget {
   const UiGeneralTasksView({
@@ -41,18 +41,20 @@ class UiGeneralTasksView extends StatefulWidget {
 }
 
 class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
-    with HasNotifiers {
-  int? _taskIndex;
-  TaskTransactionType _taskTransactionType = TaskTransactionType.income;
+    with HasNotifiers, HasResources {
+  var _taskIndex = 0;
+  late TaskTransactionType _taskTransactionType = widget.taskTransactionType;
   late final CurrencyType _currencyType = widget.currencyType;
 
   @override
   void initState() {
     super.initState();
-    _loadTransactionType(
-      taskTransactionType: widget.taskTransactionType,
-    );
+    WidgetsBinding.instance.addPostFrameCallback((final _) {
+      _loadTransactionType(taskTransactionType: _taskTransactionType);
+    });
   }
+
+  List<Task> get _tasks => tasksResource.getTasks(_taskTransactionType);
 
   void _loadTransactionType({
     required final TaskTransactionType taskTransactionType,
@@ -60,7 +62,19 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
   }) {
     _taskTransactionType = taskTransactionType;
     _taskIndex = 0;
+
     if (notify) setState(() {});
+    if (_tasks.isEmpty) return;
+
+    final task = _tasks[_taskIndex];
+
+    unawaited(
+      const LoadTaskTransactionsCommand().execute(
+        taskId: task.id,
+        startDate: predictionConfigResource.startDate,
+        period: predictionConfigResource.period,
+      ),
+    );
   }
 
   @override
@@ -69,14 +83,11 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
     final tasks = context.select<TasksResource, List<Task>>(
       (final c) => c.getTasks(_taskTransactionType),
     );
-    final task = tasks[_taskIndex ?? 0];
-    final (:startDate, :period) = context.select<PredictionConfigResource,
-        ({DateTime startDate, Period period})>(
-      (final c) => (
-        startDate: c.startDate,
-        period: c.period,
-      ),
-    );
+    final task = tasks[_taskIndex];
+    final (:startDate, :period) = context.select<
+      PredictionConfigResource,
+      ({DateTime startDate, Period period})
+    >((final c) => (startDate: c.startDate, period: c.period));
 
     return UiColumnScaffold(
       appBar: UiAppBar(
@@ -106,10 +117,7 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
           groupValue: _taskTransactionType,
           onValueChanged: (final value) {
             if (value == null) return;
-            _loadTransactionType(
-              taskTransactionType: value,
-              notify: true,
-            );
+            _loadTransactionType(taskTransactionType: value, notify: true);
           },
         ),
         automaticallyImplyLeading: false,
@@ -126,8 +134,8 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
                   onSelect: (final value) async {
                     setState(() => _taskIndex = value);
                     unawaited(
-                      tasksNotifier.loadTransactionsForTask(
-                        task: task,
+                      const LoadTaskTransactionsCommand().execute(
+                        taskId: task.id,
                         startDate: startDate,
                         period: period,
                       ),
@@ -141,10 +149,7 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
                 currencyType: _currencyType,
               ),
               Expanded(
-                child: UiTaskView(
-                  task: task,
-                  currencyType: _currencyType,
-                ),
+                child: UiTaskView(task: task, currencyType: _currencyType),
               ),
             ],
           ),

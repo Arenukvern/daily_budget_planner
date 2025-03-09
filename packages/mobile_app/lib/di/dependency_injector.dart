@@ -57,7 +57,8 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   /// *      RESOURCES
   /// ********************************************
   rl(TasksResource.new, dispose: (final i) => i.dispose());
-  rl(TasksTransactionsResource.new, dispose: (final i) => i.dispose());
+  rl(TaskTransactionsResource.new, dispose: (final i) => i.dispose());
+  rl(TransactionsConfigResource.new, dispose: (final i) => i.dispose());
   rl(BudgetsResource.new, dispose: (final i) => i.dispose());
   rl(RecentBudgetResource.new, dispose: (final i) => i.dispose());
   rl(PredictionConfigResource.new, dispose: (final i) => i.dispose());
@@ -107,7 +108,6 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   );
   rl(DictionariesNotifier.new, dispose: (final i) => i.dispose());
   rl(FinSettingsNotifier.new, dispose: (final i) => i.dispose());
-  rl(TasksNotifier.new, dispose: (final i) => i.dispose());
   rl(
     () => SubscriptionManager(
       productIds: MonetizationProducts.subscriptions,
@@ -155,7 +155,8 @@ mixin HasLocalApis {
 /// for ui access.
 mixin HasResources {
   TasksResource get tasksResource => _g();
-  TasksTransactionsResource get tasksTransactionsResource => _g();
+  TransactionsConfigResource get transactionsConfigResource => _g();
+  TaskTransactionsResource get tasksTransactionsResource => _g();
   BudgetsResource get budgetsResource => _g();
   RecentBudgetResource get recentBudgetResource => _g();
   PredictionConfigResource get predictionConfigResource => _g();
@@ -185,7 +186,6 @@ mixin HasNotifiers {
   MonthlyNotifier get monthlyCubit => _g();
   StoreReviewRequester get storeReviewRequester => _g();
   DictionariesNotifier get dictionariesNotifier => _g();
-  TasksNotifier get tasksNotifier => _g();
   FinSettingsNotifier get finSettingsNotifier => _g();
   UiTimelineNotifier get uiTimelineNotifier => _g();
 }

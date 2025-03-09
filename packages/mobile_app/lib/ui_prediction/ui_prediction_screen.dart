@@ -60,7 +60,6 @@ class _PredictionHeader extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
-    final tasksNotifier = context.watch<TasksNotifier>();
     final period = context.select<PredictionConfigResource, Period>(
       (final state) => state.period,
     );

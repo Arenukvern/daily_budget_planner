@@ -52,9 +52,7 @@ final class TransactionsLocalApi extends ComplexLocalApi {
   }
 
   /// Throws [LocalApiException] if the operation fails
-  Future<void> upsertTransactions(
-    final List<Transaction> transactions,
-  ) async {
+  Future<void> upsertTransactions(final List<Transaction> transactions) async {
     try {
       isar.write((final db) {
         final models =
@@ -71,7 +69,7 @@ final class TransactionsLocalApi extends ComplexLocalApi {
   }
 
   /// Throws [LocalApiException] if the operation fails
-  Future<void> deleteTransaction(final TransactionId id) async {
+  Future<void> removeTransaction(final TransactionId id) async {
     try {
       isar.write((final db) {
         db.transactionIsarCollections.delete(id.value);

@@ -1,11 +1,13 @@
 import 'package:mobile_app/common_imports.dart';
 
 @stateDistributor
-class TasksTransactionsResource with ChangeNotifier {
-  TasksTransactionsResource();
+class TaskTransactionsResource with ChangeNotifier {
+  TaskTransactionsResource();
   var _transactions = <TransactionId, Transaction>{}.unmodifiable;
   var _tasksTransactions = <TaskId, List<ScheduledTransaction>>{}.unmodifiable;
+}
 
+extension TaskTransactionsResourceX on TaskTransactionsResource {
   UiTransactionsSchedulesRecord getTransactionsByTaskId(final TaskId taskId) {
     final scheduledTransactions = _tasksTransactions[taskId] ?? [];
     final transactions = <TransactionId, Transaction>{};
@@ -21,58 +23,58 @@ class TasksTransactionsResource with ChangeNotifier {
   }
 
   void removeTransaction({
-    required final Transaction transaction,
-    required final Task? task,
+    required final TransactionId transactionId,
+    required final TaskId? taskId,
   }) {
-    final updatedTransactions = {..._transactions}..remove(transaction.id);
+    final updatedTransactions = {..._transactions}..remove(transactionId);
     _transactions = updatedTransactions.unmodifiable;
-    if (task == null) return;
+    if (taskId == null) return;
     final updatedTasksTransactions = {
       ..._tasksTransactions,
-      task.id: [
-        ...?_tasksTransactions[task.id]?.where(
-          (final element) => element.transactionId != transaction.id,
+      taskId: [
+        ...?_tasksTransactions[taskId]?.where(
+          (final element) => element.transactionId != transactionId,
         ),
       ],
     };
     _tasksTransactions = updatedTasksTransactions.unmodifiable;
-    notifyListeners();
+    setState(() {});
   }
 
   void upsertTransaction({
     required final Transaction transaction,
     required final ScheduledTransaction scheduledTransaction,
-    required final Task task,
+    required final TaskId taskId,
   }) {
     _transactions =
         {..._transactions, transaction.id: transaction}.unmodifiable;
-    final updatedTasksTransactions = {
-      ..._tasksTransactions,
-      task.id: [
-        ...?_tasksTransactions[task.id],
-        scheduledTransaction,
-      ],
-    }.unmodifiable;
+    final updatedTasksTransactions =
+        {
+          ..._tasksTransactions,
+          taskId: [...?_tasksTransactions[taskId], scheduledTransaction],
+        }.unmodifiable;
     _tasksTransactions = updatedTasksTransactions.unmodifiable;
-    notifyListeners();
+    setState(() {});
   }
 
-  void loadTransactionsForTask({
-    required final Task task,
+  void setTaskTransactions({
+    required final TaskId taskId,
     required final List<ScheduledTransaction> scheduledTransactions,
     required final List<Transaction> transactions,
   }) {
-    _tasksTransactions = {
-      ..._tasksTransactions,
-      task.id: scheduledTransactions,
-    }.unmodifiable;
-    _transactions = {
-      ..._transactions,
-      ...transactions.toMap(
-        toKey: (final transaction) => transaction.id,
-        toValue: (final transaction) => transaction,
-      ),
-    }.unmodifiable;
-    notifyListeners();
+    _tasksTransactions =
+        {..._tasksTransactions, taskId: scheduledTransactions}.unmodifiable;
+    _transactions =
+        {
+          ..._transactions,
+          ...transactions.toMap(
+            toKey: (final transaction) => transaction.id,
+            toValue: (final transaction) => transaction,
+          ),
+        }.unmodifiable;
+    setState(() {});
   }
+
+  Transaction? getTransaction(final TransactionId transactionId) =>
+      _transactions[transactionId];
 }

@@ -1,10 +1,11 @@
 import 'package:mobile_app/common_imports.dart';
 
-typedef UiTasksActionsBarTuple = ({
-  TaskTransactionType taskTransactionType,
-  CurrencyType currencyType,
-  Task task,
-});
+typedef UiTasksActionsBarTuple =
+    ({
+      TaskTransactionType taskTransactionType,
+      CurrencyType currencyType,
+      Task task,
+    });
 
 DateTime useSelectionDate(final BuildContext context) =>
     context.select<PredictionConfigResource, DateTime>(
@@ -13,9 +14,10 @@ DateTime useSelectionDate(final BuildContext context) =>
 
 DateTime useTaskTransactionSelectionDate(final BuildContext context) {
   final selectedDate = useSelectionDate(context);
-  final lastUpdatedTransactionDate = context.select<TasksNotifier, DateTime?>(
-    (final state) => state.lastUpdatedTransactionDate,
-  );
+  final lastUpdatedTransactionDate = context
+      .select<TransactionsConfigResource, DateTime?>(
+        (final state) => state.lastUpdatedTransactionDate,
+      );
   return lastUpdatedTransactionDate ?? selectedDate;
 }
 
@@ -52,9 +54,11 @@ class UiTasksActionsBar extends StatelessWidget with HasNotifiers {
               ),
             );
             if (result == null) return;
-            await tasksNotifier.upsertTransaction(
-              result: result,
-              task: tuple.task,
+            unawaited(
+              const UpsertTransactionCommand().execute(
+                result: result,
+                taskId: tuple.task.id,
+              ),
             );
           },
           title: Row(
@@ -68,14 +72,14 @@ class UiTasksActionsBar extends StatelessWidget with HasNotifiers {
                     languages.en: 'Add ${tuple.taskTransactionType.name}',
                     languages.it:
                         'Aggiungi ${switch (tuple.taskTransactionType) {
-                      TaskTransactionType.income => 'entrate',
-                      TaskTransactionType.expense => 'spese',
-                    }}',
+                          TaskTransactionType.income => 'entrate',
+                          TaskTransactionType.expense => 'spese',
+                        }}',
                     languages.ru:
                         'Добавить ${switch (tuple.taskTransactionType) {
-                      TaskTransactionType.income => 'доход',
-                      TaskTransactionType.expense => 'расход',
-                    }}',
+                          TaskTransactionType.income => 'доход',
+                          TaskTransactionType.expense => 'расход',
+                        }}',
                   },
                 ).getValue(locale),
               ),

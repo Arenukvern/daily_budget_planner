@@ -16,7 +16,6 @@ class AddTaskTransactionButton extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final tasksNotifier = context.read<TasksNotifier>();
     final transactionDate = useTaskTransactionSelectionDate(context);
 
     final defaultCurrencyId = useDefaultCurrencyId(
@@ -27,17 +26,18 @@ class AddTaskTransactionButton extends StatelessWidget {
     return UiBaseButton(
       tooltip: LocalizedMap(
         // TODO(arenukvern): add localization l10n
-        value: dto.isUsedForTaskPlanning
-            ? {
-                languages.en: 'Plan transaction',
-                languages.it: 'Pianifica transazione',
-                languages.ru: 'Запланировать транзакцию',
-              }
-            : {
-                languages.en: 'Add transaction',
-                languages.it: 'Aggiungi transazione',
-                languages.ru: 'Добавить транзакцию',
-              },
+        value:
+            dto.isUsedForTaskPlanning
+                ? {
+                  languages.en: 'Plan transaction',
+                  languages.it: 'Pianifica transazione',
+                  languages.ru: 'Запланировать транзакцию',
+                }
+                : {
+                  languages.en: 'Add transaction',
+                  languages.it: 'Aggiungi transazione',
+                  languages.ru: 'Добавить транзакцию',
+                },
       ).getValue(locale),
       onPressed: () async {
         final result = await showTransactionEditor(
@@ -53,24 +53,27 @@ class AddTaskTransactionButton extends StatelessWidget {
         );
         if (result == null) return;
 
-        await tasksNotifier.upsertTransaction(
-          result: result,
-          task: task,
-        );
-        // TODO(arenukvern): upsert transaction
-      },
-      builder: (final context, final focused, final onlyFocused) =>
-          UiFocusedBox(
-        focused: focused,
-        child: Padding(
-          padding: padding,
-          child: Icon(
-            Icons.add,
-            color:
-                focused ? null : context.colorScheme.onSurface.withOpacity(0.5),
+        unawaited(
+          const UpsertTransactionCommand().execute(
+            result: result,
+            taskId: task.id,
           ),
-        ),
-      ),
+        );
+      },
+      builder:
+          (final context, final focused, final onlyFocused) => UiFocusedBox(
+            focused: focused,
+            child: Padding(
+              padding: padding,
+              child: Icon(
+                Icons.add,
+                color:
+                    focused
+                        ? null
+                        : context.colorScheme.onSurface.withOpacity(0.5),
+              ),
+            ),
+          ),
     );
   }
 }

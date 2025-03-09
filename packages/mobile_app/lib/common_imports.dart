@@ -21,7 +21,6 @@ export 'data_commands/data_commands.dart';
 export 'data_local_api/data_local_api.dart';
 export 'data_models/data_models.dart';
 export 'data_resources/data_resources.dart';
-export 'data_services/data_services.dart';
 export 'data_states/data_states.dart';
 export 'di/di.dart';
 export 'envs.dart';

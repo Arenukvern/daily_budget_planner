@@ -1,5 +1,6 @@
 import 'package:life_hooks/life_hooks.dart';
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/data_commands/tasks_cmd/load_tasks.cmd.dart';
 
 class PreloadingScreen extends StatefulWidget {
   const PreloadingScreen({super.key});
@@ -51,7 +52,7 @@ class GlobalStateInitializer
       await dictionariesNotifier.onLoad();
       await finSettingsNotifier.onLoad();
       await Future.wait([
-        tasksNotifier.loadTasks(),
+        const LoadTasksCommand().execute(),
         weeklyCubit.onLoad(),
         monthlyCubit.onLoad(),
         storeReviewRequester.onLoad(),
