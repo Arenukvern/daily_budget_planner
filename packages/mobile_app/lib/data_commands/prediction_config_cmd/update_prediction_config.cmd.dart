@@ -5,13 +5,11 @@ class UpdatePredictionConfigCommand with HasLocalApis, HasResources {
 
   void onSelectedPeriodChanged(final Period period) {
     predictionConfigResource.period = period;
-    // TODO(arenukvern): description
-    // _recalculateSums();
+    unawaited(const LoadBudgetsCmd().execute());
   }
 
   void onSelectedDateChanged(final DateTime newDate) {
     predictionConfigResource.selectedDate = newDate;
-    // TODO(arenukvern): description
-    // _recalculateSums();
+    unawaited(const LoadBudgetsCmd().execute());
   }
 }

@@ -4,25 +4,19 @@ import 'package:mobile_app/common_imports.dart';
 /// for example:
 /// if expense = -150, income = 50
 /// balance = -150 + 50 = -100
-typedef TransactionsBalanceRecord = ({
-  double balance,
-  double expense,
-  double income
-});
+typedef TransactionsBalanceRecord =
+    ({double balance, double expense, double income});
 
-typedef CalculateTotalBalanceCmdParams = ({
-  DateTime startDate,
-  Period period,
-});
+typedef CalculateBudgetBalanceCmdParams = ({DateTime startDate, Period period});
 
-extension CalculateTotalBalanceCmdParamsX on CalculateTotalBalanceCmdParams {
+extension CalculateBudgetBalanceCmdParamsX on CalculateBudgetBalanceCmdParams {
   DateTime get endDate => startDate.add(period.duration);
 }
 
-class CalculateTotalBalanceCmd with HasResources, HasLocalApis {
-  const CalculateTotalBalanceCmd();
-  Future<void> execute(final CalculateTotalBalanceCmdParams params) async {
-    final (:balance, :expense, :income) = await _calculateTotalBalance(params);
+class CalculateBudgetBalanceCmd with HasResources, HasLocalApis {
+  const CalculateBudgetBalanceCmd();
+  Future<void> execute(final CalculateBudgetBalanceCmdParams params) async {
+    final (:balance, :expense, :income) = await _calculateBudgetBalance(params);
     totalSumResource
       ..balance = balance
       ..expensesSum = expense
@@ -38,8 +32,8 @@ class CalculateTotalBalanceCmd with HasResources, HasLocalApis {
   /// budgets within this period.
   ///
   /// Returns the total expense as a tuple with balance, expense, and income.
-  Future<TransactionsBalanceRecord> _calculateTotalBalance(
-    final CalculateTotalBalanceCmdParams params,
+  Future<TransactionsBalanceRecord> _calculateBudgetBalance(
+    final CalculateBudgetBalanceCmdParams params,
   ) async {
     const emptyResult = (balance: .0, expense: .0, income: .0);
     final taxFree = predictionConfigResource.isTaxFree;
@@ -50,12 +44,14 @@ class CalculateTotalBalanceCmd with HasResources, HasLocalApis {
       period: period,
     );
 
-    //  ..sort((final a, final b) => b.date.compareTo(a.date));
+    budgetsResource.assignAllOrdered(relevantBudgets, toKey: (final e) => e.id);
+
     if (relevantBudgets.isEmpty) return emptyResult;
 
     final DateTime effectiveStartDate;
-    final closestBudgets =
-        relevantBudgets.where((final budget) => !budget.date.isAfter(endDate));
+    final closestBudgets = relevantBudgets.where(
+      (final budget) => !budget.date.isAfter(endDate),
+    );
     // Find the budget closest to startDate.dayEnd
     final Budget closestBudget;
     if (closestBudgets.isEmpty) {
@@ -78,11 +74,8 @@ class CalculateTotalBalanceCmd with HasResources, HasLocalApis {
 
     if (relevantBudgets.isEmpty ||
         relevantBudgets.lastOrNull?.date.isAfter(effectiveStartDate) == true) {
-      final oldestBudget =
-          await manualBudgetsLocalApi.getOldestBudgetBetweenDates(
-        startDate: startDate,
-        endDate: endDate,
-      );
+      final oldestBudget = await manualBudgetsLocalApi
+          .getOldestBudgetBetweenDates(startDate: startDate, endDate: endDate);
       if (oldestBudget != null) {
         relevantBudgets.add(oldestBudget);
       }
@@ -94,23 +87,16 @@ class CalculateTotalBalanceCmd with HasResources, HasLocalApis {
       final amount = budget.input.amount(taxFree: taxFree);
       if (budget.date.isBefore(effectiveStartDate) ||
           budget.date == effectiveStartDate) {
-        return (
-          balance: amount,
-          expense: .0,
-          income: .0,
-        );
+        return (balance: amount, expense: .0, income: .0);
       }
-      return (
-        balance: amount,
-        expense: .0,
-        income: amount,
-      );
+      return (balance: amount, expense: .0, income: amount);
     }
 
     double expense = 0;
     double income = 0;
-    double previousAmount =
-        relevantBudgets.first.input.amount(taxFree: taxFree);
+    double previousAmount = relevantBudgets.first.input.amount(
+      taxFree: taxFree,
+    );
 
     for (int i = 1; i < relevantBudgets.length; i++) {
       final difference =

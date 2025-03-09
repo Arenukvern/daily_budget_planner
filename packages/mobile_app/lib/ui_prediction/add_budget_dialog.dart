@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:life_hooks/life_hooks.dart';
 import 'package:mobile_app/common_imports.dart';
 
 class AddBudgetDialog extends HookWidget {
@@ -28,6 +29,7 @@ class AddBudgetDialog extends HookWidget {
     final selectedDate = useState(
       initialValue?.transactionDate ?? DateTime.now(),
     );
+    final formHelper = useFormHelper();
 
     return AlertDialog(
       insetPadding:
@@ -43,7 +45,8 @@ class AddBudgetDialog extends HookWidget {
       ),
       content: _BudgetForm(
         amountController: amountController,
-        selectedDate: selectedDate,
+        selectedDateNotifier: selectedDate,
+        formHelper: formHelper,
       ),
       actions: [
         TextButton(
@@ -60,18 +63,17 @@ class AddBudgetDialog extends HookWidget {
         ),
         ElevatedButton(
           onPressed: () {
-            if (Form.of(context).validate()) {
-              final newBudget = Budget(
-                id: BudgetId(id.value.whenEmptyUse(IdCreator.create())),
-                input: InputMoney.fiat(
-                  amountWithTax: double.parse(amountController.text),
-                  // currencyId: CurrencyId.usd,
-                ),
-                date: selectedDate.value,
-              );
-              unawaited(const UpsertBudgetCommand().execute(newBudget));
-              Navigator.of(context).pop();
-            }
+            if (!formHelper.validate()) return;
+            final newBudget = Budget(
+              id: BudgetId(id.value.whenEmptyUse(IdCreator.create())),
+              input: InputMoney.fiat(
+                amountWithTax: double.parse(amountController.text),
+                // currencyId: CurrencyId.usd,
+              ),
+              date: selectedDate.value,
+            );
+            unawaited(const UpsertBudgetCommand().execute(newBudget));
+            Navigator.of(context).pop();
           },
           child: Text(
             LocalizedMap(
@@ -88,35 +90,24 @@ class AddBudgetDialog extends HookWidget {
   }
 }
 
-class _BudgetForm extends StatefulWidget {
+class _BudgetForm extends StatelessWidget {
   const _BudgetForm({
     required this.amountController,
-    required this.selectedDate,
+    required this.selectedDateNotifier,
+    required this.formHelper,
   });
 
   final TextEditingController amountController;
-  final ValueNotifier<DateTime> selectedDate;
-  @override
-  State<_BudgetForm> createState() => _BudgetFormState();
-}
+  final ValueNotifier<DateTime> selectedDateNotifier;
+  final FormHelperState formHelper;
 
-class _BudgetFormState extends State<_BudgetForm> {
-  final _formKey = GlobalKey<FormState>();
-  late DateTime _selectedDate;
-
-  DateTime get selectedDate => _selectedDate;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedDate = DateTime.now();
-  }
+  DateTime get _selectedDate => selectedDateNotifier.value;
 
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     return Form(
-      key: _formKey,
+      key: formHelper.formHelper.formKey,
       onPopInvokedWithResult: (final didPop, final result) {
         if (didPop) {
           unawaited(SoftKeyboard.close());
@@ -126,7 +117,7 @@ class _BudgetFormState extends State<_BudgetForm> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
-            controller: widget.amountController,
+            controller: amountController,
             decoration: InputDecoration(
               labelText: LocalizedMap(
                 value: {
@@ -194,14 +185,12 @@ class _BudgetFormState extends State<_BudgetForm> {
       );
       if (pickedTime == null) return;
     }
-    setState(() {
-      _selectedDate = DateTime(
-        pickedDate.year,
-        pickedDate.month,
-        pickedDate.day,
-        pickedTime?.hour ?? 0,
-        pickedTime?.minute ?? 0,
-      );
-    });
+    selectedDateNotifier.value = DateTime(
+      pickedDate.year,
+      pickedDate.month,
+      pickedDate.day,
+      pickedTime?.hour ?? 0,
+      pickedTime?.minute ?? 0,
+    );
   }
 }

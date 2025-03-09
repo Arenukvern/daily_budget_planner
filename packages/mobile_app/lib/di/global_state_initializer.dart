@@ -31,10 +31,7 @@ class GlobalStateInitializer
     implements StateInitializer, Disposable {
   @override
   Future<void> onLoad(final BuildContext context) async {
-    await Future.wait([
-      localDb.init(),
-      isarDb.open(),
-    ]);
+    await Future.wait([localDb.init(), isarDb.open()]);
     // FlutterNativeSplash.remove();
     await Future.wait([
       userNotifier.loadProfile(),
@@ -51,13 +48,14 @@ class GlobalStateInitializer
         AppPathsController.of(context).toExplanation(isFirstTimeOpening: true);
       }
       await purchaseIntializer.init();
-      await finSettingsNotifier.onLoad();
       await dictionariesNotifier.onLoad();
+      await finSettingsNotifier.onLoad();
       await Future.wait([
         tasksNotifier.loadTasks(),
         weeklyCubit.onLoad(),
         monthlyCubit.onLoad(),
         storeReviewRequester.onLoad(),
+        const LoadBudgetsCmd().execute(),
       ]);
     });
   }

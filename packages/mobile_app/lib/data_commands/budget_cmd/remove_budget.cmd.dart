@@ -5,5 +5,6 @@ class RemoveBudgetCommand with HasLocalApis, HasResources {
   Future<void> execute(final BudgetId budgetId) async {
     await manualBudgetsLocalApi.deleteBudget(budgetId);
     budgetsResource.remove(budgetId);
+    unawaited(const LoadBudgetsCmd().execute());
   }
 }

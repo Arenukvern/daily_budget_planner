@@ -88,11 +88,30 @@ class ImmutableOrderedMap<K, V> with Iterable<K> {
     _valuesListCache = null;
   }
 
+  /// Assigns all items from a list
+  void assignAllOrdered(
+    final List<V> items, {
+    required final K Function(V) toKey,
+  }) {
+    final newKeys = <K>[];
+    final map = <K, V>{};
+    for (final item in items) {
+      final key = toKey(item);
+      map[key] = item;
+      newKeys.add(key);
+    }
+    _items = map.unmodifiable;
+    _orderedKeys = newKeys.unmodifiable;
+    _valuesListCache = null;
+  }
+
   /// Adds item with validation
   @mustCallSuper
-  void upsert(final K key, final V value) {
+  void upsert(final K key, final V value, {final bool putFirst = true}) {
     final items = {..._items, key: value}.unmodifiable;
-    final orderedKeys = [..._orderedKeys, key].unmodifiable;
+    final putLast = !putFirst;
+    final orderedKeys =
+        [if (putFirst) key, ..._orderedKeys, if (putLast) key].unmodifiable;
     _items = items.unmodifiable;
     _orderedKeys = orderedKeys.unmodifiable;
     _valuesListCache = null;

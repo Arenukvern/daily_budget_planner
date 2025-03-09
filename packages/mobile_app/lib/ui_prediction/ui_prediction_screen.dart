@@ -10,52 +10,48 @@ class UiPredictionScreen extends StatelessWidget {
   const UiPredictionScreen({super.key});
 
   static Future<void> show(final BuildContext context) => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (final _) => const UiPredictionScreen()),
-      );
+    context,
+    MaterialPageRoute(builder: (final _) => const UiPredictionScreen()),
+  );
 
   @override
   Widget build(final BuildContext context) => UiScaffold(
-        body: LayoutBuilder(
-          builder: (final context, final constraints) {
-            final isDesktop = UiLayout.fromConstraints(constraints).isDesktop;
+    body: LayoutBuilder(
+      builder: (final context, final constraints) {
+        final isDesktop = UiLayout.fromConstraints(constraints).isDesktop;
 
-            if (isDesktop) {
-              return const Column(
-                children: [
-                  _PredictionHeader(),
-                  Expanded(
-                    child: DesktopPredictionBody(),
-                  ),
-                  UiPredictionBottomActionBar(),
+        if (isDesktop) {
+          return const Column(
+            children: [
+              _PredictionHeader(),
+              Expanded(child: DesktopPredictionBody()),
+              UiPredictionBottomActionBar(),
+            ],
+          );
+        } else {
+          return Stack(
+            children: [
+              CustomScrollView(
+                slivers: [
+                  const PinnedHeaderSliver(child: _PredictionHeader()),
+                  const SliverGap(48),
+                  const MobilePredictionBody().toSliver(),
+                  const SliverGap(64),
+                  const UiSafeArea.bottom().toSliver(),
                 ],
-              );
-            } else {
-              return Stack(
-                children: [
-                  CustomScrollView(
-                    slivers: [
-                      const PinnedHeaderSliver(
-                        child: _PredictionHeader(),
-                      ),
-                      const SliverGap(48),
-                      const MobilePredictionBody().toSliver(),
-                      const SliverGap(64),
-                      const UiSafeArea.bottom().toSliver(),
-                    ],
-                  ),
-                  const Positioned(
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    child: UiPredictionBottomActionBar(),
-                  ),
-                ],
-              );
-            }
-          },
-        ),
-      );
+              ),
+              const Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: UiPredictionBottomActionBar(),
+              ),
+            ],
+          );
+        }
+      },
+    ),
+  );
 }
 
 class _PredictionHeader extends StatelessWidget {
@@ -73,8 +69,9 @@ class _PredictionHeader extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.colorScheme.surface.withOpacity(0.5),
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
-        border:
-            Border.all(color: context.colorScheme.onSurface.withOpacity(0.2)),
+        border: Border.all(
+          color: context.colorScheme.onSurface.withOpacity(0.2),
+        ),
       ),
       child: Column(
         children: [
@@ -87,21 +84,18 @@ class _PredictionHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Gap(6),
-                PeriodSelectorButton(
-                  period: period,
-                ),
+                PeriodSelectorButton(period: period),
                 const Spacer(),
                 Builder(
                   builder: (final context) {
-                    final plannedExpensesSum =
-                        context.select<PlannedSumResource, double>(
-                      (final state) => state.expensesSum,
-                    );
+                    final plannedExpensesSum = context
+                        .select<PlannedSumResource, double>(
+                          (final state) => state.expensesSum,
+                        );
 
                     return _HeaderItem(
-                      onPressed: () async => showExpensesTasksView(
-                        context: context,
-                      ),
+                      onPressed:
+                          () async => showExpensesTasksView(context: context),
                       title: LocalizedMap(
                         // TODO(arenukvern): add localization l10n
                         value: {
@@ -117,13 +111,13 @@ class _PredictionHeader extends StatelessWidget {
                 ),
                 Builder(
                   builder: (final context) {
-                    final plannedIncomesSum =
-                        context.select<PlannedSumResource, double>(
-                      (final state) => state.incomesSum,
-                    );
+                    final plannedIncomesSum = context
+                        .select<PlannedSumResource, double>(
+                          (final state) => state.incomesSum,
+                        );
                     return _HeaderItem(
-                      onPressed: () async =>
-                          showIncomesTasksView(context: context),
+                      onPressed:
+                          () async => showIncomesTasksView(context: context),
                       title: LocalizedMap(
                         // TODO(arenukvern): add localization l10n
                         value: {
@@ -149,10 +143,7 @@ class _PredictionHeader extends StatelessWidget {
 }
 
 class PeriodSelectorButton extends HookWidget {
-  const PeriodSelectorButton({
-    required this.period,
-    super.key,
-  });
+  const PeriodSelectorButton({required this.period, super.key});
 
   final Period period;
 
@@ -180,23 +171,25 @@ class PeriodSelectorButton extends HookWidget {
     return UiPopupButton(
       controller: controller,
       scaleDirection: UiPopupButtonScaleDirection.down,
-      menuBuilder: (final context) => UiPopupDecoration(
-        child: _PeriodMenu(
-          onPeriodSelected: (final newPeriod) {
-            const UpdatePredictionConfigCommand()
-                .onSelectedPeriodChanged(newPeriod);
-            controller.close();
-          },
-          selectedPeriod: period,
-        ),
-      ),
+      menuBuilder:
+          (final context) => UiPopupDecoration(
+            child: _PeriodMenu(
+              onPeriodSelected: (final newPeriod) {
+                const UpdatePredictionConfigCommand().onSelectedPeriodChanged(
+                  newPeriod,
+                );
+                controller.close();
+              },
+              selectedPeriod: period,
+            ),
+          ),
       shouldRotate: false,
-      buttonBuilder: (final context, final isVisible, final onPressed) =>
-          _HeaderItem(
-        onPressed: onPressed,
-        title: periodTitle,
-        value: periodValue,
-      ),
+      buttonBuilder:
+          (final context, final isVisible, final onPressed) => _HeaderItem(
+            onPressed: onPressed,
+            title: periodTitle,
+            value: periodValue,
+          ),
     );
   }
 }
@@ -212,34 +205,34 @@ class _PeriodMenu extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _PeriodMenuItem(
-            title: 'Weekly',
-            period: Period.weekly,
-            selectedPeriod: selectedPeriod,
-            onSelect: onPeriodSelected,
-          ),
-          _PeriodMenuItem(
-            title: 'Monthly',
-            period: Period.monthly,
-            selectedPeriod: selectedPeriod,
-            onSelect: onPeriodSelected,
-          ),
-          _PeriodMenuItem(
-            title: 'Quarterly',
-            period: Period.quarterly,
-            selectedPeriod: selectedPeriod,
-            onSelect: onPeriodSelected,
-          ),
-          _PeriodMenuItem(
-            title: 'Yearly',
-            period: Period.yearly,
-            selectedPeriod: selectedPeriod,
-            onSelect: onPeriodSelected,
-          ),
-        ],
-      );
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      _PeriodMenuItem(
+        title: 'Weekly',
+        period: Period.weekly,
+        selectedPeriod: selectedPeriod,
+        onSelect: onPeriodSelected,
+      ),
+      _PeriodMenuItem(
+        title: 'Monthly',
+        period: Period.monthly,
+        selectedPeriod: selectedPeriod,
+        onSelect: onPeriodSelected,
+      ),
+      _PeriodMenuItem(
+        title: 'Quarterly',
+        period: Period.quarterly,
+        selectedPeriod: selectedPeriod,
+        onSelect: onPeriodSelected,
+      ),
+      _PeriodMenuItem(
+        title: 'Yearly',
+        period: Period.yearly,
+        selectedPeriod: selectedPeriod,
+        onSelect: onPeriodSelected,
+      ),
+    ],
+  );
 }
 
 class _PeriodMenuItem extends StatelessWidget {
@@ -257,10 +250,10 @@ class _PeriodMenuItem extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => UiPopupListTile(
-        onTap: () => onSelect(period),
-        title: title,
-        isSelected: selectedPeriod == period,
-      );
+    onTap: () => onSelect(period),
+    title: title,
+    isSelected: selectedPeriod == period,
+  );
 }
 
 class _HeaderItem extends StatelessWidget {
@@ -277,39 +270,37 @@ class _HeaderItem extends StatelessWidget {
   final VoidCallback onPressed;
   @override
   Widget build(final BuildContext context) => UiTextButton(
-        padding: EdgeInsets.zero,
-        onPressed: onPressed,
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
+    padding: EdgeInsets.zero,
+    onPressed: onPressed,
+    title: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            title,
+            style: context.textTheme.labelSmall,
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                title,
-                style: context.textTheme.labelSmall,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (icon != null) Icon(icon),
-                Text(
-                  value,
-                  style: context.textTheme.titleLarge,
-                  textAlign: TextAlign.center,
-                ),
-              ],
+            if (icon != null) Icon(icon),
+            Text(
+              value,
+              style: context.textTheme.titleLarge,
+              textAlign: TextAlign.center,
             ),
           ],
         ),
-      );
+      ],
+    ),
+  );
 }
 
 class MobilePredictionBody extends StatelessWidget {
-  const MobilePredictionBody({
-    super.key,
-  });
+  const MobilePredictionBody({super.key});
 
   @override
   Widget build(final BuildContext context) {
@@ -319,15 +310,10 @@ class MobilePredictionBody extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (kDebugMode) ...[
-          _TrendIndicator(),
-          const Gap(6),
-        ],
+        if (kDebugMode) ...[_TrendIndicator(), const Gap(6)],
         const _BudgetButton(),
         const Gap(24),
-        _DailyBudgetDisplay(
-          dailyBudget: dailyBudget.value,
-        ),
+        _DailyBudgetDisplay(dailyBudget: dailyBudget.value),
         const Gap(24),
         UiHorizontalPredictionTimeline(
           notifier: context.read(),
@@ -335,18 +321,14 @@ class MobilePredictionBody extends StatelessWidget {
               const UpdatePredictionConfigCommand().onSelectedDateChanged,
         ),
         const Gap(28),
-        _DailyStatistics(
-          selectedDate: selectedDate,
-        ),
+        _DailyStatistics(selectedDate: selectedDate),
       ],
     );
   }
 }
 
 class DesktopPredictionBody extends StatelessWidget {
-  const DesktopPredictionBody({
-    super.key,
-  });
+  const DesktopPredictionBody({super.key});
 
   @override
   Widget build(final BuildContext context) {
@@ -366,25 +348,16 @@ class DesktopPredictionBody extends StatelessWidget {
               const Gap(24),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _DailyBudgetDisplay(
-                    dailyBudget: dailyBudget.value,
-                  ),
-                ],
+                children: [_DailyBudgetDisplay(dailyBudget: dailyBudget.value)],
               ),
               const Gap(24),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (kDebugMode) ...[
-                    _TrendIndicator(),
-                    const Gap(6),
-                  ],
+                  if (kDebugMode) ...[_TrendIndicator(), const Gap(6)],
                   const _BudgetButton(),
                   const Gap(24),
-                  _DailyStatistics(
-                    selectedDate: selectedDate,
-                  ),
+                  _DailyStatistics(selectedDate: selectedDate),
                 ],
               ),
             ],
@@ -438,29 +411,24 @@ class _BudgetButton extends StatelessWidget {
     );
     return UiBaseButton(
       onPressed: () async => BudgetBottomSheet.show(context),
-      builder: (final _, final __, final ___) => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.history,
-            size: 16,
-            color: context.colorScheme.onSurface.withOpacity(0.8),
+      builder:
+          (final _, final __, final ___) => Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.history,
+                size: 16,
+                color: context.colorScheme.onSurface.withOpacity(0.8),
+              ),
+              const Gap(8),
+              Text(
+                // TODO(arenukvern): description
+                '\$${recentBudget.input.amount(taxFree: true).toStringAsFixed(2)} '
+                '${LocalizedMap(value: {languages.en: '- left', languages.it: '- rimanenti', languages.ru: '- осталось'}).getValue(locale)}',
+                style: context.textTheme.titleLarge,
+              ),
+            ],
           ),
-          const Gap(8),
-          Text(
-            // TODO(arenukvern): description
-            '\$${recentBudget.input.amount(taxFree: true).toStringAsFixed(2)} '
-            '${LocalizedMap(
-              value: {
-                languages.en: '- left',
-                languages.it: '- rimanenti',
-                languages.ru: '- осталось',
-              },
-            ).getValue(locale)}',
-            style: context.textTheme.titleLarge,
-          ),
-        ],
-      ),
     );
   }
 }
@@ -483,10 +451,7 @@ class _DailyBudgetDisplay extends StatelessWidget {
               style: context.textTheme.displayLarge,
             ),
             const Gap(4),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.copy),
-            ),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.copy)),
           ],
         ),
         Text(
@@ -505,9 +470,7 @@ class _DailyBudgetDisplay extends StatelessWidget {
 }
 
 class _DailyStatistics extends StatelessWidget {
-  const _DailyStatistics({
-    required this.selectedDate,
-  });
+  const _DailyStatistics({required this.selectedDate});
 
   final DateTime selectedDate;
 
@@ -546,7 +509,7 @@ class _DailyStatistics extends StatelessWidget {
             ).getValue(locale),
           ),
           _StatisticItem(
-            onPressed: () {},
+            onPressed: () async => BudgetBottomSheet.show(context),
             value: '\$${totalSumResource.balance.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
@@ -574,15 +537,16 @@ class _StatisticItem extends StatelessWidget {
   final VoidCallback onPressed;
   @override
   Widget build(final BuildContext context) => UiBaseButton(
-        onPressed: onPressed,
-        builder: (final context, final focused, final setFocused) =>
-            AnimatedContainer(
+    onPressed: onPressed,
+    builder:
+        (final context, final focused, final setFocused) => AnimatedContainer(
           duration: 200.milliseconds,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           decoration: BoxDecoration(
-            color: focused
-                ? context.colorScheme.primaryContainer
-                : context.colorScheme.surface,
+            color:
+                focused
+                    ? context.colorScheme.primaryContainer
+                    : context.colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: context.colorScheme.onSurface.withOpacity(0.05),
@@ -592,14 +556,15 @@ class _StatisticItem extends StatelessWidget {
             children: [
               Text(
                 value,
-                style: context.textTheme.titleMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: context.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Text(label, style: context.textTheme.labelSmall),
             ],
           ),
         ),
-      );
+  );
 }
 
 class UiPredictionBottomActionBar extends StatelessWidget {
@@ -645,12 +610,13 @@ class BudgetBottomSheet extends HookWidget {
         context: context,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
-        builder: (final context) => DraggableScrollableSheet(
-          minChildSize: 0.2,
-          maxChildSize: 0.9,
-          expand: false,
-          builder: (final _, final controller) => const BudgetBottomSheet(),
-        ),
+        builder:
+            (final context) => DraggableScrollableSheet(
+              minChildSize: 0.2,
+              maxChildSize: 0.9,
+              expand: false,
+              builder: (final _, final controller) => const BudgetBottomSheet(),
+            ),
       );
 
   @override
@@ -672,9 +638,9 @@ class BudgetBottomSheet extends HookWidget {
             child: Text(
               LocalizedMap(
                 value: {
-                  languages.en: 'Budgets History',
+                  languages.en: 'Budget History',
                   languages.it: 'Storico Budget',
-                  languages.ru: 'История Бюджетов',
+                  languages.ru: 'История бюджета',
                 },
               ).getValue(locale),
               style: context.textTheme.titleLarge,
@@ -695,8 +661,9 @@ class BudgetBottomSheet extends HookWidget {
                   ),
                   trailing: IconButton(
                     icon: const Icon(Icons.close),
-                    onPressed: () async =>
-                        const RemoveBudgetCommand().execute(budget.id),
+                    onPressed:
+                        () async =>
+                            const RemoveBudgetCommand().execute(budget.id),
                   ),
                 );
               },
