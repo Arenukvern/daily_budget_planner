@@ -23,7 +23,6 @@ class UpsertTransactionCommand with HasResources, HasLocalApis {
     tasksTransactionsResource.upsertTransaction(
       transaction: updatedTransaction,
       scheduledTransaction: updatedScheduledTransaction,
-      taskId: taskId,
     );
 
     transactionsConfigResource.lastUpdatedTransactionDate =

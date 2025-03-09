@@ -1,6 +1,11 @@
 import 'package:mobile_app/common_imports.dart';
 
 @stateDistributor
+class IncomeTasksResource extends OrderedMapNotifier<TaskId, Task> {}
+
+@stateDistributor
+class ExpenseTasksResource extends OrderedMapNotifier<TaskId, Task> {}
+
 class TasksResource extends ChangeNotifier {
   var _incomeTasks = <Task>[].unmodifiable;
   var _expenseTasks = <Task>[].unmodifiable;
@@ -24,26 +29,7 @@ class TasksResource extends ChangeNotifier {
   void setIncomeTasks({
     required final List<Task> tasks,
     required final TaskType taskType,
-  }) {
-    assert(tasks.isNotEmpty, 'tasks is empty');
-
-    /// filtering non active categories
-    _incomeTasks =
-        tasks
-            .where((final type) {
-              final personalIncomeType = type.personalIncomeType;
-              final isVisible =
-                  type.type == taskType &&
-                      personalIncomeType == PersonalIncomeTaskType.salary ||
-                  personalIncomeType == PersonalIncomeTaskType.cashback ||
-                  personalIncomeType == PersonalIncomeTaskType.reselling ||
-                  personalIncomeType == PersonalIncomeTaskType.gifts;
-              return isVisible;
-            })
-            .toList()
-            .unmodifiable;
-    notifyListeners();
-  }
+  }) {}
 
   void setExpenseTasks({
     required final List<Task> tasks,
@@ -61,24 +47,23 @@ class TasksResource extends ChangeNotifier {
             .unmodifiable;
     notifyListeners();
   }
+}
 
+class TasksResourcesHelper with HasResources {
+  const TasksResourcesHelper();
   Task getTaskById(
     final TaskId id, {
     required final TaskTransactionType transactionType,
   }) =>
       (switch (transactionType) {
-        TaskTransactionType.income => incomeTasks.firstWhereOrNull(
-          (final task) => task.id == id,
-        ),
-        TaskTransactionType.expense => expenseTasks.firstWhereOrNull(
-          (final task) => task.id == id,
-        ),
+        TaskTransactionType.income => incomeTasksResource[id],
+        TaskTransactionType.expense => expenseTasksResource[id],
       }) ??
       Task.empty;
 
   List<Task> getTasks(final TaskTransactionType transactionType) =>
       switch (transactionType) {
-        TaskTransactionType.income => incomeTasks,
-        TaskTransactionType.expense => expenseTasks,
+        TaskTransactionType.income => incomeTasksResource.orderedValues,
+        TaskTransactionType.expense => expenseTasksResource.orderedValues,
       };
 }

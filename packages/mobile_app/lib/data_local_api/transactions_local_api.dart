@@ -99,10 +99,22 @@ final class TransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  /// MVP function which loads every transaction for type.
+  ///
+  /// After MVP it should be replaced with more efficient query.
+  ///
   /// Throws [LocalApiException] if the operation fails
-  Future<List<Transaction>> getAllTransactions() async {
+  @heavyComputation
+  Future<List<Transaction>> getAllTransactionsByType({
+    required final TransactionType type,
+  }) async {
     try {
-      final models = _transactions.where().findAll();
+      final models =
+          _transactions
+              .where()
+              .typeEqualTo(type)
+              .sortByTransactionDate()
+              .findAll();
       return models.map((final e) => e.toDomain()).toList();
     } catch (e, s) {
       throw LocalApiException(
@@ -114,14 +126,18 @@ final class TransactionsLocalApi extends ComplexLocalApi {
   }
 
   /// Use this query to get transactions with [TaskId]
-  /// To get all transactions without [TaskId], use [getAllTransactions]
+  /// To get all transactions without [TaskId], use [getAllTransactionsByType]
   ///
   /// Throws [LocalApiException] if the operation fails
   Future<List<Transaction>> getTransactionsByTaskId(final TaskId taskId) async {
     try {
       assert(taskId.value.isNotEmpty, 'TaskId cannot be empty');
       final models =
-          _transactions.where().taskIdEqualTo(taskId.value).findAll();
+          _transactions
+              .where()
+              .taskIdEqualTo(taskId.value)
+              .sortByTransactionDate()
+              .findAll();
       return models.map((final e) => e.toDomain()).toList();
     } catch (e, s) {
       throw LocalApiException(
@@ -142,11 +158,13 @@ final class TransactionsLocalApi extends ComplexLocalApi {
   }) async {
     try {
       final end = start.addPeriod(period);
-      final query = _transactions
-          .where()
-          .taskIdIsEmpty()
-          .transactionDateGreaterThanOrEqualTo(start)
-          .transactionDateLessThanOrEqualTo(end);
+      final query =
+          _transactions
+              .where()
+              .taskIdIsEmpty()
+              .transactionDateGreaterThanOrEqualTo(start)
+              .transactionDateLessThanOrEqualTo(end)
+              .sortByTransactionDate();
       final itemsCount = query.count();
       final pagesCount = (itemsCount / pageLimit.limit).ceil();
       final models = query.findAll(

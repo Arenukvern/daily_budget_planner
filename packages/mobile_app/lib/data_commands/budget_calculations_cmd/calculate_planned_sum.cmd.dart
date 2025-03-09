@@ -1,19 +1,12 @@
 import 'package:mobile_app/common_imports.dart';
 
-typedef CalculatePlannedSumCmdParams = ({
-  DateTime startAt,
-  Period period,
-  TransactionType transactionType,
-});
+typedef CalculatePlannedSumCmdParams =
+    ({DateTime startAt, Period period, TransactionType transactionType});
 
 class CalculatePlannedSumCmd with HasResources {
   const CalculatePlannedSumCmd();
-  // tasksNotifier.getPlannedExpensesSum(
-  //   startAt: selectedDate,
-  //   period: period,
-  //   transactionType: TransactionType.expense,
-  // ).toStringAsFixed(2)
   void execute(final CalculatePlannedSumCmdParams params) {
+    final d = tasksResource.expenseTasks;
     final tasks = switch (params.transactionType) {
       TransactionType.income => <Task>[],
       TransactionType.expense => <Task>[],
@@ -32,15 +25,18 @@ class CalculatePlannedSumCmd with HasResources {
   double _calculatePlannedSum(
     final CalculatePlannedSumCmdParams params, {
     required final List<Task> tasks,
-  }) =>
-      tasks.map((final task) {
-        final (:scheduledTransactions, :transactions) =
-            tasksTransactionsResource.getTransactionsByTaskId(task.id);
+  }) => tasks
+      .map((final task) {
+        final (
+          :scheduledTransactions,
+          :transactions,
+        ) = tasksTransactionsResource.getTransactionsByTaskId(task.id);
 
         return scheduledTransactions.sumForPeriod(
           allTransactions: transactions,
           period: params.period,
           startAt: params.startAt,
         );
-      }).fold(0, (final a, final b) => a + b);
+      })
+      .fold(0, (final a, final b) => a + b);
 }

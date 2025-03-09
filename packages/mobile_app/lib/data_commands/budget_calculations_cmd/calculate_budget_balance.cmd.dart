@@ -44,7 +44,7 @@ class CalculateBudgetBalanceCmd with HasResources, HasLocalApis {
       period: period,
     );
 
-    budgetsResource.assignAllOrdered(relevantBudgets, toKey: (final e) => e.id);
+    budgetsResource.assignAllOrdered(relevantBudgets);
 
     if (relevantBudgets.isEmpty) return emptyResult;
 

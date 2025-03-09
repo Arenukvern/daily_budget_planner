@@ -25,19 +25,20 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   await _getIt.reset();
   final r = _getIt.registerSingleton;
   final rl = _getIt.registerLazySingleton;
+  FutureOr<dynamic> d<T>(final T instance) {
+    if (instance is ChangeNotifier) {
+      instance.dispose();
+    } else {
+      assert(false, 'Not implemented');
+    }
+  }
 
   /// ********************************************
   /// *      API
   /// ********************************************
-  r<AnalyticsManager>(analyticsManager, dispose: (final i) => i.dispose());
-  r<CrashlyticsService>(
-    analyticsManager.crashlyticsService,
-    dispose: (final i) => i.dispose(),
-  );
-  r<AnalyticsService>(
-    analyticsManager.analyticsService,
-    dispose: (final i) => i.dispose(),
-  );
+  r<AnalyticsManager>(analyticsManager, dispose: d);
+  r<CrashlyticsService>(analyticsManager.crashlyticsService, dispose: d);
+  r<AnalyticsService>(analyticsManager.analyticsService, dispose: d);
   final localDb = PrefsDb();
   final isarDb = IsarDb();
 
@@ -56,25 +57,30 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   /// ********************************************
   /// *      RESOURCES
   /// ********************************************
-  rl(TasksResource.new, dispose: (final i) => i.dispose());
-  rl(TaskTransactionsResource.new, dispose: (final i) => i.dispose());
-  rl(TransactionsConfigResource.new, dispose: (final i) => i.dispose());
-  rl(BudgetsResource.new, dispose: (final i) => i.dispose());
-  rl(RecentBudgetResource.new, dispose: (final i) => i.dispose());
-  rl(PredictionConfigResource.new, dispose: (final i) => i.dispose());
-  rl(OneTimeSumResource.new, dispose: (final i) => i.dispose());
-  rl(TotalSumResource.new, dispose: (final i) => i.dispose());
-  rl(DailyBudgetResource.new, dispose: (final i) => i.dispose());
-  rl(PlannedSumResource.new, dispose: (final i) => i.dispose());
+  rl(IncomeTasksResource.new, dispose: d);
+  rl(ExpenseTasksResource.new, dispose: d);
+  rl(TaskTransactionsResource.new, dispose: d);
+  rl(TransactionsConfigResource.new, dispose: d);
+  rl(IncomeTransactionsResource.new, dispose: d);
+  rl(ExpenseTransactionsResource.new, dispose: d);
+  rl(TransferInTransactionsResource.new, dispose: d);
+  rl(TransferOutTransactionsResource.new, dispose: d);
+  rl(BudgetsResource.new, dispose: d);
+  rl(RecentBudgetResource.new, dispose: d);
+  rl(PredictionConfigResource.new, dispose: d);
+  rl(OneTimeSumResource.new, dispose: d);
+  rl(TotalSumResource.new, dispose: d);
+  rl(DailyBudgetResource.new, dispose: d);
+  rl(PlannedSumResource.new, dispose: d);
 
   /// ********************************************
   /// *      Notifiers
   /// ********************************************
   final localeNotifier = UiLocaleNotifier(Locales.fallback);
-  r(localeNotifier, dispose: (final i) => i.dispose());
-  rl(AppSettingsNotifier.new, dispose: (final i) => i.dispose());
-  rl(UserNotifier.new, dispose: (final i) => i.dispose());
-  rl(AppStatusResource.new, dispose: (final i) => i.dispose());
+  r(localeNotifier, dispose: d);
+  rl(AppSettingsNotifier.new, dispose: d);
+  rl(UserNotifier.new, dispose: d);
+  rl(AppStatusResource.new, dispose: d);
   // TODO(arenukvern): create a factory for this
   /// possible conflicts with purchase managers
   rl<PurchaseManager>(
@@ -92,6 +98,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
       // InAppPurchaseManager(),
       _ => NoopPurchaseManager(),
     },
+    dispose: d,
   );
   rl(
     () => UiTimelineNotifier(
@@ -100,28 +107,25 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
         initialDate: DateTime.now(),
       ),
     ),
-    dispose: (final i) => i.dispose(),
+    dispose: d,
   );
-  rl(
-    () => MonetizationStatusNotifier(Envs.monetizationType),
-    dispose: (final i) => i.dispose(),
-  );
-  rl(DictionariesNotifier.new, dispose: (final i) => i.dispose());
-  rl(FinSettingsNotifier.new, dispose: (final i) => i.dispose());
+  rl(() => MonetizationStatusNotifier(Envs.monetizationType), dispose: d);
+  rl(DictionariesNotifier.new, dispose: d);
+  rl(FinSettingsNotifier.new, dispose: d);
   rl(
     () => SubscriptionManager(
       productIds: MonetizationProducts.subscriptions,
       purchaseManager: _g(),
       monetizationTypeNotifier: _g(),
     ),
-    dispose: (final i) => i.dispose(),
+    dispose: d,
   );
   rl(
     () => StoreReviewRequester(
       localDb: localDb,
       getLocale: () => localeNotifier.value,
     ),
-    dispose: (final i) => i.dispose(),
+    dispose: d,
   );
   rl(
     () => PurchaseInitializer(
@@ -129,10 +133,10 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
       purchaseManager: _g(),
       subscriptionManager: _g(),
     ),
-    dispose: (final i) => i.dispose(),
+    dispose: d,
   );
-  rl(WeeklyNotifier.new, dispose: (final i) => i.dispose());
-  rl(MonthlyNotifier.new, dispose: (final i) => i.dispose());
+  rl(WeeklyNotifier.new, dispose: d);
+  rl(MonthlyNotifier.new, dispose: d);
 }
 
 mixin HasLocalApis {
@@ -154,9 +158,15 @@ mixin HasLocalApis {
 /// They have simple mission - to distribute and store runtime data
 /// for ui access.
 mixin HasResources {
-  TasksResource get tasksResource => _g();
+  IncomeTasksResource get incomeTasksResource => _g();
+  ExpenseTasksResource get expenseTasksResource => _g();
+
   TransactionsConfigResource get transactionsConfigResource => _g();
   TaskTransactionsResource get tasksTransactionsResource => _g();
+  IncomeTransactionsResource get incomeTransactionsResource => _g();
+  ExpenseTransactionsResource get expenseTransactionsResource => _g();
+  TransferInTransactionsResource get transferInTransactionsResource => _g();
+  TransferOutTransactionsResource get transferOutTransactionsResource => _g();
   BudgetsResource get budgetsResource => _g();
   RecentBudgetResource get recentBudgetResource => _g();
   PredictionConfigResource get predictionConfigResource => _g();

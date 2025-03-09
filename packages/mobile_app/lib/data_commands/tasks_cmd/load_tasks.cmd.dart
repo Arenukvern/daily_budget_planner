@@ -13,13 +13,30 @@ class LoadTasksCommand with HasResources, HasLocalApis {
     final incomeTasks = await tasksLocalApi.getIncomeTasks(
       taskType: _tasksType,
     );
-    tasksResource.setIncomeTasks(tasks: incomeTasks, taskType: _tasksType);
+    assert(incomeTasks.isNotEmpty, 'tasks is empty');
+
+    /// filtering non active categories
+    final filteredIncomeTasks =
+        incomeTasks
+            .where((final type) {
+              final personalIncomeType = type.personalIncomeType;
+              final isVisible =
+                  type.type == _tasksType &&
+                      personalIncomeType == PersonalIncomeTaskType.salary ||
+                  personalIncomeType == PersonalIncomeTaskType.cashback ||
+                  personalIncomeType == PersonalIncomeTaskType.reselling ||
+                  personalIncomeType == PersonalIncomeTaskType.gifts;
+              return isVisible;
+            })
+            .toList()
+            .unmodifiable;
+    incomeTasksResource.assignAllOrdered(filteredIncomeTasks);
   }
 
   Future<void> _loadExpenseTasks() async {
     final expenseTasks = await tasksLocalApi.getExpenseTasks(
       taskType: _tasksType,
     );
-    tasksResource.setExpenseTasks(tasks: expenseTasks, taskType: _tasksType);
+    expenseTasksResource.assignAllOrdered(expenseTasks);
   }
 }

@@ -44,8 +44,9 @@ extension TaskTransactionsResourceX on TaskTransactionsResource {
   void upsertTransaction({
     required final Transaction transaction,
     required final ScheduledTransaction scheduledTransaction,
-    required final TaskId taskId,
   }) {
+    final taskId = scheduledTransaction.taskId;
+    assert(taskId.isNotEmpty, 'TaskId is empty');
     _transactions =
         {..._transactions, transaction.id: transaction}.unmodifiable;
     final updatedTasksTransactions =

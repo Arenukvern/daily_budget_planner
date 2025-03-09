@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:xsoulspace_foundation/xsoulspace_foundation.dart';
 
+typedef MutableOrderedMapToKeyFunction<K, V> = K Function(V);
+
 /// {@template ordered_map}
 /// Generic ordered collection maintaining insertion order
 /// with key-based access
 /// {@endtemplate}
 class MutableOrderedMap<K, V> with Iterable<K> {
+  MutableOrderedMap();
   final _items = <K, V>{};
   final _orderedKeys = <K>[];
 
@@ -56,9 +59,10 @@ class MutableOrderedMap<K, V> with Iterable<K> {
 /// with key-based access
 /// {@endtemplate}
 class ImmutableOrderedMap<K, V> with Iterable<K> {
-  ImmutableOrderedMap([this._items = const {}, this._orderedKeys = const []]);
-  Map<K, V> _items;
-  List<K> _orderedKeys;
+  ImmutableOrderedMap({required this.toKey});
+  final MutableOrderedMapToKeyFunction<K, V> toKey;
+  Map<K, V> _items = const {};
+  List<K> _orderedKeys = const [];
   List<V>? _valuesListCache;
 
   @override
@@ -89,10 +93,7 @@ class ImmutableOrderedMap<K, V> with Iterable<K> {
   }
 
   /// Assigns all items from a list
-  void assignAllOrdered(
-    final List<V> items, {
-    required final K Function(V) toKey,
-  }) {
+  void assignAllOrdered(final List<V> items) {
     final newKeys = <K>[];
     final map = <K, V>{};
     for (final item in items) {

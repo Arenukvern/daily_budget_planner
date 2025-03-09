@@ -1,30 +1,28 @@
 import 'package:mobile_app/common_imports.dart';
 
-typedef CalculateOnetimeTransactionsSumCmdParams = ({
-  DateTime startDate,
-  DateTime endDate,
-  TransactionType transactionType,
-});
+typedef CalculateOnetimeTransactionsSumCmdParams =
+    ({DateTime startDate, DateTime endDate, TransactionType transactionType});
 
 class CalculateOnetimeTransactionsSumCmd with HasResources {
   const CalculateOnetimeTransactionsSumCmd();
-  void execute(final CalculateOnetimeTransactionsSumCmdParams params) {
-    // TODO(arenukvern): description
+  Future<void> execute(
+    final CalculateOnetimeTransactionsSumCmdParams params,
+  ) async {
     final transactions = switch (params.transactionType) {
-      TransactionType.income => <Transaction>[],
-      TransactionType.expense => <Transaction>[],
-      TransactionType.transferIn => <Transaction>[],
-      TransactionType.transferOut => <Transaction>[],
+      TransactionType.income => incomeTransactionsResource,
+      TransactionType.expense => expenseTransactionsResource,
+      TransactionType.transferIn => transferInTransactionsResource,
+      TransactionType.transferOut => transferOutTransactionsResource,
     };
     final sum = _calculateOneTimeTransactionsSum(
       params,
-      transactions: transactions,
+      transactions: transactions.orderedValues,
     );
     final _ = switch (params.transactionType) {
       TransactionType.income => oneTimeSumsResource.incomesSum = sum,
       TransactionType.expense => oneTimeSumsResource.expensesSum = sum,
-      TransactionType.transferIn => throw UnimplementedError(),
-      TransactionType.transferOut => throw UnimplementedError(),
+      TransactionType.transferIn => oneTimeSumsResource.transferInSum = sum,
+      TransactionType.transferOut => oneTimeSumsResource.transferOutSum = sum,
     };
   }
 
