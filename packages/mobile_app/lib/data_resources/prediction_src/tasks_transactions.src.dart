@@ -24,11 +24,11 @@ extension TaskTransactionsResourceX on TaskTransactionsResource {
 
   void removeTransaction({
     required final TransactionId transactionId,
-    required final TaskId? taskId,
+    required final TaskId taskId,
   }) {
     final updatedTransactions = {..._transactions}..remove(transactionId);
     _transactions = updatedTransactions.unmodifiable;
-    if (taskId == null) return;
+    if (taskId.isEmpty) return;
     final updatedTasksTransactions = {
       ..._tasksTransactions,
       taskId: [

@@ -5,6 +5,7 @@ typedef CalculatePlannedSumCmdParams =
 
 class CalculatePlannedSumCmd with HasResources {
   const CalculatePlannedSumCmd();
+
   void execute(final CalculatePlannedSumCmdParams params) {
     final tasks = switch (params.transactionType) {
       TransactionType.income => incomeTasksResource,

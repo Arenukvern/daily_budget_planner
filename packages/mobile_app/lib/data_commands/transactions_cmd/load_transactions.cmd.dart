@@ -3,12 +3,7 @@ import 'package:mobile_app/common_imports.dart';
 class LoadTransactionsCmd with HasResources, HasLocalApis {
   const LoadTransactionsCmd();
   Future<void> execute() async {
-    await Future.wait([
-      loadByType(TransactionType.income),
-      loadByType(TransactionType.expense),
-      loadByType(TransactionType.transferIn),
-      loadByType(TransactionType.transferOut),
-    ]);
+    await Future.wait(TransactionType.values.map(loadByType));
   }
 
   Future<void> loadByType(final TransactionType type) async {

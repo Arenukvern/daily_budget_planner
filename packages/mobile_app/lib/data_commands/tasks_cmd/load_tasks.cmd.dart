@@ -3,8 +3,16 @@ import 'package:mobile_app/common_imports.dart';
 class LoadTasksCommand with HasResources, HasLocalApis {
   const LoadTasksCommand();
   Future<void> execute() async {
-    await _loadIncomeTasks();
-    await _loadExpenseTasks();
+    await Future.wait([_loadIncomeTasks(), _loadExpenseTasks()]);
+    Future<void> loadById(final TaskId taskId) =>
+        const LoadTaskTransactionsCommand().execute(
+          taskId: taskId,
+          startDate: predictionConfigResource.startDate,
+          period: predictionConfigResource.period,
+        );
+
+    incomeTasksResource.forEach(loadById);
+    expenseTasksResource.forEach(loadById);
   }
 
   TaskType get _tasksType => transactionsConfigResource.tasksType;
