@@ -6,14 +6,13 @@ typedef CalculatePlannedSumCmdParams =
 class CalculatePlannedSumCmd with HasResources {
   const CalculatePlannedSumCmd();
   void execute(final CalculatePlannedSumCmdParams params) {
-    final d = tasksResource.expenseTasks;
     final tasks = switch (params.transactionType) {
-      TransactionType.income => <Task>[],
-      TransactionType.expense => <Task>[],
+      TransactionType.income => incomeTasksResource,
+      TransactionType.expense => expenseTasksResource,
       TransactionType.transferIn => throw UnsupportedError(''),
       TransactionType.transferOut => throw UnsupportedError(''),
     };
-    final sum = _calculatePlannedSum(params, tasks: tasks);
+    final sum = _calculatePlannedSum(params, tasks: tasks.orderedValues);
     final _ = switch (params.transactionType) {
       TransactionType.income => plannedSumsResource.incomesSum = sum,
       TransactionType.expense => plannedSumsResource.expensesSum = sum,

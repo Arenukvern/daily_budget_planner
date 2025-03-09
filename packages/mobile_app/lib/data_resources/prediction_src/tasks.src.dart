@@ -1,11 +1,16 @@
 import 'package:mobile_app/common_imports.dart';
 
 @stateDistributor
-class IncomeTasksResource extends OrderedMapNotifier<TaskId, Task> {}
+class IncomeTasksResource extends OrderedMapNotifier<TaskId, Task> {
+  IncomeTasksResource() : super(toKey: (final task) => task.id);
+}
 
 @stateDistributor
-class ExpenseTasksResource extends OrderedMapNotifier<TaskId, Task> {}
+class ExpenseTasksResource extends OrderedMapNotifier<TaskId, Task> {
+  ExpenseTasksResource() : super(toKey: (final task) => task.id);
+}
 
+@Deprecated('remove it')
 class TasksResource extends ChangeNotifier {
   var _incomeTasks = <Task>[].unmodifiable;
   var _expenseTasks = <Task>[].unmodifiable;
@@ -49,7 +54,7 @@ class TasksResource extends ChangeNotifier {
   }
 }
 
-class TasksResourcesHelper with HasResources {
+final class TasksResourcesHelper with HasResources {
   const TasksResourcesHelper();
   Task getTaskById(
     final TaskId id, {

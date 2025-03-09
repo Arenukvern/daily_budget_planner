@@ -1,11 +1,12 @@
 import 'package:mobile_app/common_imports.dart';
 
+@stateDistributor
 class PredictionConfigResource extends ChangeNotifier {
   bool _isTaxFree = Envs.isAmountsTaxFree;
-  bool _countWithTransfers = false;
+  var _countWithTransfers = false;
   TaskType _taskType = TaskType.personal;
   Period _period = Period.monthly;
-  DateTime _selectedDate = DateTime.now();
+  var _selectedDate = DateTime.now();
 }
 
 extension PredictionConfigResourceX on PredictionConfigResource {

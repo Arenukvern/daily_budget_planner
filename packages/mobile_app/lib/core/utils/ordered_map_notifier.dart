@@ -3,6 +3,7 @@ import 'package:mobile_app/core/utils/ordered_map.dart';
 
 class OrderedMapNotifier<K, V> extends ImmutableOrderedMap<K, V>
     with ChangeNotifier {
+  OrderedMapNotifier({required super.toKey});
   @override
   @mustCallSuper
   void upsert(final K key, final V value, {final bool putFirst = true}) {

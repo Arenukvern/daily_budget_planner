@@ -54,7 +54,8 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
     });
   }
 
-  List<Task> get _tasks => tasksResource.getTasks(_taskTransactionType);
+  List<Task> get _tasks =>
+      const TasksResourcesHelper().getTasks(_taskTransactionType);
 
   void _loadTransactionType({
     required final TaskTransactionType taskTransactionType,
@@ -80,9 +81,16 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
-    final tasks = context.select<TasksResource, List<Task>>(
-      (final c) => c.getTasks(_taskTransactionType),
-    );
+    final tasks = switch (_taskTransactionType) {
+      TaskTransactionType.income => context
+          .select<IncomeTasksResource, List<Task>>(
+            (final c) => c.orderedValues,
+          ),
+      TaskTransactionType.expense => context
+          .select<ExpenseTasksResource, List<Task>>(
+            (final c) => c.orderedValues,
+          ),
+    };
     final task = tasks[_taskIndex];
     final (:startDate, :period) = context.select<
       PredictionConfigResource,
