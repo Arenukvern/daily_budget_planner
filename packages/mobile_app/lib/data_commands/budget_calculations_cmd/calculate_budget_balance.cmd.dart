@@ -16,7 +16,17 @@ extension CalculateBudgetBalanceCmdParamsX on CalculateBudgetBalanceCmdParams {
 class CalculateBudgetBalanceCmd with HasResources, HasLocalApis {
   const CalculateBudgetBalanceCmd();
   Future<void> execute(final CalculateBudgetBalanceCmdParams params) async {
-    final (:balance, :expense, :income) = await _calculateBudgetBalance(params);
+    final relevantBudgets = await manualBudgetsLocalApi.getAllBudgetsForPeriod(
+      startDate: params.startDate,
+      period: params.period,
+    );
+
+    budgetsResource.assignAllOrdered(relevantBudgets);
+
+    final (:balance, :expense, :income) = await _calculateBudgetBalance(
+      params,
+      relevantBudgets: relevantBudgets,
+    );
     totalSumResource
       ..balance = balance
       ..expensesSum = expense
@@ -33,18 +43,13 @@ class CalculateBudgetBalanceCmd with HasResources, HasLocalApis {
   ///
   /// Returns the total expense as a tuple with balance, expense, and income.
   Future<TransactionsBalanceRecord> _calculateBudgetBalance(
-    final CalculateBudgetBalanceCmdParams params,
-  ) async {
+    final CalculateBudgetBalanceCmdParams params, {
+    required final List<Budget> relevantBudgets,
+  }) async {
     const emptyResult = (balance: .0, expense: .0, income: .0);
     final taxFree = predictionConfigResource.isTaxFree;
     final (:startDate, :period) = params;
     final endDate = params.endDate;
-    final relevantBudgets = await manualBudgetsLocalApi.getAllBudgetsForPeriod(
-      startDate: startDate,
-      period: period,
-    );
-
-    budgetsResource.assignAllOrdered(relevantBudgets);
 
     if (relevantBudgets.isEmpty) return emptyResult;
 

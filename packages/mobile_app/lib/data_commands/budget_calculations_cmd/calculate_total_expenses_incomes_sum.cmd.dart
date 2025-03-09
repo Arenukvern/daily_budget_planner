@@ -25,26 +25,12 @@ class CalculateTotalExpensesIncomesSumCmd with HasResources {
     await const CalculateBudgetBalanceCmd().execute(dateParams);
     final budgetSum = totalSumResource.expensesSum;
 
-    const CalculateOnetimeTransactionsSumCmd().execute((
+    await const CalculateOnetimeTransactionsSumCmd().execute((
       startDate: dateParams.startDate,
       endDate: dateParams.endDate,
       transactionType: transactionType,
     ));
     final onetimeSum = oneTimeSumsResource.expensesSum;
-
-    const CalculateOnetimeTransactionsSumCmd().execute((
-      startDate: dateParams.startDate,
-      endDate: dateParams.endDate,
-      transactionType: switch (transactionType) {
-        TransactionType.expense => TransactionType.transferOut,
-        TransactionType.income => TransactionType.transferIn,
-        TransactionType.transferIn || TransactionType.transferOut =>
-          throw ArgumentError.value(
-            'Only expenses and incomes can be calculated by type. '
-            '$transactionType is not allowed.',
-          ),
-      },
-    ));
     final transferOutSum = oneTimeSumsResource.transferOutSum;
     final oneTimeSum =
         predictionConfigResource.countWithTransfers

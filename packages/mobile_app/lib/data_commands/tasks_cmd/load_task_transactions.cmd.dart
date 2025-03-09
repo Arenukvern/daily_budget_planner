@@ -21,5 +21,11 @@ class LoadTaskTransactionsCommand with HasResources, HasLocalApis {
       scheduledTransactions: scheduledTransactions,
       transactions: transactions,
     );
+
+    const CalculatePlannedSumCmd().execute((
+      period: predictionConfigResource.period,
+      startAt: predictionConfigResource.startDate,
+      transactionType: TransactionType.expense,
+    ));
   }
 }

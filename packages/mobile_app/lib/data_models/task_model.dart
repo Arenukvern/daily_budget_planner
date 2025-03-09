@@ -30,9 +30,9 @@ enum TaskTransactionType {
   String toJson() => name;
 
   TransactionType toTransactionType() => switch (this) {
-        TaskTransactionType.expense => TransactionType.expense,
-        TaskTransactionType.income => TransactionType.income,
-      };
+    TaskTransactionType.expense => TransactionType.expense,
+    TaskTransactionType.income => TransactionType.income,
+  };
 }
 
 enum PersonalExpenseTaskType {
@@ -55,10 +55,7 @@ enum PersonalIncomeTaskType {
   crypto,
 }
 
-enum TaskType {
-  personal,
-  business;
-}
+enum TaskType { personal, business }
 
 @freezed
 class Task with _$Task {
@@ -95,8 +92,9 @@ class ScheduledTransaction with _$ScheduledTransaction {
   factory ScheduledTransaction.fromJson(final Map<String, dynamic> json) =>
       _$ScheduledTransactionFromJson(json);
   static const empty = ScheduledTransaction();
-
   bool get isNotSet => transactionId == TransactionId.empty;
+
+  /// means that this transaction is planned
   bool get isSet => !isNotSet;
 }
 

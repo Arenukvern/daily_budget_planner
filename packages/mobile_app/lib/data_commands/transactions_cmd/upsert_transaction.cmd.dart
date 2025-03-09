@@ -13,13 +13,12 @@ class UpsertTransactionCommand with HasResources, HasLocalApis {
       taskId: taskId,
     );
     await transactionsLocalApi.upsertTransaction(updatedTransaction);
-
-    if (updatedScheduledTransaction.isSet) {
+    final isPlanned = updatedScheduledTransaction.isSet;
+    if (isPlanned) {
       await scheduledTransactionsLocalApi.upsertScheduledTransaction(
         updatedScheduledTransaction,
       );
     }
-
     tasksTransactionsResource.upsertTransaction(
       transaction: updatedTransaction,
       scheduledTransaction: updatedScheduledTransaction,
@@ -27,5 +26,24 @@ class UpsertTransactionCommand with HasResources, HasLocalApis {
 
     transactionsConfigResource.lastUpdatedTransactionDate =
         updatedTransaction.transactionDate;
+
+    /// executing calculations
+    if (isPlanned) {
+      const CalculatePlannedSumCmd().execute((
+        period: predictionConfigResource.period,
+        startAt: predictionConfigResource.startDate,
+        transactionType: updatedTransaction.type,
+      ));
+    } else {
+      await const CalculateOnetimeTransactionsSumCmd().execute((
+        startDate: updatedTransaction.transactionDate,
+        endDate: updatedTransaction.transactionDate,
+        transactionType: updatedTransaction.type,
+      ));
+      await const CalculateBudgetBalanceCmd().execute((
+        startDate: updatedTransaction.transactionDate,
+        period: predictionConfigResource.period,
+      ));
+    }
   }
 }

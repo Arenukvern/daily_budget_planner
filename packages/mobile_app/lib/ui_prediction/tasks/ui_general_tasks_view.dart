@@ -49,18 +49,18 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((final _) {
-      _loadTransactionType(taskTransactionType: _taskTransactionType);
+    WidgetsBinding.instance.addPostFrameCallback((final _) async {
+      await _loadTransactionType(taskTransactionType: _taskTransactionType);
     });
   }
 
   List<Task> get _tasks =>
       const TasksResourcesHelper().getTasks(_taskTransactionType);
 
-  void _loadTransactionType({
+  Future<void> _loadTransactionType({
     required final TaskTransactionType taskTransactionType,
     final bool notify = false,
-  }) {
+  }) async {
     _taskTransactionType = taskTransactionType;
     _taskIndex = 0;
 
@@ -69,12 +69,10 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
 
     final task = _tasks[_taskIndex];
 
-    unawaited(
-      const LoadTaskTransactionsCommand().execute(
-        taskId: task.id,
-        startDate: predictionConfigResource.startDate,
-        period: predictionConfigResource.period,
-      ),
+    await const LoadTaskTransactionsCommand().execute(
+      taskId: task.id,
+      startDate: predictionConfigResource.startDate,
+      period: predictionConfigResource.period,
     );
   }
 
@@ -125,7 +123,9 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
           groupValue: _taskTransactionType,
           onValueChanged: (final value) {
             if (value == null) return;
-            _loadTransactionType(taskTransactionType: value, notify: true);
+            unawaited(
+              _loadTransactionType(taskTransactionType: value, notify: true),
+            );
           },
         ),
         automaticallyImplyLeading: false,
