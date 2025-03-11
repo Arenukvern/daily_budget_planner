@@ -6,12 +6,186 @@ import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/add_budget_dialog.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 
+class UiPredictionScreenV2 extends StatelessWidget {
+  const UiPredictionScreenV2({super.key});
+
+  @override
+  Widget build(final BuildContext context) {
+    final backgroungColor = context.colorScheme.primary;
+    return UiScaffold(
+      body: ColoredBox(
+        color: backgroungColor,
+        child: LayoutBuilder(
+          builder: (final context, final constraints) {
+            const _ = '';
+            final selectedDate = useSelectionDate(context);
+            // final isDesktop = UiLayout.fromConstraints(constraints).isDesktop;
+            // return isDesktop
+            //     ? const DesktopPredictionBody()
+            //     : const MobilePredictionBody();
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const UiSafeArea.top(),
+                const Gap(16),
+
+                Expanded(
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          foregroundDecoration: BoxDecoration(
+                            color: backgroungColor.withAlpha(200),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            children: [
+                              Center(
+                                child: Text(
+                                  'Your goal',
+                                  style: context.textTheme.labelMedium
+                                      ?.copyWith(
+                                        color: context.colorScheme.onPrimary,
+                                      ),
+                                ),
+                              ),
+                              const Gap(8),
+                              DefaultTextStyle.merge(
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: context.colorScheme.onPrimary,
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  spacing: 16,
+                                  children: [
+                                    Text('Save & Plan ahead (WIP)'),
+                                    Text('Look for today'),
+                                    Text('Analyze past (WIP)'),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          constraints: const BoxConstraints(maxHeight: 500),
+                          margin: const EdgeInsets.all(32),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const _MainContentCard(),
+                              const Gap(16),
+                              Container(
+                                width: 3,
+                                margin: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.elliptical(32, 32),
+                                  ),
+                                  color: context.colorScheme.primaryContainer
+                                      .withAlpha(100),
+                                ),
+                              ),
+                              const Gap(16),
+                              _ContentCard(
+                                constraints: const BoxConstraints(
+                                  maxWidth: 400,
+                                  minWidth: 300,
+                                  maxHeight: 500,
+                                ),
+                                color: context.colorScheme.primaryContainer,
+                                child: const Column(
+                                  children: [Text('Budgets'), Gap(12)],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                Container(
+                  foregroundDecoration: BoxDecoration(
+                    color: backgroungColor.withAlpha(200),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: _DailyStatistics(selectedDate: selectedDate),
+                ),
+                const Gap(16),
+                const UiSafeArea.bottom(),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _MainContentCard extends StatelessWidget {
+  const _MainContentCard({super.key});
+
+  @override
+  Widget build(final BuildContext context) => const _ContentCard(
+    // constraints: BoxConstraints(maxWidth: 650, maxHeight: 500),
+    constraints: BoxConstraints(maxWidth: 400, maxHeight: 500),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _DailyBudgetDisplay(),
+        Gap(32),
+        Row(
+          spacing: 16,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [_BudgetWillLast(), _TodaysBudget()],
+        ),
+      ],
+    ),
+  );
+}
+
+class _ContentCard extends StatelessWidget {
+  const _ContentCard({
+    required this.child,
+    required this.constraints,
+    this.color,
+    super.key,
+  });
+  final Widget child;
+  final Color? color;
+  final BoxConstraints constraints;
+
+  @override
+  Widget build(final BuildContext context) => Container(
+    constraints: constraints,
+    decoration: BoxDecoration(
+      color: color ?? context.colorScheme.surface,
+      borderRadius: BorderRadius.circular(16),
+    ),
+    padding: const EdgeInsets.all(16),
+    child: DefaultTextStyle.merge(
+      style: context.textTheme.labelMedium,
+      child: child,
+    ),
+  );
+}
+
 class UiPredictionScreen extends StatelessWidget {
   const UiPredictionScreen({super.key});
 
   static Future<void> show(final BuildContext context) => Navigator.push(
     context,
-    MaterialPageRoute(builder: (final _) => const UiPredictionScreen()),
+    MaterialPageRoute(
+      builder: (final _) {
+        // return const UiPredictionScreen();
+        return const UiPredictionScreenV2();
+      },
+    ),
   );
 
   @override
@@ -304,7 +478,6 @@ class MobilePredictionBody extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final selectedDate = useSelectionDate(context);
-    final dailyBudget = context.watch<DailyBudgetResource>();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -312,7 +485,7 @@ class MobilePredictionBody extends StatelessWidget {
         if (kDebugMode) ...[_TrendIndicator(), const Gap(6)],
         const _BudgetButton(),
         const Gap(24),
-        _DailyBudgetDisplay(dailyBudget: dailyBudget.value),
+        const _DailyBudgetDisplay(),
         const Gap(24),
         UiHorizontalPredictionTimeline(
           notifier: context.read(),
@@ -345,9 +518,9 @@ class DesktopPredictionBody extends StatelessWidget {
           child: Row(
             children: [
               const Gap(24),
-              Column(
+              const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [_DailyBudgetDisplay(dailyBudget: dailyBudget.value)],
+                children: [_DailyBudgetDisplay()],
               ),
               const Gap(24),
               Column(
@@ -433,20 +606,19 @@ class _BudgetButton extends StatelessWidget {
 }
 
 class _DailyBudgetDisplay extends StatelessWidget {
-  const _DailyBudgetDisplay({required this.dailyBudget});
-
-  final double dailyBudget;
+  const _DailyBudgetDisplay();
 
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
+    final dailyBudget = context.watch<DailyBudgetResource>();
     return Column(
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '\$${dailyBudget.toStringAsFixed(2)}',
+              '\$${dailyBudget.value.toStringAsFixed(2)}',
               style: context.textTheme.displayLarge,
             ),
             const Gap(4),
@@ -456,9 +628,9 @@ class _DailyBudgetDisplay extends StatelessWidget {
         Text(
           LocalizedMap(
             value: {
-              languages.en: 'daily budget',
-              languages.it: 'budget giornaliero',
-              languages.ru: 'дневной бюджет',
+              languages.en: "I can spend today (Today's budget)",
+              languages.it: 'Posso spendere oggi (Budget oggi)',
+              languages.ru: 'Могу потратить сегодня (Сегодняшний бюджет)',
             },
           ).getValue(locale),
           style: context.textTheme.labelLarge,
@@ -490,9 +662,9 @@ class _DailyStatistics extends StatelessWidget {
             value: '-\$${totalSumResource.expensesSum.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
-                languages.en: 'Expenses',
-                languages.it: 'Spese',
-                languages.ru: 'Расходы',
+                languages.en: 'What I spent (Expenses)',
+                languages.it: 'Cosa ho speso (Spese)',
+                languages.ru: 'Что я потратил (Расходы)',
               },
             ).getValue(locale),
           ),
@@ -501,25 +673,77 @@ class _DailyStatistics extends StatelessWidget {
             value: '+\$${totalSumResource.incomesSum.toStringAsFixed(2)}',
             label: LocalizedMap(
               value: {
-                languages.en: 'Income',
-                languages.it: 'Entrate',
-                languages.ru: 'Доходы',
-              },
-            ).getValue(locale),
-          ),
-          _StatisticItem(
-            onPressed: () async => BudgetBottomSheet.show(context),
-            value: '\$${totalSumResource.balance.toStringAsFixed(2)}',
-            label: LocalizedMap(
-              value: {
-                languages.en: 'End of Day Balance',
-                languages.it: 'Saldo finale',
-                languages.ru: 'Остаток на конец дня',
+                languages.en: 'What I earned (Income)',
+                languages.it: 'Cosa ho guadagnato (Entrate)',
+                languages.ru: 'Что я заработал (Доходы)',
               },
             ).getValue(locale),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _BudgetWillLast extends StatelessWidget {
+  const _BudgetWillLast({super.key});
+
+  @override
+  Widget build(final BuildContext context) {
+    final locale = useLocale(context);
+    return _StatisticItem(
+      value: '~2 days',
+      label: LocalizedMap(
+        value: {
+          languages.en: 'Budget will last ',
+          languages.it: 'Budget rimanente per',
+          languages.ru: 'Отстаток. Хватит',
+        },
+      ).getValue(locale),
+      onPressed: () {},
+    );
+  }
+}
+
+class _TodaysBudget extends StatelessWidget {
+  const _TodaysBudget({super.key});
+
+  @override
+  Widget build(final BuildContext context) {
+    final selectedDate = useSelectionDate(context);
+    final totalSumResource = context.watch<TotalSumResource>();
+    final locale = useLocale(context);
+    return Builder(
+      builder: (final context) {
+        final isToday = selectedDate.isToday;
+        final today = DateTime.now();
+        final isInFuture = selectedDate.isAfter(today);
+        final isInPast = selectedDate.isBefore(today);
+        return _StatisticItem(
+          onPressed: () async => BudgetBottomSheet.show(context),
+          value: '\$${totalSumResource.balance.toStringAsFixed(2)}',
+          label: LocalizedMap(
+            value: switch (true) {
+              _ when isToday => {
+                languages.en: 'End of Today Balance',
+                languages.it: 'Saldo finale oggi',
+                languages.ru: 'Остаток сегодня на конец дня',
+              },
+              _ when isInFuture => {
+                languages.en: 'End of Day Future Balance',
+                languages.it: 'Saldo finale futuro',
+                languages.ru: 'Остаток на конец дня в будущем',
+              },
+              _ when isInPast => {
+                languages.en: 'End of Day Past Balance',
+                languages.it: 'Saldo finale passato',
+                languages.ru: 'Остаток на конец дня в прошлом',
+              },
+              _ => throw UnsupportedError('Unknown date'),
+            },
+          ).getValue(locale),
+        );
+      },
     );
   }
 }
