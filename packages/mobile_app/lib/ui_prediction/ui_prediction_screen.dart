@@ -5,227 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/add_budget_dialog.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
-
-class UiPredictionScreenV2 extends StatelessWidget {
-  const UiPredictionScreenV2({super.key});
-
-  @override
-  Widget build(final BuildContext context) {
-    final backgroungColor = context.colorScheme.primary;
-    return UiScaffold(
-      body: ColoredBox(
-        color: backgroungColor,
-        child: LayoutBuilder(
-          builder: (final context, final constraints) {
-            const _ = '';
-            final selectedDate = useSelectionDate(context);
-            // final isDesktop = UiLayout.fromConstraints(constraints).isDesktop;
-            // return isDesktop
-            //     ? const DesktopPredictionBody()
-            //     : const MobilePredictionBody();
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const UiSafeArea.top(),
-                const Gap(16),
-
-                Expanded(
-                  child: Center(
-                    child: Container(
-                      constraints: const BoxConstraints(maxWidth: 650),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(left: 56, right: 56),
-                            foregroundDecoration: BoxDecoration(
-                              color: backgroungColor.withAlpha(180),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 1,
-                                        ),
-                                        child: Text(
-                                          'thinking per ',
-                                          style: context.textTheme.labelMedium
-                                              ?.copyWith(
-                                                color:
-                                                    context
-                                                        .colorScheme
-                                                        .onPrimary,
-                                              ),
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: InlineValuePicker<String>(
-                                          values: const [
-                                            ' year',
-                                            ' quarter',
-                                            ' month',
-                                            ' week',
-                                          ],
-                                          initialIndex: 1,
-                                          onIndexChanged: (final value) {},
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Flexible(
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          bottom: 1,
-                                        ),
-                                        child: Text(
-                                          'my goal is to',
-                                          style: context.textTheme.labelMedium
-                                              ?.copyWith(
-                                                color:
-                                                    context
-                                                        .colorScheme
-                                                        .onPrimary,
-                                              ),
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: InlineValuePicker<String>(
-                                          values: const [
-                                            ' plan ahead (WIP)',
-                                            ' look for today',
-                                            ' analyze the past (WIP)',
-                                          ],
-                                          initialIndex: 1,
-                                          onIndexChanged: (final value) {},
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(maxHeight: 500),
-                            margin: const EdgeInsets.only(
-                              left: 32,
-                              right: 32,
-                              bottom: 32,
-                              top: 8,
-                            ),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Flexible(child: _MainContentCard()),
-                                // const Gap(16),
-                                // Container(
-                                //   width: 3,
-                                //   margin: const EdgeInsets.symmetric(
-                                //     vertical: 16,
-                                //   ),
-                                //   decoration: BoxDecoration(
-                                //     borderRadius: const BorderRadius.all(
-                                //       Radius.elliptical(32, 32),
-                                //     ),
-                                //     color: context.colorScheme.primaryContainer
-                                //         .withAlpha(100),
-                                //   ),
-                                // ),
-                                // const Gap(16),
-                                // _ContentCard(
-                                //   constraints: const BoxConstraints(
-                                //     maxWidth: 400,
-                                //     minWidth: 300,
-                                //     maxHeight: 500,
-                                //   ),
-                                //   color: context.colorScheme.primaryContainer,
-                                //   child: const Column(
-                                //     children: [Text('Budgets'), Gap(12)],
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-
-                Container(
-                  foregroundDecoration: BoxDecoration(
-                    color: backgroungColor.withAlpha(200),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: _DailyStatistics(selectedDate: selectedDate),
-                ),
-                const Gap(16),
-                const UiSafeArea.bottom(),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class _MainContentCard extends StatelessWidget {
-  const _MainContentCard({super.key});
-
-  @override
-  Widget build(final BuildContext context) => const _ContentCard(
-    constraints: BoxConstraints(maxWidth: 650, maxHeight: 500),
-    // constraints: BoxConstraints(maxWidth: 400, maxHeight: 500),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _DailyBudgetDisplay(),
-        Gap(32),
-        Row(
-          spacing: 16,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [_BudgetWillLast(), _TodaysBudget()],
-        ),
-      ],
-    ),
-  );
-}
-
-class _ContentCard extends StatelessWidget {
-  const _ContentCard({
-    required this.child,
-    required this.constraints,
-    this.color,
-    super.key,
-  });
-  final Widget child;
-  final Color? color;
-  final BoxConstraints constraints;
-
-  @override
-  Widget build(final BuildContext context) => Container(
-    constraints: constraints,
-    decoration: BoxDecoration(
-      color: color ?? context.colorScheme.surface,
-      borderRadius: BorderRadius.circular(16),
-    ),
-    padding: const EdgeInsets.all(16),
-    child: DefaultTextStyle.merge(
-      style: context.textTheme.labelMedium,
-      child: child,
-    ),
-  );
-}
+import 'package:mobile_app/ui_prediction/ui_prediction_desktop_screen.dart';
 
 class UiPredictionScreen extends StatelessWidget {
   const UiPredictionScreen({super.key});
@@ -398,7 +178,7 @@ class PeriodSelectorButton extends HookWidget {
       scaleDirection: UiPopupButtonScaleDirection.down,
       menuBuilder:
           (final context) => UiPopupDecoration(
-            child: _PeriodMenu(
+            child: PeriodMenu(
               onPeriodSelected: (final newPeriod) {
                 const UpdatePredictionConfigCommand().onSelectedPeriodChanged(
                   newPeriod,
@@ -419,10 +199,11 @@ class PeriodSelectorButton extends HookWidget {
   }
 }
 
-class _PeriodMenu extends StatelessWidget {
-  const _PeriodMenu({
+class PeriodMenu extends StatelessWidget {
+  const PeriodMenu({
     required this.onPeriodSelected,
     required this.selectedPeriod,
+    super.key,
   });
 
   final ValueChanged<Period> onPeriodSelected;
@@ -535,9 +316,9 @@ class MobilePredictionBody extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (kDebugMode) ...[_TrendIndicator(), const Gap(6)],
-        const _BudgetButton(),
+        const BudgetButton(),
         const Gap(24),
-        const _DailyBudgetDisplay(),
+        const DailyBudgetDisplay(),
         const Gap(24),
         UiHorizontalPredictionTimeline(
           notifier: context.read(),
@@ -545,7 +326,7 @@ class MobilePredictionBody extends StatelessWidget {
               const UpdatePredictionConfigCommand().onSelectedDateChanged,
         ),
         const Gap(28),
-        _DailyStatistics(selectedDate: selectedDate),
+        DailyStatistics(selectedDate: selectedDate),
       ],
     );
   }
@@ -572,16 +353,16 @@ class DesktopPredictionBody extends StatelessWidget {
               const Gap(24),
               const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [_DailyBudgetDisplay()],
+                children: [DailyBudgetDisplay()],
               ),
               const Gap(24),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (kDebugMode) ...[_TrendIndicator(), const Gap(6)],
-                  const _BudgetButton(),
+                  const BudgetButton(),
                   const Gap(24),
-                  _DailyStatistics(selectedDate: selectedDate),
+                  DailyStatistics(selectedDate: selectedDate),
                 ],
               ),
             ],
@@ -624,8 +405,8 @@ class _TrendIndicator extends StatelessWidget {
   }
 }
 
-class _BudgetButton extends StatelessWidget {
-  const _BudgetButton();
+class BudgetButton extends StatelessWidget {
+  const BudgetButton({super.key});
 
   @override
   Widget build(final BuildContext context) {
@@ -657,8 +438,8 @@ class _BudgetButton extends StatelessWidget {
   }
 }
 
-class _DailyBudgetDisplay extends StatelessWidget {
-  const _DailyBudgetDisplay();
+class DailyBudgetDisplay extends StatelessWidget {
+  const DailyBudgetDisplay({super.key});
 
   @override
   Widget build(final BuildContext context) {
@@ -692,8 +473,8 @@ class _DailyBudgetDisplay extends StatelessWidget {
   }
 }
 
-class _DailyStatistics extends StatelessWidget {
-  const _DailyStatistics({required this.selectedDate});
+class DailyStatistics extends StatelessWidget {
+  const DailyStatistics({required this.selectedDate, super.key});
 
   final DateTime selectedDate;
 
@@ -737,8 +518,8 @@ class _DailyStatistics extends StatelessWidget {
   }
 }
 
-class _BudgetWillLast extends StatelessWidget {
-  const _BudgetWillLast({super.key});
+class BudgetWillLast extends StatelessWidget {
+  const BudgetWillLast({super.key});
 
   @override
   Widget build(final BuildContext context) {
@@ -757,8 +538,8 @@ class _BudgetWillLast extends StatelessWidget {
   }
 }
 
-class _TodaysBudget extends StatelessWidget {
-  const _TodaysBudget({super.key});
+class TodaysBudget extends StatelessWidget {
+  const TodaysBudget({super.key});
 
   @override
   Widget build(final BuildContext context) {

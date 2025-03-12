@@ -18,38 +18,34 @@ class UiSegmentedButton<T> extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => SegmentedButton<T>(
-        segments: segments,
-        selected: {selected},
-        onSelectionChanged: (final newSelection) {
-          onSelectionChanged(newSelection.first);
-        },
-        style: ButtonStyle(
-          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          backgroundColor: WidgetStateProperty.resolveWith<Color>(
-            (final states) {
-              if (states.contains(WidgetState.selected)) {
-                return context.colorScheme.primary;
-              }
-              return context.colorScheme.surface;
-            },
-          ),
-          foregroundColor: WidgetStateProperty.resolveWith<Color>(
-            (final states) {
-              if (states.contains(WidgetState.selected)) {
-                return context.colorScheme.onPrimary;
-              }
-              return context.colorScheme.onSurface;
-            },
-          ),
-          side: WidgetStateProperty.all(
-            BorderSide(
-              color: context.colorScheme.primary,
-            ),
-          ),
-        ),
-      );
+    segments: segments,
+    selected: {selected},
+    onSelectionChanged: (final newSelection) {
+      onSelectionChanged(newSelection.first);
+    },
+    showSelectedIcon: false,
+
+    style: ButtonStyle(
+      visualDensity: VisualDensity.compact,
+      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      textStyle: WidgetStateProperty.all(context.textTheme.labelMedium),
+      backgroundColor: WidgetStateProperty.resolveWith<Color>((final states) {
+        if (states.contains(WidgetState.selected)) {
+          return context.colorScheme.primaryContainer;
+        }
+        return context.colorScheme.primary;
+      }),
+      foregroundColor: WidgetStateProperty.resolveWith<Color>((final states) {
+        if (states.contains(WidgetState.selected)) {
+          return context.colorScheme.onPrimaryContainer;
+        }
+        return context.colorScheme.onPrimary;
+      }),
+      side: WidgetStateProperty.all(
+        BorderSide(color: context.colorScheme.primaryFixedDim),
+      ),
+    ),
+  );
 }
