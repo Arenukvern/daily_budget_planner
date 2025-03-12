@@ -31,80 +31,115 @@ class UiPredictionScreenV2 extends StatelessWidget {
 
                 Expanded(
                   child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          foregroundDecoration: BoxDecoration(
-                            color: backgroungColor.withAlpha(200),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Text(
-                                  'Your goal',
-                                  style: context.textTheme.labelMedium
-                                      ?.copyWith(
-                                        color: context.colorScheme.onPrimary,
-                                      ),
-                                ),
-                              ),
-                              const Gap(8),
-                              DefaultTextStyle.merge(
-                                style: context.textTheme.titleMedium?.copyWith(
-                                  color: context.colorScheme.onPrimary,
-                                ),
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  spacing: 16,
-                                  children: [
-                                    Text('Save & Plan ahead (WIP)'),
-                                    Text('Look for today'),
-                                    Text('Analyze past (WIP)'),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          constraints: const BoxConstraints(maxHeight: 500),
-                          margin: const EdgeInsets.all(32),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const _MainContentCard(),
-                              const Gap(16),
-                              Container(
-                                width: 3,
-                                margin: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.elliptical(32, 32),
+                    child: Container(
+                      constraints: const BoxConstraints(maxWidth: 650),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 56),
+                            foregroundDecoration: BoxDecoration(
+                              color: backgroungColor.withAlpha(180),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 1),
+                                  child: Text(
+                                    'thinking per ',
+                                    style: context.textTheme.labelMedium
+                                        ?.copyWith(
+                                          color: context.colorScheme.onPrimary,
+                                        ),
                                   ),
-                                  color: context.colorScheme.primaryContainer
-                                      .withAlpha(100),
                                 ),
-                              ),
-                              const Gap(16),
-                              _ContentCard(
-                                constraints: const BoxConstraints(
-                                  maxWidth: 400,
-                                  minWidth: 300,
-                                  maxHeight: 500,
+                                Flexible(
+                                  child: SizedBox(
+                                    width: 80,
+                                    child: InlineValuePicker<String>(
+                                      values: const [
+                                        ' year',
+                                        ' quarter',
+                                        ' month',
+                                        ' week',
+                                      ],
+                                      initialIndex: 1,
+                                      onIndexChanged: (final value) {},
+                                    ),
+                                  ),
                                 ),
-                                color: context.colorScheme.primaryContainer,
-                                child: const Column(
-                                  children: [Text('Budgets'), Gap(12)],
+                                const Gap(16),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 1),
+                                  child: Text(
+                                    'my goal is to',
+                                    style: context.textTheme.labelMedium
+                                        ?.copyWith(
+                                          color: context.colorScheme.onPrimary,
+                                        ),
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Flexible(
+                                  child: SizedBox(
+                                    width: 200,
+                                    child: InlineValuePicker<String>(
+                                      values: const [
+                                        ' plan ahead (WIP)',
+                                        ' look for today',
+                                        ' analyze the past (WIP)',
+                                      ],
+                                      initialIndex: 1,
+                                      onIndexChanged: (final value) {},
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Container(
+                            constraints: const BoxConstraints(maxHeight: 500),
+                            margin: const EdgeInsets.only(
+                              left: 32,
+                              right: 32,
+                              bottom: 32,
+                              top: 8,
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(child: _MainContentCard()),
+                                // const Gap(16),
+                                // Container(
+                                //   width: 3,
+                                //   margin: const EdgeInsets.symmetric(
+                                //     vertical: 16,
+                                //   ),
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: const BorderRadius.all(
+                                //       Radius.elliptical(32, 32),
+                                //     ),
+                                //     color: context.colorScheme.primaryContainer
+                                //         .withAlpha(100),
+                                //   ),
+                                // ),
+                                // const Gap(16),
+                                // _ContentCard(
+                                //   constraints: const BoxConstraints(
+                                //     maxWidth: 400,
+                                //     minWidth: 300,
+                                //     maxHeight: 500,
+                                //   ),
+                                //   color: context.colorScheme.primaryContainer,
+                                //   child: const Column(
+                                //     children: [Text('Budgets'), Gap(12)],
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -132,8 +167,8 @@ class _MainContentCard extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => const _ContentCard(
-    // constraints: BoxConstraints(maxWidth: 650, maxHeight: 500),
-    constraints: BoxConstraints(maxWidth: 400, maxHeight: 500),
+    constraints: BoxConstraints(maxWidth: 650, maxHeight: 500),
+    // constraints: BoxConstraints(maxWidth: 400, maxHeight: 500),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

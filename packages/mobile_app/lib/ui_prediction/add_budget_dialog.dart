@@ -170,7 +170,6 @@ class _BudgetForm extends StatelessWidget {
     final pickedDate = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
-      initialEntryMode: DatePickerEntryMode.input,
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
