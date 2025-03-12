@@ -35,14 +35,35 @@ class InlineValuePicker<T> extends StatefulWidget {
   State<InlineValuePicker<T>> createState() => _InlineValuePickerState<T>();
 }
 
-class _InlineValuePickerState<T> extends State<InlineValuePicker<T>> {
+class _InlineValuePickerState<T> extends State<InlineValuePicker<T>>
+    with SingleTickerProviderStateMixin {
   late int _currentIndex = widget.initialIndex;
+  late final PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _currentIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   void _nextValue() {
     if (_currentIndex < widget.values.length - 1) {
       setState(() {
         _currentIndex++;
       });
+      unawaited(
+        _pageController.animateToPage(
+          _currentIndex,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeOutCubic,
+        ),
+      );
       widget.onIndexChanged(_currentIndex);
     }
   }
@@ -52,6 +73,13 @@ class _InlineValuePickerState<T> extends State<InlineValuePicker<T>> {
       setState(() {
         _currentIndex--;
       });
+      unawaited(
+        _pageController.animateToPage(
+          _currentIndex,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeOutCubic,
+        ),
+      );
       widget.onIndexChanged(_currentIndex);
     }
   }
@@ -89,43 +117,43 @@ class _InlineValuePickerState<T> extends State<InlineValuePicker<T>> {
           tooltip: 'Previous value',
         ),
 
-        // Current value with swipe detection and fixed animation
+        // Carousel with macOS-like physics
         Flexible(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: GestureDetector(
-              onHorizontalDragEnd: (final details) {
-                if (details.primaryVelocity == null) return;
-
-                if (details.primaryVelocity! > 0) {
-                  // Swiped right to left
-                  _previousValue();
-                } else if (details.primaryVelocity! < 0) {
-                  // Swiped left to right
-                  _nextValue();
+          child: SizedBox(
+            height: 30,
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (final notification) {
+                if (notification is ScrollEndNotification) {
+                  final page = _pageController.page?.round() ?? 0;
+                  if (page != _currentIndex) {
+                    setState(() {
+                      _currentIndex = page;
+                    });
+                    widget.onIndexChanged(_currentIndex);
+                  }
                 }
+                return false;
               },
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                switchInCurve: Curves.easeOutBack,
-                switchOutCurve: Curves.easeInBack,
-                transitionBuilder: (final child, final animation) {
-                  // Create a combined scale and fade transition
-                  return FadeTransition(
-                    opacity: animation,
-                    child: ScaleTransition(scale: animation, child: child),
-                  );
+              child: PageView.builder(
+                controller: _pageController,
+                physics: const BouncingScrollPhysics(),
+                itemCount: widget.values.length,
+                onPageChanged: (final index) {
+                  // This is called during animation, so we don't update state here
+                  // State is updated in the ScrollEndNotification handler
                 },
-                child: DefaultTextStyle.merge(
-                  key: ValueKey<int>(_currentIndex),
-                  style: context.textTheme.labelLarge?.copyWith(
-                    color: context.colorScheme.onPrimary,
-                  ),
-                  child: Text(
-                    widget.values[_currentIndex].toString(),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                itemBuilder:
+                    (final context, final index) => Center(
+                      child: DefaultTextStyle.merge(
+                        style: context.textTheme.labelLarge?.copyWith(
+                          color: context.colorScheme.onPrimary,
+                        ),
+                        child: Text(
+                          widget.values[index].toString(),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
               ),
             ),
           ),
