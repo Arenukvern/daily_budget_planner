@@ -89,34 +89,42 @@ class _InlineValuePickerState<T> extends State<InlineValuePicker<T>> {
           tooltip: 'Previous value',
         ),
 
-        // Current value with swipe detection
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: GestureDetector(
-            onHorizontalDragEnd: (final details) {
-              if (details.primaryVelocity == null) return;
+        // Current value with swipe detection and fixed animation
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: GestureDetector(
+              onHorizontalDragEnd: (final details) {
+                if (details.primaryVelocity == null) return;
 
-              if (details.primaryVelocity! > 0) {
-                // Swiped right to left
-                _previousValue();
-              } else if (details.primaryVelocity! < 0) {
-                // Swiped left to right
-                _nextValue();
-              }
-            },
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 200),
-              transitionBuilder:
-                  (final child, final animation) =>
-                      FadeTransition(opacity: animation, child: child),
-              child: DefaultTextStyle.merge(
-                key: ValueKey<int>(_currentIndex),
-                style: context.textTheme.labelLarge?.copyWith(
-                  color: context.colorScheme.onPrimary,
-                ),
-                child: Text(
-                  widget.values[_currentIndex].toString(),
-                  textAlign: TextAlign.center,
+                if (details.primaryVelocity! > 0) {
+                  // Swiped right to left
+                  _previousValue();
+                } else if (details.primaryVelocity! < 0) {
+                  // Swiped left to right
+                  _nextValue();
+                }
+              },
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                switchInCurve: Curves.easeOutBack,
+                switchOutCurve: Curves.easeInBack,
+                transitionBuilder: (final child, final animation) {
+                  // Create a combined scale and fade transition
+                  return FadeTransition(
+                    opacity: animation,
+                    child: ScaleTransition(scale: animation, child: child),
+                  );
+                },
+                child: DefaultTextStyle.merge(
+                  key: ValueKey<int>(_currentIndex),
+                  style: context.textTheme.labelLarge?.copyWith(
+                    color: context.colorScheme.onPrimary,
+                  ),
+                  child: Text(
+                    widget.values[_currentIndex].toString(),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
