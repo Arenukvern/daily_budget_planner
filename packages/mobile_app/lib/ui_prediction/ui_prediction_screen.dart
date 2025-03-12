@@ -37,61 +37,78 @@ class UiPredictionScreenV2 extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                            margin: const EdgeInsets.only(left: 56),
+                            margin: const EdgeInsets.only(left: 56, right: 56),
                             foregroundDecoration: BoxDecoration(
                               color: backgroungColor.withAlpha(180),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: Row(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 1),
-                                  child: Text(
-                                    'thinking per ',
-                                    style: context.textTheme.labelMedium
-                                        ?.copyWith(
-                                          color: context.colorScheme.onPrimary,
+                                Flexible(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 1,
                                         ),
+                                        child: Text(
+                                          'thinking per ',
+                                          style: context.textTheme.labelMedium
+                                              ?.copyWith(
+                                                color:
+                                                    context
+                                                        .colorScheme
+                                                        .onPrimary,
+                                              ),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: InlineValuePicker<String>(
+                                          values: const [
+                                            ' year',
+                                            ' quarter',
+                                            ' month',
+                                            ' week',
+                                          ],
+                                          initialIndex: 1,
+                                          onIndexChanged: (final value) {},
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Flexible(
-                                  child: SizedBox(
-                                    width: 80,
-                                    child: InlineValuePicker<String>(
-                                      values: const [
-                                        ' year',
-                                        ' quarter',
-                                        ' month',
-                                        ' week',
-                                      ],
-                                      initialIndex: 1,
-                                      onIndexChanged: (final value) {},
-                                    ),
-                                  ),
-                                ),
-                                const Gap(16),
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 1),
-                                  child: Text(
-                                    'my goal is to',
-                                    style: context.textTheme.labelMedium
-                                        ?.copyWith(
-                                          color: context.colorScheme.onPrimary,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 1,
                                         ),
-                                  ),
-                                ),
-                                Flexible(
-                                  child: SizedBox(
-                                    width: 200,
-                                    child: InlineValuePicker<String>(
-                                      values: const [
-                                        ' plan ahead (WIP)',
-                                        ' look for today',
-                                        ' analyze the past (WIP)',
-                                      ],
-                                      initialIndex: 1,
-                                      onIndexChanged: (final value) {},
-                                    ),
+                                        child: Text(
+                                          'my goal is to',
+                                          style: context.textTheme.labelMedium
+                                              ?.copyWith(
+                                                color:
+                                                    context
+                                                        .colorScheme
+                                                        .onPrimary,
+                                              ),
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: InlineValuePicker<String>(
+                                          values: const [
+                                            ' plan ahead (WIP)',
+                                            ' look for today',
+                                            ' analyze the past (WIP)',
+                                          ],
+                                          initialIndex: 1,
+                                          onIndexChanged: (final value) {},
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
