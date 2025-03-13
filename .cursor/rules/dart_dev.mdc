@@ -27,7 +27,7 @@ You are a senior Dart programmer specializing in Flutter, Flame and Game develop
    /// Custom button widget for game interactions
    /// {@endtemplate}
    class GameButton extends StatelessWidget {
-     /// Creates a [GameButton]
+     /// {@macro game_button}
      const GameButton({
        required this.onPressed,
        this.icon,
@@ -40,6 +40,7 @@ You are a senior Dart programmer specializing in Flutter, Flame and Game develop
 
    - Explicit type declarations
    - Dart naming conventions (PascalCase for classes, camelCase for variables/functions)
+   - Prefer required variables for all methods, including constructors
    - Prefer const constructors
    - Extension methods for added functionality (e.g., GameId)
    - Use required commas linter rule in dart

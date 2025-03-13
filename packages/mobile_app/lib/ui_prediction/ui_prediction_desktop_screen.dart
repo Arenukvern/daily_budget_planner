@@ -1,4 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/ui_prediction/simple_steps/simple_steps.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 import 'package:recase/recase.dart';
 
@@ -24,7 +25,11 @@ class UiPredictionScreenV2 extends StatelessWidget {
               children: [
                 const UiSafeArea.top(),
                 const Gap(16),
-
+                ElevatedButton(
+                  onPressed: () async => SimpleStepsFlow.show(context),
+                  child: const Text('Show steps'),
+                ),
+                const Gap(16),
                 Expanded(
                   child: Center(
                     child: Container(

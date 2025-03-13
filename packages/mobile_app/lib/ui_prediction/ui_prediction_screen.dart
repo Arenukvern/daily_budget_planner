@@ -3,9 +3,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/ui_prediction/add_budget_dialog.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 import 'package:mobile_app/ui_prediction/ui_prediction_desktop_screen.dart';
+import 'package:mobile_app/ui_prediction/upsert_budget_dialog.dart';
 
 class UiPredictionScreen extends StatelessWidget {
   const UiPredictionScreen({super.key});
@@ -66,10 +66,8 @@ class _PredictionHeader extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
-    final period = context.select<PredictionConfigResource, Period>(
-      (final state) => state.period,
-    );
     final selectedDate = useSelectionDate(context);
+    final configPeriodSelector = useConfigPeriodSelector(context: context);
     return DecoratedBox(
       decoration: BoxDecoration(
         color: context.colorScheme.surface.withOpacity(0.5),
@@ -89,7 +87,10 @@ class _PredictionHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Gap(6),
-                PeriodSelectorButton(period: period),
+                PeriodSelectorButton(
+                  period: configPeriodSelector.period,
+                  onPeriodSelected: configPeriodSelector.onPeriodSelected,
+                ),
                 const Spacer(),
                 Builder(
                   builder: (final context) {
@@ -147,10 +148,30 @@ class _PredictionHeader extends StatelessWidget {
   }
 }
 
+typedef UseConfigPeriodSelectorRecord =
+    ({Period period, ValueChanged<Period> onPeriodSelected});
+UseConfigPeriodSelectorRecord useConfigPeriodSelector({
+  required final BuildContext context,
+}) {
+  final period = context.select<PredictionConfigResource, Period>(
+    (final state) => state.period,
+  );
+  return (
+    period: period,
+    onPeriodSelected:
+        const UpdatePredictionConfigCommand().onSelectedPeriodChanged,
+  );
+}
+
 class PeriodSelectorButton extends HookWidget {
-  const PeriodSelectorButton({required this.period, super.key});
+  const PeriodSelectorButton({
+    required this.period,
+    required this.onPeriodSelected,
+    super.key,
+  });
 
   final Period period;
+  final ValueChanged<Period> onPeriodSelected;
 
   @override
   Widget build(final BuildContext context) {
@@ -180,9 +201,7 @@ class PeriodSelectorButton extends HookWidget {
           (final context) => UiPopupDecoration(
             child: PeriodMenu(
               onPeriodSelected: (final newPeriod) {
-                const UpdatePredictionConfigCommand().onSelectedPeriodChanged(
-                  newPeriod,
-                );
+                onPeriodSelected(newPeriod);
                 controller.close();
               },
               selectedPeriod: period,
@@ -633,7 +652,7 @@ class UiPredictionBottomActionBar extends StatelessWidget {
       children: [
         const UiCloseButton(),
         UiTextButton(
-          onPressed: () async => AddBudgetDialog.show(context),
+          onPressed: () async => UpsertBudgetDialog.show(context),
           title: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -728,7 +747,7 @@ class BudgetBottomSheet extends HookWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             child: ElevatedButton(
-              onPressed: () async => AddBudgetDialog.show(context),
+              onPressed: () async => UpsertBudgetDialog.show(context),
               child: Text(
                 LocalizedMap(
                   value: {

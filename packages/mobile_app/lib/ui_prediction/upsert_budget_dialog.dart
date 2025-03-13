@@ -2,8 +2,52 @@ import 'package:intl/intl.dart';
 import 'package:life_hooks/life_hooks.dart';
 import 'package:mobile_app/common_imports.dart';
 
-class AddBudgetDialog extends HookWidget {
-  const AddBudgetDialog({
+typedef UseUpsertBudgetRecord =
+    ({
+      Future<bool> Function() onSave,
+
+      TextEditingController amountController,
+      ValueNotifier<DateTime> selectedDate,
+      FormHelperState formHelper,
+    });
+UseUpsertBudgetRecord useUpsertBudget({
+  required final BuildContext context,
+
+  final Transaction? initialValue,
+  final BudgetId id = BudgetId.empty,
+  final bool shouldPopOnSave = true,
+}) {
+  final amountController = useTextEditingController(
+    text: initialValue?.input.amountWithTax.toString() ?? '',
+  );
+  final selectedDate = useState(
+    initialValue?.transactionDate ?? DateTime.now(),
+  );
+  final formHelper = useFormHelper();
+
+  return (
+    amountController: amountController,
+    selectedDate: selectedDate,
+    formHelper: formHelper,
+    onSave: () async {
+      if (!formHelper.validate()) return false;
+      final newBudget = Budget(
+        id: BudgetId(id.value.whenEmptyUse(IdCreator.create())),
+        input: InputMoney.fiat(
+          amountWithTax: double.parse(amountController.text),
+          // currencyId: CurrencyId.usd,
+        ),
+        date: selectedDate.value,
+      );
+      unawaited(const UpsertBudgetCommand().execute(newBudget));
+      if (shouldPopOnSave) Navigator.of(context).pop();
+      return true;
+    },
+  );
+}
+
+class UpsertBudgetDialog extends HookWidget {
+  const UpsertBudgetDialog({
     this.id = BudgetId.empty,
     super.key,
     this.initialValue,
@@ -16,20 +60,18 @@ class AddBudgetDialog extends HookWidget {
     final Transaction? initialValue,
   }) => showDialog(
     context: context,
-    builder: (final context) => AddBudgetDialog(initialValue: initialValue),
+    builder: (final context) => UpsertBudgetDialog(initialValue: initialValue),
   );
 
   @override
   Widget build(final BuildContext context) {
-    final locale = useLocale(context);
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final amountController = useTextEditingController(
-      text: initialValue?.input.amountWithTax.toString() ?? '',
+    final locale = useLocale(context);
+    final upsertBudget = useUpsertBudget(
+      context: context,
+      initialValue: initialValue,
+      id: id,
     );
-    final selectedDate = useState(
-      initialValue?.transactionDate ?? DateTime.now(),
-    );
-    final formHelper = useFormHelper();
 
     return AlertDialog(
       insetPadding:
@@ -43,11 +85,7 @@ class AddBudgetDialog extends HookWidget {
           },
         ).getValue(locale),
       ),
-      content: _BudgetForm(
-        amountController: amountController,
-        selectedDateNotifier: selectedDate,
-        formHelper: formHelper,
-      ),
+      content: UpsertBudgetForm(upsertBudget: upsertBudget),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -62,19 +100,7 @@ class AddBudgetDialog extends HookWidget {
           ),
         ),
         ElevatedButton(
-          onPressed: () {
-            if (!formHelper.validate()) return;
-            final newBudget = Budget(
-              id: BudgetId(id.value.whenEmptyUse(IdCreator.create())),
-              input: InputMoney.fiat(
-                amountWithTax: double.parse(amountController.text),
-                // currencyId: CurrencyId.usd,
-              ),
-              date: selectedDate.value,
-            );
-            unawaited(const UpsertBudgetCommand().execute(newBudget));
-            Navigator.of(context).pop();
-          },
+          onPressed: upsertBudget.onSave,
           child: Text(
             LocalizedMap(
               value: {
@@ -90,24 +116,18 @@ class AddBudgetDialog extends HookWidget {
   }
 }
 
-class _BudgetForm extends StatelessWidget {
-  const _BudgetForm({
-    required this.amountController,
-    required this.selectedDateNotifier,
-    required this.formHelper,
-  });
+class UpsertBudgetForm extends StatelessWidget {
+  const UpsertBudgetForm({required this.upsertBudget, super.key});
 
-  final TextEditingController amountController;
-  final ValueNotifier<DateTime> selectedDateNotifier;
-  final FormHelperState formHelper;
+  final UseUpsertBudgetRecord upsertBudget;
 
-  DateTime get _selectedDate => selectedDateNotifier.value;
+  DateTime get _selectedDate => upsertBudget.selectedDate.value;
 
   @override
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     return Form(
-      key: formHelper.formHelper.formKey,
+      key: upsertBudget.formHelper.formHelper.formKey,
       onPopInvokedWithResult: (final didPop, final result) {
         if (didPop) {
           unawaited(SoftKeyboard.close());
@@ -117,8 +137,9 @@ class _BudgetForm extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
-            controller: amountController,
+            controller: upsertBudget.amountController,
             decoration: InputDecoration(
+              constraints: const BoxConstraints(maxWidth: 200),
               labelText: LocalizedMap(
                 value: {
                   languages.en: 'Amount',
@@ -184,7 +205,7 @@ class _BudgetForm extends StatelessWidget {
       );
       if (pickedTime == null) return;
     }
-    selectedDateNotifier.value = DateTime(
+    upsertBudget.selectedDate.value = DateTime(
       pickedDate.year,
       pickedDate.month,
       pickedDate.day,
