@@ -14,33 +14,28 @@ import 'package:mobile_app/data_local_api/db/sembast_db.dart';
 /// data serialization and maintain referential integrity with
 /// related collections.
 /// {@endtemplate}
-class BudgetSembastCollection with SembastIdMixin<BudgetId> {
+class BudgetSembastCollection extends SembastContainer<Budget, BudgetId> {
   /// Creates a [BudgetSembastCollection] instance
-  BudgetSembastCollection();
+  BudgetSembastCollection({required super.item});
 
   /// Creates instance from Sembast Map
-  factory BudgetSembastCollection.fromMap(final Map<String, dynamic> map) =>
-      BudgetSembastCollection()..budgetJson = map['budgetJson'] as String;
+  factory BudgetSembastCollection.fromMap(final Map<String, String> map) =>
+      BudgetSembastCollection(
+        item: Budget.fromJson(
+          jsonDecodeMap(map[SembastContainer.keys.jsonData]!),
+        ),
+      );
 
   /// Converts a domain [Budget] model to [BudgetSembastCollection]
-  factory BudgetSembastCollection.fromDomain(final Budget budget) {
-    final budgetJson = budget.toJson();
-
-    return BudgetSembastCollection()
-      ..id = budget.id
-      ..budgetJson = jsonEncode(budgetJson);
-  }
-
-  Budget budget = Budget.empty;
+  factory BudgetSembastCollection.fromDomain(final Budget budget) =>
+      BudgetSembastCollection(item: budget);
   @override
   BudgetId id = BudgetId.empty;
 
   /// Converts to Map for Sembast storage
-  Map<String, dynamic> toMap() => {'id': id, 'budgetJson': budgetJson};
+  @override
+  Map<String, dynamic> toMap() => {...super.toMap(), 'createdAt': item.date};
 
-  /// Converts [BudgetSembastCollection] to domain [Budget] model
-  Budget toDomain() {
-    final budgetJsonMap = jsonDecodeMap(budgetJson);
-    return Budget.fromJson(budgetJsonMap);
-  }
+  @override
+  String getRawJson() => jsonEncode(item.toJson());
 }

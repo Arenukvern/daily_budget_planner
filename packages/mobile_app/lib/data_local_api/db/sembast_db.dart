@@ -10,15 +10,19 @@ import 'package:sembast_web/sembast_web.dart';
 const _sembastDbVersion = 'sembast_1';
 const _dbFileName = 'daily_budget.db';
 
+typedef SembastDataMap = Map<String, dynamic>;
+
 /// Sembast database implementation
 final class SembastDb extends ComplexLocalDb {
   Database? _db;
-  final _budgetStore = stringMapStoreFactory.store('budgets');
-  final _transactionStore = stringMapStoreFactory.store('transactions');
-  final _scheduledTransactionStore = stringMapStoreFactory.store(
+  final budgetStore = StoreRef<BudgetId, SembastDataMap>('budgets');
+  final transactionStore = StoreRef<TransactionId, SembastDataMap>(
+    'transactions',
+  );
+  final scheduledTransactionStore = StoreRef<TransactionId, SembastDataMap>(
     'scheduled_transactions',
   );
-  final _taskStore = stringMapStoreFactory.store('tasks');
+  final taskStore = StoreRef<TaskId, SembastDataMap>('tasks');
 
   Database get db =>
       _db ??
@@ -37,19 +41,6 @@ final class SembastDb extends ComplexLocalDb {
     }
   }
 
-  /// Store operations for budgets
-  StoreRef<String, Map<String, dynamic>> get budgets => _budgetStore;
-
-  /// Store operations for transactions
-  StoreRef<String, Map<String, dynamic>> get transactions => _transactionStore;
-
-  /// Store operations for scheduled transactions
-  StoreRef<String, Map<String, dynamic>> get scheduledTransactions =>
-      _scheduledTransactionStore;
-
-  /// Store operations for tasks
-  StoreRef<String, Map<String, dynamic>> get tasks => _taskStore;
-
   @override
   Future<void> close() async {
     await _db?.close();
@@ -63,13 +54,15 @@ mixin SembastIdMixin<T> {
   set id(final T value);
 }
 
-abstract class SembastContainer<T extends Object, TId extends Object>
+abstract class SembastContainer<T extends Object, TId>
     with SembastIdMixin<TId> {
   SembastContainer({required this.item});
+  static const keys = (id: 'id', jsonData: 'jsonData');
   @override
   TId get id;
   T item;
+  String getRawJson();
   @mustCallSuper
   @mustBeOverridden
-  Map<String, dynamic> toMap() => {'id': id, 'jsonData': item};
+  SembastDataMap toMap() => {keys.id: '$id', keys.jsonData: getRawJson()};
 }
