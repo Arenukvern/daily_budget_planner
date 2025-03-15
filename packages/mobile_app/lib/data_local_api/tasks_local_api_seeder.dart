@@ -1,4 +1,4 @@
-part of 'isar/task_local_api_isar.dart';
+part of 'db_apis/task_local_api_isar.dart';
 
 final class TasksLocalApiSeeder {
   TasksLocalApiSeeder._();

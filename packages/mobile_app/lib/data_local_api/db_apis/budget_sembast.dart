@@ -28,12 +28,12 @@ class BudgetSembastCollection extends SembastContainer<Budget, BudgetId> {
   factory BudgetSembastCollection.fromDomain(final Budget budget) =>
       BudgetSembastCollection(item: budget);
   @override
-  BudgetId id = BudgetId.empty;
+  BudgetId get id => item.id;
 
   /// Converts to Map for Sembast storage
   @override
   Map<String, dynamic> toMap() => {...super.toMap(), 'createdAt': item.date};
 
   @override
-  Map<String, dynamic> getJson() => item.toJson();
+  SembastDataMap getJson() => item.toJson();
 }

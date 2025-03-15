@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/data_local_api/db/sembast_db.dart';
-import 'package:mobile_app/data_local_api/isar/task_local_api_isar.dart';
+import 'package:mobile_app/data_local_api/db_apis/task_local_api_isar.dart';
 import 'package:mobile_app/ui_home/monthly/monthly_notifier.dart';
 import 'package:mobile_app/ui_home/weekly/weekly_notifier.dart';
 import 'package:mobile_app/ui_paywalls/ui_paywalls.dart';

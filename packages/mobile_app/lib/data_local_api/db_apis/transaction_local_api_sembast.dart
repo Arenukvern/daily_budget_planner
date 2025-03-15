@@ -1,6 +1,6 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/data_local_api/db/sembast_db.dart';
-import 'package:mobile_app/data_local_api/isar/transaction_sembast.dart';
+import 'package:mobile_app/data_local_api/db_apis/transaction_sembast.dart';
 import 'package:mobile_app/data_local_api/transaction_repository.dart';
 import 'package:sembast/sembast.dart' hide Transaction;
 

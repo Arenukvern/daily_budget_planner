@@ -1,6 +1,6 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/data_local_api/db/sembast_db.dart';
-import 'package:mobile_app/data_local_api/isar/task_sembast.dart';
+import 'package:mobile_app/data_local_api/db_apis/task_sembast.dart';
 import 'package:sembast/sembast.dart';
 
 /// Repository implementation for tasks using Sembast

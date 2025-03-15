@@ -7,10 +7,10 @@ import 'package:mobile_app/data_local_api/db/db.dart';
 import 'package:path_provider/path_provider.dart';
 
 // part 'isar.g.dart';
-part '../isar/budget_isar.dart';
-part '../isar/scheduled_transaction_isar.dart';
-part '../isar/task_isar.dart';
-part '../isar/transaction_isar.dart';
+part '../db_apis/budget_isar.dart';
+part '../db_apis/scheduled_transaction_isar.dart';
+part '../db_apis/task_isar.dart';
+part '../db_apis/transaction_isar.dart';
 
 const _isarDbVersion = 'isar_4';
 

@@ -51,7 +51,6 @@ final class SembastDb extends ComplexLocalDb {
 /// Mixin for handling IDs in Sembast models
 mixin SembastIdMixin<T> {
   T get id;
-  set id(final T value);
 }
 
 abstract class SembastContainer<T extends Object, TId>
@@ -68,7 +67,7 @@ abstract class SembastContainer<T extends Object, TId>
     keys.id: '$id',
     keys.jsonData: getJson().map(
       (final key, final value) => MapEntry(key, switch (value) {
-        final DateTime date => date.toIso8601String(),
+        final DateTime date => date.millisecondsSinceEpoch,
         _ => value,
       }),
     ),
