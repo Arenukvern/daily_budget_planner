@@ -15,14 +15,12 @@ typedef SembastDataMap = Map<String, dynamic>;
 /// Sembast database implementation
 final class SembastDb extends ComplexLocalDb {
   Database? _db;
-  final budgetStore = StoreRef<BudgetId, SembastDataMap>('budgets');
-  final transactionStore = StoreRef<TransactionId, SembastDataMap>(
-    'transactions',
-  );
-  final scheduledTransactionStore = StoreRef<TransactionId, SembastDataMap>(
+  final budgets = StoreRef<BudgetId, SembastDataMap>('budgets');
+  final transactions = StoreRef<TransactionId, SembastDataMap>('transactions');
+  final scheduledTransactions = StoreRef<TransactionId, SembastDataMap>(
     'scheduled_transactions',
   );
-  final taskStore = StoreRef<TaskId, SembastDataMap>('tasks');
+  final tasks = StoreRef<TaskId, SembastDataMap>('tasks');
 
   Database get db =>
       _db ??
@@ -67,7 +65,7 @@ abstract class SembastContainer<T extends Object, TId>
     keys.id: '$id',
     keys.jsonData: getJson().map(
       (final key, final value) => MapEntry(key, switch (value) {
-        final DateTime date => date.millisecondsSinceEpoch,
+        final DateTime date => date.toIso8601String(),
         _ => value,
       }),
     ),

@@ -1,11 +1,10 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/data_local_api/db/sembast_db.dart';
 import 'package:mobile_app/data_local_api/db_apis/transaction_sembast.dart';
-import 'package:mobile_app/data_local_api/transaction_repository.dart';
 import 'package:sembast/sembast.dart' hide Transaction;
 
 /// Repository implementation for transactions using Sembast
-class SembastTransactionRepository implements TransactionRepository {
+class SembastTransactionRepository {
   /// Creates a [SembastTransactionRepository] instance
   SembastTransactionRepository(this._db);
 
@@ -75,18 +74,23 @@ class SembastTransactionRepository implements TransactionRepository {
   }
 
   @override
-  Future<List<Transaction>> getAllByType(final TransactionType type) async {
-    final finder = Finder(
-      filter: Filter.equals('type', type.name),
-      sortOrders: [SortOrder('transactionDate', false)],
-    );
-    final records = await _db.transactions.find(_db.db, finder: finder);
-    return records
-        .map(
-          (final record) =>
-              TransactionSembastCollection.fromMap(record.value).toDomain(),
-        )
-        .toList();
+  Future<List<Transaction>> getAllTransactionsByType({
+    required final TransactionType type,
+  }) async {
+    try {
+      final finder = Finder(
+        filter: Filter.equals('type', type.name),
+        sortOrders: [SortOrder('transactionDate', false)],
+      );
+      final records = await _db.transactions.find(_db.db, finder: finder);
+      return records.map((final record) => record.toDomain()).toList();
+    } catch (e, s) {
+      throw LocalApiException(
+        message: 'Failed to get all transactions',
+        error: e,
+        stackTrace: s,
+      );
+    }
   }
 
   @override

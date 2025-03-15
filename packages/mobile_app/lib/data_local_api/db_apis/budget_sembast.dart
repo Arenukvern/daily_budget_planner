@@ -17,7 +17,7 @@ class BudgetSembastCollection extends SembastContainer<Budget, BudgetId> {
   BudgetSembastCollection({required super.item});
 
   /// Creates instance from Sembast Map
-  factory BudgetSembastCollection.fromMap(final Map<String, String> map) =>
+  factory BudgetSembastCollection.fromMap(final SembastDataMap map) =>
       BudgetSembastCollection(
         item: Budget.fromJson(
           jsonDecodeMap(map[SembastContainer.keys.jsonData]!),
