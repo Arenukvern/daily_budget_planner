@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/data_local_api/db/sembast_db.dart';
 
@@ -37,5 +35,5 @@ class BudgetSembastCollection extends SembastContainer<Budget, BudgetId> {
   Map<String, dynamic> toMap() => {...super.toMap(), 'createdAt': item.date};
 
   @override
-  String getRawJson() => jsonEncode(item.toJson());
+  Map<String, dynamic> getJson() => item.toJson();
 }

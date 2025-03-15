@@ -61,8 +61,16 @@ abstract class SembastContainer<T extends Object, TId>
   @override
   TId get id;
   T item;
-  String getRawJson();
+  Map<String, dynamic> getJson();
   @mustCallSuper
   @mustBeOverridden
-  SembastDataMap toMap() => {keys.id: '$id', keys.jsonData: getRawJson()};
+  SembastDataMap toMap() => {
+    keys.id: '$id',
+    keys.jsonData: getJson().map(
+      (final key, final value) => MapEntry(key, switch (value) {
+        final DateTime date => date.toIso8601String(),
+        _ => value,
+      }),
+    ),
+  };
 }
