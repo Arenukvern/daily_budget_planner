@@ -6,9 +6,24 @@ part of 'data_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AppSettingsModelImpl _$$AppSettingsModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$AppSettingsModelImpl(
+_Budget _$BudgetFromJson(Map<String, dynamic> json) => _Budget(
+      date: DateTime.parse(json['date'] as String),
+      id: json['id'] == null
+          ? BudgetId.empty
+          : BudgetId.fromJson(json['id'] as String),
+      input: json['input'] == null
+          ? InputMoney.empty
+          : InputMoney.fromJson(json['input'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$BudgetToJson(_Budget instance) => <String, dynamic>{
+      'date': instance.date.toIso8601String(),
+      'id': instance.id,
+      'input': instance.input,
+    };
+
+_AppSettingsModel _$AppSettingsModelFromJson(Map<String, dynamic> json) =>
+    _AppSettingsModel(
       locale: localeFromString(json['locale'] as String?),
       brightness: json['brightness'] == null
           ? UiBrightness.system
@@ -16,17 +31,15 @@ _$AppSettingsModelImpl _$$AppSettingsModelImplFromJson(
       use24HourFormat: json['use24HourFormat'] as bool? ?? true,
     );
 
-Map<String, dynamic> _$$AppSettingsModelImplToJson(
-        _$AppSettingsModelImpl instance) =>
+Map<String, dynamic> _$AppSettingsModelToJson(_AppSettingsModel instance) =>
     <String, dynamic>{
       'locale': localeToString(instance.locale),
       'brightness': UiBrightness.toJson(instance.brightness),
       'use24HourFormat': instance.use24HourFormat,
     };
 
-_$MonthlyBudgetModelImpl _$$MonthlyBudgetModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$MonthlyBudgetModelImpl(
+_MonthlyBudgetModel _$MonthlyBudgetModelFromJson(Map<String, dynamic> json) =>
+    _MonthlyBudgetModel(
       id: BudgetModelId.fromJson(json['id'] as String),
       nextBudgetDay: dateTimeFromMilisecondsSinceEpoch(
           (json['nextBudgetDay'] as num?)?.toInt()),
@@ -34,8 +47,7 @@ _$MonthlyBudgetModelImpl _$$MonthlyBudgetModelImplFromJson(
       savings: (json['savings'] as num?)?.toDouble() ?? 0,
     );
 
-Map<String, dynamic> _$$MonthlyBudgetModelImplToJson(
-        _$MonthlyBudgetModelImpl instance) =>
+Map<String, dynamic> _$MonthlyBudgetModelToJson(_MonthlyBudgetModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nextBudgetDay': dateTimeToMilisecondsSinceEpoch(instance.nextBudgetDay),
@@ -43,23 +55,20 @@ Map<String, dynamic> _$$MonthlyBudgetModelImplToJson(
       'savings': instance.savings,
     };
 
-_$WeeklyBudgetModelImpl _$$WeeklyBudgetModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$WeeklyBudgetModelImpl(
+_WeeklyBudgetModel _$WeeklyBudgetModelFromJson(Map<String, dynamic> json) =>
+    _WeeklyBudgetModel(
       id: BudgetModelId.fromJson(json['id'] as String),
       amount: (json['amount'] as num?)?.toDouble() ?? 0,
     );
 
-Map<String, dynamic> _$$WeeklyBudgetModelImplToJson(
-        _$WeeklyBudgetModelImpl instance) =>
+Map<String, dynamic> _$WeeklyBudgetModelToJson(_WeeklyBudgetModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'amount': instance.amount,
     };
 
-_$FinSettingsModelImpl _$$FinSettingsModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$FinSettingsModelImpl(
+_FinSettingsModel _$FinSettingsModelFromJson(Map<String, dynamic> json) =>
+    _FinSettingsModel(
       fiatCurrencyId: json['fiatCurrencyId'] == null
           ? CurrencyId.empty
           : CurrencyId.fromJson(json['fiatCurrencyId'] as String),
@@ -68,14 +77,59 @@ _$FinSettingsModelImpl _$$FinSettingsModelImplFromJson(
           : CurrencyId.fromJson(json['cryptoCurrencyId'] as String),
     );
 
-Map<String, dynamic> _$$FinSettingsModelImplToJson(
-        _$FinSettingsModelImpl instance) =>
+Map<String, dynamic> _$FinSettingsModelToJson(_FinSettingsModel instance) =>
     <String, dynamic>{
       'fiatCurrencyId': instance.fiatCurrencyId,
       'cryptoCurrencyId': instance.cryptoCurrencyId,
     };
 
-_$TaskImpl _$$TaskImplFromJson(Map<String, dynamic> json) => _$TaskImpl(
+_FinTaskModel _$FinTaskModelFromJson(Map<String, dynamic> json) =>
+    _FinTaskModel(
+      id: json['id'] == null
+          ? TaskId.empty
+          : TaskId.fromJson(json['id'] as String),
+      name: json['name'] as String? ?? '',
+      purpose:
+          $enumDecodeNullable(_$FinTaskModelPurposeEnumMap, json['purpose']) ??
+              0,
+      type: $enumDecodeNullable(_$TaskTypeEnumMap, json['type']) ??
+          TaskType.personal,
+      status: json['status'] == null
+          ? TaskStatus.visible
+          : TaskStatus.fromJson(json['status'] as String),
+      period: json['period'] == null
+          ? Period.monthly
+          : Period.fromJson((json['period'] as num).toInt()),
+      startDate: json['startDate'] == null
+          ? null
+          : DateTime.parse(json['startDate'] as String),
+      regularIncomeTaskId: json['regularIncomeTaskId'] == null
+          ? TaskId.empty
+          : TaskId.fromJson(json['regularIncomeTaskId'] as String),
+    );
+
+Map<String, dynamic> _$FinTaskModelToJson(_FinTaskModel instance) =>
+    <String, dynamic>{
+      'startDate': instance.startDate.toIso8601String(),
+      'id': instance.id,
+      'name': instance.name,
+      'purpose': _$FinTaskModelPurposeEnumMap[instance.purpose]!,
+      'type': _$TaskTypeEnumMap[instance.type]!,
+      'status': instance.status,
+      'period': instance.period,
+      'regularIncomeTaskId': instance.regularIncomeTaskId,
+    };
+
+const _$FinTaskModelPurposeEnumMap = {
+  FinTaskModelPurpose.dailyBudget: 'dailyBudget',
+};
+
+const _$TaskTypeEnumMap = {
+  TaskType.personal: 'personal',
+  TaskType.business: 'business',
+};
+
+_Task _$TaskFromJson(Map<String, dynamic> json) => _Task(
       id: json['id'] == null
           ? TaskId.empty
           : TaskId.fromJson(json['id'] as String),
@@ -101,8 +155,7 @@ _$TaskImpl _$$TaskImplFromJson(Map<String, dynamic> json) => _$TaskImpl(
           const [],
     );
 
-Map<String, dynamic> _$$TaskImplToJson(_$TaskImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
       'id': instance.id,
       'status': instance.status,
       'title': instance.title,
@@ -115,11 +168,6 @@ Map<String, dynamic> _$$TaskImplToJson(_$TaskImpl instance) =>
       'transactionType': instance.transactionType,
       'categoryIds': instance.categoryIds,
     };
-
-const _$TaskTypeEnumMap = {
-  TaskType.personal: 'personal',
-  TaskType.business: 'business',
-};
 
 const _$PersonalIncomeTaskTypeEnumMap = {
   PersonalIncomeTaskType.salary: 'salary',
@@ -141,9 +189,9 @@ const _$PersonalExpenseTaskTypeEnumMap = {
   PersonalExpenseTaskType.other: 'other',
 };
 
-_$ScheduledTransactionImpl _$$ScheduledTransactionImplFromJson(
+_ScheduledTransaction _$ScheduledTransactionFromJson(
         Map<String, dynamic> json) =>
-    _$ScheduledTransactionImpl(
+    _ScheduledTransaction(
       transactionId: json['transactionId'] == null
           ? TransactionId.empty
           : TransactionId.fromJson(json['transactionId'] as String),
@@ -156,17 +204,16 @@ _$ScheduledTransactionImpl _$$ScheduledTransactionImplFromJson(
               json['schedule'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$ScheduledTransactionImplToJson(
-        _$ScheduledTransactionImpl instance) =>
+Map<String, dynamic> _$ScheduledTransactionToJson(
+        _ScheduledTransaction instance) =>
     <String, dynamic>{
       'transactionId': instance.transactionId,
       'taskId': instance.taskId,
       'schedule': instance.schedule,
     };
 
-_$TransactionScheduleImpl _$$TransactionScheduleImplFromJson(
-        Map<String, dynamic> json) =>
-    _$TransactionScheduleImpl(
+_TransactionSchedule _$TransactionScheduleFromJson(Map<String, dynamic> json) =>
+    _TransactionSchedule(
       periodType: $enumDecodeNullable(
               _$TransactionPeriodTypeEnumMap, json['periodType']) ??
           TransactionPeriodType.none,
@@ -181,8 +228,8 @@ _$TransactionScheduleImpl _$$TransactionScheduleImplFromJson(
           : DateTime.parse(json['endedAt'] as String),
     );
 
-Map<String, dynamic> _$$TransactionScheduleImplToJson(
-        _$TransactionScheduleImpl instance) =>
+Map<String, dynamic> _$TransactionScheduleToJson(
+        _TransactionSchedule instance) =>
     <String, dynamic>{
       'periodType': _$TransactionPeriodTypeEnumMap[instance.periodType]!,
       'period': instance.period,
@@ -197,8 +244,7 @@ const _$TransactionPeriodTypeEnumMap = {
   TransactionPeriodType.byComputedDate: 'byComputedDate',
 };
 
-_$FiatCurrencyImpl _$$FiatCurrencyImplFromJson(Map<String, dynamic> json) =>
-    _$FiatCurrencyImpl(
+FiatCurrency _$FiatCurrencyFromJson(Map<String, dynamic> json) => FiatCurrency(
       id: json['id'] == null
           ? CurrencyId.empty
           : CurrencyId.fromJson(json['id'] as String),
@@ -212,7 +258,7 @@ _$FiatCurrencyImpl _$$FiatCurrencyImplFromJson(Map<String, dynamic> json) =>
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$FiatCurrencyImplToJson(_$FiatCurrencyImpl instance) =>
+Map<String, dynamic> _$FiatCurrencyToJson(FiatCurrency instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -223,8 +269,8 @@ Map<String, dynamic> _$$FiatCurrencyImplToJson(_$FiatCurrencyImpl instance) =>
       'runtimeType': instance.$type,
     };
 
-_$CryptoCurrencyImpl _$$CryptoCurrencyImplFromJson(Map<String, dynamic> json) =>
-    _$CryptoCurrencyImpl(
+CryptoCurrency _$CryptoCurrencyFromJson(Map<String, dynamic> json) =>
+    CryptoCurrency(
       id: json['id'] == null
           ? CurrencyId.empty
           : CurrencyId.fromJson(json['id'] as String),
@@ -239,8 +285,7 @@ _$CryptoCurrencyImpl _$$CryptoCurrencyImplFromJson(Map<String, dynamic> json) =>
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CryptoCurrencyImplToJson(
-        _$CryptoCurrencyImpl instance) =>
+Map<String, dynamic> _$CryptoCurrencyToJson(CryptoCurrency instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
@@ -250,25 +295,7 @@ Map<String, dynamic> _$$CryptoCurrencyImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$BudgetImpl _$$BudgetImplFromJson(Map<String, dynamic> json) => _$BudgetImpl(
-      date: DateTime.parse(json['date'] as String),
-      id: json['id'] == null
-          ? BudgetId.empty
-          : BudgetId.fromJson(json['id'] as String),
-      input: json['input'] == null
-          ? InputMoney.empty
-          : InputMoney.fromJson(json['input'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$$BudgetImplToJson(_$BudgetImpl instance) =>
-    <String, dynamic>{
-      'date': instance.date.toIso8601String(),
-      'id': instance.id,
-      'input': instance.input,
-    };
-
-_$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
-    _$TransactionImpl(
+_Transaction _$TransactionFromJson(Map<String, dynamic> json) => _Transaction(
       transactionDate: DateTime.parse(json['transactionDate'] as String),
       id: json['id'] == null
           ? TransactionId.empty
@@ -289,7 +316,7 @@ _$TransactionImpl _$$TransactionImplFromJson(Map<String, dynamic> json) =>
           : CategoryId.fromJson(json['categoryId'] as String),
     );
 
-Map<String, dynamic> _$$TransactionImplToJson(_$TransactionImpl instance) =>
+Map<String, dynamic> _$TransactionToJson(_Transaction instance) =>
     <String, dynamic>{
       'transactionDate': instance.transactionDate.toIso8601String(),
       'id': instance.id,
@@ -309,8 +336,8 @@ const _$TransactionTypeEnumMap = {
   TransactionType.transferOut: 'transfer_out',
 };
 
-_$FiatInputModelImpl _$$FiatInputModelImplFromJson(Map<String, dynamic> json) =>
-    _$FiatInputModelImpl(
+FiatInputModel _$FiatInputModelFromJson(Map<String, dynamic> json) =>
+    FiatInputModel(
       currencyId: json['currencyId'] == null
           ? CurrencyId.empty
           : CurrencyId.fromJson(json['currencyId'] as String),
@@ -324,8 +351,7 @@ _$FiatInputModelImpl _$$FiatInputModelImplFromJson(Map<String, dynamic> json) =>
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$FiatInputModelImplToJson(
-        _$FiatInputModelImpl instance) =>
+Map<String, dynamic> _$FiatInputModelToJson(FiatInputModel instance) =>
     <String, dynamic>{
       'currencyId': instance.currencyId,
       'amountWithTax': instance.amountWithTax,
@@ -334,9 +360,8 @@ Map<String, dynamic> _$$FiatInputModelImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$CyptoInputModelImpl _$$CyptoInputModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$CyptoInputModelImpl(
+CyptoInputModel _$CyptoInputModelFromJson(Map<String, dynamic> json) =>
+    CyptoInputModel(
       currencyId: json['currencyId'] == null
           ? CurrencyId.empty
           : CurrencyId.fromJson(json['currencyId'] as String),
@@ -350,8 +375,7 @@ _$CyptoInputModelImpl _$$CyptoInputModelImplFromJson(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$CyptoInputModelImplToJson(
-        _$CyptoInputModelImpl instance) =>
+Map<String, dynamic> _$CyptoInputModelToJson(CyptoInputModel instance) =>
     <String, dynamic>{
       'currencyId': instance.currencyId,
       'amountWithTax': instance.amountWithTax,
@@ -360,15 +384,14 @@ Map<String, dynamic> _$$CyptoInputModelImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
-    _$UserModelImpl(
+_UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
       localId: UserModelId.localFromJson(json['local_id'] as String),
       remoteId: UserModelId.remoteFromJson(json['remote_id'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
 
-Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
+Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
     <String, dynamic>{
       'local_id': UserModelId.toStringJson(instance.localId),
       'remote_id': UserModelId.toStringJson(instance.remoteId),
@@ -376,31 +399,29 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'updated_at': instance.updatedAt.toIso8601String(),
     };
 
-_$SubscriptionModelImpl _$$SubscriptionModelImplFromJson(
-        Map<String, dynamic> json) =>
-    _$SubscriptionModelImpl(
+_SubscriptionModel _$SubscriptionModelFromJson(Map<String, dynamic> json) =>
+    _SubscriptionModel(
       paidDaysLeft: (json['paid_days_left'] as num?)?.toInt() ?? 0,
       updatedAt: json['updated_at'] == null
           ? null
           : DateTime.parse(json['updated_at'] as String),
     );
 
-Map<String, dynamic> _$$SubscriptionModelImplToJson(
-        _$SubscriptionModelImpl instance) =>
+Map<String, dynamic> _$SubscriptionModelToJson(_SubscriptionModel instance) =>
     <String, dynamic>{
       'paid_days_left': instance.paidDaysLeft,
       'updated_at': instance.updatedAt?.toIso8601String(),
     };
 
-_$UserPermissionsModelImpl _$$UserPermissionsModelImplFromJson(
+_UserPermissionsModel _$UserPermissionsModelFromJson(
         Map<String, dynamic> json) =>
-    _$UserPermissionsModelImpl(
+    _UserPermissionsModel(
       shouldBeSynced: json['should_be_synced'] as bool? ?? false,
       tagLimit: (json['tag_limit'] as num?)?.toInt() ?? 5,
     );
 
-Map<String, dynamic> _$$UserPermissionsModelImplToJson(
-        _$UserPermissionsModelImpl instance) =>
+Map<String, dynamic> _$UserPermissionsModelToJson(
+        _UserPermissionsModel instance) =>
     <String, dynamic>{
       'should_be_synced': instance.shouldBeSynced,
       'tag_limit': instance.tagLimit,

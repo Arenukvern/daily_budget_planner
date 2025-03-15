@@ -1,4 +1,4 @@
-part of 'isar.dart';
+part of '../db/isar.dart';
 
 /// {@template task_isar_collection}
 /// Isar collection model for storing [Task] data.
@@ -13,7 +13,7 @@ part of 'isar.dart';
 /// embedded objects and maintain referential integrity with
 /// related collections.
 /// {@endtemplate}
-@collection
+// @collection
 class TaskIsarCollection with IsarIdMixin {
   /// Creates a [TaskIsarCollection] instance
   TaskIsarCollection();

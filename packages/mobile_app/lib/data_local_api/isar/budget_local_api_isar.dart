@@ -1,4 +1,4 @@
-import 'package:isar/isar.dart';
+// import 'package:isar/isar.dart';
 import 'package:mobile_app/common_imports.dart';
 
 /// {@template transactions_local_api}
@@ -28,7 +28,7 @@ import 'package:mobile_app/common_imports.dart';
 /// and maintain data consistency across related collections.
 /// {@endtemplate}
 final class ManualBudgetsLocalApi extends ComplexLocalApi {
-  IsarCollection<String, BudgetIsarCollection> get _budgets => isarDb.budgets;
+  // IsarCollection<String, BudgetIsarCollection> get _budgets => isarDb.budgets;
 
   /// Creates a new task or updates an existing one
   ///
@@ -91,11 +91,12 @@ final class ManualBudgetsLocalApi extends ComplexLocalApi {
     required final DateTime endDate,
   }) async {
     try {
-      final query = _budgets
-          .where()
-          .createdAtGreaterThanOrEqualTo(startDate)
-          .createdAtLessThanOrEqualTo(endDate)
-          .sortByCreatedAtDesc();
+      final query =
+          _budgets
+              .where()
+              .createdAtGreaterThanOrEqualTo(startDate)
+              .createdAtLessThanOrEqualTo(endDate)
+              .sortByCreatedAtDesc();
 
       /// finding last one
       final item = query.findFirst();

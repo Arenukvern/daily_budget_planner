@@ -1,4 +1,4 @@
-part of 'isar.dart';
+part of '../db/isar.dart';
 
 /// {@template transaction_isar_collection}
 /// Isar collection model for storing [Transaction] data.
@@ -11,7 +11,7 @@ part of 'isar.dart';
 /// embedded objects and maintain referential integrity with
 /// related collections.
 /// {@endtemplate}
-@collection
+// @collection
 class TransactionIsarCollection with IsarIdMixin {
   /// Creates a [TransactionIsarCollection] instance
   TransactionIsarCollection();
@@ -31,11 +31,11 @@ class TransactionIsarCollection with IsarIdMixin {
   String transactionJson = '';
 
   /// Transaction date in UTC
-  @Index()
+  // @Index()
   DateTime transactionDate = dateTimeNowUtc();
 
   /// Associated task ID
-  @Index()
+  // @Index()
   String taskId = '';
 
   /// Transaction type (expense/income)

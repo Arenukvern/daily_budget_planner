@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,86 +10,54 @@ part of 'ui_prediction_timeline_notifier.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$UiTimelineState {
-  UiPresentationType get presentationType => throw _privateConstructorUsedError;
-  int get selectedIndex => throw _privateConstructorUsedError;
-  List<DateTime> get availableDates => throw _privateConstructorUsedError;
-  bool get isLoading => throw _privateConstructorUsedError;
+  UiPresentationType get presentationType;
+  int get selectedIndex;
+  List<DateTime> get availableDates;
+  bool get isLoading;
 
   /// Create a copy of UiTimelineState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $UiTimelineStateCopyWith<UiTimelineState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UiTimelineStateCopyWith<$Res> {
-  factory $UiTimelineStateCopyWith(
-          UiTimelineState value, $Res Function(UiTimelineState) then) =
-      _$UiTimelineStateCopyWithImpl<$Res, UiTimelineState>;
-  @useResult
-  $Res call(
-      {UiPresentationType presentationType,
-      int selectedIndex,
-      List<DateTime> availableDates,
-      bool isLoading});
-}
-
-/// @nodoc
-class _$UiTimelineStateCopyWithImpl<$Res, $Val extends UiTimelineState>
-    implements $UiTimelineStateCopyWith<$Res> {
-  _$UiTimelineStateCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of UiTimelineState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $UiTimelineStateCopyWith<UiTimelineState> get copyWith =>
+      _$UiTimelineStateCopyWithImpl<UiTimelineState>(
+          this as UiTimelineState, _$identity);
+
   @override
-  $Res call({
-    Object? presentationType = null,
-    Object? selectedIndex = null,
-    Object? availableDates = null,
-    Object? isLoading = null,
-  }) {
-    return _then(_value.copyWith(
-      presentationType: null == presentationType
-          ? _value.presentationType
-          : presentationType // ignore: cast_nullable_to_non_nullable
-              as UiPresentationType,
-      selectedIndex: null == selectedIndex
-          ? _value.selectedIndex
-          : selectedIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      availableDates: null == availableDates
-          ? _value.availableDates
-          : availableDates // ignore: cast_nullable_to_non_nullable
-              as List<DateTime>,
-      isLoading: null == isLoading
-          ? _value.isLoading
-          : isLoading // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UiTimelineState &&
+            (identical(other.presentationType, presentationType) ||
+                other.presentationType == presentationType) &&
+            (identical(other.selectedIndex, selectedIndex) ||
+                other.selectedIndex == selectedIndex) &&
+            const DeepCollectionEquality()
+                .equals(other.availableDates, availableDates) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, presentationType, selectedIndex,
+      const DeepCollectionEquality().hash(availableDates), isLoading);
+
+  @override
+  String toString() {
+    return 'UiTimelineState(presentationType: $presentationType, selectedIndex: $selectedIndex, availableDates: $availableDates, isLoading: $isLoading)';
   }
 }
 
 /// @nodoc
-abstract class _$$UiTimelineStateImplCopyWith<$Res>
-    implements $UiTimelineStateCopyWith<$Res> {
-  factory _$$UiTimelineStateImplCopyWith(_$UiTimelineStateImpl value,
-          $Res Function(_$UiTimelineStateImpl) then) =
-      __$$UiTimelineStateImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $UiTimelineStateCopyWith<$Res> {
+  factory $UiTimelineStateCopyWith(
+          UiTimelineState value, $Res Function(UiTimelineState) _then) =
+      _$UiTimelineStateCopyWithImpl;
   @useResult
   $Res call(
       {UiPresentationType presentationType,
@@ -98,12 +67,12 @@ abstract class _$$UiTimelineStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$UiTimelineStateImplCopyWithImpl<$Res>
-    extends _$UiTimelineStateCopyWithImpl<$Res, _$UiTimelineStateImpl>
-    implements _$$UiTimelineStateImplCopyWith<$Res> {
-  __$$UiTimelineStateImplCopyWithImpl(
-      _$UiTimelineStateImpl _value, $Res Function(_$UiTimelineStateImpl) _then)
-      : super(_value, _then);
+class _$UiTimelineStateCopyWithImpl<$Res>
+    implements $UiTimelineStateCopyWith<$Res> {
+  _$UiTimelineStateCopyWithImpl(this._self, this._then);
+
+  final UiTimelineState _self;
+  final $Res Function(UiTimelineState) _then;
 
   /// Create a copy of UiTimelineState
   /// with the given fields replaced by the non-null parameter values.
@@ -115,21 +84,21 @@ class __$$UiTimelineStateImplCopyWithImpl<$Res>
     Object? availableDates = null,
     Object? isLoading = null,
   }) {
-    return _then(_$UiTimelineStateImpl(
+    return _then(_self.copyWith(
       presentationType: null == presentationType
-          ? _value.presentationType
+          ? _self.presentationType
           : presentationType // ignore: cast_nullable_to_non_nullable
               as UiPresentationType,
       selectedIndex: null == selectedIndex
-          ? _value.selectedIndex
+          ? _self.selectedIndex
           : selectedIndex // ignore: cast_nullable_to_non_nullable
               as int,
       availableDates: null == availableDates
-          ? _value._availableDates
+          ? _self.availableDates
           : availableDates // ignore: cast_nullable_to_non_nullable
               as List<DateTime>,
       isLoading: null == isLoading
-          ? _value.isLoading
+          ? _self.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
@@ -138,8 +107,8 @@ class __$$UiTimelineStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UiTimelineStateImpl implements _UiTimelineState {
-  _$UiTimelineStateImpl(
+class _UiTimelineState implements UiTimelineState {
+  _UiTimelineState(
       {required this.presentationType,
       required this.selectedIndex,
       required final List<DateTime> availableDates,
@@ -162,16 +131,19 @@ class _$UiTimelineStateImpl implements _UiTimelineState {
   @JsonKey()
   final bool isLoading;
 
+  /// Create a copy of UiTimelineState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'UiTimelineState(presentationType: $presentationType, selectedIndex: $selectedIndex, availableDates: $availableDates, isLoading: $isLoading)';
-  }
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$UiTimelineStateCopyWith<_UiTimelineState> get copyWith =>
+      __$UiTimelineStateCopyWithImpl<_UiTimelineState>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UiTimelineStateImpl &&
+            other is _UiTimelineState &&
             (identical(other.presentationType, presentationType) ||
                 other.presentationType == presentationType) &&
             (identical(other.selectedIndex, selectedIndex) ||
@@ -186,36 +158,64 @@ class _$UiTimelineStateImpl implements _UiTimelineState {
   int get hashCode => Object.hash(runtimeType, presentationType, selectedIndex,
       const DeepCollectionEquality().hash(_availableDates), isLoading);
 
+  @override
+  String toString() {
+    return 'UiTimelineState(presentationType: $presentationType, selectedIndex: $selectedIndex, availableDates: $availableDates, isLoading: $isLoading)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$UiTimelineStateCopyWith<$Res>
+    implements $UiTimelineStateCopyWith<$Res> {
+  factory _$UiTimelineStateCopyWith(
+          _UiTimelineState value, $Res Function(_UiTimelineState) _then) =
+      __$UiTimelineStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {UiPresentationType presentationType,
+      int selectedIndex,
+      List<DateTime> availableDates,
+      bool isLoading});
+}
+
+/// @nodoc
+class __$UiTimelineStateCopyWithImpl<$Res>
+    implements _$UiTimelineStateCopyWith<$Res> {
+  __$UiTimelineStateCopyWithImpl(this._self, this._then);
+
+  final _UiTimelineState _self;
+  final $Res Function(_UiTimelineState) _then;
+
   /// Create a copy of UiTimelineState
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$UiTimelineStateImplCopyWith<_$UiTimelineStateImpl> get copyWith =>
-      __$$UiTimelineStateImplCopyWithImpl<_$UiTimelineStateImpl>(
-          this, _$identity);
+  $Res call({
+    Object? presentationType = null,
+    Object? selectedIndex = null,
+    Object? availableDates = null,
+    Object? isLoading = null,
+  }) {
+    return _then(_UiTimelineState(
+      presentationType: null == presentationType
+          ? _self.presentationType
+          : presentationType // ignore: cast_nullable_to_non_nullable
+              as UiPresentationType,
+      selectedIndex: null == selectedIndex
+          ? _self.selectedIndex
+          : selectedIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      availableDates: null == availableDates
+          ? _self._availableDates
+          : availableDates // ignore: cast_nullable_to_non_nullable
+              as List<DateTime>,
+      isLoading: null == isLoading
+          ? _self.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
 }
 
-abstract class _UiTimelineState implements UiTimelineState {
-  factory _UiTimelineState(
-      {required final UiPresentationType presentationType,
-      required final int selectedIndex,
-      required final List<DateTime> availableDates,
-      final bool isLoading}) = _$UiTimelineStateImpl;
-
-  @override
-  UiPresentationType get presentationType;
-  @override
-  int get selectedIndex;
-  @override
-  List<DateTime> get availableDates;
-  @override
-  bool get isLoading;
-
-  /// Create a copy of UiTimelineState
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UiTimelineStateImplCopyWith<_$UiTimelineStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+// dart format on

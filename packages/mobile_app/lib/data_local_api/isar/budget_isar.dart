@@ -1,7 +1,7 @@
-part of 'isar.dart';
+part of '../db/isar.dart';
 
 // https://isar.dev/recipes/string_ids.html#fast-hash-function
-@collection
+// @collection
 class BudgetIsarCollection with IsarIdMixin {
   /// Creates a [BudgetIsarCollection] instance
   BudgetIsarCollection();

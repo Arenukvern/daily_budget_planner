@@ -1,4 +1,4 @@
-part of 'isar.dart';
+part of '../db/isar.dart';
 
 /// {@template isar_scheduled_transaction_collection}
 /// Isar collection model for storing [ScheduledTransaction] data.
@@ -12,7 +12,7 @@ part of 'isar.dart';
 /// embedded objects and maintain referential integrity with
 /// related collections.
 /// {@endtemplate}
-@collection
+// @collection
 class ScheduledTransactionIsarCollection with IsarIdMixin {
   ScheduledTransactionIsarCollection();
 

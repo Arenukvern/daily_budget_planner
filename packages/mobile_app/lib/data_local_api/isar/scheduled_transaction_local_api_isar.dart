@@ -1,4 +1,4 @@
-import 'package:isar/isar.dart';
+// import 'package:isar/isar.dart';
 import 'package:mobile_app/data_local_api/data_local_api.dart';
 import 'package:mobile_app/data_models/data_models.dart';
 
@@ -30,7 +30,7 @@ import 'package:mobile_app/data_models/data_models.dart';
 final class ScheduledTransactionsLocalApi extends ComplexLocalApi {
   /// Returns the Isar collection for scheduled transactions
   IsarCollection<String, ScheduledTransactionIsarCollection>
-      get _scheduledTransactions => isarDb.scheduledTransactions;
+  get _scheduledTransactions => isarDb.scheduledTransactions;
 
   /// Creates a new scheduled transaction or updates an existing one
   ///
@@ -59,9 +59,10 @@ final class ScheduledTransactionsLocalApi extends ComplexLocalApi {
   ) async {
     try {
       isar.write((final db) {
-        final models = scheduledTransactions
-            .map(ScheduledTransactionIsarCollection.fromDomain)
-            .toList();
+        final models =
+            scheduledTransactions
+                .map(ScheduledTransactionIsarCollection.fromDomain)
+                .toList();
         db.scheduledTransactionIsarCollections.putAll(models);
       });
     } catch (e, s) {
@@ -76,9 +77,7 @@ final class ScheduledTransactionsLocalApi extends ComplexLocalApi {
   /// Deletes a scheduled transaction by ID
   ///
   /// Throws [LocalApiException] if the operation fails
-  Future<void> deleteScheduledTransaction(
-    final TransactionId id,
-  ) async {
+  Future<void> deleteScheduledTransaction(final TransactionId id) async {
     try {
       isar.write((final db) {
         db.scheduledTransactionIsarCollections.delete(id.value);
@@ -136,14 +135,16 @@ final class ScheduledTransactionsLocalApi extends ComplexLocalApi {
     required final DateTime endedAt,
   }) async {
     try {
-      final models = _scheduledTransactions
-          .where()
-          .taskIdEqualTo(taskId.value)
-          .startedAtLessThan(endedAt)
-          .group(
-            (final q) => q.endedAtIsNull().or().endedAtGreaterThan(startedAt),
-          )
-          .findAll();
+      final models =
+          _scheduledTransactions
+              .where()
+              .taskIdEqualTo(taskId.value)
+              .startedAtLessThan(endedAt)
+              .group(
+                (final q) =>
+                    q.endedAtIsNull().or().endedAtGreaterThan(startedAt),
+              )
+              .findAll();
       return models.map((final e) => e.toDomain()).toList();
     } catch (e, s) {
       throw LocalApiException(

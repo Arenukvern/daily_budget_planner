@@ -1,15 +1,22 @@
 part of 'data_models.dart';
 
+enum FinTaskModelPurpose { dailyBudget }
+
 @freezed
-class FinTask with _$FinTask {
-  const factory FinTask({
+class FinTaskModel with _$FinTaskModel {
+  const factory FinTaskModel({
     @Default(TaskId.empty) final TaskId id,
     @Default('') final String name,
+    @Default(0) final FinTaskModelPurpose purpose,
     @Default(TaskType.personal) final TaskType type,
     @Default(TaskStatus.visible) final TaskStatus status,
-  }) = _FinTask;
-
-  const FinTask._();
-  factory FinTask.fromJson(final Map<String, dynamic> json) =>
-      _$FinTaskFromJson(json);
+    @Default(Period.monthly) final Period period,
+    final DateTime? startDate,
+    @Default(TaskId.empty) final TaskId regularIncomeTaskId,
+  }) = _FinTaskModel;
+  FinTaskModel._({final DateTime? startDate})
+    : startDate = startDate ?? DateTime.now();
+  factory FinTaskModel.fromJson(final Map<String, dynamic> json) =>
+      _$FinTaskModelFromJson(json);
+  final DateTime startDate;
 }

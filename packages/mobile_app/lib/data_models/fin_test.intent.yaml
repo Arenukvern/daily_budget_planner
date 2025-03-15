@@ -1,0 +1,30 @@
+semantic_intent:
+  version: 1
+  name: FinTaskSemanticTypeIntent
+  type: SemanticTypeIntent
+  meaning: "Represents a financial task or goal, like 'Everyday Life Budget' or 'Savings Goal'."
+  description: "Defines the properties and structure for a FinTask, which is a central concept for financial planning in the application."
+  semantic_properties:
+    - name: id
+      type: TaskId
+      meaning: "Unique identifier for the FinTask."
+    - name: name
+      type: String
+      meaning: "User-defined name for the FinTask (e.g., 'Everyday Life', 'Vacation Fund')."
+    - name: type
+      type: TaskType
+      meaning: "Type of task, currently only 'personal' is supported."
+    - name: status
+      type: TaskStatus
+      meaning: "Status of the task (e.g., 'visible', 'hidden')."
+    - name: period
+      type: Period
+      meaning: "Time period associated with the FinTask (e.g., 'monthly', 'weekly')."
+    - name: startDate
+      type: DateTime
+      meaning: "Date when the FinTask planning period begins."
+    - name: regularIncomeTaskId
+      type: TaskId
+      meaning: "Optional link to a regular income Task associated with this FinTask."
+  output_artifacts:
+    - data_model: FinTask

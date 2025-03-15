@@ -1,4 +1,4 @@
-import 'package:isar/isar.dart';
+// import 'package:isar/isar.dart';
 import 'package:mobile_app/common_imports.dart';
 
 /// {@template transactions_local_api}

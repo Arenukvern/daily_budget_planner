@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/tasks_local_api.dart';
+import 'package:mobile_app/data_local_api/db/sembast_db.dart';
+import 'package:mobile_app/data_local_api/isar/task_local_api_isar.dart';
 import 'package:mobile_app/ui_home/monthly/monthly_notifier.dart';
 import 'package:mobile_app/ui_home/weekly/weekly_notifier.dart';
 import 'package:mobile_app/ui_paywalls/ui_paywalls.dart';
@@ -41,6 +42,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   r<AnalyticsService>(analyticsManager.analyticsService, dispose: d);
   final localDb = PrefsDb();
   final isarDb = IsarDb();
+  final sembastDb = SembastDb();
 
   r<LocalDbI>(localDb);
   r<IsarDb>(isarDb, dispose: (final i) => i.close());

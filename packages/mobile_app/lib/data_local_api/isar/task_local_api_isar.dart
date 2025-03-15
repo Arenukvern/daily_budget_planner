@@ -1,7 +1,7 @@
-import 'package:isar/isar.dart';
+// import 'package:isar/isar.dart';
 import 'package:mobile_app/common_imports.dart';
 
-part 'tasks_local_api_seeder.dart';
+part '../tasks_local_api_seeder.dart';
 
 /// {@template tasks_local_api}
 /// Local storage implementation for managing tasks using Isar database.
@@ -101,17 +101,16 @@ final class TasksLocalApi extends ComplexLocalApi {
     }
   }
 
-  Future<List<Task>> getIncomeTasks({
-    required final TaskType taskType,
-  }) async {
+  Future<List<Task>> getIncomeTasks({required final TaskType taskType}) async {
     try {
-      final tasks = _tasks
-          .where()
-          .transactionTypeEqualTo(TaskTransactionType.income)
-          .taskTypeEqualTo(taskType)
-          .findAll()
-          .map((final e) => e.toDomain())
-          .toList();
+      final tasks =
+          _tasks
+              .where()
+              .transactionTypeEqualTo(TaskTransactionType.income)
+              .taskTypeEqualTo(taskType)
+              .findAll()
+              .map((final e) => e.toDomain())
+              .toList();
       if (tasks.isNotEmpty) return tasks;
       final seedTasks = TasksLocalApiSeeder.getIncomeTasks(taskType);
       await upsertTasks(seedTasks);
@@ -125,17 +124,16 @@ final class TasksLocalApi extends ComplexLocalApi {
     }
   }
 
-  Future<List<Task>> getExpenseTasks({
-    required final TaskType taskType,
-  }) async {
+  Future<List<Task>> getExpenseTasks({required final TaskType taskType}) async {
     try {
-      final tasks = _tasks
-          .where()
-          .transactionTypeEqualTo(TaskTransactionType.expense)
-          .taskTypeEqualTo(taskType)
-          .findAll()
-          .map((final e) => e.toDomain())
-          .toList();
+      final tasks =
+          _tasks
+              .where()
+              .transactionTypeEqualTo(TaskTransactionType.expense)
+              .taskTypeEqualTo(taskType)
+              .findAll()
+              .map((final e) => e.toDomain())
+              .toList();
       if (tasks.isNotEmpty) return tasks;
       final seedTasks = TasksLocalApiSeeder.getExpenseTasks(taskType);
       await upsertTasks(seedTasks);

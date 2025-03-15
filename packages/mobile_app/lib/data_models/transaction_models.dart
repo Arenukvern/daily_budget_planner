@@ -33,12 +33,12 @@ enum TransactionType {
   transferOut;
 
   TaskTransactionType? toTaskTransactionType() => switch (this) {
-        expense => TaskTransactionType.expense,
-        income => TaskTransactionType.income,
+    expense => TaskTransactionType.expense,
+    income => TaskTransactionType.income,
 
-        /// transfers should not have task id
-        transferIn || transferOut => null,
-      };
+    /// transfers should not have task id
+    transferIn || transferOut => null,
+  };
 }
 
 extension type const TransactionId(String value) {
@@ -123,12 +123,10 @@ class Currency with _$Currency {
       _$CurrencyFromJson(json);
 
   String get displayString => switch (this) {
-        FiatCurrency(:final symbol, :final slug, :final name) =>
-          '$symbol ${slug.toUpperCase()} ($name)',
-        CryptoCurrency(:final slug) ||
-        Currency(:final slug) =>
-          slug.toUpperCase(),
-      };
+    FiatCurrency(:final symbol, :final slug, :final name) =>
+      '$symbol ${slug.toUpperCase()} ($name)',
+    CryptoCurrency(:final slug) || Currency(:final slug) => slug.toUpperCase(),
+  };
 }
 
 extension type const ChainId(String value) {
@@ -136,21 +134,6 @@ extension type const ChainId(String value) {
   static const empty = ChainId('');
   bool get isEmpty => value.isEmpty;
   String toJson() => value;
-}
-
-@freezed
-class Budget with _$Budget {
-  const factory Budget({
-    required final DateTime date,
-    @Default(BudgetId.empty) final BudgetId id,
-    @Default(InputMoney.empty) final InputMoney input,
-  }) = _Budget;
-  const Budget._();
-  factory Budget.fromJson(final Map<String, dynamic> json) =>
-      _$BudgetFromJson(json);
-
-  static final empty = Budget(date: DateTime.now());
-  CurrencyId get currencyId => input.currencyId;
 }
 
 /// in int, 100% = 100, 50% = 50
@@ -183,16 +166,12 @@ sealed class Transaction with _$Transaction {
     required final CurrencyId currencyId,
     required final TaskId taskId,
     required final DateTime transactionDate,
-  }) =>
-      Transaction(
-        transactionDate: transactionDate,
-        type: type,
-        input: InputMoney.fromCurrency(
-          type: currencyType,
-          id: currencyId,
-        ),
-        taskId: taskId,
-      );
+  }) => Transaction(
+    transactionDate: transactionDate,
+    type: type,
+    input: InputMoney.fromCurrency(type: currencyType, id: currencyId),
+    taskId: taskId,
+  );
 
   const Transaction._();
 
@@ -229,17 +208,13 @@ class InputMoney with _$InputMoney {
   factory InputMoney.fromCurrency({
     required final CurrencyId id,
     required final CurrencyType type,
-  }) =>
-      switch (type) {
-        CurrencyType.crypto => InputMoney.crypto(
-            currencyId: id,
-            currencyType: type,
-          ),
-        CurrencyType.fiat => InputMoney.fiat(
-            currencyId: id,
-            currencyType: type,
-          ),
-      };
+  }) => switch (type) {
+    CurrencyType.crypto => InputMoney.crypto(
+      currencyId: id,
+      currencyType: type,
+    ),
+    CurrencyType.fiat => InputMoney.fiat(currencyId: id, currencyType: type),
+  };
   double get amountTaxFree => tax.amount(amountWithTax);
   double amount({required final bool taxFree}) =>
       taxFree ? amountTaxFree : amountWithTax;
@@ -247,13 +222,11 @@ class InputMoney with _$InputMoney {
 }
 
 extension TransactionListX on List<Transaction> {
-  double sum({final bool taxFree = true}) => fold(
-        0,
-        (final previousValue, final e) {
-          final amount = e.input.amount(taxFree: taxFree);
-          return previousValue + amount;
-        },
-      );
+  double sum({final bool taxFree = true}) =>
+      fold(0, (final previousValue, final e) {
+        final amount = e.input.amount(taxFree: taxFree);
+        return previousValue + amount;
+      });
 }
 
 extension ScheduledTransactionListX on List<ScheduledTransaction> {
@@ -263,8 +236,10 @@ extension ScheduledTransactionListX on List<ScheduledTransaction> {
     required final Period period,
     final bool taxFree = true,
   }) {
-    final range =
-        DateTimeRange(start: startAt, end: startAt.add(period.duration));
+    final range = DateTimeRange(
+      start: startAt,
+      end: startAt.add(period.duration),
+    );
     return sumForRange(
       allTransactions: allTransactions,
       range: range,
@@ -284,29 +259,25 @@ extension ScheduledTransactionListX on List<ScheduledTransaction> {
     required final Map<TransactionId, Transaction> allTransactions,
     required final DateTimeRange range,
     final bool taxFree = true,
-  }) =>
-      fold(
-        0,
-        (final previousValue, final e) {
-          final transaction = allTransactions[e.transactionId];
-          if (transaction == null) return previousValue;
+  }) => fold(0, (final previousValue, final e) {
+    final transaction = allTransactions[e.transactionId];
+    if (transaction == null) return previousValue;
 
-          final periodAmount = transaction.input.amount(taxFree: taxFree);
-          final schedule = e.schedule;
-          final period = schedule.period;
+    final periodAmount = transaction.input.amount(taxFree: taxFree);
+    final schedule = e.schedule;
+    final period = schedule.period;
 
-          final startedAt = schedule.startedAt ?? range.start;
-          final endedAt = schedule.endedAt ?? range.end;
+    final startedAt = schedule.startedAt ?? range.start;
+    final endedAt = schedule.endedAt ?? range.end;
 
-          final occurancies = range.occuranciesInRangedPeriod(
-            period: period,
-            periodStart: startedAt,
-            periodEnd: endedAt,
-          );
-          final totalAmount = periodAmount * occurancies;
-          return previousValue + totalAmount;
-        },
-      );
+    final occurancies = range.occuranciesInRangedPeriod(
+      period: period,
+      periodStart: startedAt,
+      periodEnd: endedAt,
+    );
+    final totalAmount = periodAmount * occurancies;
+    return previousValue + totalAmount;
+  });
 }
 
 extension DateTimeRangeX on DateTimeRange {
@@ -323,9 +294,10 @@ extension DateTimeRangeX on DateTimeRange {
     if (isStartAfterRangeEnd || isEndBeforeRangeStart) return 0;
 
     /// should always be positive
-    final startDiff = periodStart.isBefore(start)
-        ? Duration.zero
-        : periodStart.difference(start);
+    final startDiff =
+        periodStart.isBefore(start)
+            ? Duration.zero
+            : periodStart.difference(start);
 
     /// should always be negative
     final endDiff =

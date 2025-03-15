@@ -4,9 +4,7 @@ import 'package:mobile_app/common_imports.dart';
 /// application wide user settings like locale, etc
 class AppSettingsLocalApi with HasLocalApis {
   static const _persistenceKey = 'settings';
-  Future<void> saveSettings({
-    required final AppSettingsModel settings,
-  }) async {
+  Future<void> saveSettings({required final AppSettingsModel settings}) async {
     await localDb.setItem(
       key: _persistenceKey,
       value: settings,
@@ -14,10 +12,10 @@ class AppSettingsLocalApi with HasLocalApis {
     );
   }
 
-  Future<AppSettingsModel> loadSettings() async => localDb.getItem(
-        key: _persistenceKey,
-        defaultValue: AppSettingsModel.empty,
-        fromJson: (final json) =>
-            json.isEmpty ? null : AppSettingsModel.fromJson(json),
-      );
+  Future<AppSettingsModel> loadSettings() => localDb.getItem(
+    key: _persistenceKey,
+    defaultValue: AppSettingsModel.empty,
+    fromJson:
+        (final json) => json.isEmpty ? null : AppSettingsModel.fromJson(json),
+  );
 }

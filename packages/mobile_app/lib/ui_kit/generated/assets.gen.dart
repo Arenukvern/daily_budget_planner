@@ -14,6 +14,9 @@ class $AssetsImagesGen {
 
   /// Directory path: assets/images/paywalls
   $AssetsImagesPaywallsGen get paywalls => const $AssetsImagesPaywallsGen();
+
+  /// Directory path: packages/mobile_app/assets/images
+  String get path => 'packages/mobile_app/assets/images';
 }
 
 class $AssetsImagesPaywallsGen {
@@ -39,6 +42,9 @@ class $AssetsImagesPaywallsGen {
   AssetGenImage get openSourceHands =>
       const AssetGenImage('assets/images/paywalls/open_source_hands.png');
 
+  /// Directory path: packages/mobile_app/assets/images/paywalls
+  String get path => 'packages/mobile_app/assets/images/paywalls';
+
   /// List of all assets
   List<AssetGenImage> get values => [
         earlyFeaturesCheck,
@@ -50,7 +56,7 @@ class $AssetsImagesPaywallsGen {
 }
 
 class Assets {
-  Assets._();
+  const Assets._();
 
   static const String package = 'mobile_app';
 
@@ -93,7 +99,7 @@ class AssetGenImage {
     bool isAntiAlias = false,
     @Deprecated('Do not specify package for a generated library asset')
     String? package = package,
-    FilterQuality filterQuality = FilterQuality.low,
+    FilterQuality filterQuality = FilterQuality.medium,
     int? cacheWidth,
     int? cacheHeight,
   }) {
