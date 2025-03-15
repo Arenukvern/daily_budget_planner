@@ -54,26 +54,6 @@ final class ScheduledTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
-  Future<void> upsertScheduledTransactions(
-    final List<ScheduledTransaction> scheduledTransactions,
-  ) async {
-    try {
-      isar.write((final db) {
-        final models =
-            scheduledTransactions
-                .map(ScheduledTransactionIsarCollection.fromDomain)
-                .toList();
-        db.scheduledTransactionIsarCollections.putAll(models);
-      });
-    } catch (e, s) {
-      throw LocalApiException(
-        message: 'Failed to upsert scheduled transactions',
-        error: e,
-        stackTrace: s,
-      );
-    }
-  }
-
   /// Deletes a scheduled transaction by ID
   ///
   /// Throws [LocalApiException] if the operation fails
