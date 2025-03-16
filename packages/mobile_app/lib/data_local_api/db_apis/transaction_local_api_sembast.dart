@@ -1,15 +1,16 @@
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/db/sembast_db.dart';
 import 'package:mobile_app/data_local_api/db_apis/transaction_sembast.dart';
 import 'package:sembast/sembast.dart' hide Transaction;
 
 /// Repository implementation for transactions using Sembast
-final class SembastTransactionsLocalApi extends ComplexLocalApi {
+final class TransactionsLocalApiSembast extends ComplexLocalApi
+    with HasComplexLocalDbs
+    implements TransactionsLocalApi {
   /// Creates a [SembastTransactionsLocalApi] instance
-  SembastTransactionsLocalApi(this._db);
+  TransactionsLocalApiSembast();
+  SembastDb get _db => sembastDb;
 
-  final SembastDb _db;
-
+  @override
   Future<void> upsertTransaction(final Transaction transaction) async {
     try {
       await _db.db.transaction((final txn) async {
@@ -25,6 +26,7 @@ final class SembastTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<void> upsertTransactions(final List<Transaction> transactions) async {
     try {
       await _db.db.transaction((final txn) async {
@@ -42,6 +44,7 @@ final class SembastTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<void> removeTransaction(final TransactionId id) async {
     try {
       await _db.transactions.record(id).delete(_db.db);
@@ -54,6 +57,7 @@ final class SembastTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<Transaction> getTransaction(final TransactionId id) async {
     try {
       final record = await _db.transactions.record(id).get(_db.db);
@@ -68,6 +72,7 @@ final class SembastTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<List<Transaction>> getAllTransactionsByType({
     required final TransactionType type,
   }) async {
@@ -89,6 +94,7 @@ final class SembastTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<List<Transaction>> getTransactionsByTaskId(final TaskId taskId) async {
     try {
       final finder = Finder(
@@ -108,6 +114,7 @@ final class SembastTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<PagingControllerPageModel<Transaction>> getTransactionsByDateRange({
     required final DateTime start,
     required final Period period,
@@ -156,6 +163,7 @@ final class SembastTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<void> deleteAllTransactions() async {
     try {
       await _db.transactions.delete(_db.db);

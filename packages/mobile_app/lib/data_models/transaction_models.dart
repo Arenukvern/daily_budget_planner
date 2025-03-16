@@ -102,7 +102,7 @@ extension type const CurrencyId(String value) {
 }
 
 @freezed
-class Currency with _$Currency {
+abstract class Currency with _$Currency {
   const factory Currency.fiat({
     @Default(CurrencyId.empty) final CurrencyId id,
     @Default('') final String name,
@@ -188,7 +188,7 @@ sealed class Transaction with _$Transaction {
 
 /// Represents a monetary value in a specific fiat or crypto currency
 @freezed
-class InputMoney with _$InputMoney {
+abstract class InputMoney with _$InputMoney {
   const factory InputMoney.fiat({
     @Default(CurrencyId.empty) final CurrencyId currencyId,
     @Default(0.0) final double amountWithTax,

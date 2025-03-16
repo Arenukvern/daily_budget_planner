@@ -1,3 +1,5 @@
+// ignore: unnecessary_import
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_app/common_imports.dart';
 

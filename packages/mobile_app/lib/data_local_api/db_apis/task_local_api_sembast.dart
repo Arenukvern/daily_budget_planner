@@ -1,13 +1,14 @@
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/db/sembast_db.dart';
-import 'package:mobile_app/data_local_api/db_apis/task_local_api_isar.dart';
 import 'package:mobile_app/data_local_api/db_apis/task_sembast.dart';
 import 'package:sembast/sembast.dart';
 
-final class SembastTasksLocalApi extends ComplexLocalApi {
-  SembastTasksLocalApi(this._db);
-  final SembastDb _db;
+final class TasksLocalApiSembast extends ComplexLocalApi
+    with HasComplexLocalDbs
+    implements TasksLocalApi {
+  TasksLocalApiSembast();
+  SembastDb get _db => sembastDb;
 
+  @override
   Future<void> upsertTask(final Task task) async {
     try {
       await _db.db.transaction((final txn) async {
@@ -23,6 +24,7 @@ final class SembastTasksLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<void> upsertTasks(final List<Task> tasks) async {
     try {
       await _db.db.transaction((final txn) async {
@@ -40,6 +42,7 @@ final class SembastTasksLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<void> deleteTask(final TaskId id) async {
     try {
       await _db.tasks.record(id).delete(_db.db);
@@ -52,6 +55,7 @@ final class SembastTasksLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<Task> getTask(final TaskId id) async {
     try {
       final record = await _db.tasks.record(id).get(_db.db);
@@ -66,6 +70,7 @@ final class SembastTasksLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<List<Task>> getIncomeTasks({required final TaskType taskType}) async {
     try {
       final finder = Finder(
@@ -94,6 +99,7 @@ final class SembastTasksLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<List<Task>> getExpenseTasks({required final TaskType taskType}) async {
     try {
       final finder = Finder(
@@ -122,6 +128,7 @@ final class SembastTasksLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<List<Task>> getAllTasks() async {
     try {
       final records = await _db.tasks.find(_db.db);
@@ -137,6 +144,7 @@ final class SembastTasksLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<void> deleteAllTasks() async {
     try {
       await _db.tasks.delete(_db.db);

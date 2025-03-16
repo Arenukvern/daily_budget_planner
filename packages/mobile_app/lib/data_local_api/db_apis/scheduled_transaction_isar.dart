@@ -1,4 +1,8 @@
-part of '../db/isar.dart';
+// ignore_for_file: omit_obvious_property_types
+
+import 'dart:convert';
+
+import 'package:mobile_app/common_imports.dart';
 
 /// {@template isar_scheduled_transaction_collection}
 /// Isar collection model for storing [ScheduledTransaction] data.

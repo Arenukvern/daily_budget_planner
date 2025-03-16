@@ -10,20 +10,20 @@ class CurrencyTypeField extends StatelessWidget {
   final ValueChanged<CurrencyType> onChanged;
   @override
   Widget build(final BuildContext context) => Center(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.zero,
-          scrollDirection: Axis.horizontal,
-          child: CupertinoSlidingSegmentedControl<CurrencyType>(
-            groupValue: currencyType,
-            children: {
-              CurrencyType.fiat: Text('Fiat'),
-              CurrencyType.crypto: Text('Crypto'),
-            },
-            onValueChanged: (final value) {
-              if (value == null) return;
-              onChanged(value);
-            },
-          ),
-        ),
-      );
+    child: SingleChildScrollView(
+      padding: EdgeInsets.zero,
+      scrollDirection: Axis.horizontal,
+      child: CupertinoSlidingSegmentedControl<CurrencyType>(
+        groupValue: currencyType,
+        children: const {
+          CurrencyType.fiat: Text('Fiat'),
+          CurrencyType.crypto: Text('Crypto'),
+        },
+        onValueChanged: (final value) {
+          if (value == null) return;
+          onChanged(value);
+        },
+      ),
+    ),
+  );
 }

@@ -4,13 +4,11 @@
 part of 'data_models.dart';
 
 @freezed
-class UserModelId with _$UserModelId {
-  const factory UserModelId.local({
-    required final String value,
-  }) = UserModelLocalId;
-  const factory UserModelId.remote({
-    required final String value,
-  }) = UserModelRemoteId;
+abstract class UserModelId with _$UserModelId {
+  const factory UserModelId.local({required final String value}) =
+      UserModelLocalId;
+  const factory UserModelId.remote({required final String value}) =
+      UserModelRemoteId;
   const UserModelId._();
   static UserModelLocalId create() =>
       UserModelLocalId(value: IdCreator.create());
@@ -27,7 +25,7 @@ class UserModelId with _$UserModelId {
 
 @immutable
 @Freezed()
-class UserModel with _$UserModel {
+abstract class UserModel with _$UserModel {
   @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
   const factory UserModel({
     @JsonKey(
@@ -57,7 +55,7 @@ class UserModel with _$UserModel {
 
 @immutable
 @Freezed()
-class SubscriptionModel with _$SubscriptionModel {
+abstract class SubscriptionModel with _$SubscriptionModel {
   @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
   const factory SubscriptionModel({
     @Default(0) final int paidDaysLeft,
@@ -70,7 +68,7 @@ class SubscriptionModel with _$SubscriptionModel {
 
 @immutable
 @Freezed()
-class UserPermissionsModel with _$UserPermissionsModel {
+abstract class UserPermissionsModel with _$UserPermissionsModel {
   @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
   const factory UserPermissionsModel({
     @Default(false) final bool shouldBeSynced,
@@ -80,8 +78,7 @@ class UserPermissionsModel with _$UserPermissionsModel {
       _$UserPermissionsModelFromJson(json);
   factory UserPermissionsModel.fromSubscription(
     final SubscriptionModel subscription,
-  ) =>
-      subscription.paidDaysLeft > 0 ? paidAccess : freeAccess;
+  ) => subscription.paidDaysLeft > 0 ? paidAccess : freeAccess;
   static const freeAccess = UserPermissionsModel();
   static const paidAccess = UserPermissionsModel(
     shouldBeSynced: true,

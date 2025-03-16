@@ -31,7 +31,7 @@ class GlobalStateInitializer
     implements StateInitializer, Disposable {
   @override
   Future<void> onLoad(final BuildContext context) async {
-    await Future.wait([localDb.init(), isarDb.open()]);
+    await Future.wait([localDb.init(), sembastDb.open()]);
     // FlutterNativeSplash.remove();
     await Future.wait([
       userNotifier.loadProfile(),

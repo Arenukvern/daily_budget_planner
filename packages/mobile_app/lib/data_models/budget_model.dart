@@ -3,7 +3,7 @@
 part of 'data_models.dart';
 
 @Freezed(fromJson: false, toJson: false)
-class BudgetModelId with _$BudgetModelId {
+abstract class BudgetModelId with _$BudgetModelId {
   const factory BudgetModelId({required final String value}) = _BudgetModelId;
   const BudgetModelId._();
   factory BudgetModelId.fromJson(final String value) =>
@@ -13,7 +13,7 @@ class BudgetModelId with _$BudgetModelId {
 }
 
 @freezed
-class MonthlyBudgetModel with _$MonthlyBudgetModel {
+abstract class MonthlyBudgetModel with _$MonthlyBudgetModel {
   const factory MonthlyBudgetModel({
     required final BudgetModelId id,
     @JsonKey(
@@ -34,7 +34,7 @@ class MonthlyBudgetModel with _$MonthlyBudgetModel {
 }
 
 @freezed
-class WeeklyBudgetModel with _$WeeklyBudgetModel {
+abstract class WeeklyBudgetModel with _$WeeklyBudgetModel {
   const factory WeeklyBudgetModel({
     required final BudgetModelId id,
     @Default(0) final double amount,
@@ -98,7 +98,7 @@ enum PersonalExpenseBudgetType {
 }
 
 @freezed
-class Budget with _$Budget {
+abstract class Budget with _$Budget {
   const factory Budget({
     required final DateTime date,
     @Default(BudgetId.empty) final BudgetId id,

@@ -1,7 +1,7 @@
 part of 'data_models.dart';
 
 @freezed
-class FinSettingsModel with _$FinSettingsModel {
+abstract class FinSettingsModel with _$FinSettingsModel {
   const factory FinSettingsModel({
     @Default(CurrencyId.empty) final CurrencyId fiatCurrencyId,
     @Default(CurrencyId.empty) final CurrencyId cryptoCurrencyId,

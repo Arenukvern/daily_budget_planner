@@ -8,9 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 // part 'isar.g.dart';
 part '../db_apis/budget_isar.dart';
-part '../db_apis/scheduled_transaction_isar.dart';
 part '../db_apis/task_isar.dart';
-part '../db_apis/transaction_isar.dart';
 
 const _isarDbVersion = 'isar_4';
 

@@ -1,12 +1,14 @@
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/db/sembast_db.dart';
 import 'package:mobile_app/data_local_api/db_apis/budget_sembast.dart';
 import 'package:sembast/sembast.dart';
 
-final class SembastBudgetLocalApi extends ComplexLocalApi {
-  SembastBudgetLocalApi(this._db);
-  final SembastDb _db;
+final class ManualBudgetsLocalApiSembast extends ComplexLocalApi
+    with HasComplexLocalDbs
+    implements ManualBudgetsLocalApi {
+  ManualBudgetsLocalApiSembast();
+  SembastDb get _db => sembastDb;
 
+  @override
   Future<void> upsertBudget(final Budget budget) async {
     try {
       await _db.db.transaction((final txn) async {
@@ -22,6 +24,7 @@ final class SembastBudgetLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<void> deleteBudget(final BudgetId id) async {
     try {
       await _db.budgets.record(id).delete(_db.db);
@@ -34,6 +37,7 @@ final class SembastBudgetLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<Budget> getBudget(final BudgetId id) async {
     try {
       final record = await _db.budgets.record(id).get(_db.db);
@@ -48,6 +52,7 @@ final class SembastBudgetLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<Budget?> getOldestBudgetBetweenDates({
     required final DateTime startDate,
     required final DateTime endDate,
@@ -65,10 +70,12 @@ final class SembastBudgetLocalApi extends ComplexLocalApi {
     return BudgetSembastCollection.fromMap(record.value).item;
   }
 
+  @override
   Future<List<Budget>> getAllBudgetsForPeriod({
+    required final Period period,
     required final DateTime startDate,
-    required final DateTime endDate,
   }) async {
+    final endDate = startDate.add(period.duration);
     final finder = Finder(
       filter: Filter.and([
         Filter.greaterThanOrEquals('date', startDate.toIso8601String()),
@@ -84,11 +91,13 @@ final class SembastBudgetLocalApi extends ComplexLocalApi {
         .toList();
   }
 
-  Future<List<Budget>> getPaginatedBudgetForPeriod({
+  @override
+  Future<PagingControllerPageModel<Budget>> getPaginatedBudgetForPeriod({
+    required final Period period,
     required final DateTime startDate,
-    required final DateTime endDate,
     required final PageLimitRecord pageLimit,
   }) async {
+    final endDate = startDate.add(period.duration);
     final finder = Finder(
       filter: Filter.and([
         Filter.greaterThanOrEquals('date', startDate.toIso8601String()),
@@ -99,13 +108,20 @@ final class SembastBudgetLocalApi extends ComplexLocalApi {
       limit: pageLimit.limit,
     );
     final records = await _db.budgets.find(_db.db, finder: finder);
-    return records
-        .map(
-          (final record) => BudgetSembastCollection.fromMap(record.value).item,
-        )
-        .toList();
+    return PagingControllerPageModel<Budget>(
+      values:
+          records
+              .map(
+                (final record) =>
+                    BudgetSembastCollection.fromMap(record.value).item,
+              )
+              .toList(),
+      currentPage: pageLimit.page,
+      pagesCount: records.length ~/ pageLimit.limit,
+    );
   }
 
+  @override
   Future<void> deleteAllBudgets() async {
     try {
       await _db.budgets.delete(_db.db);
@@ -117,8 +133,4 @@ final class SembastBudgetLocalApi extends ComplexLocalApi {
       );
     }
   }
-
-  // Other methods follow same pattern, matching ISAR interface
-  // Implement getAllBudgetsForPeriod, getPaginatedBudgetForPeriod etc.
-  // using Sembast query syntax but maintaining identical method signatures
 }

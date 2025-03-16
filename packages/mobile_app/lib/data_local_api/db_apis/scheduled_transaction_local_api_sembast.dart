@@ -1,14 +1,15 @@
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/db/sembast_db.dart';
-import 'package:mobile_app/data_local_api/db_apis/scheduled_transaction_sembast.dart';
 import 'package:sembast/sembast.dart';
 
 /// Repository implementation for scheduled transactions using Sembast
-final class SembastScheduledTransactionsLocalApi extends ComplexLocalApi {
+final class ScheduledTransactionsLocalApiSembast extends ComplexLocalApi
+    with HasComplexLocalDbs
+    implements ScheduledTransactionsLocalApi {
   /// Creates a [SembastScheduledTransactionsLocalApi] instance
-  SembastScheduledTransactionsLocalApi(this._db);
-  final SembastDb _db;
+  ScheduledTransactionsLocalApiSembast();
+  SembastDb get _db => sembastDb;
 
+  @override
   Future<void> upsertScheduledTransaction(
     final ScheduledTransaction scheduledTransaction,
   ) async {
@@ -30,6 +31,7 @@ final class SembastScheduledTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<void> deleteScheduledTransaction(final TransactionId id) async {
     try {
       await _db.scheduledTransactions.record(id).delete(_db.db);
@@ -42,6 +44,7 @@ final class SembastScheduledTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<ScheduledTransaction> getScheduledTransaction(
     final TransactionId id,
   ) async {
@@ -58,6 +61,7 @@ final class SembastScheduledTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<List<ScheduledTransaction>> getAllScheduledTransactions() async {
     try {
       final records = await _db.scheduledTransactions.find(_db.db);
@@ -78,6 +82,7 @@ final class SembastScheduledTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<List<ScheduledTransaction>> getScheduledTransactionsByTaskId({
     required final TaskId taskId,
     required final DateTime startedAt,
@@ -116,6 +121,7 @@ final class SembastScheduledTransactionsLocalApi extends ComplexLocalApi {
     }
   }
 
+  @override
   Future<void> deleteAllScheduledTransactions() async {
     try {
       await _db.scheduledTransactions.delete(_db.db);

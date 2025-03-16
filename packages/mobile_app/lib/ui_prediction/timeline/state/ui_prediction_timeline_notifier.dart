@@ -13,25 +13,25 @@ class DateGenerationStrategy {
     final now = DateTime.now();
     return switch (presentationType) {
       UiPresentationType.day => List.generate(
-          10000,
-          (final index) => now.subtract(Duration(days: 5000 - index)),
-        ),
+        10000,
+        (final index) => now.subtract(Duration(days: 5000 - index)),
+      ),
       // TODO(arenukvern): verify behaviour later
       UiPresentationType.month => List.generate(
-          10000,
-          (final index) => DateTime(now.year, now.month - (5000 - index)),
-        ),
+        10000,
+        (final index) => DateTime(now.year, now.month - (5000 - index)),
+      ),
       // TODO(arenukvern): verify behaviour later
       UiPresentationType.year => List.generate(
-          10000,
-          (final index) => DateTime(now.year - (5000 - index)),
-        ),
+        10000,
+        (final index) => DateTime(now.year - (5000 - index)),
+      ),
     };
   }
 }
 
 @freezed
-class UiTimelineState with _$UiTimelineState {
+abstract class UiTimelineState with _$UiTimelineState {
   factory UiTimelineState({
     required final UiPresentationType presentationType,
     required final int selectedIndex,
@@ -62,24 +62,22 @@ class UiTimelineState with _$UiTimelineState {
     required final DateTime date,
     required final UiPresentationType presentationType,
     required final List<DateTime> availableDates,
-  }) =>
-      availableDates.indexWhere(
-        (final availableDate) => switch (presentationType) {
-          UiPresentationType.day => availableDate.year == date.year &&
-              availableDate.month == date.month &&
-              availableDate.day == date.day,
-          UiPresentationType.month => availableDate.year == date.year &&
-              availableDate.month == date.month,
-          UiPresentationType.year => availableDate.year == date.year,
-        },
-      );
+  }) => availableDates.indexWhere(
+    (final availableDate) => switch (presentationType) {
+      UiPresentationType.day =>
+        availableDate.year == date.year &&
+            availableDate.month == date.month &&
+            availableDate.day == date.day,
+      UiPresentationType.month =>
+        availableDate.year == date.year && availableDate.month == date.month,
+      UiPresentationType.year => availableDate.year == date.year,
+    },
+  );
 }
 
 /// Reusable Timeline Notifier
 class UiTimelineNotifier extends ValueNotifier<UiTimelineState> {
-  UiTimelineNotifier({
-    required final UiTimelineState state,
-  }) : super(state);
+  UiTimelineNotifier({required final UiTimelineState state}) : super(state);
 
   void scrollToCurrentDate(final PageController pageController) {
     final now = DateTime.now();

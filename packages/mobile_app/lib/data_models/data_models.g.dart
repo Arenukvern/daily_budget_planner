@@ -6,22 +6,6 @@ part of 'data_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Budget _$BudgetFromJson(Map<String, dynamic> json) => _Budget(
-      date: DateTime.parse(json['date'] as String),
-      id: json['id'] == null
-          ? BudgetId.empty
-          : BudgetId.fromJson(json['id'] as String),
-      input: json['input'] == null
-          ? InputMoney.empty
-          : InputMoney.fromJson(json['input'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$BudgetToJson(_Budget instance) => <String, dynamic>{
-      'date': instance.date.toIso8601String(),
-      'id': instance.id,
-      'input': instance.input,
-    };
-
 _AppSettingsModel _$AppSettingsModelFromJson(Map<String, dynamic> json) =>
     _AppSettingsModel(
       locale: localeFromString(json['locale'] as String?),
@@ -67,6 +51,40 @@ Map<String, dynamic> _$WeeklyBudgetModelToJson(_WeeklyBudgetModel instance) =>
       'amount': instance.amount,
     };
 
+_Budget _$BudgetFromJson(Map<String, dynamic> json) => _Budget(
+      date: DateTime.parse(json['date'] as String),
+      id: json['id'] == null
+          ? BudgetId.empty
+          : BudgetId.fromJson(json['id'] as String),
+      input: json['input'] == null
+          ? InputMoney.empty
+          : InputMoney.fromJson(json['input'] as Map<String, dynamic>),
+      type: json['type'] == null
+          ? BudgetType.personal
+          : BudgetType.fromJson(json['type'] as String),
+      transactionType: json['transactionType'] == null
+          ? BudgetTransactionType.income
+          : BudgetTransactionType.fromJson(json['transactionType'] as String),
+      personalIncomeType: json['personalIncomeType'] == null
+          ? PersonalIncomeBudgetType.salary
+          : PersonalIncomeBudgetType.fromJson(
+              json['personalIncomeType'] as String),
+      personalExpenseType: json['personalExpenseType'] == null
+          ? PersonalExpenseBudgetType.other
+          : PersonalExpenseBudgetType.fromJson(
+              json['personalExpenseType'] as String),
+    );
+
+Map<String, dynamic> _$BudgetToJson(_Budget instance) => <String, dynamic>{
+      'date': instance.date.toIso8601String(),
+      'id': instance.id,
+      'input': instance.input,
+      'type': instance.type,
+      'transactionType': instance.transactionType,
+      'personalIncomeType': instance.personalIncomeType,
+      'personalExpenseType': instance.personalExpenseType,
+    };
+
 _FinSettingsModel _$FinSettingsModelFromJson(Map<String, dynamic> json) =>
     _FinSettingsModel(
       fiatCurrencyId: json['fiatCurrencyId'] == null
@@ -91,7 +109,7 @@ _FinTaskModel _$FinTaskModelFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String? ?? '',
       purpose:
           $enumDecodeNullable(_$FinTaskModelPurposeEnumMap, json['purpose']) ??
-              0,
+              FinTaskModelPurpose.dailyBudget,
       type: $enumDecodeNullable(_$TaskTypeEnumMap, json['type']) ??
           TaskType.personal,
       status: json['status'] == null

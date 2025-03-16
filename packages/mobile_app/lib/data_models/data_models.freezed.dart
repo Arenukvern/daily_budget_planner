@@ -14,205 +14,7 @@ part of 'data_models.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Budget {
-  DateTime get date;
-  BudgetId get id;
-  InputMoney get input;
-
-  /// Create a copy of Budget
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $BudgetCopyWith<Budget> get copyWith =>
-      _$BudgetCopyWithImpl<Budget>(this as Budget, _$identity);
-
-  /// Serializes this Budget to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is Budget &&
-            (identical(other.date, date) || other.date == date) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.input, input) || other.input == input));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, date, id, input);
-
-  @override
-  String toString() {
-    return 'Budget(date: $date, id: $id, input: $input)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $BudgetCopyWith<$Res> {
-  factory $BudgetCopyWith(Budget value, $Res Function(Budget) _then) =
-      _$BudgetCopyWithImpl;
-  @useResult
-  $Res call({DateTime date, BudgetId id, InputMoney input});
-
-  $InputMoneyCopyWith<$Res> get input;
-}
-
-/// @nodoc
-class _$BudgetCopyWithImpl<$Res> implements $BudgetCopyWith<$Res> {
-  _$BudgetCopyWithImpl(this._self, this._then);
-
-  final Budget _self;
-  final $Res Function(Budget) _then;
-
-  /// Create a copy of Budget
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? date = null,
-    Object? id = null,
-    Object? input = null,
-  }) {
-    return _then(_self.copyWith(
-      date: null == date
-          ? _self.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as BudgetId,
-      input: null == input
-          ? _self.input
-          : input // ignore: cast_nullable_to_non_nullable
-              as InputMoney,
-    ));
-  }
-
-  /// Create a copy of Budget
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $InputMoneyCopyWith<$Res> get input {
-    return $InputMoneyCopyWith<$Res>(_self.input, (value) {
-      return _then(_self.copyWith(input: value));
-    });
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _Budget extends Budget {
-  const _Budget(
-      {required this.date,
-      this.id = BudgetId.empty,
-      this.input = InputMoney.empty})
-      : super._();
-  factory _Budget.fromJson(Map<String, dynamic> json) => _$BudgetFromJson(json);
-
-  @override
-  final DateTime date;
-  @override
-  @JsonKey()
-  final BudgetId id;
-  @override
-  @JsonKey()
-  final InputMoney input;
-
-  /// Create a copy of Budget
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$BudgetCopyWith<_Budget> get copyWith =>
-      __$BudgetCopyWithImpl<_Budget>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$BudgetToJson(
-      this,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _Budget &&
-            (identical(other.date, date) || other.date == date) &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.input, input) || other.input == input));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, date, id, input);
-
-  @override
-  String toString() {
-    return 'Budget(date: $date, id: $id, input: $input)';
-  }
-}
-
-/// @nodoc
-abstract mixin class _$BudgetCopyWith<$Res> implements $BudgetCopyWith<$Res> {
-  factory _$BudgetCopyWith(_Budget value, $Res Function(_Budget) _then) =
-      __$BudgetCopyWithImpl;
-  @override
-  @useResult
-  $Res call({DateTime date, BudgetId id, InputMoney input});
-
-  @override
-  $InputMoneyCopyWith<$Res> get input;
-}
-
-/// @nodoc
-class __$BudgetCopyWithImpl<$Res> implements _$BudgetCopyWith<$Res> {
-  __$BudgetCopyWithImpl(this._self, this._then);
-
-  final _Budget _self;
-  final $Res Function(_Budget) _then;
-
-  /// Create a copy of Budget
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? date = null,
-    Object? id = null,
-    Object? input = null,
-  }) {
-    return _then(_Budget(
-      date: null == date
-          ? _self.date
-          : date // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as BudgetId,
-      input: null == input
-          ? _self.input
-          : input // ignore: cast_nullable_to_non_nullable
-              as InputMoney,
-    ));
-  }
-
-  /// Create a copy of Budget
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $InputMoneyCopyWith<$Res> get input {
-    return $InputMoneyCopyWith<$Res>(_self.input, (value) {
-      return _then(_self.copyWith(input: value));
-    });
-  }
-}
-
-/// @nodoc
-mixin _$AppSettingsModel {
+mixin _$AppSettingsModel implements DiagnosticableTreeMixin {
   @JsonKey(fromJson: localeFromString, toJson: localeToString)
   Locale? get locale;
   @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
@@ -229,6 +31,15 @@ mixin _$AppSettingsModel {
 
   /// Serializes this AppSettingsModel to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'AppSettingsModel'))
+      ..add(DiagnosticsProperty('locale', locale))
+      ..add(DiagnosticsProperty('brightness', brightness))
+      ..add(DiagnosticsProperty('use24HourFormat', use24HourFormat));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -248,7 +59,7 @@ mixin _$AppSettingsModel {
       Object.hash(runtimeType, locale, brightness, use24HourFormat);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AppSettingsModel(locale: $locale, brightness: $brightness, use24HourFormat: $use24HourFormat)';
   }
 }
@@ -304,7 +115,7 @@ class _$AppSettingsModelCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _AppSettingsModel extends AppSettingsModel {
+class _AppSettingsModel extends AppSettingsModel with DiagnosticableTreeMixin {
   const _AppSettingsModel(
       {@JsonKey(fromJson: localeFromString, toJson: localeToString) this.locale,
       @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
@@ -340,6 +151,15 @@ class _AppSettingsModel extends AppSettingsModel {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'AppSettingsModel'))
+      ..add(DiagnosticsProperty('locale', locale))
+      ..add(DiagnosticsProperty('brightness', brightness))
+      ..add(DiagnosticsProperty('use24HourFormat', use24HourFormat));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -357,7 +177,7 @@ class _AppSettingsModel extends AppSettingsModel {
       Object.hash(runtimeType, locale, brightness, use24HourFormat);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'AppSettingsModel(locale: $locale, brightness: $brightness, use24HourFormat: $use24HourFormat)';
   }
 }
@@ -413,7 +233,7 @@ class __$AppSettingsModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$BudgetModelId {
+mixin _$BudgetModelId implements DiagnosticableTreeMixin {
   String get value;
 
   /// Create a copy of BudgetModelId
@@ -423,6 +243,13 @@ mixin _$BudgetModelId {
   $BudgetModelIdCopyWith<BudgetModelId> get copyWith =>
       _$BudgetModelIdCopyWithImpl<BudgetModelId>(
           this as BudgetModelId, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'BudgetModelId'))
+      ..add(DiagnosticsProperty('value', value));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -436,7 +263,7 @@ mixin _$BudgetModelId {
   int get hashCode => Object.hash(runtimeType, value);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'BudgetModelId(value: $value)';
   }
 }
@@ -476,7 +303,7 @@ class _$BudgetModelIdCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _BudgetModelId extends BudgetModelId {
+class _BudgetModelId extends BudgetModelId with DiagnosticableTreeMixin {
   const _BudgetModelId({required this.value}) : super._();
 
   @override
@@ -491,6 +318,13 @@ class _BudgetModelId extends BudgetModelId {
       __$BudgetModelIdCopyWithImpl<_BudgetModelId>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'BudgetModelId'))
+      ..add(DiagnosticsProperty('value', value));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -502,7 +336,7 @@ class _BudgetModelId extends BudgetModelId {
   int get hashCode => Object.hash(runtimeType, value);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'BudgetModelId(value: $value)';
   }
 }
@@ -543,7 +377,7 @@ class __$BudgetModelIdCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$MonthlyBudgetModel {
+mixin _$MonthlyBudgetModel implements DiagnosticableTreeMixin {
   BudgetModelId get id;
   @JsonKey(
       fromJson: dateTimeFromMilisecondsSinceEpoch,
@@ -564,6 +398,16 @@ mixin _$MonthlyBudgetModel {
   Map<String, dynamic> toJson();
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'MonthlyBudgetModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nextBudgetDay', nextBudgetDay))
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('savings', savings));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -581,7 +425,7 @@ mixin _$MonthlyBudgetModel {
       Object.hash(runtimeType, id, nextBudgetDay, amount, savings);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'MonthlyBudgetModel(id: $id, nextBudgetDay: $nextBudgetDay, amount: $amount, savings: $savings)';
   }
 }
@@ -655,7 +499,9 @@ class _$MonthlyBudgetModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _MonthlyBudgetModel implements MonthlyBudgetModel {
+class _MonthlyBudgetModel
+    with DiagnosticableTreeMixin
+    implements MonthlyBudgetModel {
   const _MonthlyBudgetModel(
       {required this.id,
       @JsonKey(
@@ -697,6 +543,16 @@ class _MonthlyBudgetModel implements MonthlyBudgetModel {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'MonthlyBudgetModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nextBudgetDay', nextBudgetDay))
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('savings', savings));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -714,7 +570,7 @@ class _MonthlyBudgetModel implements MonthlyBudgetModel {
       Object.hash(runtimeType, id, nextBudgetDay, amount, savings);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'MonthlyBudgetModel(id: $id, nextBudgetDay: $nextBudgetDay, amount: $amount, savings: $savings)';
   }
 }
@@ -790,7 +646,7 @@ class __$MonthlyBudgetModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$WeeklyBudgetModel {
+mixin _$WeeklyBudgetModel implements DiagnosticableTreeMixin {
   BudgetModelId get id;
   double get amount;
 
@@ -806,6 +662,14 @@ mixin _$WeeklyBudgetModel {
   Map<String, dynamic> toJson();
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'WeeklyBudgetModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('amount', amount));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -819,7 +683,7 @@ mixin _$WeeklyBudgetModel {
   int get hashCode => Object.hash(runtimeType, id, amount);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WeeklyBudgetModel(id: $id, amount: $amount)';
   }
 }
@@ -876,7 +740,9 @@ class _$WeeklyBudgetModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _WeeklyBudgetModel implements WeeklyBudgetModel {
+class _WeeklyBudgetModel
+    with DiagnosticableTreeMixin
+    implements WeeklyBudgetModel {
   const _WeeklyBudgetModel({required this.id, this.amount = 0});
   factory _WeeklyBudgetModel.fromJson(Map<String, dynamic> json) =>
       _$WeeklyBudgetModelFromJson(json);
@@ -903,6 +769,14 @@ class _WeeklyBudgetModel implements WeeklyBudgetModel {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'WeeklyBudgetModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('amount', amount));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -916,7 +790,7 @@ class _WeeklyBudgetModel implements WeeklyBudgetModel {
   int get hashCode => Object.hash(runtimeType, id, amount);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WeeklyBudgetModel(id: $id, amount: $amount)';
   }
 }
@@ -975,7 +849,321 @@ class __$WeeklyBudgetModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$FinSettingsModel {
+mixin _$Budget implements DiagnosticableTreeMixin {
+  DateTime get date;
+  BudgetId get id;
+  InputMoney get input;
+  BudgetType get type;
+  BudgetTransactionType get transactionType;
+  PersonalIncomeBudgetType get personalIncomeType;
+  PersonalExpenseBudgetType get personalExpenseType;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $BudgetCopyWith<Budget> get copyWith =>
+      _$BudgetCopyWithImpl<Budget>(this as Budget, _$identity);
+
+  /// Serializes this Budget to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Budget'))
+      ..add(DiagnosticsProperty('date', date))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('input', input))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('transactionType', transactionType))
+      ..add(DiagnosticsProperty('personalIncomeType', personalIncomeType))
+      ..add(DiagnosticsProperty('personalExpenseType', personalExpenseType));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Budget &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.input, input) || other.input == input) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.transactionType, transactionType) ||
+                other.transactionType == transactionType) &&
+            (identical(other.personalIncomeType, personalIncomeType) ||
+                other.personalIncomeType == personalIncomeType) &&
+            (identical(other.personalExpenseType, personalExpenseType) ||
+                other.personalExpenseType == personalExpenseType));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, date, id, input, type,
+      transactionType, personalIncomeType, personalExpenseType);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Budget(date: $date, id: $id, input: $input, type: $type, transactionType: $transactionType, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $BudgetCopyWith<$Res> {
+  factory $BudgetCopyWith(Budget value, $Res Function(Budget) _then) =
+      _$BudgetCopyWithImpl;
+  @useResult
+  $Res call(
+      {DateTime date,
+      BudgetId id,
+      InputMoney input,
+      BudgetType type,
+      BudgetTransactionType transactionType,
+      PersonalIncomeBudgetType personalIncomeType,
+      PersonalExpenseBudgetType personalExpenseType});
+
+  $InputMoneyCopyWith<$Res> get input;
+}
+
+/// @nodoc
+class _$BudgetCopyWithImpl<$Res> implements $BudgetCopyWith<$Res> {
+  _$BudgetCopyWithImpl(this._self, this._then);
+
+  final Budget _self;
+  final $Res Function(Budget) _then;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? date = null,
+    Object? id = null,
+    Object? input = null,
+    Object? type = null,
+    Object? transactionType = null,
+    Object? personalIncomeType = null,
+    Object? personalExpenseType = null,
+  }) {
+    return _then(_self.copyWith(
+      date: null == date
+          ? _self.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as BudgetId,
+      input: null == input
+          ? _self.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as InputMoney,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as BudgetType,
+      transactionType: null == transactionType
+          ? _self.transactionType
+          : transactionType // ignore: cast_nullable_to_non_nullable
+              as BudgetTransactionType,
+      personalIncomeType: null == personalIncomeType
+          ? _self.personalIncomeType
+          : personalIncomeType // ignore: cast_nullable_to_non_nullable
+              as PersonalIncomeBudgetType,
+      personalExpenseType: null == personalExpenseType
+          ? _self.personalExpenseType
+          : personalExpenseType // ignore: cast_nullable_to_non_nullable
+              as PersonalExpenseBudgetType,
+    ));
+  }
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $InputMoneyCopyWith<$Res> get input {
+    return $InputMoneyCopyWith<$Res>(_self.input, (value) {
+      return _then(_self.copyWith(input: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _Budget extends Budget with DiagnosticableTreeMixin {
+  const _Budget(
+      {required this.date,
+      this.id = BudgetId.empty,
+      this.input = InputMoney.empty,
+      this.type = BudgetType.personal,
+      this.transactionType = BudgetTransactionType.income,
+      this.personalIncomeType = PersonalIncomeBudgetType.salary,
+      this.personalExpenseType = PersonalExpenseBudgetType.other})
+      : super._();
+  factory _Budget.fromJson(Map<String, dynamic> json) => _$BudgetFromJson(json);
+
+  @override
+  final DateTime date;
+  @override
+  @JsonKey()
+  final BudgetId id;
+  @override
+  @JsonKey()
+  final InputMoney input;
+  @override
+  @JsonKey()
+  final BudgetType type;
+  @override
+  @JsonKey()
+  final BudgetTransactionType transactionType;
+  @override
+  @JsonKey()
+  final PersonalIncomeBudgetType personalIncomeType;
+  @override
+  @JsonKey()
+  final PersonalExpenseBudgetType personalExpenseType;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BudgetCopyWith<_Budget> get copyWith =>
+      __$BudgetCopyWithImpl<_Budget>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BudgetToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Budget'))
+      ..add(DiagnosticsProperty('date', date))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('input', input))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('transactionType', transactionType))
+      ..add(DiagnosticsProperty('personalIncomeType', personalIncomeType))
+      ..add(DiagnosticsProperty('personalExpenseType', personalExpenseType));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Budget &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.input, input) || other.input == input) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.transactionType, transactionType) ||
+                other.transactionType == transactionType) &&
+            (identical(other.personalIncomeType, personalIncomeType) ||
+                other.personalIncomeType == personalIncomeType) &&
+            (identical(other.personalExpenseType, personalExpenseType) ||
+                other.personalExpenseType == personalExpenseType));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, date, id, input, type,
+      transactionType, personalIncomeType, personalExpenseType);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Budget(date: $date, id: $id, input: $input, type: $type, transactionType: $transactionType, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$BudgetCopyWith<$Res> implements $BudgetCopyWith<$Res> {
+  factory _$BudgetCopyWith(_Budget value, $Res Function(_Budget) _then) =
+      __$BudgetCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {DateTime date,
+      BudgetId id,
+      InputMoney input,
+      BudgetType type,
+      BudgetTransactionType transactionType,
+      PersonalIncomeBudgetType personalIncomeType,
+      PersonalExpenseBudgetType personalExpenseType});
+
+  @override
+  $InputMoneyCopyWith<$Res> get input;
+}
+
+/// @nodoc
+class __$BudgetCopyWithImpl<$Res> implements _$BudgetCopyWith<$Res> {
+  __$BudgetCopyWithImpl(this._self, this._then);
+
+  final _Budget _self;
+  final $Res Function(_Budget) _then;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? date = null,
+    Object? id = null,
+    Object? input = null,
+    Object? type = null,
+    Object? transactionType = null,
+    Object? personalIncomeType = null,
+    Object? personalExpenseType = null,
+  }) {
+    return _then(_Budget(
+      date: null == date
+          ? _self.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as BudgetId,
+      input: null == input
+          ? _self.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as InputMoney,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as BudgetType,
+      transactionType: null == transactionType
+          ? _self.transactionType
+          : transactionType // ignore: cast_nullable_to_non_nullable
+              as BudgetTransactionType,
+      personalIncomeType: null == personalIncomeType
+          ? _self.personalIncomeType
+          : personalIncomeType // ignore: cast_nullable_to_non_nullable
+              as PersonalIncomeBudgetType,
+      personalExpenseType: null == personalExpenseType
+          ? _self.personalExpenseType
+          : personalExpenseType // ignore: cast_nullable_to_non_nullable
+              as PersonalExpenseBudgetType,
+    ));
+  }
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $InputMoneyCopyWith<$Res> get input {
+    return $InputMoneyCopyWith<$Res>(_self.input, (value) {
+      return _then(_self.copyWith(input: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$FinSettingsModel implements DiagnosticableTreeMixin {
   CurrencyId get fiatCurrencyId;
   CurrencyId get cryptoCurrencyId;
 
@@ -989,6 +1177,14 @@ mixin _$FinSettingsModel {
 
   /// Serializes this FinSettingsModel to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'FinSettingsModel'))
+      ..add(DiagnosticsProperty('fiatCurrencyId', fiatCurrencyId))
+      ..add(DiagnosticsProperty('cryptoCurrencyId', cryptoCurrencyId));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -1007,7 +1203,7 @@ mixin _$FinSettingsModel {
       Object.hash(runtimeType, fiatCurrencyId, cryptoCurrencyId);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'FinSettingsModel(fiatCurrencyId: $fiatCurrencyId, cryptoCurrencyId: $cryptoCurrencyId)';
   }
 }
@@ -1052,7 +1248,9 @@ class _$FinSettingsModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _FinSettingsModel implements FinSettingsModel {
+class _FinSettingsModel
+    with DiagnosticableTreeMixin
+    implements FinSettingsModel {
   const _FinSettingsModel(
       {this.fiatCurrencyId = CurrencyId.empty,
       this.cryptoCurrencyId = CurrencyId.empty});
@@ -1082,6 +1280,14 @@ class _FinSettingsModel implements FinSettingsModel {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'FinSettingsModel'))
+      ..add(DiagnosticsProperty('fiatCurrencyId', fiatCurrencyId))
+      ..add(DiagnosticsProperty('cryptoCurrencyId', cryptoCurrencyId));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -1098,7 +1304,7 @@ class _FinSettingsModel implements FinSettingsModel {
       Object.hash(runtimeType, fiatCurrencyId, cryptoCurrencyId);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'FinSettingsModel(fiatCurrencyId: $fiatCurrencyId, cryptoCurrencyId: $cryptoCurrencyId)';
   }
 }
@@ -1144,7 +1350,7 @@ class __$FinSettingsModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$FinTaskModel {
+mixin _$FinTaskModel implements DiagnosticableTreeMixin {
   DateTime get startDate;
   TaskId get id;
   String get name;
@@ -1164,6 +1370,20 @@ mixin _$FinTaskModel {
 
   /// Serializes this FinTaskModel to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'FinTaskModel'))
+      ..add(DiagnosticsProperty('startDate', startDate))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('purpose', purpose))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('period', period))
+      ..add(DiagnosticsProperty('regularIncomeTaskId', regularIncomeTaskId));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -1188,7 +1408,7 @@ mixin _$FinTaskModel {
       type, status, period, regularIncomeTaskId);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'FinTaskModel(startDate: $startDate, id: $id, name: $name, purpose: $purpose, type: $type, status: $status, period: $period, regularIncomeTaskId: $regularIncomeTaskId)';
   }
 }
@@ -1270,11 +1490,11 @@ class _$FinTaskModelCopyWithImpl<$Res> implements $FinTaskModelCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class _FinTaskModel extends FinTaskModel {
-  const _FinTaskModel(
+class _FinTaskModel extends FinTaskModel with DiagnosticableTreeMixin {
+  _FinTaskModel(
       {this.id = TaskId.empty,
       this.name = '',
-      this.purpose = 0,
+      this.purpose = FinTaskModelPurpose.dailyBudget,
       this.type = TaskType.personal,
       this.status = TaskStatus.visible,
       this.period = Period.monthly,
@@ -1322,6 +1542,20 @@ class _FinTaskModel extends FinTaskModel {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'FinTaskModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('purpose', purpose))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('period', period))
+      ..add(DiagnosticsProperty('startDate', startDate))
+      ..add(DiagnosticsProperty('regularIncomeTaskId', regularIncomeTaskId));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -1344,7 +1578,7 @@ class _FinTaskModel extends FinTaskModel {
       period, startDate, regularIncomeTaskId);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'FinTaskModel(id: $id, name: $name, purpose: $purpose, type: $type, status: $status, period: $period, startDate: $startDate, regularIncomeTaskId: $regularIncomeTaskId)';
   }
 }
@@ -1428,7 +1662,7 @@ class __$FinTaskModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$Task {
+mixin _$Task implements DiagnosticableTreeMixin {
   TaskId get id;
   TaskStatus get status;
   String get title;
@@ -1448,6 +1682,21 @@ mixin _$Task {
 
   /// Serializes this Task to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Task'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('title', title))
+      ..add(DiagnosticsProperty('notes', notes))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('personalIncomeType', personalIncomeType))
+      ..add(DiagnosticsProperty('personalExpenseType', personalExpenseType))
+      ..add(DiagnosticsProperty('transactionType', transactionType))
+      ..add(DiagnosticsProperty('categoryIds', categoryIds));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -1484,7 +1733,7 @@ mixin _$Task {
       const DeepCollectionEquality().hash(categoryIds));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType, transactionType: $transactionType, categoryIds: $categoryIds)';
   }
 }
@@ -1571,7 +1820,7 @@ class _$TaskCopyWithImpl<$Res> implements $TaskCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class _Task extends Task {
+class _Task extends Task with DiagnosticableTreeMixin {
   const _Task(
       {this.id = TaskId.empty,
       this.status = TaskStatus.visible,
@@ -1635,6 +1884,21 @@ class _Task extends Task {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Task'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('title', title))
+      ..add(DiagnosticsProperty('notes', notes))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('personalIncomeType', personalIncomeType))
+      ..add(DiagnosticsProperty('personalExpenseType', personalExpenseType))
+      ..add(DiagnosticsProperty('transactionType', transactionType))
+      ..add(DiagnosticsProperty('categoryIds', categoryIds));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -1669,7 +1933,7 @@ class _Task extends Task {
       const DeepCollectionEquality().hash(_categoryIds));
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Task(id: $id, status: $status, title: $title, notes: $notes, type: $type, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType, transactionType: $transactionType, categoryIds: $categoryIds)';
   }
 }
@@ -1756,7 +2020,7 @@ class __$TaskCopyWithImpl<$Res> implements _$TaskCopyWith<$Res> {
 }
 
 /// @nodoc
-mixin _$ScheduledTransaction {
+mixin _$ScheduledTransaction implements DiagnosticableTreeMixin {
   TransactionId get transactionId;
 
   /// it may have no task id if it is a one time transaction
@@ -1775,6 +2039,15 @@ mixin _$ScheduledTransaction {
   Map<String, dynamic> toJson();
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduledTransaction'))
+      ..add(DiagnosticsProperty('transactionId', transactionId))
+      ..add(DiagnosticsProperty('taskId', taskId))
+      ..add(DiagnosticsProperty('schedule', schedule));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -1791,7 +2064,7 @@ mixin _$ScheduledTransaction {
   int get hashCode => Object.hash(runtimeType, transactionId, taskId, schedule);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduledTransaction(transactionId: $transactionId, taskId: $taskId, schedule: $schedule)';
   }
 }
@@ -1856,7 +2129,8 @@ class _$ScheduledTransactionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _ScheduledTransaction extends ScheduledTransaction {
+class _ScheduledTransaction extends ScheduledTransaction
+    with DiagnosticableTreeMixin {
   const _ScheduledTransaction(
       {this.transactionId = TransactionId.empty,
       this.taskId = TaskId.empty,
@@ -1894,6 +2168,15 @@ class _ScheduledTransaction extends ScheduledTransaction {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduledTransaction'))
+      ..add(DiagnosticsProperty('transactionId', transactionId))
+      ..add(DiagnosticsProperty('taskId', taskId))
+      ..add(DiagnosticsProperty('schedule', schedule));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -1910,7 +2193,7 @@ class _ScheduledTransaction extends ScheduledTransaction {
   int get hashCode => Object.hash(runtimeType, transactionId, taskId, schedule);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ScheduledTransaction(transactionId: $transactionId, taskId: $taskId, schedule: $schedule)';
   }
 }
@@ -1977,7 +2260,7 @@ class __$ScheduledTransactionCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$TransactionSchedule {
+mixin _$TransactionSchedule implements DiagnosticableTreeMixin {
   TransactionPeriodType get periodType;
   Period get period;
   DateTime? get startedAt;
@@ -1993,6 +2276,16 @@ mixin _$TransactionSchedule {
 
   /// Serializes this TransactionSchedule to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'TransactionSchedule'))
+      ..add(DiagnosticsProperty('periodType', periodType))
+      ..add(DiagnosticsProperty('period', period))
+      ..add(DiagnosticsProperty('startedAt', startedAt))
+      ..add(DiagnosticsProperty('endedAt', endedAt));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -2013,7 +2306,7 @@ mixin _$TransactionSchedule {
       Object.hash(runtimeType, periodType, period, startedAt, endedAt);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TransactionSchedule(periodType: $periodType, period: $period, startedAt: $startedAt, endedAt: $endedAt)';
   }
 }
@@ -2072,7 +2365,8 @@ class _$TransactionScheduleCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _TransactionSchedule extends TransactionSchedule {
+class _TransactionSchedule extends TransactionSchedule
+    with DiagnosticableTreeMixin {
   const _TransactionSchedule(
       {this.periodType = TransactionPeriodType.none,
       this.period = Period.daily,
@@ -2110,6 +2404,16 @@ class _TransactionSchedule extends TransactionSchedule {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'TransactionSchedule'))
+      ..add(DiagnosticsProperty('periodType', periodType))
+      ..add(DiagnosticsProperty('period', period))
+      ..add(DiagnosticsProperty('startedAt', startedAt))
+      ..add(DiagnosticsProperty('endedAt', endedAt));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -2128,7 +2432,7 @@ class _TransactionSchedule extends TransactionSchedule {
       Object.hash(runtimeType, periodType, period, startedAt, endedAt);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'TransactionSchedule(periodType: $periodType, period: $period, startedAt: $startedAt, endedAt: $endedAt)';
   }
 }
@@ -2201,7 +2505,7 @@ Currency _$CurrencyFromJson(Map<String, dynamic> json) {
 }
 
 /// @nodoc
-mixin _$Currency {
+mixin _$Currency implements DiagnosticableTreeMixin {
   CurrencyId get id;
   String get name;
   String get slug;
@@ -2216,6 +2520,16 @@ mixin _$Currency {
 
   /// Serializes this Currency to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Currency'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('slug', slug))
+      ..add(DiagnosticsProperty('type', type));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -2233,7 +2547,7 @@ mixin _$Currency {
   int get hashCode => Object.hash(runtimeType, id, name, slug, type);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Currency(id: $id, name: $name, slug: $slug, type: $type)';
   }
 }
@@ -2286,7 +2600,7 @@ class _$CurrencyCopyWithImpl<$Res> implements $CurrencyCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class FiatCurrency extends Currency {
+class FiatCurrency extends Currency with DiagnosticableTreeMixin {
   const FiatCurrency(
       {this.id = CurrencyId.empty,
       this.name = '',
@@ -2336,6 +2650,18 @@ class FiatCurrency extends Currency {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Currency.fiat'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('slug', slug))
+      ..add(DiagnosticsProperty('symbol', symbol))
+      ..add(DiagnosticsProperty('decimals', decimals))
+      ..add(DiagnosticsProperty('type', type));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -2355,7 +2681,7 @@ class FiatCurrency extends Currency {
       Object.hash(runtimeType, id, name, slug, symbol, decimals, type);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Currency.fiat(id: $id, name: $name, slug: $slug, symbol: $symbol, decimals: $decimals, type: $type)';
   }
 }
@@ -2427,7 +2753,7 @@ class _$FiatCurrencyCopyWithImpl<$Res> implements $FiatCurrencyCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class CryptoCurrency extends Currency {
+class CryptoCurrency extends Currency with DiagnosticableTreeMixin {
   const CryptoCurrency(
       {this.id = CurrencyId.empty,
       this.name = '',
@@ -2474,6 +2800,17 @@ class CryptoCurrency extends Currency {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Currency.crypto'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('slug', slug))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('chainId', chainId));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -2490,7 +2827,7 @@ class CryptoCurrency extends Currency {
   int get hashCode => Object.hash(runtimeType, id, name, slug, type, chainId);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Currency.crypto(id: $id, name: $name, slug: $slug, type: $type, chainId: $chainId)';
   }
 }
@@ -2556,7 +2893,7 @@ class _$CryptoCurrencyCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$Transaction {
+mixin _$Transaction implements DiagnosticableTreeMixin {
   DateTime get transactionDate;
   TransactionId get id;
   InputMoney get input;
@@ -2576,6 +2913,21 @@ mixin _$Transaction {
 
   /// Serializes this Transaction to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Transaction'))
+      ..add(DiagnosticsProperty('transactionDate', transactionDate))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('input', input))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('note', note))
+      ..add(DiagnosticsProperty('shoppingListString', shoppingListString))
+      ..add(DiagnosticsProperty('taskId', taskId))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('categoryId', categoryId));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -2603,7 +2955,7 @@ mixin _$Transaction {
       description, note, shoppingListString, taskId, type, categoryId);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Transaction(transactionDate: $transactionDate, id: $id, input: $input, description: $description, note: $note, shoppingListString: $shoppingListString, taskId: $taskId, type: $type, categoryId: $categoryId)';
   }
 }
@@ -2703,7 +3055,7 @@ class _$TransactionCopyWithImpl<$Res> implements $TransactionCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class _Transaction extends Transaction {
+class _Transaction extends Transaction with DiagnosticableTreeMixin {
   const _Transaction(
       {required this.transactionDate,
       this.id = TransactionId.empty,
@@ -2762,6 +3114,21 @@ class _Transaction extends Transaction {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Transaction'))
+      ..add(DiagnosticsProperty('transactionDate', transactionDate))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('input', input))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('note', note))
+      ..add(DiagnosticsProperty('shoppingListString', shoppingListString))
+      ..add(DiagnosticsProperty('taskId', taskId))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('categoryId', categoryId));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -2787,7 +3154,7 @@ class _Transaction extends Transaction {
       description, note, shoppingListString, taskId, type, categoryId);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Transaction(transactionDate: $transactionDate, id: $id, input: $input, description: $description, note: $note, shoppingListString: $shoppingListString, taskId: $taskId, type: $type, categoryId: $categoryId)';
   }
 }
@@ -2902,7 +3269,7 @@ InputMoney _$InputMoneyFromJson(Map<String, dynamic> json) {
 }
 
 /// @nodoc
-mixin _$InputMoney {
+mixin _$InputMoney implements DiagnosticableTreeMixin {
   CurrencyId get currencyId;
   double get amountWithTax;
   CurrencyType get currencyType;
@@ -2917,6 +3284,16 @@ mixin _$InputMoney {
 
   /// Serializes this InputMoney to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'InputMoney'))
+      ..add(DiagnosticsProperty('currencyId', currencyId))
+      ..add(DiagnosticsProperty('amountWithTax', amountWithTax))
+      ..add(DiagnosticsProperty('currencyType', currencyType))
+      ..add(DiagnosticsProperty('tax', tax));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -2938,7 +3315,7 @@ mixin _$InputMoney {
       Object.hash(runtimeType, currencyId, amountWithTax, currencyType, tax);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'InputMoney(currencyId: $currencyId, amountWithTax: $amountWithTax, currencyType: $currencyType, tax: $tax)';
   }
 }
@@ -2996,7 +3373,7 @@ class _$InputMoneyCopyWithImpl<$Res> implements $InputMoneyCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class FiatInputModel extends InputMoney {
+class FiatInputModel extends InputMoney with DiagnosticableTreeMixin {
   const FiatInputModel(
       {this.currencyId = CurrencyId.empty,
       this.amountWithTax = 0.0,
@@ -3040,6 +3417,16 @@ class FiatInputModel extends InputMoney {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'InputMoney.fiat'))
+      ..add(DiagnosticsProperty('currencyId', currencyId))
+      ..add(DiagnosticsProperty('amountWithTax', amountWithTax))
+      ..add(DiagnosticsProperty('currencyType', currencyType))
+      ..add(DiagnosticsProperty('tax', tax));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -3059,7 +3446,7 @@ class FiatInputModel extends InputMoney {
       Object.hash(runtimeType, currencyId, amountWithTax, currencyType, tax);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'InputMoney.fiat(currencyId: $currencyId, amountWithTax: $amountWithTax, currencyType: $currencyType, tax: $tax)';
   }
 }
@@ -3120,7 +3507,7 @@ class _$FiatInputModelCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class CyptoInputModel extends InputMoney {
+class CyptoInputModel extends InputMoney with DiagnosticableTreeMixin {
   const CyptoInputModel(
       {this.currencyId = CurrencyId.empty,
       this.amountWithTax = 0.0,
@@ -3164,6 +3551,16 @@ class CyptoInputModel extends InputMoney {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'InputMoney.crypto'))
+      ..add(DiagnosticsProperty('currencyId', currencyId))
+      ..add(DiagnosticsProperty('amountWithTax', amountWithTax))
+      ..add(DiagnosticsProperty('currencyType', currencyType))
+      ..add(DiagnosticsProperty('tax', tax));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -3183,7 +3580,7 @@ class CyptoInputModel extends InputMoney {
       Object.hash(runtimeType, currencyId, amountWithTax, currencyType, tax);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'InputMoney.crypto(currencyId: $currencyId, amountWithTax: $amountWithTax, currencyType: $currencyType, tax: $tax)';
   }
 }
@@ -3243,7 +3640,7 @@ class _$CyptoInputModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$UserModelId {
+mixin _$UserModelId implements DiagnosticableTreeMixin {
   String get value;
 
   /// Create a copy of UserModelId
@@ -3252,6 +3649,13 @@ mixin _$UserModelId {
   @pragma('vm:prefer-inline')
   $UserModelIdCopyWith<UserModelId> get copyWith =>
       _$UserModelIdCopyWithImpl<UserModelId>(this as UserModelId, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModelId'))
+      ..add(DiagnosticsProperty('value', value));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3265,7 +3669,7 @@ mixin _$UserModelId {
   int get hashCode => Object.hash(runtimeType, value);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserModelId(value: $value)';
   }
 }
@@ -3304,7 +3708,7 @@ class _$UserModelIdCopyWithImpl<$Res> implements $UserModelIdCopyWith<$Res> {
 
 /// @nodoc
 
-class UserModelLocalId extends UserModelId {
+class UserModelLocalId extends UserModelId with DiagnosticableTreeMixin {
   const UserModelLocalId({required this.value}) : super._();
 
   @override
@@ -3319,6 +3723,13 @@ class UserModelLocalId extends UserModelId {
       _$UserModelLocalIdCopyWithImpl<UserModelLocalId>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModelId.local'))
+      ..add(DiagnosticsProperty('value', value));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -3330,7 +3741,7 @@ class UserModelLocalId extends UserModelId {
   int get hashCode => Object.hash(runtimeType, value);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserModelId.local(value: $value)';
   }
 }
@@ -3372,7 +3783,7 @@ class _$UserModelLocalIdCopyWithImpl<$Res>
 
 /// @nodoc
 
-class UserModelRemoteId extends UserModelId {
+class UserModelRemoteId extends UserModelId with DiagnosticableTreeMixin {
   const UserModelRemoteId({required this.value}) : super._();
 
   @override
@@ -3387,6 +3798,13 @@ class UserModelRemoteId extends UserModelId {
       _$UserModelRemoteIdCopyWithImpl<UserModelRemoteId>(this, _$identity);
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModelId.remote'))
+      ..add(DiagnosticsProperty('value', value));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -3398,7 +3816,7 @@ class UserModelRemoteId extends UserModelId {
   int get hashCode => Object.hash(runtimeType, value);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserModelId.remote(value: $value)';
   }
 }
@@ -3439,7 +3857,7 @@ class _$UserModelRemoteIdCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$UserModel {
+mixin _$UserModel implements DiagnosticableTreeMixin {
   @JsonKey(
       fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
   UserModelLocalId get localId;
@@ -3458,6 +3876,16 @@ mixin _$UserModel {
 
   /// Serializes this UserModel to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModel'))
+      ..add(DiagnosticsProperty('localId', localId))
+      ..add(DiagnosticsProperty('remoteId', remoteId))
+      ..add(DiagnosticsProperty('createdAt', createdAt))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3482,7 +3910,7 @@ mixin _$UserModel {
       updatedAt);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserModel(localId: $localId, remoteId: $remoteId, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
@@ -3545,7 +3973,7 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
-class _UserModel extends UserModel {
+class _UserModel extends UserModel with DiagnosticableTreeMixin {
   const _UserModel(
       {@JsonKey(
           fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
@@ -3589,6 +4017,16 @@ class _UserModel extends UserModel {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModel'))
+      ..add(DiagnosticsProperty('localId', localId))
+      ..add(DiagnosticsProperty('remoteId', remoteId))
+      ..add(DiagnosticsProperty('createdAt', createdAt))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -3611,7 +4049,7 @@ class _UserModel extends UserModel {
       updatedAt);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserModel(localId: $localId, remoteId: $remoteId, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
@@ -3675,7 +4113,7 @@ class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
 }
 
 /// @nodoc
-mixin _$SubscriptionModel {
+mixin _$SubscriptionModel implements DiagnosticableTreeMixin {
   int get paidDaysLeft;
   DateTime? get updatedAt;
 
@@ -3689,6 +4127,14 @@ mixin _$SubscriptionModel {
 
   /// Serializes this SubscriptionModel to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SubscriptionModel'))
+      ..add(DiagnosticsProperty('paidDaysLeft', paidDaysLeft))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3706,7 +4152,7 @@ mixin _$SubscriptionModel {
   int get hashCode => Object.hash(runtimeType, paidDaysLeft, updatedAt);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SubscriptionModel(paidDaysLeft: $paidDaysLeft, updatedAt: $updatedAt)';
   }
 }
@@ -3752,7 +4198,9 @@ class _$SubscriptionModelCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
-class _SubscriptionModel implements SubscriptionModel {
+class _SubscriptionModel
+    with DiagnosticableTreeMixin
+    implements SubscriptionModel {
   const _SubscriptionModel({this.paidDaysLeft = 0, this.updatedAt});
   factory _SubscriptionModel.fromJson(Map<String, dynamic> json) =>
       _$SubscriptionModelFromJson(json);
@@ -3779,6 +4227,14 @@ class _SubscriptionModel implements SubscriptionModel {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SubscriptionModel'))
+      ..add(DiagnosticsProperty('paidDaysLeft', paidDaysLeft))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -3794,7 +4250,7 @@ class _SubscriptionModel implements SubscriptionModel {
   int get hashCode => Object.hash(runtimeType, paidDaysLeft, updatedAt);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SubscriptionModel(paidDaysLeft: $paidDaysLeft, updatedAt: $updatedAt)';
   }
 }
@@ -3840,7 +4296,7 @@ class __$SubscriptionModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-mixin _$UserPermissionsModel {
+mixin _$UserPermissionsModel implements DiagnosticableTreeMixin {
   bool get shouldBeSynced;
   int get tagLimit;
 
@@ -3854,6 +4310,14 @@ mixin _$UserPermissionsModel {
 
   /// Serializes this UserPermissionsModel to a JSON map.
   Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserPermissionsModel'))
+      ..add(DiagnosticsProperty('shouldBeSynced', shouldBeSynced))
+      ..add(DiagnosticsProperty('tagLimit', tagLimit));
+  }
 
   @override
   bool operator ==(Object other) {
@@ -3871,7 +4335,7 @@ mixin _$UserPermissionsModel {
   int get hashCode => Object.hash(runtimeType, shouldBeSynced, tagLimit);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserPermissionsModel(shouldBeSynced: $shouldBeSynced, tagLimit: $tagLimit)';
   }
 }
@@ -3917,7 +4381,9 @@ class _$UserPermissionsModelCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
-class _UserPermissionsModel implements UserPermissionsModel {
+class _UserPermissionsModel
+    with DiagnosticableTreeMixin
+    implements UserPermissionsModel {
   const _UserPermissionsModel({this.shouldBeSynced = false, this.tagLimit = 5});
   factory _UserPermissionsModel.fromJson(Map<String, dynamic> json) =>
       _$UserPermissionsModelFromJson(json);
@@ -3946,6 +4412,14 @@ class _UserPermissionsModel implements UserPermissionsModel {
   }
 
   @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserPermissionsModel'))
+      ..add(DiagnosticsProperty('shouldBeSynced', shouldBeSynced))
+      ..add(DiagnosticsProperty('tagLimit', tagLimit));
+  }
+
+  @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
@@ -3961,7 +4435,7 @@ class _UserPermissionsModel implements UserPermissionsModel {
   int get hashCode => Object.hash(runtimeType, shouldBeSynced, tagLimit);
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserPermissionsModel(shouldBeSynced: $shouldBeSynced, tagLimit: $tagLimit)';
   }
 }

@@ -13,15 +13,15 @@ enum UiBrightness {
   }
   static String toJson(final UiBrightness brightness) => brightness.name;
   ThemeMode get themeMode => switch (this) {
-        UiBrightness.system => ThemeMode.system,
-        UiBrightness.light => ThemeMode.light,
-        UiBrightness.dark => ThemeMode.dark,
-      };
+    UiBrightness.system => ThemeMode.system,
+    UiBrightness.light => ThemeMode.light,
+    UiBrightness.dark => ThemeMode.dark,
+  };
 }
 
 @immutable
 @Freezed()
-class AppSettingsModel with _$AppSettingsModel {
+abstract class AppSettingsModel with _$AppSettingsModel {
   @JsonSerializable(explicitToJson: true)
   const factory AppSettingsModel({
     @JsonKey(fromJson: localeFromString, toJson: localeToString)

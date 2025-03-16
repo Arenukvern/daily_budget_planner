@@ -27,7 +27,7 @@ import 'package:mobile_app/data_models/data_models.dart';
 /// @ai When implementing transaction operations, ensure proper error handling
 /// and maintain data consistency across related collections.
 /// {@endtemplate}
-abstract class ManualScheduledTransactionsLocalApi extends ComplexLocalApi {
+abstract class ScheduledTransactionsLocalApi extends ComplexLocalApi {
   /// Returns the Isar collection for scheduled transactions
   // IsarCollection<String, ScheduledTransactionIsarCollection>
   // get _scheduledTransactions => isarDb.scheduledTransactions;

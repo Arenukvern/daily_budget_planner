@@ -21,7 +21,7 @@ class CoinPriceField extends StatelessWidget {
             hintText: '0.00',
             labelText: label,
             // TODO(arenukvern): add coin symbol
-            prefixIcon: Icon(Icons.attach_money),
+            prefixIcon: const Icon(Icons.attach_money),
           ),
           validator: FormBuilderValidators.compose([
             FormBuilderValidators.required(),
@@ -32,7 +32,7 @@ class CoinPriceField extends StatelessWidget {
           controller: controller,
           style: Theme.of(context).textTheme.titleLarge,
           textInputAction: TextInputAction.next,
-          keyboardType: TextInputType.numberWithOptions(decimal: true),
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
         );
       },
     );

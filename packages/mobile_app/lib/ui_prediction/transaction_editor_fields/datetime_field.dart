@@ -1,11 +1,7 @@
 import 'package:mobile_app/common_imports.dart';
 
 class DatetimeField extends StatelessWidget {
-  const DatetimeField({
-    required this.date,
-    required this.onChanged,
-    super.key,
-  });
+  const DatetimeField({required this.date, required this.onChanged, super.key});
   final DateTime date;
   final ValueSetter<DateTime> onChanged;
   @override

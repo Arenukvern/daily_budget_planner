@@ -1,4 +1,6 @@
-part of '../db/isar.dart';
+import 'dart:convert';
+
+import 'package:mobile_app/common_imports.dart';
 
 /// {@template transaction_isar_collection}
 /// Isar collection model for storing [Transaction] data.

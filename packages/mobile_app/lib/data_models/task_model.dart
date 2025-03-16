@@ -58,7 +58,7 @@ enum PersonalIncomeTaskType {
 enum TaskType { personal, business }
 
 @freezed
-class Task with _$Task {
+abstract class Task with _$Task {
   const factory Task({
     @Default(TaskId.empty) final TaskId id,
     @Default(TaskStatus.visible) final TaskStatus status,
@@ -80,7 +80,7 @@ class Task with _$Task {
 }
 
 @freezed
-class ScheduledTransaction with _$ScheduledTransaction {
+abstract class ScheduledTransaction with _$ScheduledTransaction {
   const factory ScheduledTransaction({
     @Default(TransactionId.empty) final TransactionId transactionId,
 
@@ -100,7 +100,7 @@ class ScheduledTransaction with _$ScheduledTransaction {
 
 /// Represents a monetary value in a specific fiat or crypto currency
 @freezed
-class TransactionSchedule with _$TransactionSchedule {
+abstract class TransactionSchedule with _$TransactionSchedule {
   const factory TransactionSchedule({
     @Default(TransactionPeriodType.none) final TransactionPeriodType periodType,
     @Default(Period.daily) final Period period,

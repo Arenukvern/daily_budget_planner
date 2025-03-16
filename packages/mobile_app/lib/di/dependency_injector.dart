@@ -1,7 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/db/sembast_db.dart';
-import 'package:mobile_app/data_local_api/db_apis/task_local_api_isar.dart';
 import 'package:mobile_app/ui_home/monthly/monthly_notifier.dart';
 import 'package:mobile_app/ui_home/weekly/weekly_notifier.dart';
 import 'package:mobile_app/ui_paywalls/ui_paywalls.dart';
@@ -41,20 +39,21 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   r<CrashlyticsService>(analyticsManager.crashlyticsService, dispose: d);
   r<AnalyticsService>(analyticsManager.analyticsService, dispose: d);
   final localDb = PrefsDb();
-  final isarDb = IsarDb();
+  // final isarDb = IsarDb();
   final sembastDb = SembastDb();
 
   r<LocalDbI>(localDb);
-  r<IsarDb>(isarDb, dispose: (final i) => i.close());
+  // r<IsarDb>(isarDb, dispose: (final i) => i.close());
+  r<SembastDb>(sembastDb, dispose: (final i) => i.close());
   rl(UserLocalApi.new);
   rl(AppSettingsLocalApi.new);
   rl(SimpleBudgetLocalApi.new);
-  rl(ManualBudgetsLocalApi.new);
+  rl<ManualBudgetsLocalApi>(ManualBudgetsLocalApiSembast.new);
   rl(DictionariesLocalApi.new);
   rl(FinSettingsLocalApi.new);
-  rl(TransactionsLocalApi.new);
-  rl(ScheduledTransactionsLocalApi.new);
-  rl(TasksLocalApi.new);
+  rl<TransactionsLocalApi>(TransactionsLocalApiSembast.new);
+  rl<ScheduledTransactionsLocalApi>(ScheduledTransactionsLocalApiSembast.new);
+  rl<TasksLocalApi>(TasksLocalApiSembast.new);
 
   /// ********************************************
   /// *      RESOURCES
@@ -209,5 +208,6 @@ mixin HasAnalytics {
 }
 
 mixin HasComplexLocalDbs {
-  IsarDb get isarDb => _g();
+  // IsarDb get isarDb => _g();
+  SembastDb get sembastDb => _g();
 }
