@@ -36,7 +36,7 @@ class CollaborativeTodoServer {
   void _broadcastExcept(final WebSocketChannel sender, final message) {
     for (final connection in _connections) {
       if (connection != sender) {
-        connection.sink.add(message);
+        // connection.sink.add(message);
       }
     }
   }
