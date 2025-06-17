@@ -548,8 +548,8 @@ class BudgetWillLast extends StatelessWidget {
       label: LocalizedMap(
         value: {
           languages.en: 'Budget will last ',
-          languages.it: 'Budget rimanente per',
-          languages.ru: 'Отстаток. Хватит',
+          languages.it: 'Budget rimanente per ',
+          languages.ru: 'Остаток. Хватит ',
         },
       ).getValue(locale),
       onPressed: () {},
@@ -577,9 +577,9 @@ class TodaysBudget extends StatelessWidget {
           label: LocalizedMap(
             value: switch (true) {
               _ when isToday => {
-                languages.en: 'End of Today Balance',
+                languages.en: 'End of Day Balance',
                 languages.it: 'Saldo finale oggi',
-                languages.ru: 'Остаток сегодня на конец дня',
+                languages.ru: 'Остаток на конец дня',
               },
               _ when isInFuture => {
                 languages.en: 'End of Day Future Balance',

@@ -25,9 +25,7 @@ class YandexMobileAdsManager implements AdManager {
       onAdFailedToLoad: (final error) {
         debugPrint('Rewarded ad failed to load: $error');
       },
-      onAdLoaded: (final ad) {
-        ad.show();
-      },
+      onAdLoaded: (final ad) => ad.show(),
     );
     // final rewardedAd = RewardedAd(adUnitId: 'your_rewarded_ad_unit_id');
     // await rewardedAd.load();

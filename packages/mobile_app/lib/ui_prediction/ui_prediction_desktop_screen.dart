@@ -1,5 +1,4 @@
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/ui_prediction/simple_steps/simple_steps.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 import 'package:recase/recase.dart';
 
@@ -25,10 +24,12 @@ class UiPredictionScreenV2 extends StatelessWidget {
               children: [
                 const UiSafeArea.top(),
                 const Gap(16),
-                ElevatedButton(
-                  onPressed: () async => SimpleStepsFlow.show(context),
-                  child: const Text('Show steps'),
-                ),
+                // Center(
+                //   child: ElevatedButton(
+                //     onPressed: () async => SimpleStepsFlow.show(context),
+                //     child: const Text('Show steps'),
+                //   ),
+                // ),
                 const Gap(16),
                 Expanded(
                   child: Center(
@@ -94,13 +95,13 @@ class UiPredictionScreenV2 extends StatelessWidget {
                   ),
                 ),
 
-                Container(
-                  foregroundDecoration: BoxDecoration(
-                    color: backgroungColor.withAlpha(200),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: DailyStatistics(selectedDate: selectedDate),
-                ),
+                // Container(
+                //   foregroundDecoration: BoxDecoration(
+                //     color: backgroungColor.withAlpha(200),
+                //     borderRadius: BorderRadius.circular(16),
+                //   ),
+                //   child: DailyStatistics(selectedDate: selectedDate),
+                // ),
                 const Gap(16),
                 const UiSafeArea.bottom(),
               ],
@@ -161,11 +162,24 @@ class _MainContentCard extends StatelessWidget {
         Row(
           spacing: 16,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [BudgetWillLast(), TodaysBudget()],
+          children: [
+            // BudgetWillLast(),
+            TodaysBudget(),
+            
+          ],
         ),
       ],
     ),
   );
+}
+
+class AddBudgetButton extends StatelessWidget {
+  const AddBudgetButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
 }
 
 class _ContentCard extends StatelessWidget {
