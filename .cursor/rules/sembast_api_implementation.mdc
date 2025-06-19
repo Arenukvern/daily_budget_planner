@@ -1,0 +1,247 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Sembast API Implementation Patterns
+
+Use this rule when creating Sembast-based local API implementations for data access.
+
+## API Class Structure
+
+### 1. Main API Class Pattern
+```dart
+final class [Entity]LocalApiSembast extends ComplexLocalApi
+    implements [Entity]LocalApi {
+  [Entity]LocalApiSembast();
+  
+  SembastDb get _db => sembastDb;
+  
+  // Implement interface methods following patterns below
+}
+```
+
+### 2. Required Imports
+```dart
+import 'package:{app_name}/data_local_api/db_apis/[entity]_sembast.dart';
+import 'package:sembast/sembast.dart';
+```
+
+## CRUD Operation Patterns
+
+### 1. Create/Update (Upsert) Pattern
+```dart
+@override
+Future<void> upsert[Entity](mdc:final [Entity] entity) async {
+  try {
+    await _db.db.transaction((final txn) async {
+      final model = [Entity]SembastCollection.fromDomain(entity);
+      await _db.[collection].record(entity.id).put(txn, model.toMap());
+    });
+  } catch (e, s) {
+    throw LocalApiException(
+      message: 'Failed to create/update [entity]',
+      error: e,
+      stackTrace: s,
+    );
+  }
+}
+```
+
+### 2. Delete Pattern
+```dart
+@override
+Future<void> delete[Entity](mdc:final [Entity]Id id) async {
+  try {
+    await _db.[collection].record(id).delete(_db.db);
+  } catch (e, s) {
+    throw LocalApiException(
+      message: 'Failed to delete [entity]',
+      error: e,
+      stackTrace: s,
+    );
+  }
+}
+```
+
+### 3. Get Single Record Pattern
+```dart
+@override
+Future<[Entity]> get[Entity](mdc:final [Entity]Id id) async {
+  try {
+    final record = await _db.[collection].record(id).get(_db.db);
+    if (record == null) return [Entity].empty;
+    return [Entity]SembastCollection.fromMap(record).item;
+  } catch (e, s) {
+    throw LocalApiException(
+      message: 'Failed to get [entity]',
+      error: e,
+      stackTrace: s,
+    );
+  }
+}
+```
+
+### 4. Bulk Delete Pattern
+```dart
+@override
+Future<void> deleteAll[Entities]() async {
+  try {
+    await _db.[collection].delete(_db.db);
+  } catch (e, s) {
+    throw LocalApiException(
+      message: 'Failed to delete all [entities]',
+      error: e,
+      stackTrace: s,
+    );
+  }
+}
+```
+
+## Query Patterns
+
+### 1. Date Range Query Pattern
+```dart
+Future<[Entity]?> get[Entity]BetweenDates({
+  required final DateTime startDate,
+  required final DateTime endDate,
+}) async {
+  final finder = Finder(
+    filter: Filter.and([
+      Filter.greaterThanOrEquals('date', startDate.toIso8601String()),
+      Filter.lessThanOrEquals('date', endDate.toIso8601String()),
+    ]),
+    sortOrders: [SortOrder('date')],
+    limit: 1,
+  );
+  final record = await _db.[collection].findFirst(_db.db, finder: finder);
+  if (record == null) return null;
+  return [Entity]SembastCollection.fromMap(record.value).item;
+}
+```
+
+### 2. Period-Based Query Pattern
+```dart
+Future<List<[Entity]>> getAll[Entities]ForPeriod({
+  required final Period period,
+  required final DateTime startDate,
+}) async {
+  final endDate = startDate.add(period.duration);
+  final finder = Finder(
+    filter: Filter.and([
+      Filter.greaterThanOrEquals('date', startDate.toIso8601String()),
+      Filter.lessThanOrEquals('date', endDate.toIso8601String()),
+    ]),
+    sortOrders: [SortOrder('date')],
+  );
+  final records = await _db.[collection].find(_db.db, finder: finder);
+  return records
+      .map(
+        (final record) => [Entity]SembastCollection.fromMap(record.value).item,
+      )
+      .toList();
+}
+```
+
+### 3. Paginated Query Pattern
+```dart
+Future<PagingControllerPageModel<[Entity]>> getPaginated[Entities]({
+  required final Period period,
+  required final DateTime startDate,
+  required final PageLimitRecord pageLimit,
+}) async {
+  final endDate = startDate.add(period.duration);
+  final finder = Finder(
+    filter: Filter.and([
+      Filter.greaterThanOrEquals('date', startDate.toIso8601String()),
+      Filter.lessThanOrEquals('date', endDate.toIso8601String()),
+    ]),
+    sortOrders: [SortOrder('date')],
+    offset: pageLimit.page * pageLimit.limit,
+    limit: pageLimit.limit,
+  );
+  final records = await _db.[collection].find(_db.db, finder: finder);
+  return PagingControllerPageModel<[Entity]>(
+    values: records
+        .map(
+          (final record) => [Entity]SembastCollection.fromMap(record.value).item,
+        )
+        .toList(),
+    currentPage: pageLimit.page,
+    pagesCount: records.length ~/ pageLimit.limit,
+  );
+}
+```
+
+## Error Handling Patterns
+
+### 1. Standard Try-Catch Pattern
+Always wrap database operations in try-catch blocks:
+```dart
+try {
+  // Database operation
+} catch (e, s) {
+  throw LocalApiException(
+    message: 'Descriptive error message',
+    error: e,
+    stackTrace: s,
+  );
+}
+```
+
+### 2. Transaction Usage
+Use transactions for write operations:
+```dart
+await _db.db.transaction((final txn) async {
+  // Multiple operations within transaction
+});
+```
+
+## Query Builder Patterns
+
+### 1. Filter Combinations
+```dart
+// Single filter
+Filter.equals('field', value)
+
+// Multiple filters (AND)
+Filter.and([
+  Filter.greaterThanOrEquals('date', startDate.toIso8601String()),
+  Filter.lessThanOrEquals('date', endDate.toIso8601String()),
+])
+
+// Multiple filters (OR)
+Filter.or([
+  Filter.equals('status', 'active'),
+  Filter.equals('status', 'pending'),
+])
+```
+
+### 2. Sorting and Limiting
+```dart
+final finder = Finder(
+  filter: // ... filters,
+  sortOrders: [
+    SortOrder('date', false), // descending
+    SortOrder('priority'), // ascending (default)
+  ],
+  limit: 10,
+  offset: 20, // for pagination
+);
+```
+
+## Best Practices
+
+1. **Error Handling**: Always use try-catch with `LocalApiException`
+2. **Transactions**: Use transactions for write operations, especially multiple writes
+3. **Date Handling**: Convert dates to ISO8601 strings for queries
+4. **Null Checks**: Always check for null records and provide defaults
+5. **Type Safety**: Use typed collection references and domain model conversions
+6. **Consistent Naming**: Follow `[Entity]LocalApiSembast` naming convention
+7. **Interface Implementation**: Always implement the corresponding LocalApi interface
+
+## File Structure
+
+- API implementation: `[entity]_local_api_sembast.dart`
+- Collection model: `[entity]_sembast.dart`
+- Place in `data_local_api/db_apis/` directory
