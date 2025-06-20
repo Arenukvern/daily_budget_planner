@@ -1,0 +1,74 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Service-Locator Dependency-Injection Pattern
+
+> Use this rule when you need a lightweight, code-generation-free DI mechanism that works in **any** Dart / Flutter project or other languages with similar capabilities.
+
+## Core Ideas
+
+1. **Central Service Locator**  
+   Maintain a single global instance (e.g. `GetIt.instance` or similar) that stores factories and singletons.
+2. **Facade Class**  
+   Wrap the locator in a small class (`Di` in examples) that exposes:  
+   • `init()` – boot-straps and registers all objects.  
+   • `dispose()` – tears everything down.  
+   • `get<T>()` – typed lookup helper.
+3. **Registration Order**  
+   Register in clearly separated layers to avoid hidden circular dependencies:  
+   1. Infrastructure / External Services (analytics, databases, platform channels)  
+   2. Data Sources & Repositories  
+   3. Runtime Resources (passive state holders)  
+   4. Notifiers / Controllers (business & presentation logic)
+4. **Lazy vs Eager**  
+   • `registerSingleton` for always-needed, cheap objects.  
+   • `registerLazySingleton` for heavy or optional objects.
+5. **Mixin-based Access**  
+   Provide opt-in mixins (e.g. `mixin HasResources`) that expose typed getters delegating to `Di.get`.  
+   This avoids passing dependencies through long parameter chains while still keeping static typing.
+6. **UI Bridging**  
+   Surface reactive objects (e.g. `ChangeNotifier`s) to the widget tree with a single `MultiProvider`:
+   ```dart
+   MultiProvider(
+     providers: [
+       ChangeNotifierProvider<MyNotifier>.value(value: Di.get()),
+       // …
+     ],
+     child: builder(context),
+   );
+   ```
+7. **Global Initialiser**  
+   Encapsulate asynchronous warm-up logic in a class (`GlobalStateInitializer`) executed from the splash screen. Typical tasks:  
+   • Open local databases  
+   • Load persisted settings / profile  
+   • Pre-fetch remote data  
+   • Navigate to the first real screen when ready
+8. **Automatic Disposal**  
+   When registering, supply a `dispose:` callback that calls `dispose()` on `ChangeNotifier`s or closes database connections.
+
+## Suggested File Skeleton
+
+```
+lib/di/
+  dependency_injector.dart   // locator + facade + mixins
+  global_initializer.dart    // async warm-up before main UI
+  global_state_providers.dart// MultiProvider bridge
+```
+
+## Benefits
+
+• Zero code-gen, fast hot-reload.  
+• Strong typing through generics & mixins.  
+• Clear boot sequence & module boundaries.
+
+## Caveats
+
+• Service-locator can hide dependencies; write tests with explicit overrides.  
+• Keep the registration list short by splitting feature modules (e.g. one register* function per feature).  
+• Add assertions (`assert(Di.isRegistered<T>())`) in mixin getters for earlier failure signals.
+
+---
+
+**Use this rule whenever you need a pragmatic DI setup without adding build-runner or heavy frameworks.**
