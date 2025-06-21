@@ -75,7 +75,7 @@ dependencies:
   sembast_web: ^2.2.0
   share_plus: ^10.0.2
   shared_preferences: ^2.3.2
-  skeletonizer: ^1.4.2
+  skeletonizer: ^2.0.1
   smooth_sheets: ^1.0.0-f324.0.10.2
   two_dimensional_scrollables: ^0.3.3
   ui_locale:

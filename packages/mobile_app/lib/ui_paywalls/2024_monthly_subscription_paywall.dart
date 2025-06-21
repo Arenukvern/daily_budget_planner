@@ -55,8 +55,10 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
 
     final planIndex = useState<int>(2);
     final locale = useLocale(context);
-    final double imageHeight =
-        math.min(MediaQuery.sizeOf(context).width * 0.5, 100);
+    final double imageHeight = math.min(
+      MediaQuery.sizeOf(context).width * 0.5,
+      100,
+    );
     final textHeight = imageHeight * 0.5;
     final monetizationStatusNotifier =
         context.watch<MonetizationStatusNotifier>();
@@ -64,311 +66,324 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
     final subscriptionManager = context.watch<SubscriptionManager>();
     final isPreLoading =
         monetizationStatusNotifier.status == MonetizationStatus.loading ||
-            !subscriptionManager.isInitialized;
+        !subscriptionManager.isInitialized;
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
-          builder: (final context, final constraints) => SingleChildScrollView(
-            child: Column(
-              children: [
-                UiAppBar(
-                  title: Text(
-                    LocalizedMap(
-                      value: {
-                        languages.en: 'Unlock all features',
-                        languages.it: 'Sblocca tutte le funzionalità',
-                        languages.ru: 'Разблокируйте все функции',
-                      },
-                    ).getValue(locale),
-                    style: context.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const Gap(2),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          builder:
+              (final context, final constraints) => SingleChildScrollView(
+                child: Column(
                   children: [
-                    Flexible(
-                      child: Text(
+                    UiAppBar(
+                      title: Text(
                         LocalizedMap(
                           value: {
-                            languages.en: 'More ways to plan finances for you',
-                            languages.it:
-                                'Più modi per pianificare le tue finanze',
-                            languages.ru:
-                                'Больше способов планировать свои финансы',
+                            languages.en: 'Unlock all features',
+                            languages.it: 'Sblocca tutte le funzionalità',
+                            languages.ru: 'Разблокируйте все функции',
                           },
                         ).getValue(locale),
-                        textAlign: TextAlign.center,
-                        style: context.textTheme.titleMedium?.copyWith(
+                        style: context.textTheme.headlineMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ],
-                ),
-                const Gap(8),
-                UiDivider.size1(),
-                const Gap(8),
-                Center(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: 500,
-                    ),
-                    child: Row(
+                    const Gap(2),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              _Block(
-                                title: LocalizedMap(
-                                  value: {
-                                    languages.en: 'early\nfeatures',
-                                    languages.it: 'funzionalità\nanticipate',
-                                    languages.ru: 'ранние\nфункции',
-                                  },
-                                ).getValue(locale),
-                                dimension: textHeight,
-                              ),
-                              _Block(
-                                image:
-                                    Assets.images.paywalls.earlyFeaturesCheck,
-                                dimension: imageHeight,
-                              ),
-                              _Block(
-                                title: LocalizedMap(
-                                  value: {
-                                    languages.en: 'full access',
-                                    languages.it: 'accesso completo',
-                                    languages.ru: 'полный доступ',
-                                  },
-                                ).getValue(locale),
-                                dimension: textHeight,
-                              ),
-                              _Block(
-                                image: Assets.images.paywalls.openSourceHands,
-                                dimension: imageHeight,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              _Block(
-                                image: Assets.images.paywalls.ideas,
-                                dimension: imageHeight,
-                              ),
-                              _Block(
-                                title: LocalizedMap(
-                                  value: {
-                                    languages.en: 'advanced customization',
-                                    languages.it: 'personalizzazione avanzata',
-                                    languages.ru: 'персональные настройки',
-                                  },
-                                ).getValue(locale),
-                                dimension: textHeight,
-                              ),
-                              _Block(
-                                image: Assets.images.paywalls.fullAccessHands,
-                                dimension: imageHeight,
-                              ),
-                              _Block(
-                                title: LocalizedMap(
-                                  value: {
-                                    languages.en: 'open source\nsupport',
-                                    languages.it: 'supporto\nopen source',
-                                    languages.ru:
-                                        'поддержка\nоткрытого исходного кода',
-                                  },
-                                ).getValue(locale),
-                                dimension: textHeight,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const Gap(16),
-                if (monetizationStatusNotifier.isInitialized) ...[
-                  Skeletonizer(
-                    enabled: isPreLoading,
-                    child: Row(
-                      children: [
-                        const Gap(8),
-                        ...List.generate(
-                          _kSubscriptions.length,
-                          (final index) {
-                            final productId = _kSubscriptions[index].productId;
-                            final subscription =
-                                subscriptionManager.getSubscription(productId);
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                right:
-                                    index < _kSubscriptions.length - 1 ? 16 : 0,
-                              ),
-                              child: _SubscriptionCard(
-                                width: (constraints.maxWidth -
-                                        (8 +
-                                            8 +
-                                            (_kSubscriptions.length * 16))) /
-                                    _kSubscriptions.length,
-                                title: getSubscriptionPaywallTitle(
-                                  subscription?.duration ?? Duration.zero,
-                                  locale,
-                                ),
-                                subscription: subscription,
-                                highlight: planIndex.value == index,
-                                onPressed: () => planIndex.value = index,
-                                locale: locale,
-                              ),
-                            );
-                          },
-                        ),
-                        const Gap(8),
-                      ],
-                    ),
-                  ),
-                  const Gap(24),
-                  UiTextButton(
-                    isLoading: subscriptionManager.isLoading,
-                    onPressed: () async => onBuyPressed(context, planIndex),
-                    title: Row(
-                      children: [
-                        Spacer(),
-                        Text(
-                          LocalizedMap(
-                            value: {
-                              languages.en: 'SUBSCRIBE',
-                              languages.it: 'ISCRIVITI',
-                              languages.ru: 'ПОДПИСАТЬСЯ',
-                            },
-                          ).getValue(locale),
-                          style: context.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Gap(8),
-                        Assets.images.paywalls.goldSnowflake.image(
-                          height: 40,
-                          width: 40,
-                        ),
-                        Spacer(),
-                      ],
-                    ),
-                  ),
-                ] else if (monetizationStatusNotifier.status
-                    case MonetizationStatus.storeNotAuthorized) ...[
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      LocalizedMap(
-                        value: {
-                          languages.en:
-                              'Please log in to the ${Envs.storeName} to continue',
-                          languages.it:
-                              'Si prega di accedere al ${Envs.storeName} per continuare',
-                          languages.ru:
-                              'Пожалуйста, войдите в ${Envs.storeName}, чтобы продолжить',
-                        },
-                      ).getValue(locale),
-                      textAlign: TextAlign.center,
-                      style: context.textTheme.displaySmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-                const Gap(16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (monetizationStatusNotifier.isInitialized)
-                      Flexible(
-                        child: UiLoader(
-                          builder: (
-                            final context,
-                            final isLoading,
-                            final setLoading,
-                          ) =>
-                              UiTextButton(
-                            isLoading: isLoading,
-                            textTitle: LocalizedMap(
-                              value: {
-                                languages.en: 'Restore',
-                                languages.it: 'Ripristina',
-                                languages.ru: 'Восстановить',
-                              },
-                            ).getValue(locale),
-                            onPressed: () async {
-                              setLoading(true);
-                              await context
-                                  .read<PurchaseInitializer>()
-                                  .restore();
-                              if (subscriptionManager.activeSubscription !=
-                                  null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      LocalizedMap(
-                                        value: {
-                                          languages.en:
-                                              'We found subscription and restored!',
-                                          languages.it:
-                                              "Abbiamo trovato l'abbonamento e lo abbiamo ripristinato!",
-                                          languages.ru:
-                                              'Мы нашли подписку и восстановили!',
-                                        },
-                                      ).getValue(locale),
-                                    ),
-                                  ),
-                                );
-                              }
-                              setLoading(false);
-                            },
-                          ),
-                        ),
-                      ),
-                    Flexible(
-                      child: UiTextButton(
-                        textTitle: LocalizedMap(
-                          value: {
-                            languages.en: 'Terms',
-                            languages.it: 'Termini',
-                            languages.ru: 'Условия',
-                          },
-                        ).getValue(locale),
-                        onPressed: () async => TermsScreen.show(context),
-                      ),
-                    ),
-                    Flexible(
-                      child: UiTextButton(
-                        title: FittedBox(
-                          fit: BoxFit.scaleDown,
+                        Flexible(
                           child: Text(
                             LocalizedMap(
                               value: {
-                                languages.en: 'Privacy',
-                                languages.it: 'Privacy',
-                                languages.ru: 'Приватность',
+                                languages.en:
+                                    'More ways to plan finances for you',
+                                languages.it:
+                                    'Più modi per pianificare le tue finanze',
+                                languages.ru:
+                                    'Больше способов планировать свои финансы',
                               },
                             ).getValue(locale),
+                            textAlign: TextAlign.center,
+                            style: context.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                        onPressed: () async => PrivacyScreen.show(context),
+                      ],
+                    ),
+                    const Gap(8),
+                    const UiDivider.size1(),
+                    const Gap(8),
+                    Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 500),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _Block(
+                                    title: LocalizedMap(
+                                      value: {
+                                        languages.en: 'early\nfeatures',
+                                        languages.it:
+                                            'funzionalità\nanticipate',
+                                        languages.ru: 'ранние\nфункции',
+                                      },
+                                    ).getValue(locale),
+                                    dimension: textHeight,
+                                  ),
+                                  _Block(
+                                    image:
+                                        Assets
+                                            .images
+                                            .paywalls
+                                            .earlyFeaturesCheck,
+                                    dimension: imageHeight,
+                                  ),
+                                  _Block(
+                                    title: LocalizedMap(
+                                      value: {
+                                        languages.en: 'full access',
+                                        languages.it: 'accesso completo',
+                                        languages.ru: 'полный доступ',
+                                      },
+                                    ).getValue(locale),
+                                    dimension: textHeight,
+                                  ),
+                                  _Block(
+                                    image:
+                                        Assets.images.paywalls.openSourceHands,
+                                    dimension: imageHeight,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  _Block(
+                                    image: Assets.images.paywalls.ideas,
+                                    dimension: imageHeight,
+                                  ),
+                                  _Block(
+                                    title: LocalizedMap(
+                                      value: {
+                                        languages.en: 'advanced customization',
+                                        languages.it:
+                                            'personalizzazione avanzata',
+                                        languages.ru: 'персональные настройки',
+                                      },
+                                    ).getValue(locale),
+                                    dimension: textHeight,
+                                  ),
+                                  _Block(
+                                    image:
+                                        Assets.images.paywalls.fullAccessHands,
+                                    dimension: imageHeight,
+                                  ),
+                                  _Block(
+                                    title: LocalizedMap(
+                                      value: {
+                                        languages.en: 'open source\nsupport',
+                                        languages.it: 'supporto\nopen source',
+                                        languages.ru:
+                                            'поддержка\nоткрытого исходного кода',
+                                      },
+                                    ).getValue(locale),
+                                    dimension: textHeight,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                    const Gap(16),
+                    if (monetizationStatusNotifier.isInitialized) ...[
+                      Skeletonizer(
+                        enabled: isPreLoading,
+                        child: Row(
+                          children: [
+                            const Gap(8),
+                            ...List.generate(_kSubscriptions.length, (
+                              final index,
+                            ) {
+                              final productId =
+                                  _kSubscriptions[index].productId;
+                              final subscription = subscriptionManager
+                                  .getSubscription(productId);
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  right:
+                                      index < _kSubscriptions.length - 1
+                                          ? 16
+                                          : 0,
+                                ),
+                                child: _SubscriptionCard(
+                                  width:
+                                      (constraints.maxWidth -
+                                          (8 +
+                                              8 +
+                                              (_kSubscriptions.length * 16))) /
+                                      _kSubscriptions.length,
+                                  title: getSubscriptionPaywallTitle(
+                                    subscription?.duration ?? Duration.zero,
+                                    locale,
+                                  ),
+                                  subscription: subscription,
+                                  highlight: planIndex.value == index,
+                                  onPressed: () => planIndex.value = index,
+                                  locale: locale,
+                                ),
+                              );
+                            }),
+                            const Gap(8),
+                          ],
+                        ),
+                      ),
+                      const Gap(24),
+                      UiTextButton(
+                        isLoading: subscriptionManager.isLoading,
+                        onPressed: () async => onBuyPressed(context, planIndex),
+                        title: Row(
+                          children: [
+                            const Spacer(),
+                            Text(
+                              LocalizedMap(
+                                value: {
+                                  languages.en: 'SUBSCRIBE',
+                                  languages.it: 'ISCRIVITI',
+                                  languages.ru: 'ПОДПИСАТЬСЯ',
+                                },
+                              ).getValue(locale),
+                              style: context.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Gap(8),
+                            Assets.images.paywalls.goldSnowflake.image(
+                              height: 40,
+                              width: 40,
+                            ),
+                            const Spacer(),
+                          ],
+                        ),
+                      ),
+                    ] else if (monetizationStatusNotifier.status
+                        case MonetizationStatus.storeNotAuthorized) ...[
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          LocalizedMap(
+                            value: {
+                              languages.en:
+                                  'Please log in to the ${Envs.storeName} to continue',
+                              languages.it:
+                                  'Si prega di accedere al ${Envs.storeName} per continuare',
+                              languages.ru:
+                                  'Пожалуйста, войдите в ${Envs.storeName}, чтобы продолжить',
+                            },
+                          ).getValue(locale),
+                          textAlign: TextAlign.center,
+                          style: context.textTheme.displaySmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                    const Gap(16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (monetizationStatusNotifier.isInitialized)
+                          Flexible(
+                            child: UiLoader(
+                              builder:
+                                  (
+                                    final context,
+                                    final isLoading,
+                                    final setLoading,
+                                  ) => UiTextButton(
+                                    isLoading: isLoading,
+                                    textTitle: LocalizedMap(
+                                      value: {
+                                        languages.en: 'Restore',
+                                        languages.it: 'Ripristina',
+                                        languages.ru: 'Восстановить',
+                                      },
+                                    ).getValue(locale),
+                                    onPressed: () async {
+                                      setLoading(true);
+                                      await context
+                                          .read<PurchaseInitializer>()
+                                          .restore();
+                                      if (subscriptionManager
+                                              .activeSubscription !=
+                                          null) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              LocalizedMap(
+                                                value: {
+                                                  languages.en:
+                                                      'We found subscription and restored!',
+                                                  languages.it:
+                                                      "Abbiamo trovato l'abbonamento e lo abbiamo ripristinato!",
+                                                  languages.ru:
+                                                      'Мы нашли подписку и восстановили!',
+                                                },
+                                              ).getValue(locale),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      setLoading(false);
+                                    },
+                                  ),
+                            ),
+                          ),
+                        Flexible(
+                          child: UiTextButton(
+                            textTitle: LocalizedMap(
+                              value: {
+                                languages.en: 'Terms',
+                                languages.it: 'Termini',
+                                languages.ru: 'Условия',
+                              },
+                            ).getValue(locale),
+                            onPressed: () async => TermsScreen.show(context),
+                          ),
+                        ),
+                        Flexible(
+                          child: UiTextButton(
+                            title: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                LocalizedMap(
+                                  value: {
+                                    languages.en: 'Privacy',
+                                    languages.it: 'Privacy',
+                                    languages.ru: 'Приватность',
+                                  },
+                                ).getValue(locale),
+                              ),
+                            ),
+                            onPressed: () async => PrivacyScreen.show(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Gap(12),
                   ],
                 ),
-                const Gap(12),
-              ],
-            ),
-          ),
+              ),
         ),
       ),
     );
@@ -435,54 +450,58 @@ class _SubscriptionCard extends StatelessWidget {
         fit: BoxFit.fitWidth,
         child: UiBaseButton(
           onPressed: onPressed,
-          builder: (final context, final focused, final onlyFocused) =>
-              AnimatedContainer(
-            duration: 350.milliseconds,
-            padding: EdgeInsets.symmetric(
-              vertical: 32,
-              horizontal: 16,
-            ),
-            decoration: BoxDecoration(
-              color: highlight
-                  ? context.colorScheme.primary
-                  : context.colorScheme.surface,
-              borderRadius: UiBorderRadius.medium,
-            ),
-            child: DefaultTextStyle.merge(
-              style: TextStyle(
-                color: highlight || focused
-                    ? context.colorScheme.onPrimary
-                    : context.colorScheme.onSurface,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Gap(8),
-                  Text(
-                    title.toUpperCase(),
-                    style: context.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: highlight || focused
-                          ? context.colorScheme.onPrimary
-                          : context.colorScheme.onSurface,
+          builder:
+              (final context, final focused, final onlyFocused) =>
+                  AnimatedContainer(
+                    duration: 350.milliseconds,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 32,
+                      horizontal: 16,
+                    ),
+                    decoration: BoxDecoration(
+                      color:
+                          highlight
+                              ? context.colorScheme.primary
+                              : context.colorScheme.surface,
+                      borderRadius: UiBorderRadius.medium,
+                    ),
+                    child: DefaultTextStyle.merge(
+                      style: TextStyle(
+                        color:
+                            highlight || focused
+                                ? context.colorScheme.onPrimary
+                                : context.colorScheme.onSurface,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Gap(8),
+                          Text(
+                            title.toUpperCase(),
+                            style: context.textTheme.titleLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  highlight || focused
+                                      ? context.colorScheme.onPrimary
+                                      : context.colorScheme.onSurface,
+                            ),
+                          ),
+                          const Gap(32),
+                          Text(subscription?.formattedPrice ?? ''),
+                          const Gap(2),
+                          Text(
+                            LocalizedMap(
+                              value: {
+                                languages.en: 'cancel anytime',
+                                languages.it: 'annulla in qualsiasi momento',
+                                languages.ru: 'отмена в любое время',
+                              },
+                            ).getValue(locale),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Gap(32),
-                  Text(subscription?.formattedPrice ?? ''),
-                  Gap(2),
-                  Text(
-                    LocalizedMap(
-                      value: {
-                        languages.en: 'cancel anytime',
-                        languages.it: 'annulla in qualsiasi momento',
-                        languages.ru: 'отмена в любое время',
-                      },
-                    ).getValue(locale),
-                  ),
-                ],
-              ),
-            ),
-          ),
         ),
       ),
     );
@@ -505,15 +524,10 @@ class _Block extends StatelessWidget {
   Widget build(final BuildContext context) {
     if (title.isNotEmpty) {
       return ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: dimension,
-        ),
+        constraints: BoxConstraints(minHeight: dimension),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 24,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             child: Text(
               title,
               textAlign: TextAlign.center,
@@ -525,18 +539,13 @@ class _Block extends StatelessWidget {
         ),
       );
     }
-    if (image == null) return SizedBox();
+    if (image == null) return const SizedBox();
 
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: dimension,
-      ),
+      constraints: BoxConstraints(maxHeight: dimension),
       child: FittedBox(
         fit: BoxFit.fitHeight,
-        child: image?.image(
-          width: dimension,
-          height: dimension,
-        ),
+        child: image?.image(width: dimension, height: dimension),
       ),
     );
   }
