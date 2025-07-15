@@ -5,18 +5,15 @@ import 'package:mobile_app/ui_home/settings/language_bottom_sheet.dart';
 import 'package:mobile_app/ui_home/settings/ui_theme_mode_tile.dart';
 
 class SettingsBottomPopup extends StatelessWidget {
-  const SettingsBottomPopup({
-    required this.onClose,
-    super.key,
-  });
+  const SettingsBottomPopup({required this.onClose, super.key});
   final VoidCallback onClose;
   @override
   Widget build(final BuildContext context) => UiPopupDecoration(
-        child: Column(
+    child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             UiPopupListTile(
-              onTap: () async => AppPathsController.of(context).toTerms(),
+              onTap: () => AppPathsController.of(context).toTerms(),
               title: LocalizedMap(
                 value: {
                   languages.en: 'Terms of use',
@@ -28,7 +25,7 @@ class SettingsBottomPopup extends StatelessWidget {
             ),
             const UiDivider.size1(),
             UiPopupListTile(
-              onTap: () async => AppPathsController.of(context).toPrivacy(),
+              onTap: () => AppPathsController.of(context).toPrivacy(),
               title: LocalizedMap(
                 value: {
                   languages.en: 'Privacy policy',
@@ -42,7 +39,7 @@ class SettingsBottomPopup extends StatelessWidget {
               const UiDivider.size1(),
               UiPopupListTile(
                 iconData: Icons.money,
-                onTap: () async {
+                onTap: () {
                   unawaited(UiPredictionScreen.show(context));
                   onClose();
                 },
@@ -58,31 +55,32 @@ class SettingsBottomPopup extends StatelessWidget {
             const UiDivider.size5(),
             if (context.watch<StoreReviewRequester>().isAvailable) ...[
               UiLoader(
-                builder: (final context, final isLoading, final setLoading) =>
-                    UiPopupListTile(
-                  isLoading: isLoading,
-                  onTap: () async {
-                    setLoading(true);
-                    await context
-                        .read<StoreReviewRequester>()
-                        .requestReview(context: context);
-                    setLoading(false);
-                  },
-                  title: LocalizedMap(
-                    value: {
-                      languages.en: 'Leave Review',
-                      languages.it: 'Lascia un feedback',
-                      languages.ru: 'Оставить отзыв',
-                    },
-                  ).getValue(useLocale(context)),
-                  iconData: Icons.rate_review_outlined,
-                ),
+                builder:
+                    (final context, final isLoading, final setLoading) =>
+                        UiPopupListTile(
+                          isLoading: isLoading,
+                          onTap: () async {
+                            setLoading(true);
+                            await context
+                                .read<StoreReviewRequester>()
+                                .requestReview(context: context);
+                            setLoading(false);
+                          },
+                          title: LocalizedMap(
+                            value: {
+                              languages.en: 'Leave Review',
+                              languages.it: 'Lascia un feedback',
+                              languages.ru: 'Оставить отзыв',
+                            },
+                          ).getValue(useLocale(context)),
+                          iconData: Icons.rate_review_outlined,
+                        ),
               ),
               const UiDivider.size1(),
             ],
             if (Envs.isWiredashAvailable) ...[
               UiPopupListTile(
-                onTap: () async => UserFeedback.show(context),
+                onTap: () => UserFeedback.show(context),
                 title: LocalizedMap(
                   value: {
                     languages.en: 'Support & Suggest',
@@ -98,11 +96,12 @@ class SettingsBottomPopup extends StatelessWidget {
               const UiThemeModeTile(),
               const UiDivider.size1(),
             ],
-            if (useIsSubscriptionMonetization(context)
-                .isSubscriptionMonetization) ...[
+            if (useIsSubscriptionMonetization(
+              context,
+            ).isSubscriptionMonetization) ...[
               UiPopupListTile(
-                onTap: () async =>
-                    AppPathsController.of(context).toManageSubscription(),
+                onTap:
+                    () => AppPathsController.of(context).toManageSubscription(),
                 title: LocalizedMap(
                   value: {
                     languages.en: 'Manage subscription',
@@ -115,7 +114,7 @@ class SettingsBottomPopup extends StatelessWidget {
               const UiDivider.size1(),
             ],
             UiPopupListTile(
-              onTap: () async => AppPathsController.of(context).toExplanation(),
+              onTap: () => AppPathsController.of(context).toExplanation(),
               title: LocalizedMap(
                 value: {
                   languages.en: 'How to use?',
@@ -136,18 +135,18 @@ class SettingsBottomPopup extends StatelessWidget {
             ),
           ],
         )
-            .animate()
-            .slideY(
-              begin: 0.1,
-              duration: 200.milliseconds,
-              curve: Curves.easeOutExpo,
-            )
-            .scale(
-              begin: const Offset(0.95, 0.95),
-              duration: 200.milliseconds,
-              curve: Curves.easeOutExpo,
-            ),
-      );
+        .animate()
+        .slideY(
+          begin: 0.1,
+          duration: 200.milliseconds,
+          curve: Curves.easeOutExpo,
+        )
+        .scale(
+          begin: const Offset(0.95, 0.95),
+          duration: 200.milliseconds,
+          curve: Curves.easeOutExpo,
+        ),
+  );
 }
 
 class PopupHandle extends StatelessWidget {
@@ -155,12 +154,12 @@ class PopupHandle extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
-        width: 36,
-        height: 4,
-        decoration: BoxDecoration(
-          color: context.colorScheme.onSurface.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(2),
-        ),
-      );
+    margin: const EdgeInsets.symmetric(vertical: 8),
+    width: 36,
+    height: 4,
+    decoration: BoxDecoration(
+      color: context.colorScheme.onSurface.withOpacity(0.2),
+      borderRadius: BorderRadius.circular(2),
+    ),
+  );
 }

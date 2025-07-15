@@ -61,7 +61,7 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
     );
     final textHeight = imageHeight * 0.5;
     final monetizationStatusNotifier =
-        context.watch<MonetizationStatusNotifier>();
+        context.watch<MonetizationStatusResource>();
 
     final subscriptionManager = context.watch<SubscriptionManager>();
     final isPreLoading =

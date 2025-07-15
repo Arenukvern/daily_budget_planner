@@ -110,14 +110,14 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
     ),
     dispose: d,
   );
-  rl(() => MonetizationStatusNotifier(Envs.monetizationType), dispose: d);
+  rl(() => MonetizationStatusResource(Envs.monetizationType), dispose: d);
   rl(DictionariesNotifier.new, dispose: d);
   rl(FinSettingsNotifier.new, dispose: d);
   rl(
     () => SubscriptionManager(
       productIds: MonetizationProducts.subscriptions,
       purchaseManager: _g(),
-      monetizationTypeNotifier: _g(),
+      monetizationTypeResource: _g(),
     ),
     dispose: d,
   );
@@ -130,7 +130,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   );
   rl(
     () => PurchaseInitializer(
-      monetizationTypeNotifier: _g(),
+      monetizationTypeResource: _g(),
       purchaseManager: _g(),
       subscriptionManager: _g(),
     ),

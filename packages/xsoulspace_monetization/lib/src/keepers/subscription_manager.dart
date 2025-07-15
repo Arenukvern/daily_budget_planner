@@ -1,14 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:xsoulspace_foundation/xsoulspace_foundation.dart';
 
 import '../purchases/purchase_manager.dart';
 import 'monetization_utils.dart';
-
-part 'subscription_manager.freezed.dart';
-part 'subscription_manager.g.dart';
 
 /// Represents the state of user access to premium features.
 enum SubscriptionManagerStatus { free, subscribed, pending }
@@ -16,8 +12,8 @@ enum SubscriptionManagerStatus { free, subscribed, pending }
 enum MonetizationStatus { loading, notAvailable, storeNotAuthorized, loaded }
 
 @stateDistributor
-class MonetizationStatusNotifier extends ChangeNotifier {
-  MonetizationStatusNotifier(this._type);
+class MonetizationStatusResource extends ChangeNotifier {
+  MonetizationStatusResource(this._type);
   MonetizationType _type;
   MonetizationType get type => _type;
   void setType(final MonetizationType value) {
@@ -40,12 +36,12 @@ class MonetizationStatusNotifier extends ChangeNotifier {
 class SubscriptionManager extends ChangeNotifier {
   SubscriptionManager({
     required this.purchaseManager,
-    required this.monetizationTypeNotifier,
+    required this.monetizationTypeResource,
     required this.productIds,
   });
   final List<PurchaseProductId> productIds;
   final PurchaseManager purchaseManager;
-  final MonetizationStatusNotifier monetizationTypeNotifier;
+  final MonetizationStatusResource monetizationTypeResource;
 
   PurchaseDetails? _activeSubscription;
   PurchaseDetails? get activeSubscription => _activeSubscription;
@@ -67,13 +63,13 @@ class SubscriptionManager extends ChangeNotifier {
 
   /// The current state of user access.
   SubscriptionManagerStatus get state =>
-      monetizationTypeNotifier.type == MonetizationType.free
+      monetizationTypeResource.type == MonetizationType.free
           ? SubscriptionManagerStatus.subscribed
           : _state;
 
   LoadableContainer<List<PurchaseProductDetails>> subscriptions =
-      LoadableContainer(value: []);
-  bool _isInitialized = false;
+      const LoadableContainer(value: []);
+  var _isInitialized = false;
   bool get isInitialized => _isInitialized;
   Future<void> init() async {
     if (_isInitialized) return;
@@ -91,10 +87,11 @@ class SubscriptionManager extends ChangeNotifier {
     } on PlatformException catch (e, stackTrace) {
       debugPrint('Failed to get subscriptions: $e $stackTrace');
       if (e.code == 'RuStoreUserUnauthorizedException') {
-        monetizationTypeNotifier
-            .setStatus(MonetizationStatus.storeNotAuthorized);
+        monetizationTypeResource.setStatus(
+          MonetizationStatus.storeNotAuthorized,
+        );
       } else {
-        monetizationTypeNotifier.setStatus(MonetizationStatus.notAvailable);
+        monetizationTypeResource.setStatus(MonetizationStatus.notAvailable);
       }
     }
   }
@@ -150,8 +147,9 @@ class SubscriptionManager extends ChangeNotifier {
         case CompletePurchaseSuccess():
           if (details.status
               case (PurchaseStatus.purchased || PurchaseStatus.restored)) {
-            final purchaseInfo =
-                await purchaseManager.getPurchaseInfo(details.purchaseId);
+            final purchaseInfo = await purchaseManager.getPurchaseInfo(
+              details.purchaseId,
+            );
             setActiveSubscription(purchaseInfo);
             _state = SubscriptionManagerStatus.subscribed;
             notifyListeners();
@@ -178,14 +176,4 @@ class SubscriptionManager extends ChangeNotifier {
 
   /// Checks if the user has access to premium features.
   bool hasActiveSubscription() => state == SubscriptionManagerStatus.subscribed;
-}
-
-/// Represents the result of an ad interaction.
-@freezed
-class AdResult with _$AdResult {
-  const factory AdResult.rewarded() = AdRewarded;
-  const factory AdResult.failed() = AdFailed;
-
-  factory AdResult.fromJson(final Map<String, dynamic> json) =>
-      _$AdResultFromJson(json);
 }
