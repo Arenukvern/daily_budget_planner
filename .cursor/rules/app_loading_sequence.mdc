@@ -1,0 +1,36 @@
+# App Loading Sequence Pattern
+
+## Core Pattern
+
+1. **Critical Data First**: Load databases, user profile, settings - await before UI navigation
+2. **Defer Non-Critical**: Use `addPostFrameCallback` for analytics, reviews, background sync
+3. **Show Loading UI**: Display loading screen until critical data ready
+4. **Navigate After Load**: Only transition to main UI after critical data loaded
+
+## Implementation
+
+```dart
+class AppStateInitializer implements StateInitializer, Disposable {
+  Future<void> onLoad(BuildContext context) async {
+    // Critical data - await
+    await Future.wait([localDb.init(), userNotifier.loadProfile()]);
+
+    // Non-critical - defer
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      appStatusNotifier.value = AppStatus.online;
+      AppPathsController.of(context).toHome();
+      await purchaseIntializer.init();
+    });
+  }
+  void dispose() {}
+}
+```
+
+## Usage
+
+- Call from loading screen widget's `initState` with `unawaited(initializer.onLoad(context))`
+- Show `LoadingScreen` in build method until navigation occurs
+- Use `Future.wait` for parallel async operations by importance group
+
+- Always show a loading indicator for critical data.
+- Use context-aware navigation after loading.
