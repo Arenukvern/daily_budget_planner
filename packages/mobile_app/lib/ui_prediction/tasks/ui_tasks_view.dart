@@ -3,6 +3,7 @@
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 const _kItemExtent = 48.0;
 
@@ -41,33 +42,31 @@ class _UiTasksBarViewState extends State<UiTasksBarView> {
           Padding(
             padding: const EdgeInsets.only(left: 6),
             child: UiTipCard(
-              text: LocalizedMap(
-                value: switch (widget.taskTransactionType) {
-                  TaskTransactionType.income => {
-                    languages.en:
-                        'Use categories to plan your regular incomes, '
-                        'for example, salary, cashback etc. ',
-                    languages.ru:
-                        'Используйте категории для планирования регулярных доходов, '
-                        ' например, зарплата, кэшбэк и т.д. ',
-                    languages.it:
-                        'Usa le categorie per pianificare le tue entrate periodiche, '
-                        'come il salario, il caffè, ecc. ',
-                  },
-                  TaskTransactionType.expense => {
-                    languages.en:
-                        'Use categories to plan your regular expenses which '
-                        'are usually huge, for example, rent, train, insurance, etc. ',
-                    languages.ru:
-                        'Используйте категории для планирования регулярных расходов, '
-                        'которые обычно значительны, например, аренда, поездки на работу, '
-                        'страхование и т.д. ',
-                    languages.it:
-                        'Usa le categorie per pianificare le tue spese periodiche, '
-                        "che di solito sono grandi, come l'affitto, il treno, l'assicurazione, ecc. ",
-                  },
+              text: LocalizedMap(switch (widget.taskTransactionType) {
+                TaskTransactionType.income => {
+                  languages.en:
+                      'Use categories to plan your regular incomes, '
+                      'for example, salary, cashback etc. ',
+                  languages.ru:
+                      'Используйте категории для планирования регулярных доходов, '
+                      ' например, зарплата, кэшбэк и т.д. ',
+                  languages.it:
+                      'Usa le categorie per pianificare le tue entrate periodiche, '
+                      'come il salario, il caffè, ecc. ',
                 },
-              ),
+                TaskTransactionType.expense => {
+                  languages.en:
+                      'Use categories to plan your regular expenses which '
+                      'are usually huge, for example, rent, train, insurance, etc. ',
+                  languages.ru:
+                      'Используйте категории для планирования регулярных расходов, '
+                      'которые обычно значительны, например, аренда, поездки на работу, '
+                      'страхование и т.д. ',
+                  languages.it:
+                      'Usa le categorie per pianificare le tue spese periodiche, '
+                      "che di solito sono grandi, come l'affitto, il treno, l'assicurazione, ecc. ",
+                },
+              }),
             ),
           ),
           SizedBox(
@@ -83,12 +82,11 @@ class _UiTasksBarViewState extends State<UiTasksBarView> {
                 ...tasks.mapIndexed(
                   (final index, final task) => UiBaseButton(
                     pressedScale: 1,
-                    onPressed:
-                        () async => _scrollController.animateToItem(
-                          index,
-                          duration: 200.milliseconds,
-                          curve: Curves.easeInOut,
-                        ),
+                    onPressed: () async => _scrollController.animateToItem(
+                      index,
+                      duration: 200.milliseconds,
+                      curve: Curves.easeInOut,
+                    ),
                     builder:
                         (final context, final focused, final onlyFocused) =>
                             Center(
@@ -284,14 +282,12 @@ class _UiTransactionCard extends StatelessWidget {
       ),
       trailing: UiBaseButton(
         onPressed: () => onRemove(transaction),
-        builder:
-            (final context, final focused, final onlyFocused) => Icon(
-              Icons.remove,
-              color:
-                  focused
-                      ? null
-                      : context.colorScheme.onSurface.withOpacity(0.5),
-            ),
+        builder: (final context, final focused, final onlyFocused) => Icon(
+          Icons.remove,
+          color: focused
+              ? null
+              : context.colorScheme.onSurface.withOpacity(0.5),
+        ),
       ),
     );
   }

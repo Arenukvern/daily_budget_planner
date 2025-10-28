@@ -21,20 +21,16 @@ class TransactionAmountField extends StatelessWidget with HasNotifiers {
       child: Builder(
         builder: (final context) {
           final label = switch (currencyType) {
-            CurrencyType.fiat => LocalizedMap(
-                value: {
-                  languages.en: 'Amount',
-                  languages.it: 'Importo',
-                  languages.ru: 'Сумма',
-                },
-              ),
-            CurrencyType.crypto => LocalizedMap(
-                value: {
-                  languages.en: 'Quantity',
-                  languages.it: 'Quantità',
-                  languages.ru: 'Количество',
-                },
-              ),
+            CurrencyType.fiat => LocalizedMap({
+              languages.en: 'Amount',
+              languages.it: 'Importo',
+              languages.ru: 'Сумма',
+            }),
+            CurrencyType.crypto => LocalizedMap({
+              languages.en: 'Quantity',
+              languages.it: 'Quantità',
+              languages.ru: 'Количество',
+            }),
           };
           var currencySuffix = '';
           if (!Envs.isCurrencySwitchingEnabled) {
@@ -52,14 +48,12 @@ class TransactionAmountField extends StatelessWidget with HasNotifiers {
               FormBuilderValidators.numeric(),
               FormBuilderValidators.min(0),
             ]),
-            inputFormatters: [
-              NumberFieldUtils.doubleInputFormatter,
-            ],
+            inputFormatters: [NumberFieldUtils.doubleInputFormatter],
             autofocus: true,
             style: Theme.of(context).textTheme.titleLarge,
             controller: controller,
             textInputAction: TextInputAction.next,
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
           );
         },
       ),

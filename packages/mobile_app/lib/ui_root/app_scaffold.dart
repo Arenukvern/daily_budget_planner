@@ -27,15 +27,11 @@ class _DBPAppState extends State<DBPApp> {
   }
 
   void _initializeLocalization() => LocalizationConfig.initialize(
-        LocalizationConfig(
-          supportedLanguages: [
-            languages.en,
-            languages.ru,
-            languages.it,
-          ],
-          fallbackLanguage: languages.en,
-        ),
-      );
+    LocalizationConfig(
+      supportedLanguages: [languages.en, languages.ru, languages.it],
+      fallbackLanguage: languages.en,
+    ),
+  );
   @override
   void dispose() {
     Di.dispose();
@@ -44,20 +40,20 @@ class _DBPAppState extends State<DBPApp> {
 
   @override
   Widget build(final BuildContext context) => ColoredBox(
-        color: AppThemeData.brandDark.colorScheme.surface,
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: Stack(
-            children: [
-              if (!_isDiLoaded) const LoadingScreen(),
-              if (_isDiLoaded)
-                GlobalStateProviders(
-                  builder: (final context) => const AppScaffoldBuilder(),
-                ),
-            ],
-          ),
-        ),
-      );
+    color: AppThemeData.brandDark.colorScheme.surface,
+    child: Directionality(
+      textDirection: TextDirection.ltr,
+      child: Stack(
+        children: [
+          if (!_isDiLoaded) const LoadingScreen(),
+          if (_isDiLoaded)
+            GlobalStateProviders(
+              builder: (final context) => const AppScaffoldBuilder(),
+            ),
+        ],
+      ),
+    ),
+  );
 }
 
 class AppScaffoldBuilder extends StatelessWidget {
@@ -115,43 +111,35 @@ class AppScaffoldBuilder extends StatelessWidget {
         labels: [
           Label(
             id: 'label-jcgd4lyfk9',
-            title: LocalizedMap(
-              value: {
-                languages.en: 'Bug report',
-                languages.ru: 'Сообщить об ошибке',
-                languages.it: 'Segnala un bug',
-              },
-            ).getValue(locale),
+            title: LocalizedMap({
+              languages.en: 'Bug report',
+              languages.ru: 'Сообщить об ошибке',
+              languages.it: 'Segnala un bug',
+            }).getValue(locale),
           ),
           Label(
             id: 'label-dqi42ue2re',
-            title: LocalizedMap(
-              value: {
-                languages.en: 'Feature request',
-                languages.ru: 'Предложить функцию',
-                languages.it: 'Proponi una funzione',
-              },
-            ).getValue(locale),
+            title: LocalizedMap({
+              languages.en: 'Feature request',
+              languages.ru: 'Предложить функцию',
+              languages.it: 'Proponi una funzione',
+            }).getValue(locale),
           ),
           Label(
             id: 'label-n63w8nqhcn',
-            title: LocalizedMap(
-              value: {
-                languages.en: 'Payment issue',
-                languages.ru: 'Проблема с оплатой',
-                languages.it: 'Problema con il pagamento',
-              },
-            ).getValue(locale),
+            title: LocalizedMap({
+              languages.en: 'Payment issue',
+              languages.ru: 'Проблема с оплатой',
+              languages.it: 'Problema con il pagamento',
+            }).getValue(locale),
           ),
           Label(
             id: 'label-8tnmqrfat4',
-            title: LocalizedMap(
-              value: {
-                languages.en: 'Other',
-                languages.ru: 'Другое',
-                languages.it: 'Altro',
-              },
-            ).getValue(locale),
+            title: LocalizedMap({
+              languages.en: 'Other',
+              languages.ru: 'Другое',
+              languages.it: 'Altro',
+            }).getValue(locale),
           ),
         ],
       );

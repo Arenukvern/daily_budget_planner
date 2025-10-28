@@ -380,8 +380,8 @@ class __$BudgetModelIdCopyWithImpl<$Res>
 mixin _$MonthlyBudgetModel implements DiagnosticableTreeMixin {
   BudgetModelId get id;
   @JsonKey(
-      fromJson: dateTimeFromMilisecondsSinceEpoch,
-      toJson: dateTimeToMilisecondsSinceEpoch)
+      fromJson: dateTimeFromMillisecondsSinceEpoch,
+      toJson: dateTimeToMillisecondsSinceEpoch)
   DateTime? get nextBudgetDay;
   double get amount;
   double get savings;
@@ -439,8 +439,8 @@ abstract mixin class $MonthlyBudgetModelCopyWith<$Res> {
   $Res call(
       {BudgetModelId id,
       @JsonKey(
-          fromJson: dateTimeFromMilisecondsSinceEpoch,
-          toJson: dateTimeToMilisecondsSinceEpoch)
+          fromJson: dateTimeFromMillisecondsSinceEpoch,
+          toJson: dateTimeToMillisecondsSinceEpoch)
       DateTime? nextBudgetDay,
       double amount,
       double savings});
@@ -505,8 +505,8 @@ class _MonthlyBudgetModel
   const _MonthlyBudgetModel(
       {required this.id,
       @JsonKey(
-          fromJson: dateTimeFromMilisecondsSinceEpoch,
-          toJson: dateTimeToMilisecondsSinceEpoch)
+            fromJson: dateTimeFromMillisecondsSinceEpoch,
+          toJson: dateTimeToMillisecondsSinceEpoch)
       this.nextBudgetDay,
       this.amount = 0,
       this.savings = 0});
@@ -517,8 +517,8 @@ class _MonthlyBudgetModel
   final BudgetModelId id;
   @override
   @JsonKey(
-      fromJson: dateTimeFromMilisecondsSinceEpoch,
-      toJson: dateTimeToMilisecondsSinceEpoch)
+      fromJson: dateTimeFromMillisecondsSinceEpoch,
+      toJson: dateTimeToMillisecondsSinceEpoch)
   final DateTime? nextBudgetDay;
   @override
   @JsonKey()
@@ -586,8 +586,8 @@ abstract mixin class _$MonthlyBudgetModelCopyWith<$Res>
   $Res call(
       {BudgetModelId id,
       @JsonKey(
-          fromJson: dateTimeFromMilisecondsSinceEpoch,
-          toJson: dateTimeToMilisecondsSinceEpoch)
+          fromJson: dateTimeFromMillisecondsSinceEpoch,
+          toJson: dateTimeToMillisecondsSinceEpoch)
       DateTime? nextBudgetDay,
       double amount,
       double savings});
@@ -1477,7 +1477,7 @@ class _$FinTaskModelCopyWithImpl<$Res> implements $FinTaskModelCopyWith<$Res> {
           : period // ignore: cast_nullable_to_non_nullable
               as Period,
       startDate: freezed == startDate
-          ? _self.startDate!
+          ? _self.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       regularIncomeTaskId: null == regularIncomeTaskId

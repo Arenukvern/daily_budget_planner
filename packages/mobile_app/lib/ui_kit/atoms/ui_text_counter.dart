@@ -38,12 +38,13 @@ class _UiTextCounterState extends State<UiTextCounter>
   }
 
   void _setupAnimation() {
-    _animation = IntTween(begin: _oldValue, end: widget.value).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = IntTween(
+      begin: _oldValue,
+      end: widget.value,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     if (widget.delay == Duration.zero) {
-      _controller.forward();
+      unawaited(_controller.forward());
     } else {
       Future.delayed(widget.delay, _controller.forward);
     }

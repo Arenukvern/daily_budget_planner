@@ -1,6 +1,7 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/data_local_api/db_apis/transaction_sembast.dart';
 import 'package:sembast/sembast.dart' hide Transaction;
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 /// Repository implementation for transactions using Sembast
 final class TransactionsLocalApiSembast extends ComplexLocalApi
@@ -144,13 +145,11 @@ final class TransactionsLocalApiSembast extends ComplexLocalApi
       final records = await _db.transactions.find(_db.db, finder: finder);
 
       return PagingControllerPageModel(
-        values:
-            records
-                .map(
-                  (final r) =>
-                      TransactionSembastCollection.fromMap(r.value).item,
-                )
-                .toList(),
+        values: records
+            .map(
+              (final r) => TransactionSembastCollection.fromMap(r.value).item,
+            )
+            .toList(),
         currentPage: pageLimit.page,
         pagesCount: pagesCount,
       );

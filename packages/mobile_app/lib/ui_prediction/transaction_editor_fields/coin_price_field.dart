@@ -9,13 +9,11 @@ class CoinPriceField extends StatelessWidget {
     final locale = useLocale(context);
     return Builder(
       builder: (final context) {
-        final label = LocalizedMap(
-          value: {
-            languages.en: 'Coin price',
-            languages.it: 'Prezzo della moneta',
-            languages.ru: 'Цена монеты',
-          },
-        ).getValue(locale);
+        final label = LocalizedMap({
+          languages.en: 'Coin price',
+          languages.it: 'Prezzo della moneta',
+          languages.ru: 'Цена монеты',
+        }).getValue(locale);
         return UiTextField(
           decoration: InputDecoration(
             hintText: '0.00',

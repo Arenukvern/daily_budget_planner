@@ -2,6 +2,7 @@ import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_home/hooks/use_tab_controller_listener.dart';
 import 'package:mobile_app/ui_home/weekly/weekly_notifier.dart';
 import 'package:mobile_app/ui_home/widgets/copy_button.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 class WeeklyView extends StatefulHookWidget {
   const WeeklyView({super.key});
@@ -27,16 +28,12 @@ class _WeeklyViewState extends State<WeeklyView>
   Widget build(final BuildContext context) {
     super.build(context);
     final weeklyCubit = context.watch<WeeklyNotifier>();
-    useTabControllerListenerState(
-      onTabChanged: _requestAmountFocusByIndex,
-    );
+    useTabControllerListenerState(onTabChanged: _requestAmountFocusByIndex);
     return ListView(
       shrinkWrap: true,
       padding: EdgeInsets.zero,
       children: [
-        Gap(
-          DeviceRuntimeType.isMobile ? 12 : 24,
-        ),
+        Gap(DeviceRuntimeType.isMobile ? 12 : 24),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -73,10 +70,7 @@ class _WeeklyViewState extends State<WeeklyView>
               ),
             ),
             const Gap(2),
-            const SizedBox(
-              height: 100,
-              child: VerticalDivider(thickness: 2),
-            ),
+            const SizedBox(height: 100, child: VerticalDivider(thickness: 2)),
             const Gap(6),
             Flexible(
               flex: 3,

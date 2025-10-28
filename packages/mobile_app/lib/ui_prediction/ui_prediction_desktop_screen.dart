@@ -1,6 +1,7 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/tasks/ui_tasks_actions_bar.dart';
 import 'package:recase/recase.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 class UiPredictionScreenV2 extends StatelessWidget {
   const UiPredictionScreenV2({super.key});
@@ -140,9 +141,8 @@ class PeriodSelector extends StatelessWidget {
               )
               .toList(),
       selected: period,
-      onSelectionChanged:
-          (final d) =>
-              const UpdatePredictionConfigCommand().onSelectedPeriodChanged(d),
+      onSelectionChanged: (final d) =>
+          const UpdatePredictionConfigCommand().onSelectedPeriodChanged(d),
     );
   }
 }
@@ -165,7 +165,6 @@ class _MainContentCard extends StatelessWidget {
           children: [
             // BudgetWillLast(),
             TodaysBudget(),
-            
           ],
         ),
       ],
@@ -177,9 +176,7 @@ class AddBudgetButton extends StatelessWidget {
   const AddBudgetButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+  Widget build(final BuildContext context) => const Placeholder();
 }
 
 class _ContentCard extends StatelessWidget {

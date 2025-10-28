@@ -1,4 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 Future<void> showLanguageBottomSheet(final BuildContext context) async =>
     showModalBottomSheet(
@@ -50,10 +51,11 @@ class LanguageBottomSheet extends HookWidget {
               ),
               dense: true,
               key: ValueKey(e),
-              onTap: () async => appSettings.updateLocale(e.locale),
+              onTap: () => appSettings.updateLocale(e.locale),
               tileColor: context.colorScheme.surface,
               title: Text(e.name),
-              trailing: appSettings.locale.value == e.locale ||
+              trailing:
+                  appSettings.locale.value == e.locale ||
                       context.s.localeName == e.locale.languageCode
                   ? const Icon(Icons.done).animate().fadeIn()
                   : null,

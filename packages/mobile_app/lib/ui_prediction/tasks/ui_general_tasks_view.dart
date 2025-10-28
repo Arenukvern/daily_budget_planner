@@ -5,12 +5,11 @@ Future<void> showExpensesTasksView({
   required final BuildContext context,
 }) async => Navigator.of(context).push(
   CupertinoModalSheetRoute(
-    builder:
-        (final _) => const UiBottomSheetWrapper(
-          child: UiGeneralTasksView(
-            taskTransactionType: TaskTransactionType.expense,
-          ),
-        ),
+    builder: (final _) => const UiBottomSheetWrapper(
+      child: UiGeneralTasksView(
+        taskTransactionType: TaskTransactionType.expense,
+      ),
+    ),
   ),
 );
 
@@ -18,12 +17,11 @@ Future<void> showIncomesTasksView({
   required final BuildContext context,
 }) async => Navigator.of(context).push(
   CupertinoModalSheetRoute(
-    builder:
-        (final _) => const UiBottomSheetWrapper(
-          child: UiGeneralTasksView(
-            taskTransactionType: TaskTransactionType.income,
-          ),
-        ),
+    builder: (final _) => const UiBottomSheetWrapper(
+      child: UiGeneralTasksView(
+        taskTransactionType: TaskTransactionType.income,
+      ),
+    ),
   ),
 );
 
@@ -80,20 +78,21 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     final tasks = switch (_taskTransactionType) {
-      TaskTransactionType.income => context
-          .select<IncomeTasksResource, List<Task>>(
-            (final c) => c.orderedValues,
-          ),
-      TaskTransactionType.expense => context
-          .select<ExpenseTasksResource, List<Task>>(
-            (final c) => c.orderedValues,
-          ),
+      TaskTransactionType.income =>
+        context.select<IncomeTasksResource, List<Task>>(
+          (final c) => c.orderedValues,
+        ),
+      TaskTransactionType.expense =>
+        context.select<ExpenseTasksResource, List<Task>>(
+          (final c) => c.orderedValues,
+        ),
     };
     final task = tasks[_taskIndex];
-    final (:startDate, :period) = context.select<
-      PredictionConfigResource,
-      ({DateTime startDate, Period period})
-    >((final c) => (startDate: c.startDate, period: c.period));
+    final (:startDate, :period) = context
+        .select<
+          PredictionConfigResource,
+          ({DateTime startDate, Period period})
+        >((final c) => (startDate: c.startDate, period: c.period));
 
     return UiColumnScaffold(
       appBar: UiAppBar(
@@ -102,7 +101,7 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
             TaskTransactionType.expense: Text(
               LocalizedMap(
                 // TODO(arenukvern): add localization l10n
-                value: {
+                {
                   languages.en: 'Regular expenses',
                   languages.it: 'Spese regolari',
                   languages.ru: 'Регулярные расходы',
@@ -112,7 +111,7 @@ class _UiGeneralTasksViewState extends State<UiGeneralTasksView>
             TaskTransactionType.income: Text(
               LocalizedMap(
                 // TODO(arenukvern): add localization l10n
-                value: {
+                {
                   languages.en: 'Regular incomes',
                   languages.it: 'Entrate regolari',
                   languages.ru: 'Регулярные доходы',

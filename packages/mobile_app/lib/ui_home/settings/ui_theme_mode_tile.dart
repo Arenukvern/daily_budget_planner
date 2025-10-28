@@ -13,13 +13,11 @@ class UiThemeModeTile extends StatelessWidget {
 
     return ListTile(
       title: Text(
-        LocalizedMap(
-          value: {
-            languages.en: 'Theme',
-            languages.it: 'Tema',
-            languages.ru: 'Тема',
-          },
-        ).getValue(locale),
+        LocalizedMap({
+          languages.en: 'Theme',
+          languages.it: 'Tema',
+          languages.ru: 'Тема',
+        }).getValue(locale),
       ),
       subtitle: Text(_getThemeModeText(themeMode, locale)),
       trailing: Row(
@@ -53,14 +51,13 @@ class UiThemeModeTile extends StatelessWidget {
   Future<void> _updateThemeMode(
     final BuildContext context,
     final ThemeMode mode,
-  ) async =>
-      context.read<AppSettingsNotifier>().updateBrightness(
-            mode == ThemeMode.light
-                ? UiBrightness.light
-                : mode == ThemeMode.dark
-                    ? UiBrightness.dark
-                    : UiBrightness.system,
-          );
+  ) async => context.read<AppSettingsNotifier>().updateBrightness(
+    mode == ThemeMode.light
+        ? UiBrightness.light
+        : mode == ThemeMode.dark
+        ? UiBrightness.dark
+        : UiBrightness.system,
+  );
 
   static String _getThemeModeText(final ThemeMode mode, final Locale locale) {
     final system = {
@@ -79,13 +76,11 @@ class UiThemeModeTile extends StatelessWidget {
       languages.ru: 'Светлая',
     };
 
-    return LocalizedMap(
-      value: switch (mode) {
-        ThemeMode.system => system,
-        ThemeMode.dark => dark,
-        ThemeMode.light => light,
-      },
-    ).getValue(locale);
+    return LocalizedMap(switch (mode) {
+      ThemeMode.system => system,
+      ThemeMode.dark => dark,
+      ThemeMode.light => light,
+    }).getValue(locale);
   }
 }
 
@@ -111,21 +106,22 @@ class _ThemeModeIcon extends StatelessWidget {
       onPressed: () => onTap(context, themeMode),
       builder: (final context, final isLoading, final setLoading) =>
           AnimatedContainer(
-        duration: 300.milliseconds,
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color:
-              isSelected ? Theme.of(context).primaryColor : Colors.transparent,
-        ),
-        child: Icon(
-          icon,
-          size: 24,
-          color: isSelected
-              ? Theme.of(context).colorScheme.onPrimary
-              : Theme.of(context).colorScheme.onSurface,
-        ),
-      ),
+            duration: 300.milliseconds,
+            padding: const EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isSelected
+                  ? Theme.of(context).primaryColor
+                  : Colors.transparent,
+            ),
+            child: Icon(
+              icon,
+              size: 24,
+              color: isSelected
+                  ? Theme.of(context).colorScheme.onPrimary
+                  : Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
     );
   }
 }

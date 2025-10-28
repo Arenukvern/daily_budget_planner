@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:skeletonizer/skeletonizer.dart'; // Make sure to add this package to your pubspec.yaml
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart'; // Make sure to add this package to your pubspec.yaml
 
 class UiVerticalPredictionTimeline extends StatefulHookWidget {
   const UiVerticalPredictionTimeline({
@@ -91,7 +92,7 @@ class _UiVerticalPredictionTimelineState
               padding: EdgeInsets.zero,
               title: Text(
                 '${_getFormattedDate(_notifier.currentDate, locale)} '
-                '${isToday ? LocalizedMap(value: {languages.en: '(today)', languages.it: '(oggi)', languages.ru: '(сегодня)'}).getValue(locale) : ''}',
+                '${isToday ? LocalizedMap({languages.en: '(today)', languages.it: '(oggi)', languages.ru: '(сегодня)'}).getValue(locale) : ''}',
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(
@@ -133,11 +134,10 @@ class _UiVerticalPredictionTimelineState
                           size: 38,
                           color: context.colorScheme.onSurface.withOpacity(0.6),
                         ),
-                        onPressed:
-                            () async => _pageController.previousPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            ),
+                        onPressed: () => _pageController.previousPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        ),
                       ),
                     ),
                   ),
@@ -160,11 +160,10 @@ class _UiVerticalPredictionTimelineState
                           size: 38,
                           color: context.colorScheme.onSurface.withOpacity(0.6),
                         ),
-                        onPressed:
-                            () async => _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeInOut,
-                            ),
+                        onPressed: () async => _pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeInOut,
+                        ),
                       ),
                     ),
                   ),
@@ -193,13 +192,12 @@ class _UiVerticalPredictionTimelineState
       _availableDates[_notifier.selectedIndex -
           (_visibleItemCount / 2).round()];
 
-  Widget _buildPageView() =>
-      _params.enableMouseWheelScroll
-          ? Listener(
-            onPointerSignal: _handleMouseScroll,
-            child: _buildPageViewContent(),
-          )
-          : _buildPageViewContent();
+  Widget _buildPageView() => _params.enableMouseWheelScroll
+      ? Listener(
+          onPointerSignal: _handleMouseScroll,
+          child: _buildPageViewContent(),
+        )
+      : _buildPageViewContent();
 
   Widget _buildPageViewContent() => PageView.builder(
     scrollDirection: Axis.vertical,
@@ -209,13 +207,12 @@ class _UiVerticalPredictionTimelineState
     itemBuilder: (final context, final index) => _buildDateItem(index),
   );
 
-  Widget _buildDateItem(final int index) =>
-      _params.enableMouseControls
-          ? MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: _buildDateButton(index),
-          )
-          : _buildDateButton(index);
+  Widget _buildDateItem(final int index) => _params.enableMouseControls
+      ? MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: _buildDateButton(index),
+        )
+      : _buildDateButton(index);
 
   Widget _buildDateButton(final int index) {
     final locale = useLocale(context);
@@ -226,19 +223,17 @@ class _UiVerticalPredictionTimelineState
       alignment: Alignment.center,
       children: [
         UiBaseButton(
-          onPressed:
-              () async => _pageController.animateToPage(
-                index,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
+          onPressed: () async => _pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          ),
+          builder: (final context, final focused, final onlyFocused) =>
+              UiPredictionDay(
+                day: _getDisplayText(_availableDates[index]),
+                isSelected: isSelected,
+                isCurrentDate: isToday,
               ),
-          builder:
-              (final context, final focused, final onlyFocused) =>
-                  UiPredictionDay(
-                    day: _getDisplayText(_availableDates[index]),
-                    isSelected: isSelected,
-                    isCurrentDate: isToday,
-                  ),
         ),
         if (date.day == 1)
           Align(
@@ -260,12 +255,11 @@ class _UiVerticalPredictionTimelineState
             scrollDirection: Axis.horizontal,
             itemExtent: _itemExtent,
             itemCount: 7,
-            itemBuilder:
-                (final context, final index) => const UiPredictionDay(
-                  day: 'X',
-                  isSelected: false,
-                  isCurrentDate: false,
-                ),
+            itemBuilder: (final context, final index) => const UiPredictionDay(
+              day: 'X',
+              isSelected: false,
+              isCurrentDate: false,
+            ),
           ),
         ),
         const SizedBox(height: 8),

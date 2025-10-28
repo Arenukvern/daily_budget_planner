@@ -1,15 +1,16 @@
 import 'package:intl/intl.dart';
+import 'package:is_dart_empty_or_not/is_dart_empty_or_not.dart';
 import 'package:life_hooks/life_hooks.dart';
 import 'package:mobile_app/common_imports.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
-typedef UseUpsertBudgetRecord =
-    ({
-      Future<bool> Function() onSave,
+typedef UseUpsertBudgetRecord = ({
+  Future<bool> Function() onSave,
 
-      TextEditingController amountController,
-      ValueNotifier<DateTime> selectedDate,
-      FormHelperState formHelper,
-    });
+  TextEditingController amountController,
+  ValueNotifier<DateTime> selectedDate,
+  FormHelperState formHelper,
+});
 UseUpsertBudgetRecord useUpsertBudget({
   required final BuildContext context,
 
@@ -74,41 +75,36 @@ class UpsertBudgetDialog extends HookWidget {
     );
 
     return AlertDialog(
-      insetPadding:
-          screenWidth < 400 ? const EdgeInsets.symmetric(horizontal: 4) : null,
+      insetPadding: screenWidth < 400
+          ? const EdgeInsets.symmetric(horizontal: 4)
+          : null,
       title: Text(
-        LocalizedMap(
-          value: {
-            languages.en: 'Add New Budget',
-            languages.it: 'Aggiungi Nuovo Budget',
-            languages.ru: 'Добавить Новый Бюджет',
-          },
-        ).getValue(locale),
+        LocalizedMap({
+          languages.en: 'Add New Budget',
+          languages.it: 'Aggiungi Nuovo Budget',
+          languages.ru: 'Добавить Новый Бюджет',
+        }).getValue(locale),
       ),
       content: UpsertBudgetForm(upsertBudget: upsertBudget),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: Text(
-            LocalizedMap(
-              value: {
-                languages.en: 'Cancel',
-                languages.it: 'Annulla',
-                languages.ru: 'Отмена',
-              },
-            ).getValue(locale),
+            LocalizedMap({
+              languages.en: 'Cancel',
+              languages.it: 'Annulla',
+              languages.ru: 'Отмена',
+            }).getValue(locale),
           ),
         ),
         ElevatedButton(
           onPressed: upsertBudget.onSave,
           child: Text(
-            LocalizedMap(
-              value: {
-                languages.en: 'Add',
-                languages.it: 'Aggiungi',
-                languages.ru: 'Добавить',
-              },
-            ).getValue(locale),
+            LocalizedMap({
+              languages.en: 'Add',
+              languages.it: 'Aggiungi',
+              languages.ru: 'Добавить',
+            }).getValue(locale),
           ),
         ),
       ],
@@ -140,25 +136,21 @@ class UpsertBudgetForm extends StatelessWidget {
             controller: upsertBudget.amountController,
             decoration: InputDecoration(
               constraints: const BoxConstraints(maxWidth: 200),
-              labelText: LocalizedMap(
-                value: {
-                  languages.en: 'Amount',
-                  languages.it: 'Importo',
-                  languages.ru: 'Сумма',
-                },
-              ).getValue(locale),
+              labelText: LocalizedMap({
+                languages.en: 'Amount',
+                languages.it: 'Importo',
+                languages.ru: 'Сумма',
+              }).getValue(locale),
             ),
             autofocus: true,
             keyboardType: TextInputType.number,
             validator: (final value) {
               if (value == null || value.isEmpty) {
-                return LocalizedMap(
-                  value: {
-                    languages.en: 'Please enter an amount',
-                    languages.it: 'Inserisci un importo',
-                    languages.ru: 'Пожалуйста, введите сумму',
-                  },
-                ).getValue(locale);
+                return LocalizedMap({
+                  languages.en: 'Please enter an amount',
+                  languages.it: 'Inserisci un importo',
+                  languages.ru: 'Пожалуйста, введите сумму',
+                }).getValue(locale);
               }
               return null;
             },
@@ -168,13 +160,11 @@ class UpsertBudgetForm extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
-                LocalizedMap(
-                  value: {
-                    languages.en: 'Date: ',
-                    languages.it: 'Data: ',
-                    languages.ru: 'Дата: ',
-                  },
-                ).getValue(locale),
+                LocalizedMap({
+                  languages.en: 'Date: ',
+                  languages.it: 'Data: ',
+                  languages.ru: 'Дата: ',
+                }).getValue(locale),
               ),
               TextButton(
                 onPressed: () async => _selectDateTime(context),

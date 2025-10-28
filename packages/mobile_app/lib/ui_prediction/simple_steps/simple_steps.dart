@@ -1,5 +1,6 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_prediction/upsert_budget_dialog.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 /// {@template simple_steps_flow}
 /// A step-by-step onboarding flow for first-time users.
@@ -80,8 +81,8 @@ class SimpleStepsFlow extends HookWidget {
                       controller: pageController,
                       scrollDirection: Axis.vertical,
                       itemCount: stepsCount,
-                      itemBuilder:
-                          (final context, final index) => buildStep(index),
+                      itemBuilder: (final context, final index) =>
+                          buildStep(index),
                     ),
                   ),
                   _buildFooter(
@@ -191,10 +192,9 @@ class StepIndicator extends StatelessWidget {
             height: 4,
             margin: const EdgeInsets.only(right: 4),
             decoration: BoxDecoration(
-              color:
-                  index <= currentStep
-                      ? context.colorScheme.onPrimary
-                      : context.colorScheme.onPrimary.withOpacity(0.3),
+              color: index <= currentStep
+                  ? context.colorScheme.onPrimary
+                  : context.colorScheme.onPrimary.withOpacity(0.3),
               borderRadius: BorderRadius.circular(2),
             ),
           ),
@@ -269,23 +269,19 @@ class _WelcomeStep extends StatelessWidget {
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     return StepContent(
-      title: LocalizedMap(
-        value: {
-          languages.en: 'Welcome to Daily Budget Planner',
-          languages.it: 'Benvenuto nel Pianificatore di Budget Giornaliero',
-          languages.ru: 'Добро пожаловать в Планировщик дневного бюджета',
-        },
-      ).getValue(locale),
-      description: LocalizedMap(
-        value: {
-          languages.en:
-              'This app helps you manage your finances by calculating how much you can spend each day based on your budget and regular expenses.',
-          languages.it:
-              'Questa app ti aiuta a gestire le tue finanze calcolando quanto puoi spendere ogni giorno in base al tuo budget e alle spese regolari.',
-          languages.ru:
-              'Это приложение помогает управлять финансами, рассчитывая, сколько вы можете тратить каждый день на основе вашего бюджета и регулярных расходов.',
-        },
-      ).getValue(locale),
+      title: LocalizedMap({
+        languages.en: 'Welcome to Daily Budget Planner',
+        languages.it: 'Benvenuto nel Pianificatore di Budget Giornaliero',
+        languages.ru: 'Добро пожаловать в Планировщик дневного бюджета',
+      }).getValue(locale),
+      description: LocalizedMap({
+        languages.en:
+            'This app helps you manage your finances by calculating how much you can spend each day based on your budget and regular expenses.',
+        languages.it:
+            'Questa app ti aiuta a gestire le tue finanze calcolando quanto puoi spendere ogni giorno in base al tuo budget e alle spese regolari.',
+        languages.ru:
+            'Это приложение помогает управлять финансами, рассчитывая, сколько вы можете тратить каждый день на основе вашего бюджета и регулярных расходов.',
+      }).getValue(locale),
       icon: Icons.wallet,
     );
   }
@@ -304,23 +300,19 @@ class _SetupBudgetStep extends HookWidget {
       shouldPopOnSave: false,
     );
     return StepContent(
-      title: LocalizedMap(
-        value: {
-          languages.en: 'Set Your Initial Budget',
-          languages.it: 'Imposta il tuo Budget Iniziale',
-          languages.ru: 'Установите начальный бюджет',
-        },
-      ).getValue(locale),
-      description: LocalizedMap(
-        value: {
-          languages.en:
-              'Start by entering how much money you have available to spend. This will be your starting budget.',
-          languages.it:
-              'Inizia inserendo quanto denaro hai a disposizione. Questo sarà il tuo budget iniziale.',
-          languages.ru:
-              'Начните с ввода суммы денег, которую вы можете потратить. Это будет ваш начальный бюджет.',
-        },
-      ).getValue(locale),
+      title: LocalizedMap({
+        languages.en: 'Set Your Initial Budget',
+        languages.it: 'Imposta il tuo Budget Iniziale',
+        languages.ru: 'Установите начальный бюджет',
+      }).getValue(locale),
+      description: LocalizedMap({
+        languages.en:
+            'Start by entering how much money you have available to spend. This will be your starting budget.',
+        languages.it:
+            'Inizia inserendo quanto denaro hai a disposizione. Questo sarà il tuo budget iniziale.',
+        languages.ru:
+            'Начните с ввода суммы денег, которую вы можете потратить. Это будет ваш начальный бюджет.',
+      }).getValue(locale),
       icon: Icons.account_balance_wallet,
       action: Column(
         children: [
@@ -331,13 +323,11 @@ class _SetupBudgetStep extends HookWidget {
               if (success) onNext();
             },
             title: Text(
-              LocalizedMap(
-                value: {
-                  languages.en: 'Set Budget',
-                  languages.it: 'Imposta Budget',
-                  languages.ru: 'Установить бюджет',
-                },
-              ).getValue(locale),
+              LocalizedMap({
+                languages.en: 'Set Budget',
+                languages.it: 'Imposta Budget',
+                languages.ru: 'Установить бюджет',
+              }).getValue(locale),
             ),
           ),
         ],
@@ -352,36 +342,30 @@ class _DailyBudgetStep extends StatelessWidget {
     final locale = useLocale(context);
     final configPeriodSelector = useConfigPeriodSelector(context: context);
     return StepContent(
-      title: LocalizedMap(
-        value: {
-          languages.en: 'Understanding Daily Budget',
-          languages.it: 'Comprendere il Budget Giornaliero',
-          languages.ru: 'Понимание дневного бюджета',
-        },
-      ).getValue(locale),
-      description: LocalizedMap(
-        value: {
-          languages.en:
-              'Your daily budget is calculated by dividing your remaining budget by the number of days in your selected period. This tells you how much you can spend today to stay on track.',
-          languages.it:
-              'Il tuo budget giornaliero è calcolato dividendo il budget rimanente per il numero di giorni nel periodo selezionato. Questo ti dice quanto puoi spendere oggi per rimanere in linea.',
-          languages.ru:
-              'Ваш дневной бюджет рассчитывается путем деления оставшегося бюджета на количество дней в выбранном периоде. Это показывает, сколько вы можете потратить сегодня, чтобы оставаться в рамках плана.',
-        },
-      ).getValue(locale),
+      title: LocalizedMap({
+        languages.en: 'Understanding Daily Budget',
+        languages.it: 'Comprendere il Budget Giornaliero',
+        languages.ru: 'Понимание дневного бюджета',
+      }).getValue(locale),
+      description: LocalizedMap({
+        languages.en:
+            'Your daily budget is calculated by dividing your remaining budget by the number of days in your selected period. This tells you how much you can spend today to stay on track.',
+        languages.it:
+            'Il tuo budget giornaliero è calcolato dividendo il budget rimanente per il numero di giorni nel periodo selezionato. Questo ti dice quanto puoi spendere oggi per rimanere in linea.',
+        languages.ru:
+            'Ваш дневной бюджет рассчитывается путем деления оставшегося бюджета на количество дней в выбранном периоде. Это показывает, сколько вы можете потратить сегодня, чтобы оставаться в рамках плана.',
+      }).getValue(locale),
       icon: Icons.calendar_today,
       action: Column(
         children: [
           Row(
             children: [
               Text(
-                LocalizedMap(
-                  value: {
-                    languages.en: 'Start Period Date: ',
-                    languages.it: 'Data di inizio periodo: ',
-                    languages.ru: 'Дата начала периода: ',
-                  },
-                ).getValue(locale),
+                LocalizedMap({
+                  languages.en: 'Start Period Date: ',
+                  languages.it: 'Data di inizio periodo: ',
+                  languages.ru: 'Дата начала периода: ',
+                }).getValue(locale),
               ),
               TextButton(
                 onPressed: () {}, // () async => _selectDateTime(context),
@@ -406,34 +390,28 @@ class _RegularIncomeStep extends StatelessWidget {
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     return StepContent(
-      title: LocalizedMap(
-        value: {
-          languages.en: 'Add Regular Income',
-          languages.it: 'Aggiungi Entrate Regolari',
-          languages.ru: 'Добавьте регулярный доход',
-        },
-      ).getValue(locale),
-      description: LocalizedMap(
-        value: {
-          languages.en:
-              'Add your regular sources of income, such as salary or allowance. The app will factor these in when calculating your daily budget.',
-          languages.it:
-              "Aggiungi le tue fonti di reddito regolari, come stipendio o indennità. L'app le considererà nel calcolo del tuo budget giornaliero.",
-          languages.ru:
-              'Добавьте регулярные источники дохода, такие как зарплата или пособие. Приложение учтет их при расчете вашего дневного бюджета.',
-        },
-      ).getValue(locale),
+      title: LocalizedMap({
+        languages.en: 'Add Regular Income',
+        languages.it: 'Aggiungi Entrate Regolari',
+        languages.ru: 'Добавьте регулярный доход',
+      }).getValue(locale),
+      description: LocalizedMap({
+        languages.en:
+            'Add your regular sources of income, such as salary or allowance. The app will factor these in when calculating your daily budget.',
+        languages.it:
+            "Aggiungi le tue fonti di reddito regolari, come stipendio o indennità. L'app le considererà nel calcolo del tuo budget giornaliero.",
+        languages.ru:
+            'Добавьте регулярные источники дохода, такие как зарплата или пособие. Приложение учтет их при расчете вашего дневного бюджета.',
+      }).getValue(locale),
       icon: Icons.trending_up,
       action: UiTextButton(
         onPressed: () async => showIncomesTasksView(context: context),
         title: Text(
-          LocalizedMap(
-            value: {
-              languages.en: 'Add Income',
-              languages.it: 'Aggiungi Entrate',
-              languages.ru: 'Добавить доход',
-            },
-          ).getValue(locale),
+          LocalizedMap({
+            languages.en: 'Add Income',
+            languages.it: 'Aggiungi Entrate',
+            languages.ru: 'Добавить доход',
+          }).getValue(locale),
         ),
       ),
     );
@@ -445,34 +423,28 @@ class _RegularExpensesStep extends StatelessWidget {
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     return StepContent(
-      title: LocalizedMap(
-        value: {
-          languages.en: 'Add Regular Expenses',
-          languages.it: 'Aggiungi Spese Regolari',
-          languages.ru: 'Добавьте регулярные расходы',
-        },
-      ).getValue(locale),
-      description: LocalizedMap(
-        value: {
-          languages.en:
-              'Add your recurring expenses like rent, utilities, or subscriptions. These will be automatically deducted from your budget.',
-          languages.it:
-              'Aggiungi le tue spese ricorrenti come affitto, utenze o abbonamenti. Questi saranno automaticamente detratti dal tuo budget.',
-          languages.ru:
-              'Добавьте повторяющиеся расходы, такие как аренда, коммунальные услуги или подписки. Они будут автоматически вычитаться из вашего бюджета.',
-        },
-      ).getValue(locale),
+      title: LocalizedMap({
+        languages.en: 'Add Regular Expenses',
+        languages.it: 'Aggiungi Spese Regolari',
+        languages.ru: 'Добавьте регулярные расходы',
+      }).getValue(locale),
+      description: LocalizedMap({
+        languages.en:
+            'Add your recurring expenses like rent, utilities, or subscriptions. These will be automatically deducted from your budget.',
+        languages.it:
+            'Aggiungi le tue spese ricorrenti come affitto, utenze o abbonamenti. Questi saranno automaticamente detratti dal tuo budget.',
+        languages.ru:
+            'Добавьте повторяющиеся расходы, такие как аренда, коммунальные услуги или подписки. Они будут автоматически вычитаться из вашего бюджета.',
+      }).getValue(locale),
       icon: Icons.trending_down,
       action: UiTextButton(
         onPressed: () async => showExpensesTasksView(context: context),
         title: Text(
-          LocalizedMap(
-            value: {
-              languages.en: 'Add Expenses',
-              languages.it: 'Aggiungi Spese',
-              languages.ru: 'Добавить расходы',
-            },
-          ).getValue(locale),
+          LocalizedMap({
+            languages.en: 'Add Expenses',
+            languages.it: 'Aggiungi Spese',
+            languages.ru: 'Добавить расходы',
+          }).getValue(locale),
         ),
       ),
     );
@@ -484,23 +456,19 @@ class _CompletionStep extends StatelessWidget {
   Widget build(final BuildContext context) {
     final locale = useLocale(context);
     return StepContent(
-      title: LocalizedMap(
-        value: {
-          languages.en: "You're All Set!",
-          languages.it: 'Sei Pronto!',
-          languages.ru: 'Всё готово!',
-        },
-      ).getValue(locale),
-      description: LocalizedMap(
-        value: {
-          languages.en:
-              "You've completed the setup. Now you can start tracking your daily spending and stay on budget. Remember to record your expenses and income regularly for the best results.",
-          languages.it:
-              'Hai completato la configurazione. Ora puoi iniziare a monitorare le tue spese giornaliere e rimanere nel budget. Ricorda di registrare regolarmente le tue spese e entrate per i migliori risultati.',
-          languages.ru:
-              'Вы завершили настройку. Теперь вы можете начать отслеживать свои ежедневные расходы и оставаться в рамках бюджета. Не забывайте регулярно записывать свои расходы и доходы для достижения наилучших результатов.',
-        },
-      ).getValue(locale),
+      title: LocalizedMap({
+        languages.en: "You're All Set!",
+        languages.it: 'Sei Pronto!',
+        languages.ru: 'Всё готово!',
+      }).getValue(locale),
+      description: LocalizedMap({
+        languages.en:
+            "You've completed the setup. Now you can start tracking your daily spending and stay on budget. Remember to record your expenses and income regularly for the best results.",
+        languages.it:
+            'Hai completato la configurazione. Ora puoi iniziare a monitorare le tue spese giornaliere e rimanere nel budget. Ricorda di registrare regolarmente le tue spese e entrate per i migliori risultati.',
+        languages.ru:
+            'Вы завершили настройку. Теперь вы можете начать отслеживать свои ежедневные расходы и оставаться в рамках бюджета. Не забывайте регулярно записывать свои расходы и доходы для достижения наилучших результатов.',
+      }).getValue(locale),
       icon: Icons.check_circle,
     );
   }

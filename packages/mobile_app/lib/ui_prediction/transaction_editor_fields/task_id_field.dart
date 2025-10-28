@@ -1,4 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 class TaskIdField extends StatelessWidget {
   const TaskIdField({
@@ -19,10 +20,10 @@ class TaskIdField extends StatelessWidget {
     const labelText = 'category';
     final task =
         switch (transactionType) {
-          TaskTransactionType.income => context
-              .select<IncomeTasksResource, Task?>((final s) => s[taskId]),
-          TaskTransactionType.expense => context
-              .select<ExpenseTasksResource, Task?>((final s) => s[taskId]),
+          TaskTransactionType.income =>
+            context.select<IncomeTasksResource, Task?>((final s) => s[taskId]),
+          TaskTransactionType.expense =>
+            context.select<ExpenseTasksResource, Task?>((final s) => s[taskId]),
         } ??
         Task.empty;
     if (readonly) {
@@ -37,14 +38,14 @@ class TaskIdField extends StatelessWidget {
     }
     // TODO(arenukvern): add separate widget - hook blocked by if condition
     final tasks = switch (transactionType) {
-      TaskTransactionType.income => context
-          .select<IncomeTasksResource, List<Task>>(
-            (final s) => s.orderedValues,
-          ),
-      TaskTransactionType.expense => context
-          .select<ExpenseTasksResource, List<Task>>(
-            (final s) => s.orderedValues,
-          ),
+      TaskTransactionType.income =>
+        context.select<IncomeTasksResource, List<Task>>(
+          (final s) => s.orderedValues,
+        ),
+      TaskTransactionType.expense =>
+        context.select<ExpenseTasksResource, List<Task>>(
+          (final s) => s.orderedValues,
+        ),
     };
     return InputFieldDecorator(
       labelText: labelText,

@@ -1,4 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 // TODO(arenukvern): refactor to use CupertinoSegmentedControl
 /// A segmented button widget that follows iOS-style design

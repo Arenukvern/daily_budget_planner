@@ -1,6 +1,7 @@
 // ignore: unnecessary_import
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:from_json_to_json/from_json_to_json.dart';
 import 'package:mobile_app/common_imports.dart';
 
 part 'app_settings_model.dart';

@@ -9,6 +9,8 @@ import 'S_en.dart';
 import 'S_it.dart';
 import 'S_ru.dart';
 
+// ignore_for_file: type=lint
+
 /// Callers can lookup localized strings with an instance of S
 /// returned by `S.of(context)`.
 ///

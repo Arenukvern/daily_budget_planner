@@ -11,7 +11,7 @@ enum SubscriptionManagerStatus { free, subscribed, pending }
 
 enum MonetizationStatus { loading, notAvailable, storeNotAuthorized, loaded }
 
-@stateDistributor
+@resource
 class MonetizationStatusResource extends ChangeNotifier {
   MonetizationStatusResource(this._type);
   MonetizationType _type;
@@ -64,8 +64,8 @@ class SubscriptionManager extends ChangeNotifier {
   /// The current state of user access.
   SubscriptionManagerStatus get state =>
       monetizationTypeResource.type == MonetizationType.free
-          ? SubscriptionManagerStatus.subscribed
-          : _state;
+      ? SubscriptionManagerStatus.subscribed
+      : _state;
 
   LoadableContainer<List<PurchaseProductDetails>> subscriptions =
       const LoadableContainer(value: []);

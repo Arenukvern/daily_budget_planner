@@ -1,5 +1,5 @@
+import 'package:from_json_to_json/from_json_to_json.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/db/sembast_db.dart';
 
 /// {@template task_sembast_collection}
 /// Sembast collection model for storing [Task] data.
@@ -18,9 +18,7 @@ class TaskSembastCollection extends SembastContainer<Task, TaskId> {
   /// Creates instance from Sembast Map
   factory TaskSembastCollection.fromMap(final Map<String, dynamic> map) =>
       TaskSembastCollection(
-        item: Task.fromJson(
-          jsonDecodeMap(map[SembastContainer.keys.jsonData]!),
-        ),
+        item: Task.fromJson(jsonDecodeMap(map[SembastContainer.keys.jsonData])),
       );
 
   /// Converts a domain [Task] model to [TaskSembastCollection]

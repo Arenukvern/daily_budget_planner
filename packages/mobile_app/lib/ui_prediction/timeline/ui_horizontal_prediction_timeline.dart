@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:skeletonizer/skeletonizer.dart'; // Make sure to add this package to your pubspec.yaml
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart'; // Make sure to add this package to your pubspec.yaml
 
 class UiHorizontalPredictionTimeline extends StatefulWidget {
   const UiHorizontalPredictionTimeline({
@@ -84,18 +85,11 @@ class _UiHorizontalPredictionTimelineState
           padding: EdgeInsets.zero,
           title: Text(
             '${_getFormattedDate(_notifier.currentDate, locale)} '
-            '${isToday ? LocalizedMap(
-                value: {
-                  languages.en: '(today)',
-                  languages.it: '(oggi)',
-                  languages.ru: '(сегодня)',
-                },
-              ).getValue(locale) : ''}',
+            '${isToday ? LocalizedMap({languages.en: '(today)', languages.it: '(oggi)', languages.ru: '(сегодня)'}).getValue(locale) : ''}',
             style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color:
-                      Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
-                ),
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+            ),
           ),
         ),
         Icon(
@@ -113,7 +107,7 @@ class _UiHorizontalPredictionTimelineState
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: context.colorScheme.surface,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(100),
                       bottomRight: Radius.circular(100),
                     ),
@@ -124,9 +118,7 @@ class _UiHorizontalPredictionTimelineState
                       icon: Icon(
                         Icons.arrow_back_ios_new_rounded,
                         size: 16,
-                        color: context.colorScheme.onSurface.withOpacity(
-                          0.6,
-                        ),
+                        color: context.colorScheme.onSurface.withOpacity(0.6),
                       ),
                       onPressed: () async => _pageController.previousPage(
                         duration: const Duration(milliseconds: 300),
@@ -144,7 +136,7 @@ class _UiHorizontalPredictionTimelineState
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: context.colorScheme.surface,
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(100),
                       bottomLeft: Radius.circular(100),
                     ),
@@ -155,9 +147,7 @@ class _UiHorizontalPredictionTimelineState
                       icon: Icon(
                         Icons.arrow_forward_ios_rounded,
                         size: 16,
-                        color: context.colorScheme.onSurface.withOpacity(
-                          0.6,
-                        ),
+                        color: context.colorScheme.onSurface.withOpacity(0.6),
                       ),
                       onPressed: () async => _pageController.nextPage(
                         duration: const Duration(milliseconds: 300),
@@ -181,14 +171,14 @@ class _UiHorizontalPredictionTimelineState
       : _buildPageViewContent();
 
   Widget _buildPageViewContent() => SizedBox(
-        height: UiHorizontalPredictionTimeline.kDefaultHeight,
-        child: PageView.builder(
-          controller: _pageController,
-          onPageChanged: _onPageChanged,
-          itemCount: _availableDates.length,
-          itemBuilder: (final context, final index) => _buildDateItem(index),
-        ),
-      );
+    height: UiHorizontalPredictionTimeline.kDefaultHeight,
+    child: PageView.builder(
+      controller: _pageController,
+      onPageChanged: _onPageChanged,
+      itemCount: _availableDates.length,
+      itemBuilder: (final context, final index) => _buildDateItem(index),
+    ),
+  );
 
   Widget _buildDateItem(final int index) => _params.enableMouseControls
       ? MouseRegion(
@@ -198,42 +188,41 @@ class _UiHorizontalPredictionTimelineState
       : _buildDateButton(index);
 
   Widget _buildDateButton(final int index) => UiBaseButton(
-        onPressed: () async => _pageController.animateToPage(
-          index,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        ),
-        builder: (final context, final focused, final onlyFocused) =>
-            UiPredictionDay(
+    onPressed: () async => _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    ),
+    builder: (final context, final focused, final onlyFocused) =>
+        UiPredictionDay(
           day: _getDisplayText(_availableDates[index]),
           isSelected: index == _notifier.selectedIndex,
           isCurrentDate: _isCurrentDate(_availableDates[index]),
         ),
-      );
+  );
 
   Widget _buildSkeletonLoader() => Skeletonizer(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              height: 50,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemExtent: _itemExtent,
-                itemCount: 7,
-                itemBuilder: (final context, final index) =>
-                    const UiPredictionDay(
-                  day: 'X',
-                  isSelected: false,
-                  isCurrentDate: false,
-                ),
-              ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          height: 50,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemExtent: _itemExtent,
+            itemCount: 7,
+            itemBuilder: (final context, final index) => const UiPredictionDay(
+              day: 'X',
+              isSelected: false,
+              isCurrentDate: false,
             ),
-            const SizedBox(height: 8),
-            const Text('Loading...'),
-          ],
+          ),
         ),
-      );
+        const SizedBox(height: 8),
+        const Text('Loading...'),
+      ],
+    ),
+  );
 
   bool _isCurrentDate(final DateTime date) {
     final now = DateTime.now();
@@ -249,10 +238,7 @@ class _UiHorizontalPredictionTimelineState
     }
   }
 
-  String _getDisplayText(
-    final DateTime date, {
-    final bool useNumbers = true,
-  }) {
+  String _getDisplayText(final DateTime date, {final bool useNumbers = true}) {
     if (!useNumbers) {
       return switch (_notifier.presentationType) {
         UiPresentationType.day => DateFormat('E').format(date)[0],
@@ -271,8 +257,10 @@ class _UiHorizontalPredictionTimelineState
   String _getFormattedDate(final DateTime date, final Locale locale) {
     switch (_notifier.presentationType) {
       case UiPresentationType.day:
-        return DateFormat('EEEE, d MMMM yyyy', locale.languageCode)
-            .format(date);
+        return DateFormat(
+          'EEEE, d MMMM yyyy',
+          locale.languageCode,
+        ).format(date);
       case UiPresentationType.month:
         return DateFormat('MMMM yyyy', locale.languageCode).format(date);
       case UiPresentationType.year:
@@ -295,34 +283,34 @@ class UiPredictionDay extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        width: 50,
-        height: 50,
-        margin: const EdgeInsets.symmetric(horizontal: 2),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: Border.all(
-            color: isSelected
-                ? Theme.of(context).primaryColor
-                : Theme.of(context).primaryColor.withOpacity(0.1),
-            width: isSelected ? 2 : 1,
-          ),
-          color: isCurrentDate
-              ? Theme.of(context).primaryColor.withOpacity(0.1)
+    duration: const Duration(milliseconds: 300),
+    width: 50,
+    height: 50,
+    margin: const EdgeInsets.symmetric(horizontal: 2),
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      border: Border.all(
+        color: isSelected
+            ? Theme.of(context).primaryColor
+            : Theme.of(context).primaryColor.withOpacity(0.1),
+        width: isSelected ? 2 : 1,
+      ),
+      color: isCurrentDate
+          ? Theme.of(context).primaryColor.withOpacity(0.1)
+          : null,
+    ),
+    child: Center(
+      child: Text(
+        day,
+        style: TextStyle(
+          fontWeight: isSelected || isCurrentDate
+              ? FontWeight.bold
+              : FontWeight.normal,
+          color: isSelected || isCurrentDate
+              ? Theme.of(context).primaryColor
               : null,
         ),
-        child: Center(
-          child: Text(
-            day,
-            style: TextStyle(
-              fontWeight: isSelected || isCurrentDate
-                  ? FontWeight.bold
-                  : FontWeight.normal,
-              color: isSelected || isCurrentDate
-                  ? Theme.of(context).primaryColor
-                  : null,
-            ),
-          ),
-        ),
-      );
+      ),
+    ),
+  );
 }

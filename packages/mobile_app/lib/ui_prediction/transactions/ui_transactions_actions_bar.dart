@@ -41,25 +41,23 @@ class UiTransactionsActionsBar extends StatelessWidget {
               const Icon(Icons.add),
               const Gap(4),
               Text(
-                LocalizedMap(
-                  value: {
-                    languages.en: 'Add ${tuple.type.name}',
-                    languages.it:
-                        'Aggiungi ${switch (tuple.type) {
-                          TransactionType.income => 'entrate',
-                          TransactionType.expense => 'spese',
-                          TransactionType.transferIn => 'transferenze in',
-                          TransactionType.transferOut => 'transferenze out',
-                        }}',
-                    languages.ru:
-                        'Добавить ${switch (tuple.type) {
-                          TransactionType.income => 'доход',
-                          TransactionType.expense => 'расход',
-                          TransactionType.transferIn => 'входящий перевод',
-                          TransactionType.transferOut => 'исходящий перевод',
-                        }}',
-                  },
-                ).getValue(locale),
+                LocalizedMap({
+                  languages.en: 'Add ${tuple.type.name}',
+                  languages.it:
+                      'Aggiungi ${switch (tuple.type) {
+                        TransactionType.income => 'entrate',
+                        TransactionType.expense => 'spese',
+                        TransactionType.transferIn => 'transferenze in',
+                        TransactionType.transferOut => 'transferenze out',
+                      }}',
+                  languages.ru:
+                      'Добавить ${switch (tuple.type) {
+                        TransactionType.income => 'доход',
+                        TransactionType.expense => 'расход',
+                        TransactionType.transferIn => 'входящий перевод',
+                        TransactionType.transferOut => 'исходящий перевод',
+                      }}',
+                }).getValue(locale),
               ),
             ],
           ),

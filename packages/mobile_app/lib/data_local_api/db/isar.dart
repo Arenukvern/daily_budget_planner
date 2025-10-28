@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:from_json_to_json/from_json_to_json.dart';
 // import 'package:isar/isar.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/db/db.dart';
 import 'package:path_provider/path_provider.dart';
 
 // part 'isar.g.dart';
@@ -19,10 +19,9 @@ final class IsarDb extends ComplexLocalDb {
   //     : _db!;
   @override
   Future<void> open() async {
-    final dir =
-        Platform.isIOS
-            ? await getLibraryDirectory()
-            : await getApplicationDocumentsDirectory();
+    final dir = Platform.isIOS
+        ? await getLibraryDirectory()
+        : await getApplicationDocumentsDirectory();
 
     // _db ??= Isar.open(
     //   schemas: [

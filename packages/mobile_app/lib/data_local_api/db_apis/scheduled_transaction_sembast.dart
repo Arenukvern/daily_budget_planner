@@ -1,5 +1,5 @@
+import 'package:from_json_to_json/from_json_to_json.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/db/sembast_db.dart';
 
 /// {@template scheduled_transaction_sembast_collection}
 /// Sembast collection model for storing [ScheduledTransaction] data.
@@ -23,7 +23,7 @@ class ScheduledTransactionSembastCollection
     final Map<String, dynamic> map,
   ) => ScheduledTransactionSembastCollection(
     item: ScheduledTransaction.fromJson(
-      jsonDecodeMap(map[SembastContainer.keys.jsonData]!),
+      jsonDecodeMap(map[SembastContainer.keys.jsonData]),
     ),
   );
 

@@ -1,5 +1,6 @@
 // import 'package:isar/isar.dart';
 import 'package:mobile_app/common_imports.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 /// {@template transactions_local_api}
 /// Local storage implementation for managing transactions using Isar database.

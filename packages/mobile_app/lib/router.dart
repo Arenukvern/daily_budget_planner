@@ -2,6 +2,7 @@ import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_other/privacy_screen.dart';
 import 'package:mobile_app/ui_other/terms_screen.dart';
 import 'package:mobile_app/ui_paywalls/ui_paywalls.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 enum ScreenPaths {
   root('/'),
@@ -91,16 +92,11 @@ class AppPathsController {
       go(ScreenPaths.thanksForSubscribing, routes: _homeRoutes);
   void toManageSubscription() =>
       go(ScreenPaths.manageSubscription, routes: _homeRoutes);
-  void toExplanation({
-    final bool isFirstTimeOpening = false,
-  }) =>
-      go(
-        ScreenPaths.explanation,
-        routes: [ScreenPaths.home],
-        params: {
-          if (isFirstTimeOpening) 'isFirstOpening': 'true',
-        },
-      );
+  void toExplanation({final bool isFirstTimeOpening = false}) => go(
+    ScreenPaths.explanation,
+    routes: [ScreenPaths.home],
+    params: {if (isFirstTimeOpening) 'isFirstOpening': 'true'},
+  );
   void go(
     final ScreenPaths path, {
     final List<ScreenPaths> routes = const [],
@@ -131,28 +127,28 @@ class AppRoute extends GoRoute {
     final bool useFade = false,
     final bool isTransparent = false,
   }) : super(
-          path: path,
-          routes: routes,
-          pageBuilder: (final context, final state) {
-            final pageContent = builder(context, state);
-            if (useFade || isTransparent) {
-              return CustomTransitionPage(
-                key: state.pageKey,
-                child: pageContent,
-                opaque: !isTransparent,
-                barrierColor: isTransparent
-                    ? Colors.transparent
-                    : context.colorScheme.surface,
-                transitionsBuilder: (
-                  final context,
-                  final animation,
-                  final secondaryAnimation,
-                  final child,
-                ) =>
-                    FadeTransition(opacity: animation, child: child),
-              );
-            }
-            return CupertinoPage(child: pageContent);
-          },
-        );
+         path: path,
+         routes: routes,
+         pageBuilder: (final context, final state) {
+           final pageContent = builder(context, state);
+           if (useFade || isTransparent) {
+             return CustomTransitionPage(
+               key: state.pageKey,
+               child: pageContent,
+               opaque: !isTransparent,
+               barrierColor: isTransparent
+                   ? Colors.transparent
+                   : context.colorScheme.surface,
+               transitionsBuilder:
+                   (
+                     final context,
+                     final animation,
+                     final secondaryAnimation,
+                     final child,
+                   ) => FadeTransition(opacity: animation, child: child),
+             );
+           }
+           return CupertinoPage(child: pageContent);
+         },
+       );
 }

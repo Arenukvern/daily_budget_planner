@@ -31,22 +31,18 @@ class UiBottomSheetScaffold extends StatelessWidget {
           dismissBehavior: const SheetKeyboardDismissBehavior.onDragDown(
             isContentScrollAware: true,
           ),
-          child: ScrollableSheet(
-            child: Container(
+          child: SheetScrollable(
+            builder: (final context, final controller) => Container(
               clipBehavior: Clip.antiAlias,
               decoration: sheetShape,
-              constraints: const BoxConstraints(
-                maxWidth: 400,
-              ),
+              constraints: const BoxConstraints(maxWidth: 400),
               child: SheetContentScaffold(
                 resizeBehavior: const ResizeScaffoldBehavior.avoidBottomInset(
                   // Make the bottom bar visible when the keyboard is open.
                   maintainBottomBar: true,
                 ),
                 body: body,
-                bottomBar: StickyBottomBarVisibility(
-                  child: bottomBar,
-                ),
+                bottomBar: StickyBottomBarVisibility(child: bottomBar),
               ),
             ),
           ),

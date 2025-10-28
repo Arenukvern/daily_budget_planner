@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:from_json_to_json/from_json_to_json.dart';
 import 'package:mobile_app/common_imports.dart';
 
 /// {@template isar_scheduled_transaction_collection}

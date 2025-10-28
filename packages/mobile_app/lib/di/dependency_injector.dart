@@ -77,7 +77,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   /// ********************************************
   /// *      Notifiers
   /// ********************************************
-  final localeNotifier = UiLocaleNotifier(Locales.fallback);
+  final localeNotifier = UiLocaleResource(Locales.fallback);
   r(localeNotifier, dispose: d);
   rl(AppSettingsNotifier.new, dispose: d);
   rl(UserNotifier.new, dispose: d);
@@ -85,20 +85,22 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   // TODO(arenukvern): create a factory for this
   /// possible conflicts with purchase managers
   rl<PurchaseManager>(
-    () => switch (Envs.storeTarget) {
-      InstallPlatformTarget.rustore => FlutterRustoreBillingManager(
-        consoleApplicationId: Envs.rustoreApplicationId,
-        // ignore: avoid_redundant_argument_values
-        enableLogger: Envs.logging,
-        deeplinkScheme: Envs.appScheme,
-        productTypeChecker: MonetizationProducts.productTypeChecker,
-      ),
-      InstallPlatformTarget.appleStore ||
-      InstallPlatformTarget.googlePlay => NoopPurchaseManager(),
-      // TODO(arenukvern): description
-      // InAppPurchaseManager(),
-      _ => NoopPurchaseManager(),
-    },
+    NoopPurchaseManager.new,
+
+    //  switch (Envs.storeTarget) {
+    //   InstallPlatformTarget.rustore => FlutterRustoreBillingManager(
+    //     consoleApplicationId: Envs.rustoreApplicationId,
+    //     // ignore: avoid_redundant_argument_values
+    //     enableLogger: Envs.logging,
+    //     deeplinkScheme: Envs.appScheme,
+    //     productTypeChecker: MonetizationProducts.productTypeChecker,
+    //   ),
+    //   InstallPlatformTarget.appleStore ||
+    //   InstallPlatformTarget.googlePlay => NoopPurchaseManager(),
+    //   // TODO(arenukvern): description
+    //   // InAppPurchaseManager(),
+    //   _ => NoopPurchaseManager(),
+    // },
     dispose: d,
   );
   rl(
@@ -189,7 +191,7 @@ mixin HasResources {
 mixin HasNotifiers {
   UserNotifier get userNotifier => _g();
   AppStatusResource get appStatusNotifier => _g();
-  UiLocaleNotifier get localeNotifier => _g();
+  UiLocaleResource get localeNotifier => _g();
   AppSettingsNotifier get appSettingsNotifier => _g();
   PurchaseInitializer get purchaseIntializer => _g();
   SubscriptionManager get subscriptionManager => _g();

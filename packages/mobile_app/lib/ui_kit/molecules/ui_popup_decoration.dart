@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:mobile_app/common_imports.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 /// {@template ui_popup_decoration}
 /// A reusable widget that provides a consistent popup decoration with
@@ -42,22 +43,19 @@ class UiPopupDecoration extends StatelessWidget {
   Widget build(final BuildContext context) {
     final scaleDirection = context.read<UiPopupButton>().scaleDirection;
     return Card(
-      elevation: 0,
-      color: context.colorScheme.surface.withOpacity(surfaceOpacity),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(borderRadius),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: blurSigma,
-            sigmaY: blurSigma,
+          elevation: 0,
+          color: context.colorScheme.surface.withOpacity(surfaceOpacity),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(borderRadius),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
+              child: Container(
+                constraints: BoxConstraints(maxWidth: maxWidth),
+                child: child,
+              ),
+            ),
           ),
-          child: Container(
-            constraints: BoxConstraints(maxWidth: maxWidth),
-            child: child,
-          ),
-        ),
-      ),
-    )
+        )
         .animate()
         .slideY(
           begin: scaleDirection == UiPopupButtonScaleDirection.up ? 0.1 : -0.1,

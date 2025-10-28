@@ -1,4 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 /// {@template inline_value_picker}
 /// A horizontal inline picker that allows users to select a value from a list.
@@ -88,12 +89,12 @@ class _InlineValuePickerState<T> extends State<InlineValuePicker<T>>
   Widget build(final BuildContext context) => Semantics(
     label: 'Value picker',
     value: widget.values[_currentIndex].toString(),
-    increasedValue:
-        _currentIndex < widget.values.length - 1
-            ? widget.values[_currentIndex + 1].toString()
-            : null,
-    decreasedValue:
-        _currentIndex > 0 ? widget.values[_currentIndex - 1].toString() : null,
+    increasedValue: _currentIndex < widget.values.length - 1
+        ? widget.values[_currentIndex + 1].toString()
+        : null,
+    decreasedValue: _currentIndex > 0
+        ? widget.values[_currentIndex - 1].toString()
+        : null,
     onIncrease: _currentIndex < widget.values.length - 1 ? _nextValue : null,
     onDecrease: _currentIndex > 0 ? _previousValue : null,
     child: Row(
@@ -104,10 +105,9 @@ class _InlineValuePickerState<T> extends State<InlineValuePicker<T>>
           icon: Icon(
             Icons.chevron_left,
             size: 18,
-            color:
-                _currentIndex > 0
-                    ? context.colorScheme.onPrimary
-                    : context.colorScheme.onPrimary.withOpacity(0.3),
+            color: _currentIndex > 0
+                ? context.colorScheme.onPrimary
+                : context.colorScheme.onPrimary.withOpacity(0.3),
           ),
           onPressed: _currentIndex > 0 ? _previousValue : null,
           splashRadius: 16,
@@ -142,18 +142,17 @@ class _InlineValuePickerState<T> extends State<InlineValuePicker<T>>
                   // This is called during animation, so we don't update state here
                   // State is updated in the ScrollEndNotification handler
                 },
-                itemBuilder:
-                    (final context, final index) => Center(
-                      child: DefaultTextStyle.merge(
-                        style: context.textTheme.labelLarge?.copyWith(
-                          color: context.colorScheme.onPrimary,
-                        ),
-                        child: Text(
-                          widget.values[index].toString(),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
+                itemBuilder: (final context, final index) => Center(
+                  child: DefaultTextStyle.merge(
+                    style: context.textTheme.labelLarge?.copyWith(
+                      color: context.colorScheme.onPrimary,
                     ),
+                    child: Text(
+                      widget.values[index].toString(),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -164,13 +163,13 @@ class _InlineValuePickerState<T> extends State<InlineValuePicker<T>>
           icon: Icon(
             Icons.chevron_right,
             size: 18,
-            color:
-                _currentIndex < widget.values.length - 1
-                    ? context.colorScheme.onPrimary
-                    : context.colorScheme.onPrimary.withOpacity(0.3),
+            color: _currentIndex < widget.values.length - 1
+                ? context.colorScheme.onPrimary
+                : context.colorScheme.onPrimary.withOpacity(0.3),
           ),
-          onPressed:
-              _currentIndex < widget.values.length - 1 ? _nextValue : null,
+          onPressed: _currentIndex < widget.values.length - 1
+              ? _nextValue
+              : null,
           splashRadius: 16,
           constraints: const BoxConstraints(minWidth: 24, minHeight: 30),
           padding: EdgeInsets.zero,

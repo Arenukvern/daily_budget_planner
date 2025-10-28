@@ -1,4 +1,5 @@
 import 'package:mobile_app/common_imports.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 /// A widget that provides a box decoration with a border for focused state.
 ///
@@ -20,16 +21,16 @@ class UiFocusedBox extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => AnimatedContainer(
-        duration: 200.milliseconds,
-        decoration: BoxDecoration(
-          color: Colors.transparent,
-          borderRadius: UiBorderRadius.large,
-          border: Border.all(
-            color: focused
-                ? context.colorScheme.onSurface.withOpacity(0.4)
-                : context.colorScheme.onSurface.withOpacity(0),
-          ),
-        ),
-        child: child,
-      );
+    duration: 200.milliseconds,
+    decoration: BoxDecoration(
+      color: Colors.transparent,
+      borderRadius: UiBorderRadius.large,
+      border: Border.all(
+        color: focused
+            ? context.colorScheme.onSurface.withOpacity(0.4)
+            : context.colorScheme.onSurface.withOpacity(0),
+      ),
+    ),
+    child: child,
+  );
 }

@@ -5,15 +5,12 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>>
   _EditingController({
     required final Transaction transaction,
     required final TransactionSchedule schedule,
-  })  : isEditing = transaction.isExists,
-        _schedule = schedule,
-        _canCompose = transaction.isExists,
-        super(
-          LoadableContainer(
-            value: transaction,
-            isLoaded: transaction.isExists,
-          ),
-        );
+  }) : isEditing = transaction.isExists,
+       _schedule = schedule,
+       _canCompose = transaction.isExists,
+       super(
+         LoadableContainer(value: transaction, isLoaded: transaction.isExists),
+       );
   bool get isNew => !isEditing;
   final bool isEditing;
   TransactionSchedule _schedule = TransactionSchedule.empty;
@@ -23,13 +20,8 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>>
     notifyListeners();
   }
 
-  late final _composedListenable = Listenable.merge([
-    amount,
-    coinPrice,
-  ]);
-  void onLoad({
-    required final bool isTaxFree,
-  }) {
+  late final _composedListenable = Listenable.merge([amount, coinPrice]);
+  void onLoad({required final bool isTaxFree}) {
     _composedListenable.addListener(notifyListeners);
     final rawAmount = transaction.input.amount(taxFree: isTaxFree);
     if (rawAmount > 0) amount.text = rawAmount.toString();
@@ -53,19 +45,17 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>>
     bool readyToCompose = false;
     switch (transaction.input.currencyType) {
       case CurrencyType.fiat:
-        readyToCompose = doubleFromJson(amount.text) > 0;
+        readyToCompose = jsonDecodeDouble(amount.text) > 0;
       case CurrencyType.crypto:
-        readyToCompose = doubleFromJson(amount.text) > 0 &&
-            doubleFromJson(coinPrice.text) > 0;
+        readyToCompose =
+            jsonDecodeDouble(amount.text) > 0 &&
+            jsonDecodeDouble(coinPrice.text) > 0;
     }
     _canCompose = readyToCompose;
   }
 
   void setState(final Transaction Function(Transaction state) change) =>
-      value = LoadableContainer(
-        value: change(transaction),
-        isLoaded: true,
-      );
+      value = LoadableContainer(value: change(transaction), isLoaded: true);
 
   void setMoney(final InputMoney Function(InputMoney state) change) =>
       setState((final state) => state.copyWith(input: change(state.input)));
@@ -75,17 +65,17 @@ class _EditingController extends ValueNotifier<LoadableContainer<Transaction>>
 
   TransactionEditorResult? composeResult() {
     if (!canCompose) return null;
-    final amount = doubleFromJson(this.amount.text);
-    // final coinPrice = doubleFromJson(this.coinPrice.text);
+    final amount = jsonDecodeDouble(this.amount.text);
+    // final coinPrice = jsonDecodeDouble(this.coinPrice.text);
 
     final resultTransaction = transaction.copyWith(
       id: isNew ? TransactionId.newId() : transaction.id,
       input: switch (transaction.input.currencyType) {
         CurrencyType.fiat => InputMoney.fiat(amountWithTax: amount),
         CurrencyType.crypto => InputMoney.crypto(
-            amountWithTax: amount,
-            // coinPrice: coinPrice,
-          ),
+          amountWithTax: amount,
+          // coinPrice: coinPrice,
+        ),
       },
     );
     final scheduledTransaction = ScheduledTransaction(

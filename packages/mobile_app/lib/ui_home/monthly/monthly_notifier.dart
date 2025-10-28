@@ -1,10 +1,11 @@
+import 'package:from_json_to_json/from_json_to_json.dart';
 import 'package:mobile_app/common_imports.dart';
 
 class MonthlyNotifier
     extends ValueNotifier<LoadableContainer<MonthlyBudgetModel>>
     with HasLocalApis {
   MonthlyNotifier()
-      : super(const LoadableContainer(value: MonthlyBudgetModel.initial));
+    : super(const LoadableContainer(value: MonthlyBudgetModel.initial));
   final amountController = TextEditingController();
   final savingsController = TextEditingController();
   final amountFocusNode = FocusNode();
@@ -23,7 +24,9 @@ class MonthlyNotifier
   Future<void> onLoad() async {
     var budget = await simpleBudgetLocalApi.getMonthlyBudget(id);
     if (budget.nextBudgetDay?.isBefore(today) == true) {
-      budget = budget.copyWith(nextBudgetDay: today.add(Duration(days: 1)));
+      budget = budget.copyWith(
+        nextBudgetDay: today.add(const Duration(days: 1)),
+      );
     }
     amountController.text = budget.amount.toString();
     savingsController.text = budget.savings.toString();
@@ -31,9 +34,7 @@ class MonthlyNotifier
   }
 
   void onAmountChange(final String amount) {
-    final updatedBudget = budget.copyWith(
-      amount: doubleFromJson(amount),
-    );
+    final updatedBudget = budget.copyWith(amount: jsonDecodeDouble(amount));
     value = value.copyWith(value: updatedBudget);
     if (amountController.text != amount) {
       amountController.text = amount;
@@ -42,9 +43,7 @@ class MonthlyNotifier
   }
 
   void onSavingsChange(final String savings) {
-    final updatedBudget = budget.copyWith(
-      savings: doubleFromJson(savings),
-    );
+    final updatedBudget = budget.copyWith(savings: jsonDecodeDouble(savings));
     value = value.copyWith(value: updatedBudget);
     if (savingsController.text != savings) {
       savingsController.text = savings;

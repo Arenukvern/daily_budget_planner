@@ -1,6 +1,7 @@
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/data_local_api/db_apis/budget_sembast.dart';
 import 'package:sembast/sembast.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 final class ManualBudgetsLocalApiSembast extends ComplexLocalApi
     with HasComplexLocalDbs
@@ -109,13 +110,12 @@ final class ManualBudgetsLocalApiSembast extends ComplexLocalApi
     );
     final records = await _db.budgets.find(_db.db, finder: finder);
     return PagingControllerPageModel<Budget>(
-      values:
-          records
-              .map(
-                (final record) =>
-                    BudgetSembastCollection.fromMap(record.value).item,
-              )
-              .toList(),
+      values: records
+          .map(
+            (final record) =>
+                BudgetSembastCollection.fromMap(record.value).item,
+          )
+          .toList(),
       currentPage: pageLimit.page,
       pagesCount: records.length ~/ pageLimit.limit,
     );

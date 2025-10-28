@@ -1,11 +1,10 @@
 import 'package:mobile_app/common_imports.dart';
 
-typedef UiTasksActionsBarTuple =
-    ({
-      TaskTransactionType taskTransactionType,
-      CurrencyType currencyType,
-      Task task,
-    });
+typedef UiTasksActionsBarTuple = ({
+  TaskTransactionType taskTransactionType,
+  CurrencyType currencyType,
+  Task task,
+});
 
 DateTime useSelectionDate(final BuildContext context) =>
     context.select<PredictionConfigResource, DateTime>(
@@ -67,21 +66,19 @@ class UiTasksActionsBar extends StatelessWidget with HasNotifiers {
               const Icon(Icons.add),
               const Gap(4),
               Text(
-                LocalizedMap(
-                  value: {
-                    languages.en: 'Add ${tuple.taskTransactionType.name}',
-                    languages.it:
-                        'Aggiungi ${switch (tuple.taskTransactionType) {
-                          TaskTransactionType.income => 'entrate',
-                          TaskTransactionType.expense => 'spese',
-                        }}',
-                    languages.ru:
-                        'Добавить ${switch (tuple.taskTransactionType) {
-                          TaskTransactionType.income => 'доход',
-                          TaskTransactionType.expense => 'расход',
-                        }}',
-                  },
-                ).getValue(locale),
+                LocalizedMap({
+                  languages.en: 'Add ${tuple.taskTransactionType.name}',
+                  languages.it:
+                      'Aggiungi ${switch (tuple.taskTransactionType) {
+                        TaskTransactionType.income => 'entrate',
+                        TaskTransactionType.expense => 'spese',
+                      }}',
+                  languages.ru:
+                      'Добавить ${switch (tuple.taskTransactionType) {
+                        TaskTransactionType.income => 'доход',
+                        TaskTransactionType.expense => 'расход',
+                      }}',
+                }).getValue(locale),
               ),
             ],
           ),
