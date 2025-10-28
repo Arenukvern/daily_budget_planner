@@ -144,51 +144,6 @@ const _$TaskTypeEnumMap = {
   TaskType.business: 'business',
 };
 
-_Task _$TaskFromJson(Map<String, dynamic> json) => _Task(
-  id: json['id'] == null ? TaskId.empty : TaskId.fromJson(json['id'] as String),
-  status: json['status'] == null
-      ? TaskStatus.visible
-      : TaskStatus.fromJson(json['status'] as String),
-  title: json['title'] as String? ?? '',
-  notes: json['notes'] as String? ?? '',
-  type:
-      $enumDecodeNullable(_$TaskTypeEnumMap, json['type']) ?? TaskType.personal,
-  personalIncomeType:
-      $enumDecodeNullable(
-        _$PersonalIncomeTaskTypeEnumMap,
-        json['personalIncomeType'],
-      ) ??
-      PersonalIncomeTaskType.salary,
-  personalExpenseType:
-      $enumDecodeNullable(
-        _$PersonalExpenseTaskTypeEnumMap,
-        json['personalExpenseType'],
-      ) ??
-      PersonalExpenseTaskType.other,
-  transactionType: json['transactionType'] == null
-      ? TaskTransactionType.income
-      : TaskTransactionType.fromJson(json['transactionType'] as String),
-  categoryIds:
-      (json['categoryIds'] as List<dynamic>?)
-          ?.map((e) => CategoryId.fromJson(e as String))
-          .toList() ??
-      const [],
-);
-
-Map<String, dynamic> _$TaskToJson(_Task instance) => <String, dynamic>{
-  'id': instance.id,
-  'status': instance.status,
-  'title': instance.title,
-  'notes': instance.notes,
-  'type': _$TaskTypeEnumMap[instance.type]!,
-  'personalIncomeType':
-      _$PersonalIncomeTaskTypeEnumMap[instance.personalIncomeType]!,
-  'personalExpenseType':
-      _$PersonalExpenseTaskTypeEnumMap[instance.personalExpenseType]!,
-  'transactionType': instance.transactionType,
-  'categoryIds': instance.categoryIds,
-};
-
 const _$PersonalIncomeTaskTypeEnumMap = {
   PersonalIncomeTaskType.salary: 'salary',
   PersonalIncomeTaskType.cashback: 'cashback',

@@ -58,8 +58,6 @@ dependencies:
   google_fonts: ^6.3.2
   http: ^1.5.0
   intl: ^0.20.2
-  # isar: ^4.0.0-dev.14
-  # isar_flutter_libs: ^4.0.0-dev.14
   is_dart_empty_or_not: ^0.2.3
   json_annotation: ^4.9.0
   life_hooks: ^0.2.1

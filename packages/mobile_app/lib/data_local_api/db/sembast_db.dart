@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile_app/common_imports.dart';
-import 'package:mobile_app/data_local_api/db/db.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast_io.dart';
@@ -51,8 +50,7 @@ mixin SembastIdMixin<T> {
   T get id;
 }
 
-abstract class SembastContainer<T extends Object, TId>
-    with SembastIdMixin<TId> {
+abstract class SembastContainer<T, TId> with SembastIdMixin<TId> {
   SembastContainer({required this.item});
   static const keys = (id: 'id', jsonData: 'jsonData');
   @override
