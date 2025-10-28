@@ -1,5 +1,6 @@
 // ignore_for_file: do_not_use_environment
 import 'package:mobile_app/common_imports.dart';
+import 'package:xsoulspace_installation_store/xsoulspace_installation_store.dart';
 
 class Envs {
   const Envs._();
@@ -21,15 +22,14 @@ class Envs {
   static final monetizationType = MonetizationType.fromJson(
     monetizationTypeJson,
   );
-  static final storeName = switch (storeTarget) {
-    InstallPlatformTarget.googlePlay => 'Google Play',
-    InstallPlatformTarget.rustore => 'RuStore',
-    InstallPlatformTarget.huawai => 'Huawei AppGallery',
-    InstallPlatformTarget.appleStore || _ => 'App Store',
-  };
-  static final storeTarget = InstallPlatformTarget.fromString(
-    const String.fromEnvironment('STORE', defaultValue: 'snapstore'),
-  );
+  static String getStoreName(final InstallationStoreSource source) =>
+      switch (source) {
+        InstallationStoreSource.androidGooglePlay => 'Google Play',
+        InstallationStoreSource.androidRuStore => 'RuStore',
+        InstallationStoreSource.androidHuaweiAppGallery => 'Huawei AppGallery',
+        _ when source.isApple => 'App Store',
+        _ => 'Unknown',
+      };
   static const privacyPolicyUrl =
       'https://raw.githubusercontent.com/xsoulspace/daily_budget_planner/refs/heads/main/PRIVACY_POLICY.md';
   static const termsUrl =

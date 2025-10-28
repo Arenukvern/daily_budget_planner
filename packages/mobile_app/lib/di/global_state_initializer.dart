@@ -47,7 +47,7 @@ class GlobalStateInitializer
         guideVisibility.setGuideWasOpen();
         AppPathsController.of(context).toExplanation(isFirstTimeOpening: true);
       }
-      await purchaseIntializer.init();
+      await purchaseInitializer.init();
       await dictionariesNotifier.onLoad();
       await finSettingsNotifier.onLoad();
       await Future.wait([
@@ -58,6 +58,7 @@ class GlobalStateInitializer
         const LoadBudgetsCmd().execute(),
         const LoadTransactionsCmd().execute(),
         const LoadTransactionsCmd().execute(),
+        const LoadStoreCmd().execute(),
       ]);
     });
   }

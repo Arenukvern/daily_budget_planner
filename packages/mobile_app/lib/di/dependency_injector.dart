@@ -3,6 +3,7 @@ import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_home/monthly/monthly_notifier.dart';
 import 'package:mobile_app/ui_home/weekly/weekly_notifier.dart';
 import 'package:mobile_app/ui_paywalls/ui_paywalls.dart';
+import 'package:xsoulspace_installation_store/xsoulspace_installation_store.dart';
 
 /// Shortcuts
 /// Should not be exposed
@@ -73,6 +74,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   rl(TotalSumResource.new, dispose: d);
   rl(DailyBudgetResource.new, dispose: d);
   rl(PlannedSumResource.new, dispose: d);
+  rl(InstallationStoreResource.new, dispose: d);
 
   /// ********************************************
   /// *      Notifiers
@@ -140,6 +142,7 @@ Future<void> _init({required final AnalyticsManager analyticsManager}) async {
   );
   rl(WeeklyNotifier.new, dispose: d);
   rl(MonthlyNotifier.new, dispose: d);
+  rl(InstallationStoreUtils.new);
 }
 
 mixin HasLocalApis {
@@ -181,6 +184,7 @@ mixin HasResources {
   OneTimeSumResource get oneTimeSumsResource => _g();
   PlannedSumResource get plannedSumsResource => _g();
   TotalSumResource get totalSumResource => _g();
+  InstallationStoreResource get installationStoreResource => _g();
 }
 
 /// These states should not be used in each other,
@@ -193,7 +197,7 @@ mixin HasNotifiers {
   AppStatusResource get appStatusNotifier => _g();
   UiLocaleResource get localeNotifier => _g();
   AppSettingsNotifier get appSettingsNotifier => _g();
-  PurchaseInitializer get purchaseIntializer => _g();
+  PurchaseInitializer get purchaseInitializer => _g();
   SubscriptionManager get subscriptionManager => _g();
   WeeklyNotifier get weeklyCubit => _g();
   MonthlyNotifier get monthlyCubit => _g();
@@ -201,6 +205,7 @@ mixin HasNotifiers {
   DictionariesNotifier get dictionariesNotifier => _g();
   FinSettingsNotifier get finSettingsNotifier => _g();
   UiTimelineNotifier get uiTimelineNotifier => _g();
+  InstallationStoreUtils get installationStoreUtils => _g();
 }
 
 mixin HasAnalytics {

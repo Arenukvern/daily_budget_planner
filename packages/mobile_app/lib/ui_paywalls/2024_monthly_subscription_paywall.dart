@@ -22,7 +22,7 @@ final _kSubscriptions = [
 /// and monthly. It uses a clean, appealing design that matches the app's style
 /// and includes bullet points highlighting the benefits of each plan.
 class Ui2024MonthlySubscriptionPaywall extends HookWidget
-    with HasNotifiers, HasAnalytics {
+    with HasNotifiers, HasResources, HasAnalytics {
   const Ui2024MonthlySubscriptionPaywall({super.key});
   Future<void> onBuyPressed(
     final BuildContext context,
@@ -53,6 +53,7 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
   @override
   Widget build(final BuildContext context) {
     useLogScreenView('2024 Monthly Subscription Paywall');
+    final storeSource = installationStoreResource.value;
 
     final planIndex = useState<int>(2);
     final locale = useLocale(context);
@@ -253,11 +254,11 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                     child: Text(
                       LocalizedMap({
                         languages.en:
-                            'Please log in to the ${Envs.storeName} to continue',
+                            'Please log in to the ${Envs.getStoreName(storeSource)} to continue',
                         languages.it:
-                            'Si prega di accedere al ${Envs.storeName} per continuare',
+                            'Si prega di accedere al ${Envs.getStoreName(storeSource)} per continuare',
                         languages.ru:
-                            'Пожалуйста, войдите в ${Envs.storeName}, чтобы продолжить',
+                            'Пожалуйста, войдите в ${Envs.getStoreName(storeSource)}, чтобы продолжить',
                       }).getValue(locale),
                       textAlign: TextAlign.center,
                       style: context.textTheme.displaySmall?.copyWith(
