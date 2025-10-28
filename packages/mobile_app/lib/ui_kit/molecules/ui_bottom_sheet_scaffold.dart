@@ -36,13 +36,11 @@ class UiBottomSheetScaffold extends StatelessWidget {
               clipBehavior: Clip.antiAlias,
               decoration: sheetShape,
               constraints: const BoxConstraints(maxWidth: 400),
-              child: SheetContentScaffold(
-                resizeBehavior: const ResizeScaffoldBehavior.avoidBottomInset(
-                  // Make the bottom bar visible when the keyboard is open.
-                  maintainBottomBar: true,
-                ),
-                body: body,
-                bottomBar: StickyBottomBarVisibility(child: bottomBar),
+              child: Column(
+                children: [
+                  Expanded(child: SheetContentScaffold(body: body)),
+                  bottomBar,
+                ],
               ),
             ),
           ),
