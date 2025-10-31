@@ -1,20 +1,19 @@
 // ignore_for_file: avoid_annotating_with_dynamic
 
+import 'dart:async';
 import 'dart:isolate';
 
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
-import 'package:xsoulspace_foundation/xsoulspace_foundation.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 import '../interfaces/interfaces.dart';
 
 class FirebaseCrashlyticsPlugin implements CrashlyticsService {
-  FirebaseCrashlyticsPlugin({
-    this.forceCrashlytics = false,
-  });
+  FirebaseCrashlyticsPlugin({this.forceCrashlytics = false});
   final bool forceCrashlytics;
   late final FirebaseCrashlytics _crashlytics;
-  bool _isEnabled = false;
+  var _isEnabled = false;
 
   @override
   Future<void> onLoad() async {
@@ -31,10 +30,7 @@ class FirebaseCrashlyticsPlugin implements CrashlyticsService {
           fatal: true,
           reason: 'Unhandled isolate error',
           information: <DiagnosticsNode>[
-            DiagnosticsProperty<Isolate>(
-              'Isolate',
-              Isolate.current,
-            ),
+            DiagnosticsProperty<Isolate>('Isolate', Isolate.current),
           ],
         );
       }).sendPort,
@@ -42,12 +38,16 @@ class FirebaseCrashlyticsPlugin implements CrashlyticsService {
     // Pass all uncaught asynchronous errors that aren't handled by the
     // Flutter framework to Crashlytics
     FlutterError.onError = (final errorDetails) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+      unawaited(
+        FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails),
+      );
     };
     // Pass all uncaught asynchronous errors that aren't handled by the
     // Flutter framework to Crashlytics
     PlatformDispatcher.instance.onError = (final error, final stack) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      unawaited(
+        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true),
+      );
       return true;
     };
   }

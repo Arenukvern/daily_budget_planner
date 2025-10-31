@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/common_imports.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 export 'markdown_screen.dart';
 
@@ -8,13 +8,13 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) => Directionality(
-        textDirection: TextDirection.ltr,
-        child: Container(
-          alignment: Alignment.center,
-          color: context.colorScheme.surface,
-          child: const UiCircularProgress(),
-        ),
-      );
+    textDirection: TextDirection.ltr,
+    child: Container(
+      alignment: Alignment.center,
+      color: AppThemeData.brandDark.colorScheme.surface,
+      child: const UiCircularProgress(),
+    ),
+  );
 }
 
 class UiCircularProgress extends StatelessWidget {
@@ -24,7 +24,9 @@ class UiCircularProgress extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final child = CupertinoActivityIndicator(
-      color: context.colorScheme.primary,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? context.colorScheme.onPrimary
+          : context.colorScheme.primary,
     );
     return centered ? Center(child: child) : child;
   }

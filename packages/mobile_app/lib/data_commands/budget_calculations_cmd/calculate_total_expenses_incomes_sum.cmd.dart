@@ -1,0 +1,50 @@
+import 'package:mobile_app/common_imports.dart';
+
+class CalculateTotalExpensesIncomesSumCmd with HasResources {
+  Future<void> calculateAllExpensesIncomes({
+    required final CalculateBudgetBalanceCmdParams dateParams,
+  }) async {
+    await const CalculateBudgetBalanceCmd().execute(dateParams);
+    await Future.wait([
+      calculateByType(
+        dateParams: dateParams,
+        transactionType: TransactionType.expense,
+      ),
+      calculateByType(
+        dateParams: dateParams,
+        transactionType: TransactionType.income,
+      ),
+    ]);
+  }
+
+  /// [CalculateBudgetBalanceCmd] should be called before this method.
+  Future<void> calculateByType({
+    required final CalculateBudgetBalanceCmdParams dateParams,
+    required final TransactionType transactionType,
+  }) async {
+    await const CalculateBudgetBalanceCmd().execute(dateParams);
+    final budgetSum = totalSumResource.expensesSum;
+
+    await const CalculateOnetimeTransactionsSumCmd().execute((
+      startDate: dateParams.startDate,
+      endDate: dateParams.endDate,
+      transactionType: transactionType,
+    ));
+    final onetimeSum = oneTimeSumsResource.expensesSum;
+    final transferOutSum = oneTimeSumsResource.transferOutSum;
+    final oneTimeSum =
+        predictionConfigResource.countWithTransfers
+            ? onetimeSum + transferOutSum
+            : onetimeSum;
+    final maxSum = budgetSum > oneTimeSum ? budgetSum : oneTimeSum;
+    final _ = switch (transactionType) {
+      TransactionType.expense => totalSumResource.expensesSum = maxSum,
+      TransactionType.income => totalSumResource.incomesSum = maxSum,
+      TransactionType.transferIn || TransactionType.transferOut =>
+        throw ArgumentError.value(
+          'Only expenses and incomes can be calculated by type. '
+          '$transactionType is not allowed.',
+        ),
+    };
+  }
+}

@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,87 +10,81 @@ part of 'data_models.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
 
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-AppSettingsModel _$AppSettingsModelFromJson(Map<String, dynamic> json) {
-  return _AppSettingsModel.fromJson(json);
-}
-
 /// @nodoc
-mixin _$AppSettingsModel {
+mixin _$AppSettingsModel implements DiagnosticableTreeMixin {
   @JsonKey(fromJson: localeFromString, toJson: localeToString)
-  Locale? get locale => throw _privateConstructorUsedError;
-
-  /// Serializes this AppSettingsModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Locale? get locale;
+  @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+  UiBrightness get brightness;
+  bool get use24HourFormat;
 
   /// Create a copy of AppSettingsModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AppSettingsModelCopyWith<AppSettingsModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $AppSettingsModelCopyWith<$Res> {
-  factory $AppSettingsModelCopyWith(
-          AppSettingsModel value, $Res Function(AppSettingsModel) then) =
-      _$AppSettingsModelCopyWithImpl<$Res, AppSettingsModel>;
-  @useResult
-  $Res call(
-      {@JsonKey(fromJson: localeFromString, toJson: localeToString)
-      Locale? locale});
-}
-
-/// @nodoc
-class _$AppSettingsModelCopyWithImpl<$Res, $Val extends AppSettingsModel>
-    implements $AppSettingsModelCopyWith<$Res> {
-  _$AppSettingsModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of AppSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $AppSettingsModelCopyWith<AppSettingsModel> get copyWith =>
+      _$AppSettingsModelCopyWithImpl<AppSettingsModel>(
+          this as AppSettingsModel, _$identity);
+
+  /// Serializes this AppSettingsModel to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? locale = freezed,
-  }) {
-    return _then(_value.copyWith(
-      locale: freezed == locale
-          ? _value.locale
-          : locale // ignore: cast_nullable_to_non_nullable
-              as Locale?,
-    ) as $Val);
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'AppSettingsModel'))
+      ..add(DiagnosticsProperty('locale', locale))
+      ..add(DiagnosticsProperty('brightness', brightness))
+      ..add(DiagnosticsProperty('use24HourFormat', use24HourFormat));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is AppSettingsModel &&
+            (identical(other.locale, locale) || other.locale == locale) &&
+            (identical(other.brightness, brightness) ||
+                other.brightness == brightness) &&
+            (identical(other.use24HourFormat, use24HourFormat) ||
+                other.use24HourFormat == use24HourFormat));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, locale, brightness, use24HourFormat);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AppSettingsModel(locale: $locale, brightness: $brightness, use24HourFormat: $use24HourFormat)';
   }
 }
 
 /// @nodoc
-abstract class _$$AppSettingsModelImplCopyWith<$Res>
-    implements $AppSettingsModelCopyWith<$Res> {
-  factory _$$AppSettingsModelImplCopyWith(_$AppSettingsModelImpl value,
-          $Res Function(_$AppSettingsModelImpl) then) =
-      __$$AppSettingsModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $AppSettingsModelCopyWith<$Res> {
+  factory $AppSettingsModelCopyWith(
+          AppSettingsModel value, $Res Function(AppSettingsModel) _then) =
+      _$AppSettingsModelCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(fromJson: localeFromString, toJson: localeToString)
-      Locale? locale});
+      Locale? locale,
+      @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+      UiBrightness brightness,
+      bool use24HourFormat});
 }
 
 /// @nodoc
-class __$$AppSettingsModelImplCopyWithImpl<$Res>
-    extends _$AppSettingsModelCopyWithImpl<$Res, _$AppSettingsModelImpl>
-    implements _$$AppSettingsModelImplCopyWith<$Res> {
-  __$$AppSettingsModelImplCopyWithImpl(_$AppSettingsModelImpl _value,
-      $Res Function(_$AppSettingsModelImpl) _then)
-      : super(_value, _then);
+class _$AppSettingsModelCopyWithImpl<$Res>
+    implements $AppSettingsModelCopyWith<$Res> {
+  _$AppSettingsModelCopyWithImpl(this._self, this._then);
+
+  final AppSettingsModel _self;
+  final $Res Function(AppSettingsModel) _then;
 
   /// Create a copy of AppSettingsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -97,12 +92,22 @@ class __$$AppSettingsModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? locale = freezed,
+    Object? brightness = null,
+    Object? use24HourFormat = null,
   }) {
-    return _then(_$AppSettingsModelImpl(
+    return _then(_self.copyWith(
       locale: freezed == locale
-          ? _value.locale
+          ? _self.locale
           : locale // ignore: cast_nullable_to_non_nullable
               as Locale?,
+      brightness: null == brightness
+          ? _self.brightness
+          : brightness // ignore: cast_nullable_to_non_nullable
+              as UiBrightness,
+      use24HourFormat: null == use24HourFormat
+          ? _self.use24HourFormat
+          : use24HourFormat // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -110,396 +115,303 @@ class __$$AppSettingsModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$AppSettingsModelImpl extends _AppSettingsModel {
-  const _$AppSettingsModelImpl(
-      {@JsonKey(fromJson: localeFromString, toJson: localeToString)
-      this.locale})
+class _AppSettingsModel extends AppSettingsModel with DiagnosticableTreeMixin {
+  const _AppSettingsModel(
+      {@JsonKey(fromJson: localeFromString, toJson: localeToString) this.locale,
+      @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+      this.brightness = UiBrightness.system,
+      this.use24HourFormat = true})
       : super._();
-
-  factory _$AppSettingsModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AppSettingsModelImplFromJson(json);
+  factory _AppSettingsModel.fromJson(Map<String, dynamic> json) =>
+      _$AppSettingsModelFromJson(json);
 
   @override
   @JsonKey(fromJson: localeFromString, toJson: localeToString)
   final Locale? locale;
+  @override
+  @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+  final UiBrightness brightness;
+  @override
+  @JsonKey()
+  final bool use24HourFormat;
+
+  /// Create a copy of AppSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$AppSettingsModelCopyWith<_AppSettingsModel> get copyWith =>
+      __$AppSettingsModelCopyWithImpl<_AppSettingsModel>(this, _$identity);
 
   @override
-  String toString() {
-    return 'AppSettingsModel(locale: $locale)';
+  Map<String, dynamic> toJson() {
+    return _$AppSettingsModelToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'AppSettingsModel'))
+      ..add(DiagnosticsProperty('locale', locale))
+      ..add(DiagnosticsProperty('brightness', brightness))
+      ..add(DiagnosticsProperty('use24HourFormat', use24HourFormat));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AppSettingsModelImpl &&
-            (identical(other.locale, locale) || other.locale == locale));
+            other is _AppSettingsModel &&
+            (identical(other.locale, locale) || other.locale == locale) &&
+            (identical(other.brightness, brightness) ||
+                other.brightness == brightness) &&
+            (identical(other.use24HourFormat, use24HourFormat) ||
+                other.use24HourFormat == use24HourFormat));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, locale);
-
-  /// Create a copy of AppSettingsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AppSettingsModelImplCopyWith<_$AppSettingsModelImpl> get copyWith =>
-      __$$AppSettingsModelImplCopyWithImpl<_$AppSettingsModelImpl>(
-          this, _$identity);
+  int get hashCode =>
+      Object.hash(runtimeType, locale, brightness, use24HourFormat);
 
   @override
-  Map<String, dynamic> toJson() {
-    return _$$AppSettingsModelImplToJson(
-      this,
-    );
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'AppSettingsModel(locale: $locale, brightness: $brightness, use24HourFormat: $use24HourFormat)';
   }
 }
 
-abstract class _AppSettingsModel extends AppSettingsModel {
-  const factory _AppSettingsModel(
+/// @nodoc
+abstract mixin class _$AppSettingsModelCopyWith<$Res>
+    implements $AppSettingsModelCopyWith<$Res> {
+  factory _$AppSettingsModelCopyWith(
+          _AppSettingsModel value, $Res Function(_AppSettingsModel) _then) =
+      __$AppSettingsModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
       {@JsonKey(fromJson: localeFromString, toJson: localeToString)
-      final Locale? locale}) = _$AppSettingsModelImpl;
-  const _AppSettingsModel._() : super._();
+      Locale? locale,
+      @JsonKey(fromJson: UiBrightness.fromJson, toJson: UiBrightness.toJson)
+      UiBrightness brightness,
+      bool use24HourFormat});
+}
 
-  factory _AppSettingsModel.fromJson(Map<String, dynamic> json) =
-      _$AppSettingsModelImpl.fromJson;
+/// @nodoc
+class __$AppSettingsModelCopyWithImpl<$Res>
+    implements _$AppSettingsModelCopyWith<$Res> {
+  __$AppSettingsModelCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(fromJson: localeFromString, toJson: localeToString)
-  Locale? get locale;
+  final _AppSettingsModel _self;
+  final $Res Function(_AppSettingsModel) _then;
 
   /// Create a copy of AppSettingsModel
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AppSettingsModelImplCopyWith<_$AppSettingsModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-mixin _$BudgetModelId {
-  String get value => throw _privateConstructorUsedError;
-
-  /// Create a copy of BudgetModelId
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $BudgetModelIdCopyWith<BudgetModelId> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $BudgetModelIdCopyWith<$Res> {
-  factory $BudgetModelIdCopyWith(
-          BudgetModelId value, $Res Function(BudgetModelId) then) =
-      _$BudgetModelIdCopyWithImpl<$Res, BudgetModelId>;
-  @useResult
-  $Res call({String value});
-}
-
-/// @nodoc
-class _$BudgetModelIdCopyWithImpl<$Res, $Val extends BudgetModelId>
-    implements $BudgetModelIdCopyWith<$Res> {
-  _$BudgetModelIdCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of BudgetModelId
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
-    Object? value = null,
+    Object? locale = freezed,
+    Object? brightness = null,
+    Object? use24HourFormat = null,
   }) {
-    return _then(_value.copyWith(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$BudgetModelIdImplCopyWith<$Res>
-    implements $BudgetModelIdCopyWith<$Res> {
-  factory _$$BudgetModelIdImplCopyWith(
-          _$BudgetModelIdImpl value, $Res Function(_$BudgetModelIdImpl) then) =
-      __$$BudgetModelIdImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String value});
-}
-
-/// @nodoc
-class __$$BudgetModelIdImplCopyWithImpl<$Res>
-    extends _$BudgetModelIdCopyWithImpl<$Res, _$BudgetModelIdImpl>
-    implements _$$BudgetModelIdImplCopyWith<$Res> {
-  __$$BudgetModelIdImplCopyWithImpl(
-      _$BudgetModelIdImpl _value, $Res Function(_$BudgetModelIdImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of BudgetModelId
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? value = null,
-  }) {
-    return _then(_$BudgetModelIdImpl(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(_AppSettingsModel(
+      locale: freezed == locale
+          ? _self.locale
+          : locale // ignore: cast_nullable_to_non_nullable
+              as Locale?,
+      brightness: null == brightness
+          ? _self.brightness
+          : brightness // ignore: cast_nullable_to_non_nullable
+              as UiBrightness,
+      use24HourFormat: null == use24HourFormat
+          ? _self.use24HourFormat
+          : use24HourFormat // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
+mixin _$BudgetModelId implements DiagnosticableTreeMixin {
+  String get value;
 
-class _$BudgetModelIdImpl extends _BudgetModelId {
-  const _$BudgetModelIdImpl({required this.value}) : super._();
+  /// Create a copy of BudgetModelId
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $BudgetModelIdCopyWith<BudgetModelId> get copyWith =>
+      _$BudgetModelIdCopyWithImpl<BudgetModelId>(
+          this as BudgetModelId, _$identity);
 
   @override
-  final String value;
-
-  @override
-  String toString() {
-    return 'BudgetModelId(value: $value)';
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'BudgetModelId'))
+      ..add(DiagnosticsProperty('value', value));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BudgetModelIdImpl &&
+            other is BudgetModelId &&
             (identical(other.value, value) || other.value == value));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  /// Create a copy of BudgetModelId
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$BudgetModelIdImplCopyWith<_$BudgetModelIdImpl> get copyWith =>
-      __$$BudgetModelIdImplCopyWithImpl<_$BudgetModelIdImpl>(this, _$identity);
-}
-
-abstract class _BudgetModelId extends BudgetModelId {
-  const factory _BudgetModelId({required final String value}) =
-      _$BudgetModelIdImpl;
-  const _BudgetModelId._() : super._();
-
-  @override
-  String get value;
-
-  /// Create a copy of BudgetModelId
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BudgetModelIdImplCopyWith<_$BudgetModelIdImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-MonthlyBudgetModel _$MonthlyBudgetModelFromJson(Map<String, dynamic> json) {
-  return _MonthlyBudgetModel.fromJson(json);
-}
-
-/// @nodoc
-mixin _$MonthlyBudgetModel {
-  BudgetModelId get id => throw _privateConstructorUsedError;
-  @JsonKey(
-      fromJson: dateTimeFromMilisecondsSinceEpoch,
-      toJson: dateTimeToMilisecondsSinceEpoch)
-  DateTime? get nextBudgetDay => throw _privateConstructorUsedError;
-  double get amount => throw _privateConstructorUsedError;
-  double get savings => throw _privateConstructorUsedError;
-
-  /// Serializes this MonthlyBudgetModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of MonthlyBudgetModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $MonthlyBudgetModelCopyWith<MonthlyBudgetModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MonthlyBudgetModelCopyWith<$Res> {
-  factory $MonthlyBudgetModelCopyWith(
-          MonthlyBudgetModel value, $Res Function(MonthlyBudgetModel) then) =
-      _$MonthlyBudgetModelCopyWithImpl<$Res, MonthlyBudgetModel>;
-  @useResult
-  $Res call(
-      {BudgetModelId id,
-      @JsonKey(
-          fromJson: dateTimeFromMilisecondsSinceEpoch,
-          toJson: dateTimeToMilisecondsSinceEpoch)
-      DateTime? nextBudgetDay,
-      double amount,
-      double savings});
-
-  $BudgetModelIdCopyWith<$Res> get id;
-}
-
-/// @nodoc
-class _$MonthlyBudgetModelCopyWithImpl<$Res, $Val extends MonthlyBudgetModel>
-    implements $MonthlyBudgetModelCopyWith<$Res> {
-  _$MonthlyBudgetModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of MonthlyBudgetModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? nextBudgetDay = freezed,
-    Object? amount = null,
-    Object? savings = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as BudgetModelId,
-      nextBudgetDay: freezed == nextBudgetDay
-          ? _value.nextBudgetDay
-          : nextBudgetDay // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      savings: null == savings
-          ? _value.savings
-          : savings // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
-  }
-
-  /// Create a copy of MonthlyBudgetModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $BudgetModelIdCopyWith<$Res> get id {
-    return $BudgetModelIdCopyWith<$Res>(_value.id, (value) {
-      return _then(_value.copyWith(id: value) as $Val);
-    });
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'BudgetModelId(value: $value)';
   }
 }
 
 /// @nodoc
-abstract class _$$MonthlyBudgetModelImplCopyWith<$Res>
-    implements $MonthlyBudgetModelCopyWith<$Res> {
-  factory _$$MonthlyBudgetModelImplCopyWith(_$MonthlyBudgetModelImpl value,
-          $Res Function(_$MonthlyBudgetModelImpl) then) =
-      __$$MonthlyBudgetModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $BudgetModelIdCopyWith<$Res> {
+  factory $BudgetModelIdCopyWith(
+          BudgetModelId value, $Res Function(BudgetModelId) _then) =
+      _$BudgetModelIdCopyWithImpl;
   @useResult
-  $Res call(
-      {BudgetModelId id,
-      @JsonKey(
-          fromJson: dateTimeFromMilisecondsSinceEpoch,
-          toJson: dateTimeToMilisecondsSinceEpoch)
-      DateTime? nextBudgetDay,
-      double amount,
-      double savings});
-
-  @override
-  $BudgetModelIdCopyWith<$Res> get id;
+  $Res call({String value});
 }
 
 /// @nodoc
-class __$$MonthlyBudgetModelImplCopyWithImpl<$Res>
-    extends _$MonthlyBudgetModelCopyWithImpl<$Res, _$MonthlyBudgetModelImpl>
-    implements _$$MonthlyBudgetModelImplCopyWith<$Res> {
-  __$$MonthlyBudgetModelImplCopyWithImpl(_$MonthlyBudgetModelImpl _value,
-      $Res Function(_$MonthlyBudgetModelImpl) _then)
-      : super(_value, _then);
+class _$BudgetModelIdCopyWithImpl<$Res>
+    implements $BudgetModelIdCopyWith<$Res> {
+  _$BudgetModelIdCopyWithImpl(this._self, this._then);
 
-  /// Create a copy of MonthlyBudgetModel
+  final BudgetModelId _self;
+  final $Res Function(BudgetModelId) _then;
+
+  /// Create a copy of BudgetModelId
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? nextBudgetDay = freezed,
-    Object? amount = null,
-    Object? savings = null,
+    Object? value = null,
   }) {
-    return _then(_$MonthlyBudgetModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as BudgetModelId,
-      nextBudgetDay: freezed == nextBudgetDay
-          ? _value.nextBudgetDay
-          : nextBudgetDay // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      savings: null == savings
-          ? _value.savings
-          : savings // ignore: cast_nullable_to_non_nullable
-              as double,
+    return _then(_self.copyWith(
+      value: null == value
+          ? _self.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$MonthlyBudgetModelImpl implements _MonthlyBudgetModel {
-  const _$MonthlyBudgetModelImpl(
-      {required this.id,
-      @JsonKey(
-          fromJson: dateTimeFromMilisecondsSinceEpoch,
-          toJson: dateTimeToMilisecondsSinceEpoch)
-      this.nextBudgetDay,
-      this.amount = 0,
-      this.savings = 0});
 
-  factory _$MonthlyBudgetModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MonthlyBudgetModelImplFromJson(json);
+class _BudgetModelId extends BudgetModelId with DiagnosticableTreeMixin {
+  const _BudgetModelId({required this.value}) : super._();
 
   @override
-  final BudgetModelId id;
+  final String value;
+
+  /// Create a copy of BudgetModelId
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(
-      fromJson: dateTimeFromMilisecondsSinceEpoch,
-      toJson: dateTimeToMilisecondsSinceEpoch)
-  final DateTime? nextBudgetDay;
-  @override
-  @JsonKey()
-  final double amount;
-  @override
-  @JsonKey()
-  final double savings;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BudgetModelIdCopyWith<_BudgetModelId> get copyWith =>
+      __$BudgetModelIdCopyWithImpl<_BudgetModelId>(this, _$identity);
 
   @override
-  String toString() {
-    return 'MonthlyBudgetModel(id: $id, nextBudgetDay: $nextBudgetDay, amount: $amount, savings: $savings)';
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'BudgetModelId'))
+      ..add(DiagnosticsProperty('value', value));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MonthlyBudgetModelImpl &&
+            other is _BudgetModelId &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'BudgetModelId(value: $value)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$BudgetModelIdCopyWith<$Res>
+    implements $BudgetModelIdCopyWith<$Res> {
+  factory _$BudgetModelIdCopyWith(
+          _BudgetModelId value, $Res Function(_BudgetModelId) _then) =
+      __$BudgetModelIdCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class __$BudgetModelIdCopyWithImpl<$Res>
+    implements _$BudgetModelIdCopyWith<$Res> {
+  __$BudgetModelIdCopyWithImpl(this._self, this._then);
+
+  final _BudgetModelId _self;
+  final $Res Function(_BudgetModelId) _then;
+
+  /// Create a copy of BudgetModelId
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? value = null,
+  }) {
+    return _then(_BudgetModelId(
+      value: null == value
+          ? _self.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$MonthlyBudgetModel implements DiagnosticableTreeMixin {
+  BudgetModelId get id;
+  @JsonKey(
+      fromJson: dateTimeFromMillisecondsSinceEpoch,
+      toJson: dateTimeToMillisecondsSinceEpoch)
+  DateTime? get nextBudgetDay;
+  double get amount;
+  double get savings;
+
+  /// Create a copy of MonthlyBudgetModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $MonthlyBudgetModelCopyWith<MonthlyBudgetModel> get copyWith =>
+      _$MonthlyBudgetModelCopyWithImpl<MonthlyBudgetModel>(
+          this as MonthlyBudgetModel, _$identity);
+
+  /// Serializes this MonthlyBudgetModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'MonthlyBudgetModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nextBudgetDay', nextBudgetDay))
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('savings', savings));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is MonthlyBudgetModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nextBudgetDay, nextBudgetDay) ||
                 other.nextBudgetDay == nextBudgetDay) &&
@@ -512,194 +424,256 @@ class _$MonthlyBudgetModelImpl implements _MonthlyBudgetModel {
   int get hashCode =>
       Object.hash(runtimeType, id, nextBudgetDay, amount, savings);
 
-  /// Create a copy of MonthlyBudgetModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$MonthlyBudgetModelImplCopyWith<_$MonthlyBudgetModelImpl> get copyWith =>
-      __$$MonthlyBudgetModelImplCopyWithImpl<_$MonthlyBudgetModelImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MonthlyBudgetModelImplToJson(
-      this,
-    );
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'MonthlyBudgetModel(id: $id, nextBudgetDay: $nextBudgetDay, amount: $amount, savings: $savings)';
   }
 }
 
-abstract class _MonthlyBudgetModel implements MonthlyBudgetModel {
-  const factory _MonthlyBudgetModel(
-      {required final BudgetModelId id,
-      @JsonKey(
-          fromJson: dateTimeFromMilisecondsSinceEpoch,
-          toJson: dateTimeToMilisecondsSinceEpoch)
-      final DateTime? nextBudgetDay,
-      final double amount,
-      final double savings}) = _$MonthlyBudgetModelImpl;
-
-  factory _MonthlyBudgetModel.fromJson(Map<String, dynamic> json) =
-      _$MonthlyBudgetModelImpl.fromJson;
-
-  @override
-  BudgetModelId get id;
-  @override
-  @JsonKey(
-      fromJson: dateTimeFromMilisecondsSinceEpoch,
-      toJson: dateTimeToMilisecondsSinceEpoch)
-  DateTime? get nextBudgetDay;
-  @override
-  double get amount;
-  @override
-  double get savings;
-
-  /// Create a copy of MonthlyBudgetModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$MonthlyBudgetModelImplCopyWith<_$MonthlyBudgetModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-WeeklyBudgetModel _$WeeklyBudgetModelFromJson(Map<String, dynamic> json) {
-  return _WeeklyBudgetModel.fromJson(json);
-}
-
 /// @nodoc
-mixin _$WeeklyBudgetModel {
-  BudgetModelId get id => throw _privateConstructorUsedError;
-  double get amount => throw _privateConstructorUsedError;
-
-  /// Serializes this WeeklyBudgetModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of WeeklyBudgetModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $WeeklyBudgetModelCopyWith<WeeklyBudgetModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $WeeklyBudgetModelCopyWith<$Res> {
-  factory $WeeklyBudgetModelCopyWith(
-          WeeklyBudgetModel value, $Res Function(WeeklyBudgetModel) then) =
-      _$WeeklyBudgetModelCopyWithImpl<$Res, WeeklyBudgetModel>;
+abstract mixin class $MonthlyBudgetModelCopyWith<$Res> {
+  factory $MonthlyBudgetModelCopyWith(
+          MonthlyBudgetModel value, $Res Function(MonthlyBudgetModel) _then) =
+      _$MonthlyBudgetModelCopyWithImpl;
   @useResult
-  $Res call({BudgetModelId id, double amount});
+  $Res call(
+      {BudgetModelId id,
+      @JsonKey(
+          fromJson: dateTimeFromMillisecondsSinceEpoch,
+          toJson: dateTimeToMillisecondsSinceEpoch)
+      DateTime? nextBudgetDay,
+      double amount,
+      double savings});
 
   $BudgetModelIdCopyWith<$Res> get id;
 }
 
 /// @nodoc
-class _$WeeklyBudgetModelCopyWithImpl<$Res, $Val extends WeeklyBudgetModel>
-    implements $WeeklyBudgetModelCopyWith<$Res> {
-  _$WeeklyBudgetModelCopyWithImpl(this._value, this._then);
+class _$MonthlyBudgetModelCopyWithImpl<$Res>
+    implements $MonthlyBudgetModelCopyWith<$Res> {
+  _$MonthlyBudgetModelCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final MonthlyBudgetModel _self;
+  final $Res Function(MonthlyBudgetModel) _then;
 
-  /// Create a copy of WeeklyBudgetModel
+  /// Create a copy of MonthlyBudgetModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
+    Object? nextBudgetDay = freezed,
     Object? amount = null,
+    Object? savings = null,
   }) {
-    return _then(_value.copyWith(
+    return _then(_self.copyWith(
       id: null == id
-          ? _value.id
+          ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as BudgetModelId,
+      nextBudgetDay: freezed == nextBudgetDay
+          ? _self.nextBudgetDay
+          : nextBudgetDay // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       amount: null == amount
-          ? _value.amount
+          ? _self.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
-    ) as $Val);
+      savings: null == savings
+          ? _self.savings
+          : savings // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
   }
 
-  /// Create a copy of WeeklyBudgetModel
+  /// Create a copy of MonthlyBudgetModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BudgetModelIdCopyWith<$Res> get id {
-    return $BudgetModelIdCopyWith<$Res>(_value.id, (value) {
-      return _then(_value.copyWith(id: value) as $Val);
+    return $BudgetModelIdCopyWith<$Res>(_self.id, (value) {
+      return _then(_self.copyWith(id: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$$WeeklyBudgetModelImplCopyWith<$Res>
-    implements $WeeklyBudgetModelCopyWith<$Res> {
-  factory _$$WeeklyBudgetModelImplCopyWith(_$WeeklyBudgetModelImpl value,
-          $Res Function(_$WeeklyBudgetModelImpl) then) =
-      __$$WeeklyBudgetModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({BudgetModelId id, double amount});
-
-  @override
-  $BudgetModelIdCopyWith<$Res> get id;
-}
-
-/// @nodoc
-class __$$WeeklyBudgetModelImplCopyWithImpl<$Res>
-    extends _$WeeklyBudgetModelCopyWithImpl<$Res, _$WeeklyBudgetModelImpl>
-    implements _$$WeeklyBudgetModelImplCopyWith<$Res> {
-  __$$WeeklyBudgetModelImplCopyWithImpl(_$WeeklyBudgetModelImpl _value,
-      $Res Function(_$WeeklyBudgetModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of WeeklyBudgetModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? amount = null,
-  }) {
-    return _then(_$WeeklyBudgetModelImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as BudgetModelId,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
-  }
-}
-
-/// @nodoc
 @JsonSerializable()
-class _$WeeklyBudgetModelImpl implements _WeeklyBudgetModel {
-  const _$WeeklyBudgetModelImpl({required this.id, this.amount = 0});
-
-  factory _$WeeklyBudgetModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$WeeklyBudgetModelImplFromJson(json);
+class _MonthlyBudgetModel
+    with DiagnosticableTreeMixin
+    implements MonthlyBudgetModel {
+  const _MonthlyBudgetModel(
+      {required this.id,
+      @JsonKey(
+            fromJson: dateTimeFromMillisecondsSinceEpoch,
+          toJson: dateTimeToMillisecondsSinceEpoch)
+      this.nextBudgetDay,
+      this.amount = 0,
+      this.savings = 0});
+  factory _MonthlyBudgetModel.fromJson(Map<String, dynamic> json) =>
+      _$MonthlyBudgetModelFromJson(json);
 
   @override
   final BudgetModelId id;
   @override
+  @JsonKey(
+      fromJson: dateTimeFromMillisecondsSinceEpoch,
+      toJson: dateTimeToMillisecondsSinceEpoch)
+  final DateTime? nextBudgetDay;
+  @override
   @JsonKey()
   final double amount;
+  @override
+  @JsonKey()
+  final double savings;
+
+  /// Create a copy of MonthlyBudgetModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$MonthlyBudgetModelCopyWith<_MonthlyBudgetModel> get copyWith =>
+      __$MonthlyBudgetModelCopyWithImpl<_MonthlyBudgetModel>(this, _$identity);
 
   @override
-  String toString() {
-    return 'WeeklyBudgetModel(id: $id, amount: $amount)';
+  Map<String, dynamic> toJson() {
+    return _$MonthlyBudgetModelToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'MonthlyBudgetModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nextBudgetDay', nextBudgetDay))
+      ..add(DiagnosticsProperty('amount', amount))
+      ..add(DiagnosticsProperty('savings', savings));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$WeeklyBudgetModelImpl &&
+            other is _MonthlyBudgetModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.nextBudgetDay, nextBudgetDay) ||
+                other.nextBudgetDay == nextBudgetDay) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.savings, savings) || other.savings == savings));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, nextBudgetDay, amount, savings);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'MonthlyBudgetModel(id: $id, nextBudgetDay: $nextBudgetDay, amount: $amount, savings: $savings)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$MonthlyBudgetModelCopyWith<$Res>
+    implements $MonthlyBudgetModelCopyWith<$Res> {
+  factory _$MonthlyBudgetModelCopyWith(
+          _MonthlyBudgetModel value, $Res Function(_MonthlyBudgetModel) _then) =
+      __$MonthlyBudgetModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {BudgetModelId id,
+      @JsonKey(
+          fromJson: dateTimeFromMillisecondsSinceEpoch,
+          toJson: dateTimeToMillisecondsSinceEpoch)
+      DateTime? nextBudgetDay,
+      double amount,
+      double savings});
+
+  @override
+  $BudgetModelIdCopyWith<$Res> get id;
+}
+
+/// @nodoc
+class __$MonthlyBudgetModelCopyWithImpl<$Res>
+    implements _$MonthlyBudgetModelCopyWith<$Res> {
+  __$MonthlyBudgetModelCopyWithImpl(this._self, this._then);
+
+  final _MonthlyBudgetModel _self;
+  final $Res Function(_MonthlyBudgetModel) _then;
+
+  /// Create a copy of MonthlyBudgetModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? nextBudgetDay = freezed,
+    Object? amount = null,
+    Object? savings = null,
+  }) {
+    return _then(_MonthlyBudgetModel(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as BudgetModelId,
+      nextBudgetDay: freezed == nextBudgetDay
+          ? _self.nextBudgetDay
+          : nextBudgetDay // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      amount: null == amount
+          ? _self.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      savings: null == savings
+          ? _self.savings
+          : savings // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+
+  /// Create a copy of MonthlyBudgetModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $BudgetModelIdCopyWith<$Res> get id {
+    return $BudgetModelIdCopyWith<$Res>(_self.id, (value) {
+      return _then(_self.copyWith(id: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$WeeklyBudgetModel implements DiagnosticableTreeMixin {
+  BudgetModelId get id;
+  double get amount;
+
+  /// Create a copy of WeeklyBudgetModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $WeeklyBudgetModelCopyWith<WeeklyBudgetModel> get copyWith =>
+      _$WeeklyBudgetModelCopyWithImpl<WeeklyBudgetModel>(
+          this as WeeklyBudgetModel, _$identity);
+
+  /// Serializes this WeeklyBudgetModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'WeeklyBudgetModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('amount', amount));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is WeeklyBudgetModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.amount, amount) || other.amount == amount));
   }
@@ -708,146 +682,2656 @@ class _$WeeklyBudgetModelImpl implements _WeeklyBudgetModel {
   @override
   int get hashCode => Object.hash(runtimeType, id, amount);
 
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'WeeklyBudgetModel(id: $id, amount: $amount)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $WeeklyBudgetModelCopyWith<$Res> {
+  factory $WeeklyBudgetModelCopyWith(
+          WeeklyBudgetModel value, $Res Function(WeeklyBudgetModel) _then) =
+      _$WeeklyBudgetModelCopyWithImpl;
+  @useResult
+  $Res call({BudgetModelId id, double amount});
+
+  $BudgetModelIdCopyWith<$Res> get id;
+}
+
+/// @nodoc
+class _$WeeklyBudgetModelCopyWithImpl<$Res>
+    implements $WeeklyBudgetModelCopyWith<$Res> {
+  _$WeeklyBudgetModelCopyWithImpl(this._self, this._then);
+
+  final WeeklyBudgetModel _self;
+  final $Res Function(WeeklyBudgetModel) _then;
+
   /// Create a copy of WeeklyBudgetModel
   /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? amount = null,
+  }) {
+    return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as BudgetModelId,
+      amount: null == amount
+          ? _self.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+
+  /// Create a copy of WeeklyBudgetModel
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  _$$WeeklyBudgetModelImplCopyWith<_$WeeklyBudgetModelImpl> get copyWith =>
-      __$$WeeklyBudgetModelImplCopyWithImpl<_$WeeklyBudgetModelImpl>(
+  $BudgetModelIdCopyWith<$Res> get id {
+    return $BudgetModelIdCopyWith<$Res>(_self.id, (value) {
+      return _then(_self.copyWith(id: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _WeeklyBudgetModel
+    with DiagnosticableTreeMixin
+    implements WeeklyBudgetModel {
+  const _WeeklyBudgetModel({required this.id, this.amount = 0});
+  factory _WeeklyBudgetModel.fromJson(Map<String, dynamic> json) =>
+      _$WeeklyBudgetModelFromJson(json);
+
+  @override
+  final BudgetModelId id;
+  @override
+  @JsonKey()
+  final double amount;
+
+  /// Create a copy of WeeklyBudgetModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$WeeklyBudgetModelCopyWith<_WeeklyBudgetModel> get copyWith =>
+      __$WeeklyBudgetModelCopyWithImpl<_WeeklyBudgetModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$WeeklyBudgetModelToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'WeeklyBudgetModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('amount', amount));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _WeeklyBudgetModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.amount, amount) || other.amount == amount));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, amount);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'WeeklyBudgetModel(id: $id, amount: $amount)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$WeeklyBudgetModelCopyWith<$Res>
+    implements $WeeklyBudgetModelCopyWith<$Res> {
+  factory _$WeeklyBudgetModelCopyWith(
+          _WeeklyBudgetModel value, $Res Function(_WeeklyBudgetModel) _then) =
+      __$WeeklyBudgetModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call({BudgetModelId id, double amount});
+
+  @override
+  $BudgetModelIdCopyWith<$Res> get id;
+}
+
+/// @nodoc
+class __$WeeklyBudgetModelCopyWithImpl<$Res>
+    implements _$WeeklyBudgetModelCopyWith<$Res> {
+  __$WeeklyBudgetModelCopyWithImpl(this._self, this._then);
+
+  final _WeeklyBudgetModel _self;
+  final $Res Function(_WeeklyBudgetModel) _then;
+
+  /// Create a copy of WeeklyBudgetModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? amount = null,
+  }) {
+    return _then(_WeeklyBudgetModel(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as BudgetModelId,
+      amount: null == amount
+          ? _self.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+
+  /// Create a copy of WeeklyBudgetModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $BudgetModelIdCopyWith<$Res> get id {
+    return $BudgetModelIdCopyWith<$Res>(_self.id, (value) {
+      return _then(_self.copyWith(id: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$Budget implements DiagnosticableTreeMixin {
+  DateTime get date;
+  BudgetId get id;
+  InputMoney get input;
+  BudgetType get type;
+  BudgetTransactionType get transactionType;
+  PersonalIncomeBudgetType get personalIncomeType;
+  PersonalExpenseBudgetType get personalExpenseType;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $BudgetCopyWith<Budget> get copyWith =>
+      _$BudgetCopyWithImpl<Budget>(this as Budget, _$identity);
+
+  /// Serializes this Budget to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Budget'))
+      ..add(DiagnosticsProperty('date', date))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('input', input))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('transactionType', transactionType))
+      ..add(DiagnosticsProperty('personalIncomeType', personalIncomeType))
+      ..add(DiagnosticsProperty('personalExpenseType', personalExpenseType));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Budget &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.input, input) || other.input == input) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.transactionType, transactionType) ||
+                other.transactionType == transactionType) &&
+            (identical(other.personalIncomeType, personalIncomeType) ||
+                other.personalIncomeType == personalIncomeType) &&
+            (identical(other.personalExpenseType, personalExpenseType) ||
+                other.personalExpenseType == personalExpenseType));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, date, id, input, type,
+      transactionType, personalIncomeType, personalExpenseType);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Budget(date: $date, id: $id, input: $input, type: $type, transactionType: $transactionType, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $BudgetCopyWith<$Res> {
+  factory $BudgetCopyWith(Budget value, $Res Function(Budget) _then) =
+      _$BudgetCopyWithImpl;
+  @useResult
+  $Res call(
+      {DateTime date,
+      BudgetId id,
+      InputMoney input,
+      BudgetType type,
+      BudgetTransactionType transactionType,
+      PersonalIncomeBudgetType personalIncomeType,
+      PersonalExpenseBudgetType personalExpenseType});
+
+  $InputMoneyCopyWith<$Res> get input;
+}
+
+/// @nodoc
+class _$BudgetCopyWithImpl<$Res> implements $BudgetCopyWith<$Res> {
+  _$BudgetCopyWithImpl(this._self, this._then);
+
+  final Budget _self;
+  final $Res Function(Budget) _then;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? date = null,
+    Object? id = null,
+    Object? input = null,
+    Object? type = null,
+    Object? transactionType = null,
+    Object? personalIncomeType = null,
+    Object? personalExpenseType = null,
+  }) {
+    return _then(_self.copyWith(
+      date: null == date
+          ? _self.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as BudgetId,
+      input: null == input
+          ? _self.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as InputMoney,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as BudgetType,
+      transactionType: null == transactionType
+          ? _self.transactionType
+          : transactionType // ignore: cast_nullable_to_non_nullable
+              as BudgetTransactionType,
+      personalIncomeType: null == personalIncomeType
+          ? _self.personalIncomeType
+          : personalIncomeType // ignore: cast_nullable_to_non_nullable
+              as PersonalIncomeBudgetType,
+      personalExpenseType: null == personalExpenseType
+          ? _self.personalExpenseType
+          : personalExpenseType // ignore: cast_nullable_to_non_nullable
+              as PersonalExpenseBudgetType,
+    ));
+  }
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $InputMoneyCopyWith<$Res> get input {
+    return $InputMoneyCopyWith<$Res>(_self.input, (value) {
+      return _then(_self.copyWith(input: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _Budget extends Budget with DiagnosticableTreeMixin {
+  const _Budget(
+      {required this.date,
+      this.id = BudgetId.empty,
+      this.input = InputMoney.empty,
+      this.type = BudgetType.personal,
+      this.transactionType = BudgetTransactionType.income,
+      this.personalIncomeType = PersonalIncomeBudgetType.salary,
+      this.personalExpenseType = PersonalExpenseBudgetType.other})
+      : super._();
+  factory _Budget.fromJson(Map<String, dynamic> json) => _$BudgetFromJson(json);
+
+  @override
+  final DateTime date;
+  @override
+  @JsonKey()
+  final BudgetId id;
+  @override
+  @JsonKey()
+  final InputMoney input;
+  @override
+  @JsonKey()
+  final BudgetType type;
+  @override
+  @JsonKey()
+  final BudgetTransactionType transactionType;
+  @override
+  @JsonKey()
+  final PersonalIncomeBudgetType personalIncomeType;
+  @override
+  @JsonKey()
+  final PersonalExpenseBudgetType personalExpenseType;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$BudgetCopyWith<_Budget> get copyWith =>
+      __$BudgetCopyWithImpl<_Budget>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BudgetToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Budget'))
+      ..add(DiagnosticsProperty('date', date))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('input', input))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('transactionType', transactionType))
+      ..add(DiagnosticsProperty('personalIncomeType', personalIncomeType))
+      ..add(DiagnosticsProperty('personalExpenseType', personalExpenseType));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Budget &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.input, input) || other.input == input) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.transactionType, transactionType) ||
+                other.transactionType == transactionType) &&
+            (identical(other.personalIncomeType, personalIncomeType) ||
+                other.personalIncomeType == personalIncomeType) &&
+            (identical(other.personalExpenseType, personalExpenseType) ||
+                other.personalExpenseType == personalExpenseType));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, date, id, input, type,
+      transactionType, personalIncomeType, personalExpenseType);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Budget(date: $date, id: $id, input: $input, type: $type, transactionType: $transactionType, personalIncomeType: $personalIncomeType, personalExpenseType: $personalExpenseType)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$BudgetCopyWith<$Res> implements $BudgetCopyWith<$Res> {
+  factory _$BudgetCopyWith(_Budget value, $Res Function(_Budget) _then) =
+      __$BudgetCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {DateTime date,
+      BudgetId id,
+      InputMoney input,
+      BudgetType type,
+      BudgetTransactionType transactionType,
+      PersonalIncomeBudgetType personalIncomeType,
+      PersonalExpenseBudgetType personalExpenseType});
+
+  @override
+  $InputMoneyCopyWith<$Res> get input;
+}
+
+/// @nodoc
+class __$BudgetCopyWithImpl<$Res> implements _$BudgetCopyWith<$Res> {
+  __$BudgetCopyWithImpl(this._self, this._then);
+
+  final _Budget _self;
+  final $Res Function(_Budget) _then;
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? date = null,
+    Object? id = null,
+    Object? input = null,
+    Object? type = null,
+    Object? transactionType = null,
+    Object? personalIncomeType = null,
+    Object? personalExpenseType = null,
+  }) {
+    return _then(_Budget(
+      date: null == date
+          ? _self.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as BudgetId,
+      input: null == input
+          ? _self.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as InputMoney,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as BudgetType,
+      transactionType: null == transactionType
+          ? _self.transactionType
+          : transactionType // ignore: cast_nullable_to_non_nullable
+              as BudgetTransactionType,
+      personalIncomeType: null == personalIncomeType
+          ? _self.personalIncomeType
+          : personalIncomeType // ignore: cast_nullable_to_non_nullable
+              as PersonalIncomeBudgetType,
+      personalExpenseType: null == personalExpenseType
+          ? _self.personalExpenseType
+          : personalExpenseType // ignore: cast_nullable_to_non_nullable
+              as PersonalExpenseBudgetType,
+    ));
+  }
+
+  /// Create a copy of Budget
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $InputMoneyCopyWith<$Res> get input {
+    return $InputMoneyCopyWith<$Res>(_self.input, (value) {
+      return _then(_self.copyWith(input: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$FinSettingsModel implements DiagnosticableTreeMixin {
+  CurrencyId get fiatCurrencyId;
+  CurrencyId get cryptoCurrencyId;
+
+  /// Create a copy of FinSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FinSettingsModelCopyWith<FinSettingsModel> get copyWith =>
+      _$FinSettingsModelCopyWithImpl<FinSettingsModel>(
+          this as FinSettingsModel, _$identity);
+
+  /// Serializes this FinSettingsModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'FinSettingsModel'))
+      ..add(DiagnosticsProperty('fiatCurrencyId', fiatCurrencyId))
+      ..add(DiagnosticsProperty('cryptoCurrencyId', cryptoCurrencyId));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FinSettingsModel &&
+            (identical(other.fiatCurrencyId, fiatCurrencyId) ||
+                other.fiatCurrencyId == fiatCurrencyId) &&
+            (identical(other.cryptoCurrencyId, cryptoCurrencyId) ||
+                other.cryptoCurrencyId == cryptoCurrencyId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, fiatCurrencyId, cryptoCurrencyId);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'FinSettingsModel(fiatCurrencyId: $fiatCurrencyId, cryptoCurrencyId: $cryptoCurrencyId)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $FinSettingsModelCopyWith<$Res> {
+  factory $FinSettingsModelCopyWith(
+          FinSettingsModel value, $Res Function(FinSettingsModel) _then) =
+      _$FinSettingsModelCopyWithImpl;
+  @useResult
+  $Res call({CurrencyId fiatCurrencyId, CurrencyId cryptoCurrencyId});
+}
+
+/// @nodoc
+class _$FinSettingsModelCopyWithImpl<$Res>
+    implements $FinSettingsModelCopyWith<$Res> {
+  _$FinSettingsModelCopyWithImpl(this._self, this._then);
+
+  final FinSettingsModel _self;
+  final $Res Function(FinSettingsModel) _then;
+
+  /// Create a copy of FinSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fiatCurrencyId = null,
+    Object? cryptoCurrencyId = null,
+  }) {
+    return _then(_self.copyWith(
+      fiatCurrencyId: null == fiatCurrencyId
+          ? _self.fiatCurrencyId
+          : fiatCurrencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      cryptoCurrencyId: null == cryptoCurrencyId
+          ? _self.cryptoCurrencyId
+          : cryptoCurrencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _FinSettingsModel
+    with DiagnosticableTreeMixin
+    implements FinSettingsModel {
+  const _FinSettingsModel(
+      {this.fiatCurrencyId = CurrencyId.empty,
+      this.cryptoCurrencyId = CurrencyId.empty});
+  factory _FinSettingsModel.fromJson(Map<String, dynamic> json) =>
+      _$FinSettingsModelFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId fiatCurrencyId;
+  @override
+  @JsonKey()
+  final CurrencyId cryptoCurrencyId;
+
+  /// Create a copy of FinSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FinSettingsModelCopyWith<_FinSettingsModel> get copyWith =>
+      __$FinSettingsModelCopyWithImpl<_FinSettingsModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FinSettingsModelToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'FinSettingsModel'))
+      ..add(DiagnosticsProperty('fiatCurrencyId', fiatCurrencyId))
+      ..add(DiagnosticsProperty('cryptoCurrencyId', cryptoCurrencyId));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FinSettingsModel &&
+            (identical(other.fiatCurrencyId, fiatCurrencyId) ||
+                other.fiatCurrencyId == fiatCurrencyId) &&
+            (identical(other.cryptoCurrencyId, cryptoCurrencyId) ||
+                other.cryptoCurrencyId == cryptoCurrencyId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, fiatCurrencyId, cryptoCurrencyId);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'FinSettingsModel(fiatCurrencyId: $fiatCurrencyId, cryptoCurrencyId: $cryptoCurrencyId)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$FinSettingsModelCopyWith<$Res>
+    implements $FinSettingsModelCopyWith<$Res> {
+  factory _$FinSettingsModelCopyWith(
+          _FinSettingsModel value, $Res Function(_FinSettingsModel) _then) =
+      __$FinSettingsModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call({CurrencyId fiatCurrencyId, CurrencyId cryptoCurrencyId});
+}
+
+/// @nodoc
+class __$FinSettingsModelCopyWithImpl<$Res>
+    implements _$FinSettingsModelCopyWith<$Res> {
+  __$FinSettingsModelCopyWithImpl(this._self, this._then);
+
+  final _FinSettingsModel _self;
+  final $Res Function(_FinSettingsModel) _then;
+
+  /// Create a copy of FinSettingsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? fiatCurrencyId = null,
+    Object? cryptoCurrencyId = null,
+  }) {
+    return _then(_FinSettingsModel(
+      fiatCurrencyId: null == fiatCurrencyId
+          ? _self.fiatCurrencyId
+          : fiatCurrencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      cryptoCurrencyId: null == cryptoCurrencyId
+          ? _self.cryptoCurrencyId
+          : cryptoCurrencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$FinTaskModel implements DiagnosticableTreeMixin {
+  DateTime get startDate;
+  TaskId get id;
+  String get name;
+  FinTaskModelPurpose get purpose;
+  TaskType get type;
+  TaskStatus get status;
+  Period get period;
+  TaskId get regularIncomeTaskId;
+
+  /// Create a copy of FinTaskModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FinTaskModelCopyWith<FinTaskModel> get copyWith =>
+      _$FinTaskModelCopyWithImpl<FinTaskModel>(
+          this as FinTaskModel, _$identity);
+
+  /// Serializes this FinTaskModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'FinTaskModel'))
+      ..add(DiagnosticsProperty('startDate', startDate))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('purpose', purpose))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('period', period))
+      ..add(DiagnosticsProperty('regularIncomeTaskId', regularIncomeTaskId));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FinTaskModel &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.purpose, purpose) || other.purpose == purpose) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.period, period) || other.period == period) &&
+            (identical(other.regularIncomeTaskId, regularIncomeTaskId) ||
+                other.regularIncomeTaskId == regularIncomeTaskId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, startDate, id, name, purpose,
+      type, status, period, regularIncomeTaskId);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'FinTaskModel(startDate: $startDate, id: $id, name: $name, purpose: $purpose, type: $type, status: $status, period: $period, regularIncomeTaskId: $regularIncomeTaskId)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $FinTaskModelCopyWith<$Res> {
+  factory $FinTaskModelCopyWith(
+          FinTaskModel value, $Res Function(FinTaskModel) _then) =
+      _$FinTaskModelCopyWithImpl;
+  @useResult
+  $Res call(
+      {TaskId id,
+      String name,
+      FinTaskModelPurpose purpose,
+      TaskType type,
+      TaskStatus status,
+      Period period,
+      DateTime? startDate,
+      TaskId regularIncomeTaskId});
+}
+
+/// @nodoc
+class _$FinTaskModelCopyWithImpl<$Res> implements $FinTaskModelCopyWith<$Res> {
+  _$FinTaskModelCopyWithImpl(this._self, this._then);
+
+  final FinTaskModel _self;
+  final $Res Function(FinTaskModel) _then;
+
+  /// Create a copy of FinTaskModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? purpose = null,
+    Object? type = null,
+    Object? status = null,
+    Object? period = null,
+    Object? startDate = freezed,
+    Object? regularIncomeTaskId = null,
+  }) {
+    return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as TaskId,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      purpose: null == purpose
+          ? _self.purpose
+          : purpose // ignore: cast_nullable_to_non_nullable
+              as FinTaskModelPurpose,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TaskType,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as TaskStatus,
+      period: null == period
+          ? _self.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as Period,
+      startDate: freezed == startDate
+          ? _self.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      regularIncomeTaskId: null == regularIncomeTaskId
+          ? _self.regularIncomeTaskId
+          : regularIncomeTaskId // ignore: cast_nullable_to_non_nullable
+              as TaskId,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _FinTaskModel extends FinTaskModel with DiagnosticableTreeMixin {
+  _FinTaskModel(
+      {this.id = TaskId.empty,
+      this.name = '',
+      this.purpose = FinTaskModelPurpose.dailyBudget,
+      this.type = TaskType.personal,
+      this.status = TaskStatus.visible,
+      this.period = Period.monthly,
+      final DateTime? startDate,
+      this.regularIncomeTaskId = TaskId.empty})
+      : super._(startDate: startDate);
+  factory _FinTaskModel.fromJson(Map<String, dynamic> json) =>
+      _$FinTaskModelFromJson(json);
+
+  @override
+  @JsonKey()
+  final TaskId id;
+  @override
+  @JsonKey()
+  final String name;
+  @override
+  @JsonKey()
+  final FinTaskModelPurpose purpose;
+  @override
+  @JsonKey()
+  final TaskType type;
+  @override
+  @JsonKey()
+  final TaskStatus status;
+  @override
+  @JsonKey()
+  final Period period;
+  @override
+  @JsonKey()
+  final TaskId regularIncomeTaskId;
+
+  /// Create a copy of FinTaskModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FinTaskModelCopyWith<_FinTaskModel> get copyWith =>
+      __$FinTaskModelCopyWithImpl<_FinTaskModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FinTaskModelToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'FinTaskModel'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('purpose', purpose))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('period', period))
+      ..add(DiagnosticsProperty('startDate', startDate))
+      ..add(DiagnosticsProperty('regularIncomeTaskId', regularIncomeTaskId));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _FinTaskModel &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.purpose, purpose) || other.purpose == purpose) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.period, period) || other.period == period) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.regularIncomeTaskId, regularIncomeTaskId) ||
+                other.regularIncomeTaskId == regularIncomeTaskId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, purpose, type, status,
+      period, startDate, regularIncomeTaskId);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'FinTaskModel(id: $id, name: $name, purpose: $purpose, type: $type, status: $status, period: $period, startDate: $startDate, regularIncomeTaskId: $regularIncomeTaskId)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$FinTaskModelCopyWith<$Res>
+    implements $FinTaskModelCopyWith<$Res> {
+  factory _$FinTaskModelCopyWith(
+          _FinTaskModel value, $Res Function(_FinTaskModel) _then) =
+      __$FinTaskModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {TaskId id,
+      String name,
+      FinTaskModelPurpose purpose,
+      TaskType type,
+      TaskStatus status,
+      Period period,
+      DateTime? startDate,
+      TaskId regularIncomeTaskId});
+}
+
+/// @nodoc
+class __$FinTaskModelCopyWithImpl<$Res>
+    implements _$FinTaskModelCopyWith<$Res> {
+  __$FinTaskModelCopyWithImpl(this._self, this._then);
+
+  final _FinTaskModel _self;
+  final $Res Function(_FinTaskModel) _then;
+
+  /// Create a copy of FinTaskModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? purpose = null,
+    Object? type = null,
+    Object? status = null,
+    Object? period = null,
+    Object? startDate = freezed,
+    Object? regularIncomeTaskId = null,
+  }) {
+    return _then(_FinTaskModel(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as TaskId,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      purpose: null == purpose
+          ? _self.purpose
+          : purpose // ignore: cast_nullable_to_non_nullable
+              as FinTaskModelPurpose,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TaskType,
+      status: null == status
+          ? _self.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as TaskStatus,
+      period: null == period
+          ? _self.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as Period,
+      startDate: freezed == startDate
+          ? _self.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      regularIncomeTaskId: null == regularIncomeTaskId
+          ? _self.regularIncomeTaskId
+          : regularIncomeTaskId // ignore: cast_nullable_to_non_nullable
+              as TaskId,
+    ));
+  }
+}
+
+
+/// @nodoc
+mixin _$ScheduledTransaction implements DiagnosticableTreeMixin {
+  TransactionId get transactionId;
+
+  /// it may have no task id if it is a one time transaction
+  TaskId get taskId;
+  TransactionSchedule get schedule;
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ScheduledTransactionCopyWith<ScheduledTransaction> get copyWith =>
+      _$ScheduledTransactionCopyWithImpl<ScheduledTransaction>(
+          this as ScheduledTransaction, _$identity);
+
+  /// Serializes this ScheduledTransaction to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduledTransaction'))
+      ..add(DiagnosticsProperty('transactionId', transactionId))
+      ..add(DiagnosticsProperty('taskId', taskId))
+      ..add(DiagnosticsProperty('schedule', schedule));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is ScheduledTransaction &&
+            (identical(other.transactionId, transactionId) ||
+                other.transactionId == transactionId) &&
+            (identical(other.taskId, taskId) || other.taskId == taskId) &&
+            (identical(other.schedule, schedule) ||
+                other.schedule == schedule));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, transactionId, taskId, schedule);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ScheduledTransaction(transactionId: $transactionId, taskId: $taskId, schedule: $schedule)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $ScheduledTransactionCopyWith<$Res> {
+  factory $ScheduledTransactionCopyWith(ScheduledTransaction value,
+          $Res Function(ScheduledTransaction) _then) =
+      _$ScheduledTransactionCopyWithImpl;
+  @useResult
+  $Res call(
+      {TransactionId transactionId,
+      TaskId taskId,
+      TransactionSchedule schedule});
+
+  $TransactionScheduleCopyWith<$Res> get schedule;
+}
+
+/// @nodoc
+class _$ScheduledTransactionCopyWithImpl<$Res>
+    implements $ScheduledTransactionCopyWith<$Res> {
+  _$ScheduledTransactionCopyWithImpl(this._self, this._then);
+
+  final ScheduledTransaction _self;
+  final $Res Function(ScheduledTransaction) _then;
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transactionId = null,
+    Object? taskId = null,
+    Object? schedule = null,
+  }) {
+    return _then(_self.copyWith(
+      transactionId: null == transactionId
+          ? _self.transactionId
+          : transactionId // ignore: cast_nullable_to_non_nullable
+              as TransactionId,
+      taskId: null == taskId
+          ? _self.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
+              as TaskId,
+      schedule: null == schedule
+          ? _self.schedule
+          : schedule // ignore: cast_nullable_to_non_nullable
+              as TransactionSchedule,
+    ));
+  }
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TransactionScheduleCopyWith<$Res> get schedule {
+    return $TransactionScheduleCopyWith<$Res>(_self.schedule, (value) {
+      return _then(_self.copyWith(schedule: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _ScheduledTransaction extends ScheduledTransaction
+    with DiagnosticableTreeMixin {
+  const _ScheduledTransaction(
+      {this.transactionId = TransactionId.empty,
+      this.taskId = TaskId.empty,
+      this.schedule = TransactionSchedule.empty})
+      : super._();
+  factory _ScheduledTransaction.fromJson(Map<String, dynamic> json) =>
+      _$ScheduledTransactionFromJson(json);
+
+  @override
+  @JsonKey()
+  final TransactionId transactionId;
+
+  /// it may have no task id if it is a one time transaction
+  @override
+  @JsonKey()
+  final TaskId taskId;
+  @override
+  @JsonKey()
+  final TransactionSchedule schedule;
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$ScheduledTransactionCopyWith<_ScheduledTransaction> get copyWith =>
+      __$ScheduledTransactionCopyWithImpl<_ScheduledTransaction>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$WeeklyBudgetModelImplToJson(
+    return _$ScheduledTransactionToJson(
       this,
     );
   }
-}
-
-abstract class _WeeklyBudgetModel implements WeeklyBudgetModel {
-  const factory _WeeklyBudgetModel(
-      {required final BudgetModelId id,
-      final double amount}) = _$WeeklyBudgetModelImpl;
-
-  factory _WeeklyBudgetModel.fromJson(Map<String, dynamic> json) =
-      _$WeeklyBudgetModelImpl.fromJson;
 
   @override
-  BudgetModelId get id;
-  @override
-  double get amount;
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'ScheduledTransaction'))
+      ..add(DiagnosticsProperty('transactionId', transactionId))
+      ..add(DiagnosticsProperty('taskId', taskId))
+      ..add(DiagnosticsProperty('schedule', schedule));
+  }
 
-  /// Create a copy of WeeklyBudgetModel
-  /// with the given fields replaced by the non-null parameter values.
   @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _ScheduledTransaction &&
+            (identical(other.transactionId, transactionId) ||
+                other.transactionId == transactionId) &&
+            (identical(other.taskId, taskId) || other.taskId == taskId) &&
+            (identical(other.schedule, schedule) ||
+                other.schedule == schedule));
+  }
+
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WeeklyBudgetModelImplCopyWith<_$WeeklyBudgetModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-mixin _$UserModelId {
-  String get value => throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String value) local,
-    required TResult Function(String value) remote,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String value)? local,
-    TResult? Function(String value)? remote,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String value)? local,
-    TResult Function(String value)? remote,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(UserModelLocalId value) local,
-    required TResult Function(UserModelRemoteId value) remote,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(UserModelLocalId value)? local,
-    TResult? Function(UserModelRemoteId value)? remote,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(UserModelLocalId value)? local,
-    TResult Function(UserModelRemoteId value)? remote,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-
-  /// Create a copy of UserModelId
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $UserModelIdCopyWith<UserModelId> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UserModelIdCopyWith<$Res> {
-  factory $UserModelIdCopyWith(
-          UserModelId value, $Res Function(UserModelId) then) =
-      _$UserModelIdCopyWithImpl<$Res, UserModelId>;
-  @useResult
-  $Res call({String value});
-}
-
-/// @nodoc
-class _$UserModelIdCopyWithImpl<$Res, $Val extends UserModelId>
-    implements $UserModelIdCopyWith<$Res> {
-  _$UserModelIdCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of UserModelId
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? value = null,
-  }) {
-    return _then(_value.copyWith(
-      value: null == value
-          ? _value.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  int get hashCode => Object.hash(runtimeType, transactionId, taskId, schedule);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ScheduledTransaction(transactionId: $transactionId, taskId: $taskId, schedule: $schedule)';
   }
 }
 
 /// @nodoc
-abstract class _$$UserModelLocalIdImplCopyWith<$Res>
-    implements $UserModelIdCopyWith<$Res> {
-  factory _$$UserModelLocalIdImplCopyWith(_$UserModelLocalIdImpl value,
-          $Res Function(_$UserModelLocalIdImpl) then) =
-      __$$UserModelLocalIdImplCopyWithImpl<$Res>;
+abstract mixin class _$ScheduledTransactionCopyWith<$Res>
+    implements $ScheduledTransactionCopyWith<$Res> {
+  factory _$ScheduledTransactionCopyWith(_ScheduledTransaction value,
+          $Res Function(_ScheduledTransaction) _then) =
+      __$ScheduledTransactionCopyWithImpl;
   @override
+  @useResult
+  $Res call(
+      {TransactionId transactionId,
+      TaskId taskId,
+      TransactionSchedule schedule});
+
+  @override
+  $TransactionScheduleCopyWith<$Res> get schedule;
+}
+
+/// @nodoc
+class __$ScheduledTransactionCopyWithImpl<$Res>
+    implements _$ScheduledTransactionCopyWith<$Res> {
+  __$ScheduledTransactionCopyWithImpl(this._self, this._then);
+
+  final _ScheduledTransaction _self;
+  final $Res Function(_ScheduledTransaction) _then;
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? transactionId = null,
+    Object? taskId = null,
+    Object? schedule = null,
+  }) {
+    return _then(_ScheduledTransaction(
+      transactionId: null == transactionId
+          ? _self.transactionId
+          : transactionId // ignore: cast_nullable_to_non_nullable
+              as TransactionId,
+      taskId: null == taskId
+          ? _self.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
+              as TaskId,
+      schedule: null == schedule
+          ? _self.schedule
+          : schedule // ignore: cast_nullable_to_non_nullable
+              as TransactionSchedule,
+    ));
+  }
+
+  /// Create a copy of ScheduledTransaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TransactionScheduleCopyWith<$Res> get schedule {
+    return $TransactionScheduleCopyWith<$Res>(_self.schedule, (value) {
+      return _then(_self.copyWith(schedule: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$TransactionSchedule implements DiagnosticableTreeMixin {
+  TransactionPeriodType get periodType;
+  Period get period;
+  DateTime? get startedAt;
+  DateTime? get endedAt;
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $TransactionScheduleCopyWith<TransactionSchedule> get copyWith =>
+      _$TransactionScheduleCopyWithImpl<TransactionSchedule>(
+          this as TransactionSchedule, _$identity);
+
+  /// Serializes this TransactionSchedule to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'TransactionSchedule'))
+      ..add(DiagnosticsProperty('periodType', periodType))
+      ..add(DiagnosticsProperty('period', period))
+      ..add(DiagnosticsProperty('startedAt', startedAt))
+      ..add(DiagnosticsProperty('endedAt', endedAt));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is TransactionSchedule &&
+            (identical(other.periodType, periodType) ||
+                other.periodType == periodType) &&
+            (identical(other.period, period) || other.period == period) &&
+            (identical(other.startedAt, startedAt) ||
+                other.startedAt == startedAt) &&
+            (identical(other.endedAt, endedAt) || other.endedAt == endedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, periodType, period, startedAt, endedAt);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'TransactionSchedule(periodType: $periodType, period: $period, startedAt: $startedAt, endedAt: $endedAt)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $TransactionScheduleCopyWith<$Res> {
+  factory $TransactionScheduleCopyWith(
+          TransactionSchedule value, $Res Function(TransactionSchedule) _then) =
+      _$TransactionScheduleCopyWithImpl;
+  @useResult
+  $Res call(
+      {TransactionPeriodType periodType,
+      Period period,
+      DateTime? startedAt,
+      DateTime? endedAt});
+}
+
+/// @nodoc
+class _$TransactionScheduleCopyWithImpl<$Res>
+    implements $TransactionScheduleCopyWith<$Res> {
+  _$TransactionScheduleCopyWithImpl(this._self, this._then);
+
+  final TransactionSchedule _self;
+  final $Res Function(TransactionSchedule) _then;
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? periodType = null,
+    Object? period = null,
+    Object? startedAt = freezed,
+    Object? endedAt = freezed,
+  }) {
+    return _then(_self.copyWith(
+      periodType: null == periodType
+          ? _self.periodType
+          : periodType // ignore: cast_nullable_to_non_nullable
+              as TransactionPeriodType,
+      period: null == period
+          ? _self.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as Period,
+      startedAt: freezed == startedAt
+          ? _self.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      endedAt: freezed == endedAt
+          ? _self.endedAt
+          : endedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _TransactionSchedule extends TransactionSchedule
+    with DiagnosticableTreeMixin {
+  const _TransactionSchedule(
+      {this.periodType = TransactionPeriodType.none,
+      this.period = Period.daily,
+      this.startedAt,
+      this.endedAt})
+      : super._();
+  factory _TransactionSchedule.fromJson(Map<String, dynamic> json) =>
+      _$TransactionScheduleFromJson(json);
+
+  @override
+  @JsonKey()
+  final TransactionPeriodType periodType;
+  @override
+  @JsonKey()
+  final Period period;
+  @override
+  final DateTime? startedAt;
+  @override
+  final DateTime? endedAt;
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$TransactionScheduleCopyWith<_TransactionSchedule> get copyWith =>
+      __$TransactionScheduleCopyWithImpl<_TransactionSchedule>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$TransactionScheduleToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'TransactionSchedule'))
+      ..add(DiagnosticsProperty('periodType', periodType))
+      ..add(DiagnosticsProperty('period', period))
+      ..add(DiagnosticsProperty('startedAt', startedAt))
+      ..add(DiagnosticsProperty('endedAt', endedAt));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _TransactionSchedule &&
+            (identical(other.periodType, periodType) ||
+                other.periodType == periodType) &&
+            (identical(other.period, period) || other.period == period) &&
+            (identical(other.startedAt, startedAt) ||
+                other.startedAt == startedAt) &&
+            (identical(other.endedAt, endedAt) || other.endedAt == endedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, periodType, period, startedAt, endedAt);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'TransactionSchedule(periodType: $periodType, period: $period, startedAt: $startedAt, endedAt: $endedAt)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$TransactionScheduleCopyWith<$Res>
+    implements $TransactionScheduleCopyWith<$Res> {
+  factory _$TransactionScheduleCopyWith(_TransactionSchedule value,
+          $Res Function(_TransactionSchedule) _then) =
+      __$TransactionScheduleCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {TransactionPeriodType periodType,
+      Period period,
+      DateTime? startedAt,
+      DateTime? endedAt});
+}
+
+/// @nodoc
+class __$TransactionScheduleCopyWithImpl<$Res>
+    implements _$TransactionScheduleCopyWith<$Res> {
+  __$TransactionScheduleCopyWithImpl(this._self, this._then);
+
+  final _TransactionSchedule _self;
+  final $Res Function(_TransactionSchedule) _then;
+
+  /// Create a copy of TransactionSchedule
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? periodType = null,
+    Object? period = null,
+    Object? startedAt = freezed,
+    Object? endedAt = freezed,
+  }) {
+    return _then(_TransactionSchedule(
+      periodType: null == periodType
+          ? _self.periodType
+          : periodType // ignore: cast_nullable_to_non_nullable
+              as TransactionPeriodType,
+      period: null == period
+          ? _self.period
+          : period // ignore: cast_nullable_to_non_nullable
+              as Period,
+      startedAt: freezed == startedAt
+          ? _self.startedAt
+          : startedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      endedAt: freezed == endedAt
+          ? _self.endedAt
+          : endedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+Currency _$CurrencyFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'fiat':
+      return FiatCurrency.fromJson(json);
+    case 'crypto':
+      return CryptoCurrency.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'Currency',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$Currency implements DiagnosticableTreeMixin {
+  CurrencyId get id;
+  String get name;
+  String get slug;
+  CurrencyType get type;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $CurrencyCopyWith<Currency> get copyWith =>
+      _$CurrencyCopyWithImpl<Currency>(this as Currency, _$identity);
+
+  /// Serializes this Currency to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Currency'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('slug', slug))
+      ..add(DiagnosticsProperty('type', type));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Currency &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, slug, type);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Currency(id: $id, name: $name, slug: $slug, type: $type)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $CurrencyCopyWith<$Res> {
+  factory $CurrencyCopyWith(Currency value, $Res Function(Currency) _then) =
+      _$CurrencyCopyWithImpl;
+  @useResult
+  $Res call({CurrencyId id, String name, String slug, CurrencyType type});
+}
+
+/// @nodoc
+class _$CurrencyCopyWithImpl<$Res> implements $CurrencyCopyWith<$Res> {
+  _$CurrencyCopyWithImpl(this._self, this._then);
+
+  final Currency _self;
+  final $Res Function(Currency) _then;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? type = null,
+  }) {
+    return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _self.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class FiatCurrency extends Currency with DiagnosticableTreeMixin {
+  const FiatCurrency(
+      {this.id = CurrencyId.empty,
+      this.name = '',
+      this.slug = '',
+      this.symbol = '',
+      this.decimals = 2,
+      this.type = CurrencyType.fiat,
+      final String? $type})
+      : $type = $type ?? 'fiat',
+        super._();
+  factory FiatCurrency.fromJson(Map<String, dynamic> json) =>
+      _$FiatCurrencyFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId id;
+  @override
+  @JsonKey()
+  final String name;
+  @override
+  @JsonKey()
+  final String slug;
+  @JsonKey()
+  final String symbol;
+  @JsonKey()
+  final int decimals;
+  @override
+  @JsonKey()
+  final CurrencyType type;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FiatCurrencyCopyWith<FiatCurrency> get copyWith =>
+      _$FiatCurrencyCopyWithImpl<FiatCurrency>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FiatCurrencyToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Currency.fiat'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('slug', slug))
+      ..add(DiagnosticsProperty('symbol', symbol))
+      ..add(DiagnosticsProperty('decimals', decimals))
+      ..add(DiagnosticsProperty('type', type));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FiatCurrency &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.decimals, decimals) ||
+                other.decimals == decimals) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, slug, symbol, decimals, type);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Currency.fiat(id: $id, name: $name, slug: $slug, symbol: $symbol, decimals: $decimals, type: $type)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $FiatCurrencyCopyWith<$Res>
+    implements $CurrencyCopyWith<$Res> {
+  factory $FiatCurrencyCopyWith(
+          FiatCurrency value, $Res Function(FiatCurrency) _then) =
+      _$FiatCurrencyCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {CurrencyId id,
+      String name,
+      String slug,
+      String symbol,
+      int decimals,
+      CurrencyType type});
+}
+
+/// @nodoc
+class _$FiatCurrencyCopyWithImpl<$Res> implements $FiatCurrencyCopyWith<$Res> {
+  _$FiatCurrencyCopyWithImpl(this._self, this._then);
+
+  final FiatCurrency _self;
+  final $Res Function(FiatCurrency) _then;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? symbol = null,
+    Object? decimals = null,
+    Object? type = null,
+  }) {
+    return _then(FiatCurrency(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _self.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      symbol: null == symbol
+          ? _self.symbol
+          : symbol // ignore: cast_nullable_to_non_nullable
+              as String,
+      decimals: null == decimals
+          ? _self.decimals
+          : decimals // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class CryptoCurrency extends Currency with DiagnosticableTreeMixin {
+  const CryptoCurrency(
+      {this.id = CurrencyId.empty,
+      this.name = '',
+      this.slug = '',
+      this.type = CurrencyType.crypto,
+      this.chainId = ChainId.empty,
+      final String? $type})
+      : $type = $type ?? 'crypto',
+        super._();
+  factory CryptoCurrency.fromJson(Map<String, dynamic> json) =>
+      _$CryptoCurrencyFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId id;
+  @override
+  @JsonKey()
+  final String name;
+  @override
+  @JsonKey()
+  final String slug;
+  @override
+  @JsonKey()
+  final CurrencyType type;
+  @JsonKey()
+  final ChainId chainId;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $CryptoCurrencyCopyWith<CryptoCurrency> get copyWith =>
+      _$CryptoCurrencyCopyWithImpl<CryptoCurrency>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$CryptoCurrencyToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Currency.crypto'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('slug', slug))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('chainId', chainId));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CryptoCurrency &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.slug, slug) || other.slug == slug) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.chainId, chainId) || other.chainId == chainId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, name, slug, type, chainId);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Currency.crypto(id: $id, name: $name, slug: $slug, type: $type, chainId: $chainId)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $CryptoCurrencyCopyWith<$Res>
+    implements $CurrencyCopyWith<$Res> {
+  factory $CryptoCurrencyCopyWith(
+          CryptoCurrency value, $Res Function(CryptoCurrency) _then) =
+      _$CryptoCurrencyCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {CurrencyId id,
+      String name,
+      String slug,
+      CurrencyType type,
+      ChainId chainId});
+}
+
+/// @nodoc
+class _$CryptoCurrencyCopyWithImpl<$Res>
+    implements $CryptoCurrencyCopyWith<$Res> {
+  _$CryptoCurrencyCopyWithImpl(this._self, this._then);
+
+  final CryptoCurrency _self;
+  final $Res Function(CryptoCurrency) _then;
+
+  /// Create a copy of Currency
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? slug = null,
+    Object? type = null,
+    Object? chainId = null,
+  }) {
+    return _then(CryptoCurrency(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      slug: null == slug
+          ? _self.slug
+          : slug // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+      chainId: null == chainId
+          ? _self.chainId
+          : chainId // ignore: cast_nullable_to_non_nullable
+              as ChainId,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$Transaction implements DiagnosticableTreeMixin {
+  DateTime get transactionDate;
+  TransactionId get id;
+  InputMoney get input;
+  String get description;
+  String get note; // TODO(arenukvern): convert to list in future
+  String get shoppingListString;
+  TaskId get taskId;
+  TransactionType get type;
+  CategoryId get categoryId;
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $TransactionCopyWith<Transaction> get copyWith =>
+      _$TransactionCopyWithImpl<Transaction>(this as Transaction, _$identity);
+
+  /// Serializes this Transaction to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Transaction'))
+      ..add(DiagnosticsProperty('transactionDate', transactionDate))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('input', input))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('note', note))
+      ..add(DiagnosticsProperty('shoppingListString', shoppingListString))
+      ..add(DiagnosticsProperty('taskId', taskId))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('categoryId', categoryId));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Transaction &&
+            (identical(other.transactionDate, transactionDate) ||
+                other.transactionDate == transactionDate) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.input, input) || other.input == input) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.shoppingListString, shoppingListString) ||
+                other.shoppingListString == shoppingListString) &&
+            (identical(other.taskId, taskId) || other.taskId == taskId) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, transactionDate, id, input,
+      description, note, shoppingListString, taskId, type, categoryId);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Transaction(transactionDate: $transactionDate, id: $id, input: $input, description: $description, note: $note, shoppingListString: $shoppingListString, taskId: $taskId, type: $type, categoryId: $categoryId)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $TransactionCopyWith<$Res> {
+  factory $TransactionCopyWith(
+          Transaction value, $Res Function(Transaction) _then) =
+      _$TransactionCopyWithImpl;
+  @useResult
+  $Res call(
+      {DateTime transactionDate,
+      TransactionId id,
+      InputMoney input,
+      String description,
+      String note,
+      String shoppingListString,
+      TaskId taskId,
+      TransactionType type,
+      CategoryId categoryId});
+
+  $InputMoneyCopyWith<$Res> get input;
+}
+
+/// @nodoc
+class _$TransactionCopyWithImpl<$Res> implements $TransactionCopyWith<$Res> {
+  _$TransactionCopyWithImpl(this._self, this._then);
+
+  final Transaction _self;
+  final $Res Function(Transaction) _then;
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transactionDate = null,
+    Object? id = null,
+    Object? input = null,
+    Object? description = null,
+    Object? note = null,
+    Object? shoppingListString = null,
+    Object? taskId = null,
+    Object? type = null,
+    Object? categoryId = null,
+  }) {
+    return _then(_self.copyWith(
+      transactionDate: null == transactionDate
+          ? _self.transactionDate
+          : transactionDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as TransactionId,
+      input: null == input
+          ? _self.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as InputMoney,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      note: null == note
+          ? _self.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String,
+      shoppingListString: null == shoppingListString
+          ? _self.shoppingListString
+          : shoppingListString // ignore: cast_nullable_to_non_nullable
+              as String,
+      taskId: null == taskId
+          ? _self.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
+              as TaskId,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TransactionType,
+      categoryId: null == categoryId
+          ? _self.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as CategoryId,
+    ));
+  }
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $InputMoneyCopyWith<$Res> get input {
+    return $InputMoneyCopyWith<$Res>(_self.input, (value) {
+      return _then(_self.copyWith(input: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _Transaction extends Transaction with DiagnosticableTreeMixin {
+  const _Transaction(
+      {required this.transactionDate,
+      this.id = TransactionId.empty,
+      this.input = InputMoney.empty,
+      this.description = '',
+      this.note = '',
+      this.shoppingListString = '',
+      this.taskId = TaskId.empty,
+      this.type = TransactionType.expense,
+      this.categoryId = CategoryId.empty})
+      : super._();
+  factory _Transaction.fromJson(Map<String, dynamic> json) =>
+      _$TransactionFromJson(json);
+
+  @override
+  final DateTime transactionDate;
+  @override
+  @JsonKey()
+  final TransactionId id;
+  @override
+  @JsonKey()
+  final InputMoney input;
+  @override
+  @JsonKey()
+  final String description;
+  @override
+  @JsonKey()
+  final String note;
+// TODO(arenukvern): convert to list in future
+  @override
+  @JsonKey()
+  final String shoppingListString;
+  @override
+  @JsonKey()
+  final TaskId taskId;
+  @override
+  @JsonKey()
+  final TransactionType type;
+  @override
+  @JsonKey()
+  final CategoryId categoryId;
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$TransactionCopyWith<_Transaction> get copyWith =>
+      __$TransactionCopyWithImpl<_Transaction>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$TransactionToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'Transaction'))
+      ..add(DiagnosticsProperty('transactionDate', transactionDate))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('input', input))
+      ..add(DiagnosticsProperty('description', description))
+      ..add(DiagnosticsProperty('note', note))
+      ..add(DiagnosticsProperty('shoppingListString', shoppingListString))
+      ..add(DiagnosticsProperty('taskId', taskId))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('categoryId', categoryId));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Transaction &&
+            (identical(other.transactionDate, transactionDate) ||
+                other.transactionDate == transactionDate) &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.input, input) || other.input == input) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.shoppingListString, shoppingListString) ||
+                other.shoppingListString == shoppingListString) &&
+            (identical(other.taskId, taskId) || other.taskId == taskId) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.categoryId, categoryId) ||
+                other.categoryId == categoryId));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, transactionDate, id, input,
+      description, note, shoppingListString, taskId, type, categoryId);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'Transaction(transactionDate: $transactionDate, id: $id, input: $input, description: $description, note: $note, shoppingListString: $shoppingListString, taskId: $taskId, type: $type, categoryId: $categoryId)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$TransactionCopyWith<$Res>
+    implements $TransactionCopyWith<$Res> {
+  factory _$TransactionCopyWith(
+          _Transaction value, $Res Function(_Transaction) _then) =
+      __$TransactionCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {DateTime transactionDate,
+      TransactionId id,
+      InputMoney input,
+      String description,
+      String note,
+      String shoppingListString,
+      TaskId taskId,
+      TransactionType type,
+      CategoryId categoryId});
+
+  @override
+  $InputMoneyCopyWith<$Res> get input;
+}
+
+/// @nodoc
+class __$TransactionCopyWithImpl<$Res> implements _$TransactionCopyWith<$Res> {
+  __$TransactionCopyWithImpl(this._self, this._then);
+
+  final _Transaction _self;
+  final $Res Function(_Transaction) _then;
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? transactionDate = null,
+    Object? id = null,
+    Object? input = null,
+    Object? description = null,
+    Object? note = null,
+    Object? shoppingListString = null,
+    Object? taskId = null,
+    Object? type = null,
+    Object? categoryId = null,
+  }) {
+    return _then(_Transaction(
+      transactionDate: null == transactionDate
+          ? _self.transactionDate
+          : transactionDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as TransactionId,
+      input: null == input
+          ? _self.input
+          : input // ignore: cast_nullable_to_non_nullable
+              as InputMoney,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      note: null == note
+          ? _self.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String,
+      shoppingListString: null == shoppingListString
+          ? _self.shoppingListString
+          : shoppingListString // ignore: cast_nullable_to_non_nullable
+              as String,
+      taskId: null == taskId
+          ? _self.taskId
+          : taskId // ignore: cast_nullable_to_non_nullable
+              as TaskId,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as TransactionType,
+      categoryId: null == categoryId
+          ? _self.categoryId
+          : categoryId // ignore: cast_nullable_to_non_nullable
+              as CategoryId,
+    ));
+  }
+
+  /// Create a copy of Transaction
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $InputMoneyCopyWith<$Res> get input {
+    return $InputMoneyCopyWith<$Res>(_self.input, (value) {
+      return _then(_self.copyWith(input: value));
+    });
+  }
+}
+
+InputMoney _$InputMoneyFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'fiat':
+      return FiatInputModel.fromJson(json);
+    case 'crypto':
+      return CyptoInputModel.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'InputMoney',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
+/// @nodoc
+mixin _$InputMoney implements DiagnosticableTreeMixin {
+  CurrencyId get currencyId;
+  double get amountWithTax;
+  CurrencyType get currencyType;
+  TaxValue get tax;
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $InputMoneyCopyWith<InputMoney> get copyWith =>
+      _$InputMoneyCopyWithImpl<InputMoney>(this as InputMoney, _$identity);
+
+  /// Serializes this InputMoney to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'InputMoney'))
+      ..add(DiagnosticsProperty('currencyId', currencyId))
+      ..add(DiagnosticsProperty('amountWithTax', amountWithTax))
+      ..add(DiagnosticsProperty('currencyType', currencyType))
+      ..add(DiagnosticsProperty('tax', tax));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is InputMoney &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
+            (identical(other.amountWithTax, amountWithTax) ||
+                other.amountWithTax == amountWithTax) &&
+            (identical(other.currencyType, currencyType) ||
+                other.currencyType == currencyType) &&
+            (identical(other.tax, tax) || other.tax == tax));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, currencyId, amountWithTax, currencyType, tax);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'InputMoney(currencyId: $currencyId, amountWithTax: $amountWithTax, currencyType: $currencyType, tax: $tax)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $InputMoneyCopyWith<$Res> {
+  factory $InputMoneyCopyWith(
+          InputMoney value, $Res Function(InputMoney) _then) =
+      _$InputMoneyCopyWithImpl;
+  @useResult
+  $Res call(
+      {CurrencyId currencyId,
+      double amountWithTax,
+      CurrencyType currencyType,
+      TaxValue tax});
+}
+
+/// @nodoc
+class _$InputMoneyCopyWithImpl<$Res> implements $InputMoneyCopyWith<$Res> {
+  _$InputMoneyCopyWithImpl(this._self, this._then);
+
+  final InputMoney _self;
+  final $Res Function(InputMoney) _then;
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currencyId = null,
+    Object? amountWithTax = null,
+    Object? currencyType = null,
+    Object? tax = null,
+  }) {
+    return _then(_self.copyWith(
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      amountWithTax: null == amountWithTax
+          ? _self.amountWithTax
+          : amountWithTax // ignore: cast_nullable_to_non_nullable
+              as double,
+      currencyType: null == currencyType
+          ? _self.currencyType
+          : currencyType // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+      tax: null == tax
+          ? _self.tax
+          : tax // ignore: cast_nullable_to_non_nullable
+              as TaxValue,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class FiatInputModel extends InputMoney with DiagnosticableTreeMixin {
+  const FiatInputModel(
+      {this.currencyId = CurrencyId.empty,
+      this.amountWithTax = 0.0,
+      this.currencyType = CurrencyType.fiat,
+      this.tax = TaxValue.zero,
+      final String? $type})
+      : $type = $type ?? 'fiat',
+        super._();
+  factory FiatInputModel.fromJson(Map<String, dynamic> json) =>
+      _$FiatInputModelFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId currencyId;
+  @override
+  @JsonKey()
+  final double amountWithTax;
+  @override
+  @JsonKey()
+  final CurrencyType currencyType;
+  @override
+  @JsonKey()
+  final TaxValue tax;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $FiatInputModelCopyWith<FiatInputModel> get copyWith =>
+      _$FiatInputModelCopyWithImpl<FiatInputModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$FiatInputModelToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'InputMoney.fiat'))
+      ..add(DiagnosticsProperty('currencyId', currencyId))
+      ..add(DiagnosticsProperty('amountWithTax', amountWithTax))
+      ..add(DiagnosticsProperty('currencyType', currencyType))
+      ..add(DiagnosticsProperty('tax', tax));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is FiatInputModel &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
+            (identical(other.amountWithTax, amountWithTax) ||
+                other.amountWithTax == amountWithTax) &&
+            (identical(other.currencyType, currencyType) ||
+                other.currencyType == currencyType) &&
+            (identical(other.tax, tax) || other.tax == tax));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, currencyId, amountWithTax, currencyType, tax);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'InputMoney.fiat(currencyId: $currencyId, amountWithTax: $amountWithTax, currencyType: $currencyType, tax: $tax)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $FiatInputModelCopyWith<$Res>
+    implements $InputMoneyCopyWith<$Res> {
+  factory $FiatInputModelCopyWith(
+          FiatInputModel value, $Res Function(FiatInputModel) _then) =
+      _$FiatInputModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {CurrencyId currencyId,
+      double amountWithTax,
+      CurrencyType currencyType,
+      TaxValue tax});
+}
+
+/// @nodoc
+class _$FiatInputModelCopyWithImpl<$Res>
+    implements $FiatInputModelCopyWith<$Res> {
+  _$FiatInputModelCopyWithImpl(this._self, this._then);
+
+  final FiatInputModel _self;
+  final $Res Function(FiatInputModel) _then;
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? currencyId = null,
+    Object? amountWithTax = null,
+    Object? currencyType = null,
+    Object? tax = null,
+  }) {
+    return _then(FiatInputModel(
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      amountWithTax: null == amountWithTax
+          ? _self.amountWithTax
+          : amountWithTax // ignore: cast_nullable_to_non_nullable
+              as double,
+      currencyType: null == currencyType
+          ? _self.currencyType
+          : currencyType // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+      tax: null == tax
+          ? _self.tax
+          : tax // ignore: cast_nullable_to_non_nullable
+              as TaxValue,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class CyptoInputModel extends InputMoney with DiagnosticableTreeMixin {
+  const CyptoInputModel(
+      {this.currencyId = CurrencyId.empty,
+      this.amountWithTax = 0.0,
+      this.currencyType = CurrencyType.crypto,
+      this.tax = TaxValue.zero,
+      final String? $type})
+      : $type = $type ?? 'crypto',
+        super._();
+  factory CyptoInputModel.fromJson(Map<String, dynamic> json) =>
+      _$CyptoInputModelFromJson(json);
+
+  @override
+  @JsonKey()
+  final CurrencyId currencyId;
+  @override
+  @JsonKey()
+  final double amountWithTax;
+  @override
+  @JsonKey()
+  final CurrencyType currencyType;
+  @override
+  @JsonKey()
+  final TaxValue tax;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $CyptoInputModelCopyWith<CyptoInputModel> get copyWith =>
+      _$CyptoInputModelCopyWithImpl<CyptoInputModel>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$CyptoInputModelToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'InputMoney.crypto'))
+      ..add(DiagnosticsProperty('currencyId', currencyId))
+      ..add(DiagnosticsProperty('amountWithTax', amountWithTax))
+      ..add(DiagnosticsProperty('currencyType', currencyType))
+      ..add(DiagnosticsProperty('tax', tax));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CyptoInputModel &&
+            (identical(other.currencyId, currencyId) ||
+                other.currencyId == currencyId) &&
+            (identical(other.amountWithTax, amountWithTax) ||
+                other.amountWithTax == amountWithTax) &&
+            (identical(other.currencyType, currencyType) ||
+                other.currencyType == currencyType) &&
+            (identical(other.tax, tax) || other.tax == tax));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, currencyId, amountWithTax, currencyType, tax);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'InputMoney.crypto(currencyId: $currencyId, amountWithTax: $amountWithTax, currencyType: $currencyType, tax: $tax)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $CyptoInputModelCopyWith<$Res>
+    implements $InputMoneyCopyWith<$Res> {
+  factory $CyptoInputModelCopyWith(
+          CyptoInputModel value, $Res Function(CyptoInputModel) _then) =
+      _$CyptoInputModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {CurrencyId currencyId,
+      double amountWithTax,
+      CurrencyType currencyType,
+      TaxValue tax});
+}
+
+/// @nodoc
+class _$CyptoInputModelCopyWithImpl<$Res>
+    implements $CyptoInputModelCopyWith<$Res> {
+  _$CyptoInputModelCopyWithImpl(this._self, this._then);
+
+  final CyptoInputModel _self;
+  final $Res Function(CyptoInputModel) _then;
+
+  /// Create a copy of InputMoney
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? currencyId = null,
+    Object? amountWithTax = null,
+    Object? currencyType = null,
+    Object? tax = null,
+  }) {
+    return _then(CyptoInputModel(
+      currencyId: null == currencyId
+          ? _self.currencyId
+          : currencyId // ignore: cast_nullable_to_non_nullable
+              as CurrencyId,
+      amountWithTax: null == amountWithTax
+          ? _self.amountWithTax
+          : amountWithTax // ignore: cast_nullable_to_non_nullable
+              as double,
+      currencyType: null == currencyType
+          ? _self.currencyType
+          : currencyType // ignore: cast_nullable_to_non_nullable
+              as CurrencyType,
+      tax: null == tax
+          ? _self.tax
+          : tax // ignore: cast_nullable_to_non_nullable
+              as TaxValue,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$UserModelId implements DiagnosticableTreeMixin {
+  String get value;
+
+  /// Create a copy of UserModelId
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UserModelIdCopyWith<UserModelId> get copyWith =>
+      _$UserModelIdCopyWithImpl<UserModelId>(this as UserModelId, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModelId'))
+      ..add(DiagnosticsProperty('value', value));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UserModelId &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserModelId(value: $value)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $UserModelIdCopyWith<$Res> {
+  factory $UserModelIdCopyWith(
+          UserModelId value, $Res Function(UserModelId) _then) =
+      _$UserModelIdCopyWithImpl;
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UserModelLocalIdImplCopyWithImpl<$Res>
-    extends _$UserModelIdCopyWithImpl<$Res, _$UserModelLocalIdImpl>
-    implements _$$UserModelLocalIdImplCopyWith<$Res> {
-  __$$UserModelLocalIdImplCopyWithImpl(_$UserModelLocalIdImpl _value,
-      $Res Function(_$UserModelLocalIdImpl) _then)
-      : super(_value, _then);
+class _$UserModelIdCopyWithImpl<$Res> implements $UserModelIdCopyWith<$Res> {
+  _$UserModelIdCopyWithImpl(this._self, this._then);
+
+  final UserModelId _self;
+  final $Res Function(UserModelId) _then;
 
   /// Create a copy of UserModelId
   /// with the given fields replaced by the non-null parameter values.
@@ -856,9 +3340,9 @@ class __$$UserModelLocalIdImplCopyWithImpl<$Res>
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UserModelLocalIdImpl(
+    return _then(_self.copyWith(
       value: null == value
-          ? _value.value
+          ? _self.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -867,145 +3351,73 @@ class __$$UserModelLocalIdImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UserModelLocalIdImpl extends UserModelLocalId {
-  const _$UserModelLocalIdImpl({required this.value}) : super._();
+class UserModelLocalId extends UserModelId with DiagnosticableTreeMixin {
+  const UserModelLocalId({required this.value}) : super._();
 
   @override
   final String value;
 
+  /// Create a copy of UserModelId
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UserModelLocalIdCopyWith<UserModelLocalId> get copyWith =>
+      _$UserModelLocalIdCopyWithImpl<UserModelLocalId>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModelId.local'))
+      ..add(DiagnosticsProperty('value', value));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UserModelLocalId &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UserModelId.local(value: $value)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$UserModelLocalIdImpl &&
-            (identical(other.value, value) || other.value == value));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, value);
-
-  /// Create a copy of UserModelId
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$UserModelLocalIdImplCopyWith<_$UserModelLocalIdImpl> get copyWith =>
-      __$$UserModelLocalIdImplCopyWithImpl<_$UserModelLocalIdImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String value) local,
-    required TResult Function(String value) remote,
-  }) {
-    return local(value);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String value)? local,
-    TResult? Function(String value)? remote,
-  }) {
-    return local?.call(value);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String value)? local,
-    TResult Function(String value)? remote,
-    required TResult orElse(),
-  }) {
-    if (local != null) {
-      return local(value);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(UserModelLocalId value) local,
-    required TResult Function(UserModelRemoteId value) remote,
-  }) {
-    return local(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(UserModelLocalId value)? local,
-    TResult? Function(UserModelRemoteId value)? remote,
-  }) {
-    return local?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(UserModelLocalId value)? local,
-    TResult Function(UserModelRemoteId value)? remote,
-    required TResult orElse(),
-  }) {
-    if (local != null) {
-      return local(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class UserModelLocalId extends UserModelId {
-  const factory UserModelLocalId({required final String value}) =
-      _$UserModelLocalIdImpl;
-  const UserModelLocalId._() : super._();
-
-  @override
-  String get value;
-
-  /// Create a copy of UserModelId
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UserModelLocalIdImplCopyWith<_$UserModelLocalIdImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UserModelRemoteIdImplCopyWith<$Res>
+abstract mixin class $UserModelLocalIdCopyWith<$Res>
     implements $UserModelIdCopyWith<$Res> {
-  factory _$$UserModelRemoteIdImplCopyWith(_$UserModelRemoteIdImpl value,
-          $Res Function(_$UserModelRemoteIdImpl) then) =
-      __$$UserModelRemoteIdImplCopyWithImpl<$Res>;
+  factory $UserModelLocalIdCopyWith(
+          UserModelLocalId value, $Res Function(UserModelLocalId) _then) =
+      _$UserModelLocalIdCopyWithImpl;
   @override
   @useResult
   $Res call({String value});
 }
 
 /// @nodoc
-class __$$UserModelRemoteIdImplCopyWithImpl<$Res>
-    extends _$UserModelIdCopyWithImpl<$Res, _$UserModelRemoteIdImpl>
-    implements _$$UserModelRemoteIdImplCopyWith<$Res> {
-  __$$UserModelRemoteIdImplCopyWithImpl(_$UserModelRemoteIdImpl _value,
-      $Res Function(_$UserModelRemoteIdImpl) _then)
-      : super(_value, _then);
+class _$UserModelLocalIdCopyWithImpl<$Res>
+    implements $UserModelLocalIdCopyWith<$Res> {
+  _$UserModelLocalIdCopyWithImpl(this._self, this._then);
+
+  final UserModelLocalId _self;
+  final $Res Function(UserModelLocalId) _then;
 
   /// Create a copy of UserModelId
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
     Object? value = null,
   }) {
-    return _then(_$UserModelRemoteIdImpl(
+    return _then(UserModelLocalId(
       value: null == value
-          ? _value.value
+          ? _self.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
     ));
@@ -1014,300 +3426,115 @@ class __$$UserModelRemoteIdImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UserModelRemoteIdImpl extends UserModelRemoteId {
-  const _$UserModelRemoteIdImpl({required this.value}) : super._();
+class UserModelRemoteId extends UserModelId with DiagnosticableTreeMixin {
+  const UserModelRemoteId({required this.value}) : super._();
 
   @override
   final String value;
 
+  /// Create a copy of UserModelId
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'UserModelId.remote(value: $value)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UserModelRemoteIdCopyWith<UserModelRemoteId> get copyWith =>
+      _$UserModelRemoteIdCopyWithImpl<UserModelRemoteId>(this, _$identity);
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModelId.remote'))
+      ..add(DiagnosticsProperty('value', value));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserModelRemoteIdImpl &&
+            other is UserModelRemoteId &&
             (identical(other.value, value) || other.value == value));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, value);
 
-  /// Create a copy of UserModelId
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$UserModelRemoteIdImplCopyWith<_$UserModelRemoteIdImpl> get copyWith =>
-      __$$UserModelRemoteIdImplCopyWithImpl<_$UserModelRemoteIdImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String value) local,
-    required TResult Function(String value) remote,
-  }) {
-    return remote(value);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String value)? local,
-    TResult? Function(String value)? remote,
-  }) {
-    return remote?.call(value);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String value)? local,
-    TResult Function(String value)? remote,
-    required TResult orElse(),
-  }) {
-    if (remote != null) {
-      return remote(value);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(UserModelLocalId value) local,
-    required TResult Function(UserModelRemoteId value) remote,
-  }) {
-    return remote(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(UserModelLocalId value)? local,
-    TResult? Function(UserModelRemoteId value)? remote,
-  }) {
-    return remote?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(UserModelLocalId value)? local,
-    TResult Function(UserModelRemoteId value)? remote,
-    required TResult orElse(),
-  }) {
-    if (remote != null) {
-      return remote(this);
-    }
-    return orElse();
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserModelId.remote(value: $value)';
   }
 }
 
-abstract class UserModelRemoteId extends UserModelId {
-  const factory UserModelRemoteId({required final String value}) =
-      _$UserModelRemoteIdImpl;
-  const UserModelRemoteId._() : super._();
-
+/// @nodoc
+abstract mixin class $UserModelRemoteIdCopyWith<$Res>
+    implements $UserModelIdCopyWith<$Res> {
+  factory $UserModelRemoteIdCopyWith(
+          UserModelRemoteId value, $Res Function(UserModelRemoteId) _then) =
+      _$UserModelRemoteIdCopyWithImpl;
   @override
-  String get value;
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class _$UserModelRemoteIdCopyWithImpl<$Res>
+    implements $UserModelRemoteIdCopyWith<$Res> {
+  _$UserModelRemoteIdCopyWithImpl(this._self, this._then);
+
+  final UserModelRemoteId _self;
+  final $Res Function(UserModelRemoteId) _then;
 
   /// Create a copy of UserModelId
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UserModelRemoteIdImplCopyWith<_$UserModelRemoteIdImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-UserModel _$UserModelFromJson(Map<String, dynamic> json) {
-  return _UserModel.fromJson(json);
-}
-
-/// @nodoc
-mixin _$UserModel {
-  @JsonKey(
-      fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
-  UserModelLocalId get localId => throw _privateConstructorUsedError;
-  @JsonKey(
-      fromJson: UserModelId.remoteFromJson, toJson: UserModelId.toStringJson)
-  UserModelRemoteId get remoteId => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
-  DateTime get updatedAt => throw _privateConstructorUsedError;
-
-  /// Serializes this UserModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of UserModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $UserModelCopyWith<UserModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UserModelCopyWith<$Res> {
-  factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) then) =
-      _$UserModelCopyWithImpl<$Res, UserModel>;
-  @useResult
-  $Res call(
-      {@JsonKey(
-          fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
-      UserModelLocalId localId,
-      @JsonKey(
-          fromJson: UserModelId.remoteFromJson,
-          toJson: UserModelId.toStringJson)
-      UserModelRemoteId remoteId,
-      DateTime createdAt,
-      DateTime updatedAt});
-}
-
-/// @nodoc
-class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
-    implements $UserModelCopyWith<$Res> {
-  _$UserModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of UserModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
-  @override
   $Res call({
-    Object? localId = freezed,
-    Object? remoteId = freezed,
-    Object? createdAt = null,
-    Object? updatedAt = null,
+    Object? value = null,
   }) {
-    return _then(_value.copyWith(
-      localId: freezed == localId
-          ? _value.localId
-          : localId // ignore: cast_nullable_to_non_nullable
-              as UserModelLocalId,
-      remoteId: freezed == remoteId
-          ? _value.remoteId
-          : remoteId // ignore: cast_nullable_to_non_nullable
-              as UserModelRemoteId,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$UserModelImplCopyWith<$Res>
-    implements $UserModelCopyWith<$Res> {
-  factory _$$UserModelImplCopyWith(
-          _$UserModelImpl value, $Res Function(_$UserModelImpl) then) =
-      __$$UserModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {@JsonKey(
-          fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
-      UserModelLocalId localId,
-      @JsonKey(
-          fromJson: UserModelId.remoteFromJson,
-          toJson: UserModelId.toStringJson)
-      UserModelRemoteId remoteId,
-      DateTime createdAt,
-      DateTime updatedAt});
-}
-
-/// @nodoc
-class __$$UserModelImplCopyWithImpl<$Res>
-    extends _$UserModelCopyWithImpl<$Res, _$UserModelImpl>
-    implements _$$UserModelImplCopyWith<$Res> {
-  __$$UserModelImplCopyWithImpl(
-      _$UserModelImpl _value, $Res Function(_$UserModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of UserModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? localId = freezed,
-    Object? remoteId = freezed,
-    Object? createdAt = null,
-    Object? updatedAt = null,
-  }) {
-    return _then(_$UserModelImpl(
-      localId: freezed == localId
-          ? _value.localId
-          : localId // ignore: cast_nullable_to_non_nullable
-              as UserModelLocalId,
-      remoteId: freezed == remoteId
-          ? _value.remoteId
-          : remoteId // ignore: cast_nullable_to_non_nullable
-              as UserModelRemoteId,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      updatedAt: null == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+    return _then(UserModelRemoteId(
+      value: null == value
+          ? _self.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
-
-@JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
-class _$UserModelImpl extends _UserModel {
-  const _$UserModelImpl(
-      {@JsonKey(
-          fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
-      required this.localId,
-      @JsonKey(
-          fromJson: UserModelId.remoteFromJson,
-          toJson: UserModelId.toStringJson)
-      required this.remoteId,
-      required this.createdAt,
-      required this.updatedAt})
-      : super._();
-
-  factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserModelImplFromJson(json);
-
-  @override
+mixin _$UserModel implements DiagnosticableTreeMixin {
   @JsonKey(
       fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
-  final UserModelLocalId localId;
-  @override
+  UserModelLocalId get localId;
   @JsonKey(
       fromJson: UserModelId.remoteFromJson, toJson: UserModelId.toStringJson)
-  final UserModelRemoteId remoteId;
-  @override
-  final DateTime createdAt;
-  @override
-  final DateTime updatedAt;
+  UserModelRemoteId get remoteId;
+  DateTime get createdAt;
+  DateTime get updatedAt;
+
+  /// Create a copy of UserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UserModelCopyWith<UserModel> get copyWith =>
+      _$UserModelCopyWithImpl<UserModel>(this as UserModel, _$identity);
+
+  /// Serializes this UserModel to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
-  String toString() {
-    return 'UserModel(localId: $localId, remoteId: $remoteId, createdAt: $createdAt, updatedAt: $updatedAt)';
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModel'))
+      ..add(DiagnosticsProperty('localId', localId))
+      ..add(DiagnosticsProperty('remoteId', remoteId))
+      ..add(DiagnosticsProperty('createdAt', createdAt))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserModelImpl &&
+            other is UserModel &&
             const DeepCollectionEquality().equals(other.localId, localId) &&
             const DeepCollectionEquality().equals(other.remoteId, remoteId) &&
             (identical(other.createdAt, createdAt) ||
@@ -1325,154 +3552,63 @@ class _$UserModelImpl extends _UserModel {
       createdAt,
       updatedAt);
 
-  /// Create a copy of UserModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
-      __$$UserModelImplCopyWithImpl<_$UserModelImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UserModelImplToJson(
-      this,
-    );
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserModel(localId: $localId, remoteId: $remoteId, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }
 
-abstract class _UserModel extends UserModel {
-  const factory _UserModel(
+/// @nodoc
+abstract mixin class $UserModelCopyWith<$Res> {
+  factory $UserModelCopyWith(UserModel value, $Res Function(UserModel) _then) =
+      _$UserModelCopyWithImpl;
+  @useResult
+  $Res call(
       {@JsonKey(
           fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
-      required final UserModelLocalId localId,
+      UserModelLocalId localId,
       @JsonKey(
           fromJson: UserModelId.remoteFromJson,
           toJson: UserModelId.toStringJson)
-      required final UserModelRemoteId remoteId,
-      required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$UserModelImpl;
-  const _UserModel._() : super._();
+      UserModelRemoteId remoteId,
+      DateTime createdAt,
+      DateTime updatedAt});
+}
 
-  factory _UserModel.fromJson(Map<String, dynamic> json) =
-      _$UserModelImpl.fromJson;
+/// @nodoc
+class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
+  _$UserModelCopyWithImpl(this._self, this._then);
 
-  @override
-  @JsonKey(
-      fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
-  UserModelLocalId get localId;
-  @override
-  @JsonKey(
-      fromJson: UserModelId.remoteFromJson, toJson: UserModelId.toStringJson)
-  UserModelRemoteId get remoteId;
-  @override
-  DateTime get createdAt;
-  @override
-  DateTime get updatedAt;
+  final UserModel _self;
+  final $Res Function(UserModel) _then;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UserModelImplCopyWith<_$UserModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-SubscriptionModel _$SubscriptionModelFromJson(Map<String, dynamic> json) {
-  return _SubscriptionModel.fromJson(json);
-}
-
-/// @nodoc
-mixin _$SubscriptionModel {
-  int get paidDaysLeft => throw _privateConstructorUsedError;
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
-
-  /// Serializes this SubscriptionModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of SubscriptionModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $SubscriptionModelCopyWith<SubscriptionModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SubscriptionModelCopyWith<$Res> {
-  factory $SubscriptionModelCopyWith(
-          SubscriptionModel value, $Res Function(SubscriptionModel) then) =
-      _$SubscriptionModelCopyWithImpl<$Res, SubscriptionModel>;
-  @useResult
-  $Res call({int paidDaysLeft, DateTime? updatedAt});
-}
-
-/// @nodoc
-class _$SubscriptionModelCopyWithImpl<$Res, $Val extends SubscriptionModel>
-    implements $SubscriptionModelCopyWith<$Res> {
-  _$SubscriptionModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of SubscriptionModel
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? paidDaysLeft = null,
-    Object? updatedAt = freezed,
+    Object? localId = freezed,
+    Object? remoteId = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
-    return _then(_value.copyWith(
-      paidDaysLeft: null == paidDaysLeft
-          ? _value.paidDaysLeft
-          : paidDaysLeft // ignore: cast_nullable_to_non_nullable
-              as int,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
+    return _then(_self.copyWith(
+      localId: freezed == localId
+          ? _self.localId
+          : localId // ignore: cast_nullable_to_non_nullable
+              as UserModelLocalId,
+      remoteId: freezed == remoteId
+          ? _self.remoteId
+          : remoteId // ignore: cast_nullable_to_non_nullable
+              as UserModelRemoteId,
+      createdAt: null == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _self.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$SubscriptionModelImplCopyWith<$Res>
-    implements $SubscriptionModelCopyWith<$Res> {
-  factory _$$SubscriptionModelImplCopyWith(_$SubscriptionModelImpl value,
-          $Res Function(_$SubscriptionModelImpl) then) =
-      __$$SubscriptionModelImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int paidDaysLeft, DateTime? updatedAt});
-}
-
-/// @nodoc
-class __$$SubscriptionModelImplCopyWithImpl<$Res>
-    extends _$SubscriptionModelCopyWithImpl<$Res, _$SubscriptionModelImpl>
-    implements _$$SubscriptionModelImplCopyWith<$Res> {
-  __$$SubscriptionModelImplCopyWithImpl(_$SubscriptionModelImpl _value,
-      $Res Function(_$SubscriptionModelImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of SubscriptionModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? paidDaysLeft = null,
-    Object? updatedAt = freezed,
-  }) {
-    return _then(_$SubscriptionModelImpl(
-      paidDaysLeft: null == paidDaysLeft
-          ? _value.paidDaysLeft
-          : paidDaysLeft // ignore: cast_nullable_to_non_nullable
-              as int,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
     ));
   }
 }
@@ -1480,28 +3616,174 @@ class __$$SubscriptionModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
-class _$SubscriptionModelImpl implements _SubscriptionModel {
-  const _$SubscriptionModelImpl({this.paidDaysLeft = 0, this.updatedAt});
-
-  factory _$SubscriptionModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SubscriptionModelImplFromJson(json);
+class _UserModel extends UserModel with DiagnosticableTreeMixin {
+  const _UserModel(
+      {@JsonKey(
+          fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
+      required this.localId,
+      @JsonKey(
+          fromJson: UserModelId.remoteFromJson,
+          toJson: UserModelId.toStringJson)
+      required this.remoteId,
+      required this.createdAt,
+      required this.updatedAt})
+      : super._();
+  factory _UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 
   @override
-  @JsonKey()
-  final int paidDaysLeft;
+  @JsonKey(
+      fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
+  final UserModelLocalId localId;
   @override
-  final DateTime? updatedAt;
+  @JsonKey(
+      fromJson: UserModelId.remoteFromJson, toJson: UserModelId.toStringJson)
+  final UserModelRemoteId remoteId;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime updatedAt;
+
+  /// Create a copy of UserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$UserModelCopyWith<_UserModel> get copyWith =>
+      __$UserModelCopyWithImpl<_UserModel>(this, _$identity);
 
   @override
-  String toString() {
-    return 'SubscriptionModel(paidDaysLeft: $paidDaysLeft, updatedAt: $updatedAt)';
+  Map<String, dynamic> toJson() {
+    return _$UserModelToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserModel'))
+      ..add(DiagnosticsProperty('localId', localId))
+      ..add(DiagnosticsProperty('remoteId', remoteId))
+      ..add(DiagnosticsProperty('createdAt', createdAt))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SubscriptionModelImpl &&
+            other is _UserModel &&
+            const DeepCollectionEquality().equals(other.localId, localId) &&
+            const DeepCollectionEquality().equals(other.remoteId, remoteId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(localId),
+      const DeepCollectionEquality().hash(remoteId),
+      createdAt,
+      updatedAt);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserModel(localId: $localId, remoteId: $remoteId, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$UserModelCopyWith<$Res>
+    implements $UserModelCopyWith<$Res> {
+  factory _$UserModelCopyWith(
+          _UserModel value, $Res Function(_UserModel) _then) =
+      __$UserModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(
+          fromJson: UserModelId.localFromJson, toJson: UserModelId.toStringJson)
+      UserModelLocalId localId,
+      @JsonKey(
+          fromJson: UserModelId.remoteFromJson,
+          toJson: UserModelId.toStringJson)
+      UserModelRemoteId remoteId,
+      DateTime createdAt,
+      DateTime updatedAt});
+}
+
+/// @nodoc
+class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
+  __$UserModelCopyWithImpl(this._self, this._then);
+
+  final _UserModel _self;
+  final $Res Function(_UserModel) _then;
+
+  /// Create a copy of UserModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? localId = freezed,
+    Object? remoteId = freezed,
+    Object? createdAt = null,
+    Object? updatedAt = null,
+  }) {
+    return _then(_UserModel(
+      localId: freezed == localId
+          ? _self.localId
+          : localId // ignore: cast_nullable_to_non_nullable
+              as UserModelLocalId,
+      remoteId: freezed == remoteId
+          ? _self.remoteId
+          : remoteId // ignore: cast_nullable_to_non_nullable
+              as UserModelRemoteId,
+      createdAt: null == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$SubscriptionModel implements DiagnosticableTreeMixin {
+  int get paidDaysLeft;
+  DateTime? get updatedAt;
+
+  /// Create a copy of SubscriptionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SubscriptionModelCopyWith<SubscriptionModel> get copyWith =>
+      _$SubscriptionModelCopyWithImpl<SubscriptionModel>(
+          this as SubscriptionModel, _$identity);
+
+  /// Serializes this SubscriptionModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SubscriptionModel'))
+      ..add(DiagnosticsProperty('paidDaysLeft', paidDaysLeft))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SubscriptionModel &&
             (identical(other.paidDaysLeft, paidDaysLeft) ||
                 other.paidDaysLeft == paidDaysLeft) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -1512,140 +3794,46 @@ class _$SubscriptionModelImpl implements _SubscriptionModel {
   @override
   int get hashCode => Object.hash(runtimeType, paidDaysLeft, updatedAt);
 
-  /// Create a copy of SubscriptionModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SubscriptionModelImplCopyWith<_$SubscriptionModelImpl> get copyWith =>
-      __$$SubscriptionModelImplCopyWithImpl<_$SubscriptionModelImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SubscriptionModelImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _SubscriptionModel implements SubscriptionModel {
-  const factory _SubscriptionModel(
-      {final int paidDaysLeft,
-      final DateTime? updatedAt}) = _$SubscriptionModelImpl;
-
-  factory _SubscriptionModel.fromJson(Map<String, dynamic> json) =
-      _$SubscriptionModelImpl.fromJson;
-
-  @override
-  int get paidDaysLeft;
-  @override
-  DateTime? get updatedAt;
-
-  /// Create a copy of SubscriptionModel
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SubscriptionModelImplCopyWith<_$SubscriptionModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-UserPermissionsModel _$UserPermissionsModelFromJson(Map<String, dynamic> json) {
-  return _UserPermissionsModel.fromJson(json);
-}
-
-/// @nodoc
-mixin _$UserPermissionsModel {
-  bool get shouldBeSynced => throw _privateConstructorUsedError;
-  int get tagLimit => throw _privateConstructorUsedError;
-
-  /// Serializes this UserPermissionsModel to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of UserPermissionsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $UserPermissionsModelCopyWith<UserPermissionsModel> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $UserPermissionsModelCopyWith<$Res> {
-  factory $UserPermissionsModelCopyWith(UserPermissionsModel value,
-          $Res Function(UserPermissionsModel) then) =
-      _$UserPermissionsModelCopyWithImpl<$Res, UserPermissionsModel>;
-  @useResult
-  $Res call({bool shouldBeSynced, int tagLimit});
-}
-
-/// @nodoc
-class _$UserPermissionsModelCopyWithImpl<$Res,
-        $Val extends UserPermissionsModel>
-    implements $UserPermissionsModelCopyWith<$Res> {
-  _$UserPermissionsModelCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of UserPermissionsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? shouldBeSynced = null,
-    Object? tagLimit = null,
-  }) {
-    return _then(_value.copyWith(
-      shouldBeSynced: null == shouldBeSynced
-          ? _value.shouldBeSynced
-          : shouldBeSynced // ignore: cast_nullable_to_non_nullable
-              as bool,
-      tagLimit: null == tagLimit
-          ? _value.tagLimit
-          : tagLimit // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'SubscriptionModel(paidDaysLeft: $paidDaysLeft, updatedAt: $updatedAt)';
   }
 }
 
 /// @nodoc
-abstract class _$$UserPermissionsModelImplCopyWith<$Res>
-    implements $UserPermissionsModelCopyWith<$Res> {
-  factory _$$UserPermissionsModelImplCopyWith(_$UserPermissionsModelImpl value,
-          $Res Function(_$UserPermissionsModelImpl) then) =
-      __$$UserPermissionsModelImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $SubscriptionModelCopyWith<$Res> {
+  factory $SubscriptionModelCopyWith(
+          SubscriptionModel value, $Res Function(SubscriptionModel) _then) =
+      _$SubscriptionModelCopyWithImpl;
   @useResult
-  $Res call({bool shouldBeSynced, int tagLimit});
+  $Res call({int paidDaysLeft, DateTime? updatedAt});
 }
 
 /// @nodoc
-class __$$UserPermissionsModelImplCopyWithImpl<$Res>
-    extends _$UserPermissionsModelCopyWithImpl<$Res, _$UserPermissionsModelImpl>
-    implements _$$UserPermissionsModelImplCopyWith<$Res> {
-  __$$UserPermissionsModelImplCopyWithImpl(_$UserPermissionsModelImpl _value,
-      $Res Function(_$UserPermissionsModelImpl) _then)
-      : super(_value, _then);
+class _$SubscriptionModelCopyWithImpl<$Res>
+    implements $SubscriptionModelCopyWith<$Res> {
+  _$SubscriptionModelCopyWithImpl(this._self, this._then);
 
-  /// Create a copy of UserPermissionsModel
+  final SubscriptionModel _self;
+  final $Res Function(SubscriptionModel) _then;
+
+  /// Create a copy of SubscriptionModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? shouldBeSynced = null,
-    Object? tagLimit = null,
+    Object? paidDaysLeft = null,
+    Object? updatedAt = freezed,
   }) {
-    return _then(_$UserPermissionsModelImpl(
-      shouldBeSynced: null == shouldBeSynced
-          ? _value.shouldBeSynced
-          : shouldBeSynced // ignore: cast_nullable_to_non_nullable
-              as bool,
-      tagLimit: null == tagLimit
-          ? _value.tagLimit
-          : tagLimit // ignore: cast_nullable_to_non_nullable
+    return _then(_self.copyWith(
+      paidDaysLeft: null == paidDaysLeft
+          ? _self.paidDaysLeft
+          : paidDaysLeft // ignore: cast_nullable_to_non_nullable
               as int,
+      updatedAt: freezed == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -1653,30 +3841,132 @@ class __$$UserPermissionsModelImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
-class _$UserPermissionsModelImpl implements _UserPermissionsModel {
-  const _$UserPermissionsModelImpl(
-      {this.shouldBeSynced = false, this.tagLimit = 5});
-
-  factory _$UserPermissionsModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserPermissionsModelImplFromJson(json);
+class _SubscriptionModel
+    with DiagnosticableTreeMixin
+    implements SubscriptionModel {
+  const _SubscriptionModel({this.paidDaysLeft = 0, this.updatedAt});
+  factory _SubscriptionModel.fromJson(Map<String, dynamic> json) =>
+      _$SubscriptionModelFromJson(json);
 
   @override
   @JsonKey()
-  final bool shouldBeSynced;
+  final int paidDaysLeft;
   @override
-  @JsonKey()
-  final int tagLimit;
+  final DateTime? updatedAt;
+
+  /// Create a copy of SubscriptionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SubscriptionModelCopyWith<_SubscriptionModel> get copyWith =>
+      __$SubscriptionModelCopyWithImpl<_SubscriptionModel>(this, _$identity);
 
   @override
-  String toString() {
-    return 'UserPermissionsModel(shouldBeSynced: $shouldBeSynced, tagLimit: $tagLimit)';
+  Map<String, dynamic> toJson() {
+    return _$SubscriptionModelToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'SubscriptionModel'))
+      ..add(DiagnosticsProperty('paidDaysLeft', paidDaysLeft))
+      ..add(DiagnosticsProperty('updatedAt', updatedAt));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserPermissionsModelImpl &&
+            other is _SubscriptionModel &&
+            (identical(other.paidDaysLeft, paidDaysLeft) ||
+                other.paidDaysLeft == paidDaysLeft) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, paidDaysLeft, updatedAt);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'SubscriptionModel(paidDaysLeft: $paidDaysLeft, updatedAt: $updatedAt)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SubscriptionModelCopyWith<$Res>
+    implements $SubscriptionModelCopyWith<$Res> {
+  factory _$SubscriptionModelCopyWith(
+          _SubscriptionModel value, $Res Function(_SubscriptionModel) _then) =
+      __$SubscriptionModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call({int paidDaysLeft, DateTime? updatedAt});
+}
+
+/// @nodoc
+class __$SubscriptionModelCopyWithImpl<$Res>
+    implements _$SubscriptionModelCopyWith<$Res> {
+  __$SubscriptionModelCopyWithImpl(this._self, this._then);
+
+  final _SubscriptionModel _self;
+  final $Res Function(_SubscriptionModel) _then;
+
+  /// Create a copy of SubscriptionModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? paidDaysLeft = null,
+    Object? updatedAt = freezed,
+  }) {
+    return _then(_SubscriptionModel(
+      paidDaysLeft: null == paidDaysLeft
+          ? _self.paidDaysLeft
+          : paidDaysLeft // ignore: cast_nullable_to_non_nullable
+              as int,
+      updatedAt: freezed == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$UserPermissionsModel implements DiagnosticableTreeMixin {
+  bool get shouldBeSynced;
+  int get tagLimit;
+
+  /// Create a copy of UserPermissionsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $UserPermissionsModelCopyWith<UserPermissionsModel> get copyWith =>
+      _$UserPermissionsModelCopyWithImpl<UserPermissionsModel>(
+          this as UserPermissionsModel, _$identity);
+
+  /// Serializes this UserPermissionsModel to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserPermissionsModel'))
+      ..add(DiagnosticsProperty('shouldBeSynced', shouldBeSynced))
+      ..add(DiagnosticsProperty('tagLimit', tagLimit));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UserPermissionsModel &&
             (identical(other.shouldBeSynced, shouldBeSynced) ||
                 other.shouldBeSynced == shouldBeSynced) &&
             (identical(other.tagLimit, tagLimit) ||
@@ -1687,41 +3977,150 @@ class _$UserPermissionsModelImpl implements _UserPermissionsModel {
   @override
   int get hashCode => Object.hash(runtimeType, shouldBeSynced, tagLimit);
 
-  /// Create a copy of UserPermissionsModel
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$UserPermissionsModelImplCopyWith<_$UserPermissionsModelImpl>
-      get copyWith =>
-          __$$UserPermissionsModelImplCopyWithImpl<_$UserPermissionsModelImpl>(
-              this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$UserPermissionsModelImplToJson(
-      this,
-    );
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserPermissionsModel(shouldBeSynced: $shouldBeSynced, tagLimit: $tagLimit)';
   }
 }
 
-abstract class _UserPermissionsModel implements UserPermissionsModel {
-  const factory _UserPermissionsModel(
-      {final bool shouldBeSynced,
-      final int tagLimit}) = _$UserPermissionsModelImpl;
+/// @nodoc
+abstract mixin class $UserPermissionsModelCopyWith<$Res> {
+  factory $UserPermissionsModelCopyWith(UserPermissionsModel value,
+          $Res Function(UserPermissionsModel) _then) =
+      _$UserPermissionsModelCopyWithImpl;
+  @useResult
+  $Res call({bool shouldBeSynced, int tagLimit});
+}
 
-  factory _UserPermissionsModel.fromJson(Map<String, dynamic> json) =
-      _$UserPermissionsModelImpl.fromJson;
+/// @nodoc
+class _$UserPermissionsModelCopyWithImpl<$Res>
+    implements $UserPermissionsModelCopyWith<$Res> {
+  _$UserPermissionsModelCopyWithImpl(this._self, this._then);
+
+  final UserPermissionsModel _self;
+  final $Res Function(UserPermissionsModel) _then;
+
+  /// Create a copy of UserPermissionsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? shouldBeSynced = null,
+    Object? tagLimit = null,
+  }) {
+    return _then(_self.copyWith(
+      shouldBeSynced: null == shouldBeSynced
+          ? _self.shouldBeSynced
+          : shouldBeSynced // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tagLimit: null == tagLimit
+          ? _self.tagLimit
+          : tagLimit // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
+class _UserPermissionsModel
+    with DiagnosticableTreeMixin
+    implements UserPermissionsModel {
+  const _UserPermissionsModel({this.shouldBeSynced = false, this.tagLimit = 5});
+  factory _UserPermissionsModel.fromJson(Map<String, dynamic> json) =>
+      _$UserPermissionsModelFromJson(json);
 
   @override
-  bool get shouldBeSynced;
+  @JsonKey()
+  final bool shouldBeSynced;
   @override
-  int get tagLimit;
+  @JsonKey()
+  final int tagLimit;
 
   /// Create a copy of UserPermissionsModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UserPermissionsModelImplCopyWith<_$UserPermissionsModelImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$UserPermissionsModelCopyWith<_UserPermissionsModel> get copyWith =>
+      __$UserPermissionsModelCopyWithImpl<_UserPermissionsModel>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$UserPermissionsModelToJson(
+      this,
+    );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    properties
+      ..add(DiagnosticsProperty('type', 'UserPermissionsModel'))
+      ..add(DiagnosticsProperty('shouldBeSynced', shouldBeSynced))
+      ..add(DiagnosticsProperty('tagLimit', tagLimit));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _UserPermissionsModel &&
+            (identical(other.shouldBeSynced, shouldBeSynced) ||
+                other.shouldBeSynced == shouldBeSynced) &&
+            (identical(other.tagLimit, tagLimit) ||
+                other.tagLimit == tagLimit));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, shouldBeSynced, tagLimit);
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserPermissionsModel(shouldBeSynced: $shouldBeSynced, tagLimit: $tagLimit)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$UserPermissionsModelCopyWith<$Res>
+    implements $UserPermissionsModelCopyWith<$Res> {
+  factory _$UserPermissionsModelCopyWith(_UserPermissionsModel value,
+          $Res Function(_UserPermissionsModel) _then) =
+      __$UserPermissionsModelCopyWithImpl;
+  @override
+  @useResult
+  $Res call({bool shouldBeSynced, int tagLimit});
+}
+
+/// @nodoc
+class __$UserPermissionsModelCopyWithImpl<$Res>
+    implements _$UserPermissionsModelCopyWith<$Res> {
+  __$UserPermissionsModelCopyWithImpl(this._self, this._then);
+
+  final _UserPermissionsModel _self;
+  final $Res Function(_UserPermissionsModel) _then;
+
+  /// Create a copy of UserPermissionsModel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? shouldBeSynced = null,
+    Object? tagLimit = null,
+  }) {
+    return _then(_UserPermissionsModel(
+      shouldBeSynced: null == shouldBeSynced
+          ? _self.shouldBeSynced
+          : shouldBeSynced // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tagLimit: null == tagLimit
+          ? _self.tagLimit
+          : tagLimit // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+// dart format on

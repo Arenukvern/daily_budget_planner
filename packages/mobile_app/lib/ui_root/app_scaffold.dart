@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobile_app/common_imports.dart';
 
@@ -26,15 +27,11 @@ class _DBPAppState extends State<DBPApp> {
   }
 
   void _initializeLocalization() => LocalizationConfig.initialize(
-        LocalizationConfig(
-          supportedLanguages: [
-            languages.en,
-            languages.ru,
-            languages.it,
-          ],
-          fallbackLanguage: languages.en,
-        ),
-      );
+    LocalizationConfig(
+      supportedLanguages: [languages.en, languages.ru, languages.it],
+      fallbackLanguage: languages.en,
+    ),
+  );
   @override
   void dispose() {
     Di.dispose();
@@ -42,12 +39,21 @@ class _DBPAppState extends State<DBPApp> {
   }
 
   @override
-  Widget build(final BuildContext context) {
-    if (!_isDiLoaded) return LoadingScreen();
-    return GlobalStateProviders(
-      builder: (final context) => const AppScaffoldBuilder(),
-    );
-  }
+  Widget build(final BuildContext context) => ColoredBox(
+    color: AppThemeData.brandDark.colorScheme.surface,
+    child: Directionality(
+      textDirection: TextDirection.ltr,
+      child: Stack(
+        children: [
+          if (!_isDiLoaded) const LoadingScreen(),
+          if (_isDiLoaded)
+            GlobalStateProviders(
+              builder: (final context) => const AppScaffoldBuilder(),
+            ),
+        ],
+      ),
+    ),
+  );
 }
 
 class AppScaffoldBuilder extends StatelessWidget {
@@ -57,10 +63,12 @@ class AppScaffoldBuilder extends StatelessWidget {
     final locale = context.select<AppSettingsNotifier, Locale>(
       (final c) => c.locale.value,
     );
+    final themeMode = context.select<AppSettingsNotifier, ThemeMode>(
+      (final c) => c.value.brightness.themeMode,
+    );
     final app = MaterialApp.router(
       routerConfig: router,
-
-      themeMode: ThemeMode.light,
+      themeMode: kDebugMode ? themeMode : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         ...S.localizationsDelegates,
@@ -75,6 +83,7 @@ class AppScaffoldBuilder extends StatelessWidget {
       locale: locale,
       supportedLocales: Locales.values,
       theme: AppThemeData.brandLight,
+      darkTheme: AppThemeData.brandDark,
     );
     if (Envs.isWiredashAvailable) {
       return UserFeedback.wiredash(
@@ -87,7 +96,7 @@ class AppScaffoldBuilder extends StatelessWidget {
           ),
           feedbackOptions: _getWiredashOptions(locale),
           theme: WiredashThemeData.fromColor(
-            primaryColor: AppThemeData.brandLight.primaryColor,
+            primaryColor: AppThemeData.brandDark.primaryColor,
             brightness: Brightness.light,
           ),
         ),
@@ -102,43 +111,35 @@ class AppScaffoldBuilder extends StatelessWidget {
         labels: [
           Label(
             id: 'label-jcgd4lyfk9',
-            title: LocalizedMap(
-              value: {
-                languages.en: 'Bug report',
-                languages.ru: 'Сообщить об ошибке',
-                languages.it: 'Segnala un bug',
-              },
-            ).getValue(locale),
+            title: LocalizedMap({
+              languages.en: 'Bug report',
+              languages.ru: 'Сообщить об ошибке',
+              languages.it: 'Segnala un bug',
+            }).getValue(locale),
           ),
           Label(
             id: 'label-dqi42ue2re',
-            title: LocalizedMap(
-              value: {
-                languages.en: 'Feature request',
-                languages.ru: 'Предложить функцию',
-                languages.it: 'Proponi una funzione',
-              },
-            ).getValue(locale),
+            title: LocalizedMap({
+              languages.en: 'Feature request',
+              languages.ru: 'Предложить функцию',
+              languages.it: 'Proponi una funzione',
+            }).getValue(locale),
           ),
           Label(
             id: 'label-n63w8nqhcn',
-            title: LocalizedMap(
-              value: {
-                languages.en: 'Payment issue',
-                languages.ru: 'Проблема с оплатой',
-                languages.it: 'Problema con il pagamento',
-              },
-            ).getValue(locale),
+            title: LocalizedMap({
+              languages.en: 'Payment issue',
+              languages.ru: 'Проблема с оплатой',
+              languages.it: 'Problema con il pagamento',
+            }).getValue(locale),
           ),
           Label(
             id: 'label-8tnmqrfat4',
-            title: LocalizedMap(
-              value: {
-                languages.en: 'Other',
-                languages.ru: 'Другое',
-                languages.it: 'Altro',
-              },
-            ).getValue(locale),
+            title: LocalizedMap({
+              languages.en: 'Other',
+              languages.ru: 'Другое',
+              languages.it: 'Altro',
+            }).getValue(locale),
           ),
         ],
       );

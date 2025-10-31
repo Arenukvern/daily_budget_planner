@@ -40,6 +40,10 @@
     "prefix": "unimplemented",
     "body": "// TODO(${1:username}): ${2:description}\nthrow UnimplementedError();"
   },
+  "tln": {
+    "prefix": "tln",
+    "body": "// TODO(arenukvern): add localization l10n"
+  },
   "section-start": {
     "prefix": "section start",
     "body": "/// ********************************************\n/// *      ${1:TITLE} START\n/// ********************************************"
@@ -51,5 +55,12 @@
   "main-test": {
     "prefix": "mtest",
     "body": "import 'package:flutter_test/flutter_test.dart';\n\nvoid main() {\n  group('${1}', () {});\n}"
+  },
+  "extension-type-id": {
+    "prefix": "extid",
+    "body": [
+      "extension type const ${1:ExtensionName}Id(String value) {\n  factory ${1:ExtensionName}Id.fromJson(final String value) => ${1:ExtensionName}Id(value);\n  static const empty = ${1:ExtensionName}Id  ('');\n  bool get isEmpty => value.isEmpty;\n  String toJson() => value;\n}"
+    ],
+    "description": "Creates an extension type ID"
   }
 }

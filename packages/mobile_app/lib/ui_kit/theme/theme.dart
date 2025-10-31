@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/common_imports.dart';
 
 export 'design_system_token.dart';
+export 'layout.dart';
 
 class AppThemeData {
   AppThemeData._();
@@ -24,5 +25,11 @@ class AppThemeData {
 
   static final brandLight = from(
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple[200]!),
+  );
+  static final brandDark = from(
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: Colors.deepPurple[50]!,
+      brightness: Brightness.dark,
+    ),
   );
 }

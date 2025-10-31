@@ -27,17 +27,17 @@ class _PreloadingScreenState extends State<PreloadingScreen> {
 }
 
 class GlobalStateInitializer
-    with HasLocalApis, HasStates, HasAnalytics
+    with HasLocalApis, HasNotifiers, HasAnalytics, HasComplexLocalDbs
     implements StateInitializer, Disposable {
   @override
   Future<void> onLoad(final BuildContext context) async {
-    await localDb.init();
+    await Future.wait([localDb.init(), sembastDb.open()]);
     // FlutterNativeSplash.remove();
     await Future.wait([
       userNotifier.loadProfile(),
       appSettingsNotifier.onLoad(),
     ]);
-    final guideVisibility = GuideVisibility();
+    const guideVisibility = GuideVisibility();
     final hasSeenGuide = await guideVisibility.hasSeenGuide;
 
     WidgetsBinding.instance.addPostFrameCallback((final timeStamp) async {
@@ -47,14 +47,19 @@ class GlobalStateInitializer
         guideVisibility.setGuideWasOpen();
         AppPathsController.of(context).toExplanation(isFirstTimeOpening: true);
       }
-      unawaited(
-        Future.wait([
-          weeklyCubit.onLoad(),
-          monthlyCubit.onLoad(),
-          storeReviewRequester.onLoad(),
-        ]),
-      );
-      await purchaseIntializer.init();
+      await purchaseInitializer.init();
+      await dictionariesNotifier.onLoad();
+      await finSettingsNotifier.onLoad();
+      await Future.wait([
+        weeklyCubit.onLoad(),
+        monthlyCubit.onLoad(),
+        storeReviewRequester.onLoad(),
+        const LoadTasksCommand().execute(),
+        const LoadBudgetsCmd().execute(),
+        const LoadTransactionsCmd().execute(),
+        const LoadTransactionsCmd().execute(),
+        const LoadStoreCmd().execute(),
+      ]);
     });
   }
 
@@ -62,6 +67,7 @@ class GlobalStateInitializer
   void dispose() {}
 }
 
+@immutable
 class GuideVisibility with HasLocalApis {
   const GuideVisibility();
   static const _key = 'has_seen_guide';

@@ -1,0 +1,228 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+
+# Sembast Container Models Pattern
+
+Use this rule when creating Sembast Container models for domain entity persistence.
+
+## Container Model Structure
+
+### 1. Main Container Class Pattern
+
+```dart
+/// {@template [entity]_sembast_container}
+/// Sembast Container model for storing [[Entity]] data.
+/// Handles persistence of [entities] and their related data.
+///
+/// This Container maintains relationships between:
+/// - [[Entity]]
+/// - [[RelatedEntity1]] (if applicable)
+/// - [[RelatedEntity2]] (if applicable)
+///
+/// @ai When generating code for this Container, ensure proper handling of
+/// data serialization and maintain referential integrity with
+/// related Containers.
+/// {@endtemplate}
+class [Entity]SembastContainer extends SembastContainer<[Entity], [Entity]Id> {
+  /// {@macro [entity]_sembast_container}
+  [Entity]SembastContainer({required super.item});
+
+  /// Creates instance from Sembast Map
+  factory [Entity]SembastContainer.fromMap(final SembastDataMap map) =>
+      [Entity]SembastContainer(
+        item: [Entity].fromJson(
+          jsonDecodeMap(map[SembastContainer.keys.jsonData]!),
+        ),
+      );
+
+  /// Converts a domain [[Entity]] model to [[Entity]SembastContainer]
+  factory [Entity]SembastContainer.fromDomain(final [Entity] entity) =>
+      [Entity]SembastContainer(item: entity);
+
+  @override
+  [Entity]Id get id => item.id;
+
+  /// Converts to Map for Sembast storage
+  @override
+  Map<String, dynamic> toMap() => {
+    ...super.toMap(),
+    // Add additional indexed fields here
+    '[indexedField]': item.[property],
+  };
+
+  @override
+  SembastDataMap getJson() => item.toJson();
+}
+```
+
+### 2. Required Imports
+
+```dart
+import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/data_local_api/db/sembast_db.dart';
+```
+
+## Factory Constructor Patterns
+
+### 1. From Sembast Map (Deserialization)
+
+```dart
+/// Creates instance from Sembast Map
+factory [Entity]SembastContainer.fromMap(final SembastDataMap map) =>
+    [Entity]SembastContainer(
+      item: [Entity].fromJson(
+        jsonDecodeMap(map[SembastContainer.keys.jsonData]!),
+      ),
+    );
+```
+
+### 2. From Domain Model (Serialization)
+
+```dart
+/// Converts a domain [[Entity]] model to [[Entity]SembastContainer]
+factory [Entity]SembastContainer.fromDomain(final [Entity] entity) =>
+    [Entity]SembastContainer(item: entity);
+```
+
+## Override Method Patterns
+
+### 1. ID Getter
+
+```dart
+@override
+[Entity]Id get id => item.id;
+```
+
+### 2. Enhanced toMap() with Additional Fields
+
+```dart
+/// Converts to Map for Sembast storage
+@override
+Map<String, dynamic> toMap() => {
+  ...super.toMap(),
+  // Add fields that need to be indexed/queried
+  'createdAt': item.createdAt,
+  'updatedAt': item.updatedAt,
+  'status': item.status.name,
+  '[customField]': item.[property],
+};
+```
+
+### 3. JSON Serialization
+
+```dart
+@override
+SembastDataMap getJson() => item.toJson();
+```
+
+## Documentation Patterns
+
+### 1. Template Documentation
+
+```dart
+/// {@template [entity]_sembast_container}
+/// Sembast Container model for storing [[Entity]] data.
+/// Handles persistence of [entities] and their related data.
+///
+/// This Container maintains relationships between:
+/// - [[Entity]]
+/// - [[RelatedEntity]] (if applicable)
+///
+/// @ai When generating code for this Container, ensure proper handling of
+/// data serialization and maintain referential integrity with
+/// related Containers.
+/// {@endtemplate}
+```
+
+### 2. Constructor Documentation
+
+```dart
+/// {@macro [entity]_sembast_container}
+[Entity]SembastContainer({required super.item});
+```
+
+## Common Additional Fields for toMap()
+
+Based on typical query needs, consider adding these fields to `toMap()`:
+
+```dart
+@override
+Map<String, dynamic> toMap() => {
+  ...super.toMap(),
+  // Temporal fields
+  'createdAt': item.createdAt?.toIso8601String(),
+  'updatedAt': item.updatedAt?.toIso8601String(),
+  'date': item.date?.toIso8601String(),
+
+  // Status/enum fields
+  'status': item.status?.name,
+  'type': item.type?.name,
+  'category': item.category?.name,
+
+  // Searchable text fields
+  'name': item.name,
+  'description': item.description,
+  'title': item.title,
+
+  // Numeric fields for range queries
+  'amount': item.amount,
+  'priority': item.priority,
+  'order': item.order,
+
+  // Boolean flags
+  'isActive': item.isActive,
+  'isCompleted': item.isCompleted,
+  'isArchived': item.isArchived,
+
+  // Relationship IDs
+  'parentId': item.parentId?.toString(),
+  'userId': item.userId?.toString(),
+};
+```
+
+## Best Practices
+
+1. **Comprehensive Documentation**: Use `{@template}` for reusable documentation
+2. **AI Guidance**: Include `@ai` directives for code generation hints
+3. **Relationship Documentation**: List all related entities in documentation
+4. **Type Safety**: Use proper generic types `<Entity, EntityId>`
+5. **Factory Constructors**: Provide both `fromMap` and `fromDomain` factories
+6. **Indexed Fields**: Add commonly queried fields to `toMap()` for performance
+7. **Date Serialization**: Convert DateTime objects to ISO8601 strings
+8. **Enum Handling**: Convert enums to strings using `.name`
+9. **Null Safety**: Handle nullable fields appropriately
+10. **Referential Integrity**: Document relationships between Containers
+11. **Consistent Naming**: Follow `[Entity]SembastContainer` pattern
+12. **JSON Deserialization**: Use `jsonDecodeMap` for safe map parsing
+
+## File Structure
+
+- Container model: `[entity]_sembast.dart`
+- Place in `data_local_api/db_apis/` directory
+- Export from `db_apis.dart` barrel file
+
+## Common Query Field Examples
+
+```dart
+// For Budget entities
+'createdAt': item.date,
+'amount': item.amount,
+'categoryId': item.categoryId?.toString(),
+
+// For Transaction entities
+'date': item.date?.toIso8601String(),
+'amount': item.amount,
+'type': item.type.name,
+'budgetId': item.budgetId?.toString(),
+
+// For Task entities
+'dueDate': item.dueDate?.toIso8601String(),
+'priority': item.priority.index,
+'status': item.status.name,
+'isCompleted': item.isCompleted,
+```
+
+Reference implementation: [budget_sembast.dart](mdc:packages/mobile_app/lib/data_local_api/db_apis/budget_sembast.dart)

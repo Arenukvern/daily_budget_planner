@@ -2,12 +2,12 @@
 
 import 'dart:math' as math;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_other/ui_other.dart';
 import 'package:mobile_app/ui_paywalls/ui_paywalls.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 final _kSubscriptions = [
   MonetizationProducts.s2024month1,
@@ -22,7 +22,7 @@ final _kSubscriptions = [
 /// and monthly. It uses a clean, appealing design that matches the app's style
 /// and includes bullet points highlighting the benefits of each plan.
 class Ui2024MonthlySubscriptionPaywall extends HookWidget
-    with HasStates, HasAnalytics {
+    with HasNotifiers, HasResources, HasAnalytics {
   const Ui2024MonthlySubscriptionPaywall({super.key});
   Future<void> onBuyPressed(
     final BuildContext context,
@@ -53,44 +53,37 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
   @override
   Widget build(final BuildContext context) {
     useLogScreenView('2024 Monthly Subscription Paywall');
+    final storeSource = installationStoreResource.value;
 
     final planIndex = useState<int>(2);
     final locale = useLocale(context);
-    final double imageHeight =
-        math.min(MediaQuery.sizeOf(context).width * 0.5, 100);
+    final double imageHeight = math.min(
+      MediaQuery.sizeOf(context).width * 0.5,
+      100,
+    );
     final textHeight = imageHeight * 0.5;
-    final monetizationStatusNotifier =
-        context.watch<MonetizationStatusNotifier>();
+    final monetizationStatusNotifier = context
+        .watch<MonetizationStatusResource>();
 
     final subscriptionManager = context.watch<SubscriptionManager>();
     final isPreLoading =
         monetizationStatusNotifier.status == MonetizationStatus.loading ||
-            !subscriptionManager.isInitialized;
+        !subscriptionManager.isInitialized;
     return Scaffold(
       body: SafeArea(
         child: LayoutBuilder(
           builder: (final context, final constraints) => SingleChildScrollView(
             child: Column(
               children: [
-                AppBar(
-                  centerTitle: true,
-                  backgroundColor: Colors.transparent,
-                  leading: CupertinoNavigationBarBackButton(
-                    color: context.colorScheme.onSurface,
-                  ),
-                  title: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      LocalizedMap(
-                        value: {
-                          languages.en: 'Unlock all features',
-                          languages.it: 'Sblocca tutte le funzionalità',
-                          languages.ru: 'Разблокируйте все функции',
-                        },
-                      ).getValue(locale),
-                      style: context.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                UiAppBar(
+                  title: Text(
+                    LocalizedMap({
+                      languages.en: 'Unlock all features',
+                      languages.it: 'Sblocca tutte le funzionalità',
+                      languages.ru: 'Разблокируйте все функции',
+                    }).getValue(locale),
+                    style: context.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -100,15 +93,13 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                   children: [
                     Flexible(
                       child: Text(
-                        LocalizedMap(
-                          value: {
-                            languages.en: 'More ways to plan finances for you',
-                            languages.it:
-                                'Più modi per pianificare le tue finanze',
-                            languages.ru:
-                                'Больше способов планировать свои финансы',
-                          },
-                        ).getValue(locale),
+                        LocalizedMap({
+                          languages.en: 'More ways to plan finances for you',
+                          languages.it:
+                              'Più modi per pianificare le tue finanze',
+                          languages.ru:
+                              'Больше способов планировать свои финансы',
+                        }).getValue(locale),
                         textAlign: TextAlign.center,
                         style: context.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
@@ -118,13 +109,11 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                   ],
                 ),
                 const Gap(8),
-                UiDivider.size1(),
+                const UiDivider.size1(),
                 const Gap(8),
                 Center(
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: 500,
-                    ),
+                    constraints: const BoxConstraints(maxWidth: 500),
                     child: Row(
                       children: [
                         Expanded(
@@ -132,13 +121,11 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               _Block(
-                                title: LocalizedMap(
-                                  value: {
-                                    languages.en: 'early\nfeatures',
-                                    languages.it: 'funzionalità\nanticipate',
-                                    languages.ru: 'ранние\nфункции',
-                                  },
-                                ).getValue(locale),
+                                title: LocalizedMap({
+                                  languages.en: 'early\nfeatures',
+                                  languages.it: 'funzionalità\nanticipate',
+                                  languages.ru: 'ранние\nфункции',
+                                }).getValue(locale),
                                 dimension: textHeight,
                               ),
                               _Block(
@@ -147,13 +134,11 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                                 dimension: imageHeight,
                               ),
                               _Block(
-                                title: LocalizedMap(
-                                  value: {
-                                    languages.en: 'full access',
-                                    languages.it: 'accesso completo',
-                                    languages.ru: 'полный доступ',
-                                  },
-                                ).getValue(locale),
+                                title: LocalizedMap({
+                                  languages.en: 'full access',
+                                  languages.it: 'accesso completo',
+                                  languages.ru: 'полный доступ',
+                                }).getValue(locale),
                                 dimension: textHeight,
                               ),
                               _Block(
@@ -172,13 +157,11 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                                 dimension: imageHeight,
                               ),
                               _Block(
-                                title: LocalizedMap(
-                                  value: {
-                                    languages.en: 'advanced customization',
-                                    languages.it: 'personalizzazione avanzata',
-                                    languages.ru: 'персональные настройки',
-                                  },
-                                ).getValue(locale),
+                                title: LocalizedMap({
+                                  languages.en: 'advanced customization',
+                                  languages.it: 'personalizzazione avanzata',
+                                  languages.ru: 'персональные настройки',
+                                }).getValue(locale),
                                 dimension: textHeight,
                               ),
                               _Block(
@@ -186,14 +169,12 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                                 dimension: imageHeight,
                               ),
                               _Block(
-                                title: LocalizedMap(
-                                  value: {
-                                    languages.en: 'open source\nsupport',
-                                    languages.it: 'supporto\nopen source',
-                                    languages.ru:
-                                        'поддержка\nоткрытого исходного кода',
-                                  },
-                                ).getValue(locale),
+                                title: LocalizedMap({
+                                  languages.en: 'open source\nsupport',
+                                  languages.it: 'supporto\nopen source',
+                                  languages.ru:
+                                      'поддержка\nоткрытого исходного кода',
+                                }).getValue(locale),
                                 dimension: textHeight,
                               ),
                             ],
@@ -210,35 +191,32 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                     child: Row(
                       children: [
                         const Gap(8),
-                        ...List.generate(
-                          _kSubscriptions.length,
-                          (final index) {
-                            final productId = _kSubscriptions[index].productId;
-                            final subscription =
-                                subscriptionManager.getSubscription(productId);
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                right:
-                                    index < _kSubscriptions.length - 1 ? 16 : 0,
+                        ...List.generate(_kSubscriptions.length, (final index) {
+                          final productId = _kSubscriptions[index].productId;
+                          final subscription = subscriptionManager
+                              .getSubscription(productId);
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              right: index < _kSubscriptions.length - 1
+                                  ? 16
+                                  : 0,
+                            ),
+                            child: _SubscriptionCard(
+                              width:
+                                  (constraints.maxWidth -
+                                      (8 + 8 + (_kSubscriptions.length * 16))) /
+                                  _kSubscriptions.length,
+                              title: getSubscriptionPaywallTitle(
+                                subscription?.duration ?? Duration.zero,
+                                locale,
                               ),
-                              child: _SubscriptionCard(
-                                width: (constraints.maxWidth -
-                                        (8 +
-                                            8 +
-                                            (_kSubscriptions.length * 16))) /
-                                    _kSubscriptions.length,
-                                title: getSubscriptionPaywallTitle(
-                                  subscription?.duration ?? Duration.zero,
-                                  locale,
-                                ),
-                                subscription: subscription,
-                                highlight: planIndex.value == index,
-                                onPressed: () => planIndex.value = index,
-                                locale: locale,
-                              ),
-                            );
-                          },
-                        ),
+                              subscription: subscription,
+                              highlight: planIndex.value == index,
+                              onPressed: () => planIndex.value = index,
+                              locale: locale,
+                            ),
+                          );
+                        }),
                         const Gap(8),
                       ],
                     ),
@@ -249,25 +227,23 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                     onPressed: () async => onBuyPressed(context, planIndex),
                     title: Row(
                       children: [
-                        Spacer(),
+                        const Spacer(),
                         Text(
-                          LocalizedMap(
-                            value: {
-                              languages.en: 'SUBSCRIBE',
-                              languages.it: 'ISCRIVITI',
-                              languages.ru: 'ПОДПИСАТЬСЯ',
-                            },
-                          ).getValue(locale),
+                          LocalizedMap({
+                            languages.en: 'SUBSCRIBE',
+                            languages.it: 'ISCRIVITI',
+                            languages.ru: 'ПОДПИСАТЬСЯ',
+                          }).getValue(locale),
                           style: context.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Gap(8),
+                        const Gap(8),
                         Assets.images.paywalls.goldSnowflake.image(
                           height: 40,
                           width: 40,
                         ),
-                        Spacer(),
+                        const Spacer(),
                       ],
                     ),
                   ),
@@ -276,16 +252,14 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: Text(
-                      LocalizedMap(
-                        value: {
-                          languages.en:
-                              'Please log in to the ${Envs.storeName} to continue',
-                          languages.it:
-                              'Si prega di accedere al ${Envs.storeName} per continuare',
-                          languages.ru:
-                              'Пожалуйста, войдите в ${Envs.storeName}, чтобы продолжить',
-                        },
-                      ).getValue(locale),
+                      LocalizedMap({
+                        languages.en:
+                            'Please log in to the ${Envs.getStoreName(storeSource)} to continue',
+                        languages.it:
+                            'Si prega di accedere al ${Envs.getStoreName(storeSource)} per continuare',
+                        languages.ru:
+                            'Пожалуйста, войдите в ${Envs.getStoreName(storeSource)}, чтобы продолжить',
+                      }).getValue(locale),
                       textAlign: TextAlign.center,
                       style: context.textTheme.displaySmall?.copyWith(
                         fontWeight: FontWeight.bold,
@@ -300,58 +274,52 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                     if (monetizationStatusNotifier.isInitialized)
                       Flexible(
                         child: UiLoader(
-                          builder: (
-                            final context,
-                            final isLoading,
-                            final setLoading,
-                          ) =>
-                              UiTextButton(
-                            isLoading: isLoading,
-                            textTitle: LocalizedMap(
-                              value: {
-                                languages.en: 'Restore',
-                                languages.it: 'Ripristina',
-                                languages.ru: 'Восстановить',
-                              },
-                            ).getValue(locale),
-                            onPressed: () async {
-                              setLoading(true);
-                              await context
-                                  .read<PurchaseInitializer>()
-                                  .restore();
-                              if (subscriptionManager.activeSubscription !=
-                                  null) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      LocalizedMap(
-                                        value: {
-                                          languages.en:
-                                              'We found subscription and restored!',
-                                          languages.it:
-                                              "Abbiamo trovato l'abbonamento e lo abbiamo ripristinato!",
-                                          languages.ru:
-                                              'Мы нашли подписку и восстановили!',
-                                        },
-                                      ).getValue(locale),
-                                    ),
-                                  ),
-                                );
-                              }
-                              setLoading(false);
-                            },
-                          ),
+                          builder:
+                              (
+                                final context,
+                                final isLoading,
+                                final setLoading,
+                              ) => UiTextButton(
+                                isLoading: isLoading,
+                                textTitle: LocalizedMap({
+                                  languages.en: 'Restore',
+                                  languages.it: 'Ripristina',
+                                  languages.ru: 'Восстановить',
+                                }).getValue(locale),
+                                onPressed: () async {
+                                  setLoading(true);
+                                  await context
+                                      .read<PurchaseInitializer>()
+                                      .restore();
+                                  if (subscriptionManager.activeSubscription !=
+                                      null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          LocalizedMap({
+                                            languages.en:
+                                                'We found subscription and restored!',
+                                            languages.it:
+                                                "Abbiamo trovato l'abbonamento e lo abbiamo ripristinato!",
+                                            languages.ru:
+                                                'Мы нашли подписку и восстановили!',
+                                          }).getValue(locale),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  setLoading(false);
+                                },
+                              ),
                         ),
                       ),
                     Flexible(
                       child: UiTextButton(
-                        textTitle: LocalizedMap(
-                          value: {
-                            languages.en: 'Terms',
-                            languages.it: 'Termini',
-                            languages.ru: 'Условия',
-                          },
-                        ).getValue(locale),
+                        textTitle: LocalizedMap({
+                          languages.en: 'Terms',
+                          languages.it: 'Termini',
+                          languages.ru: 'Условия',
+                        }).getValue(locale),
                         onPressed: () async => TermsScreen.show(context),
                       ),
                     ),
@@ -360,13 +328,11 @@ class Ui2024MonthlySubscriptionPaywall extends HookWidget
                         title: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            LocalizedMap(
-                              value: {
-                                languages.en: 'Privacy',
-                                languages.it: 'Privacy',
-                                languages.ru: 'Приватность',
-                              },
-                            ).getValue(locale),
+                            LocalizedMap({
+                              languages.en: 'Privacy',
+                              languages.it: 'Privacy',
+                              languages.ru: 'Приватность',
+                            }).getValue(locale),
                           ),
                         ),
                         onPressed: () async => PrivacyScreen.show(context),
@@ -391,67 +357,25 @@ String getSubscriptionPaywallTitle(
   final days = duration.inDays;
   if (days >= 365) {
     final years = days ~/ 365;
-    return LocalizedMap(
-      value: {
-        languages.en: '$years ${years == 1 ? 'year' : 'years'}',
-        languages.it: '$years ${years == 1 ? 'anno' : 'anni'}',
-        languages.ru: '$years ${years == 1 ? 'год' : 'лет'}',
-      },
-    ).getValue(locale);
+    return LocalizedMap({
+      languages.en: '$years ${years == 1 ? 'year' : 'years'}',
+      languages.it: '$years ${years == 1 ? 'anno' : 'anni'}',
+      languages.ru: '$years ${years == 1 ? 'год' : 'лет'}',
+    }).getValue(locale);
   } else if (days >= 30) {
     final months = days ~/ 30;
-    return LocalizedMap(
-      value: {
-        languages.en: '$months ${months == 1 ? 'month' : 'months'}',
-        languages.it: '$months ${months == 1 ? 'mese' : 'mesi'}',
-        languages.ru: '$months ${months == 1 ? 'месяц' : 'месяцев'}',
-      },
-    ).getValue(locale);
+    return LocalizedMap({
+      languages.en: '$months ${months == 1 ? 'month' : 'months'}',
+      languages.it: '$months ${months == 1 ? 'mese' : 'mesi'}',
+      languages.ru: '$months ${months == 1 ? 'месяц' : 'месяцев'}',
+    }).getValue(locale);
   } else {
-    return LocalizedMap(
-      value: {
-        languages.en: '$days ${days == 1 ? 'day' : 'days'}',
-        languages.it: '$days ${days == 1 ? 'giorno' : 'giorni'}',
-        languages.ru: '$days ${days == 1 ? 'день' : 'дней'}',
-      },
-    ).getValue(locale);
+    return LocalizedMap({
+      languages.en: '$days ${days == 1 ? 'day' : 'days'}',
+      languages.it: '$days ${days == 1 ? 'giorno' : 'giorni'}',
+      languages.ru: '$days ${days == 1 ? 'день' : 'дней'}',
+    }).getValue(locale);
   }
-}
-
-class UiTextButton extends StatelessWidget {
-  const UiTextButton({
-    required this.onPressed,
-    this.textTitle = '',
-    this.isLoading = false,
-    this.title,
-    super.key,
-  });
-  final String textTitle;
-  final bool isLoading;
-  final Widget? title;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(final BuildContext context) => UiBaseButton(
-        onPressed: isLoading ? () {} : onPressed,
-        builder: (final context, final focused, final onlyFocused) => Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 12,
-          ),
-          color: Colors.transparent,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(child: title ?? Text(textTitle)),
-              if (isLoading) ...[
-                Gap(8),
-                UiCircularProgress.uncentered(),
-              ],
-            ],
-          ),
-        ),
-      );
 }
 
 class _SubscriptionCard extends StatelessWidget {
@@ -482,57 +406,50 @@ class _SubscriptionCard extends StatelessWidget {
           onPressed: onPressed,
           builder: (final context, final focused, final onlyFocused) =>
               AnimatedContainer(
-            duration: 350.milliseconds,
-            padding: EdgeInsets.symmetric(
-              vertical: 32,
-              horizontal: 16,
-            ),
-            decoration: BoxDecoration(
-              color: highlight
-                  ? context.colorScheme.primary
-                  : context.colorScheme.surface,
-              borderRadius: BorderRadius.all(
-                Radius.elliptical(
-                  UiDecorators.radiusMedium,
-                  UiDecorators.radiusMedium,
+                duration: 350.milliseconds,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 32,
+                  horizontal: 16,
+                ),
+                decoration: BoxDecoration(
+                  color: highlight
+                      ? context.colorScheme.primary
+                      : context.colorScheme.surface,
+                  borderRadius: UiBorderRadius.medium,
+                ),
+                child: DefaultTextStyle.merge(
+                  style: TextStyle(
+                    color: highlight || focused
+                        ? context.colorScheme.onPrimary
+                        : context.colorScheme.onSurface,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Gap(8),
+                      Text(
+                        title.toUpperCase(),
+                        style: context.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: highlight || focused
+                              ? context.colorScheme.onPrimary
+                              : context.colorScheme.onSurface,
+                        ),
+                      ),
+                      const Gap(32),
+                      Text(subscription?.formattedPrice ?? ''),
+                      const Gap(2),
+                      Text(
+                        LocalizedMap({
+                          languages.en: 'cancel anytime',
+                          languages.it: 'annulla in qualsiasi momento',
+                          languages.ru: 'отмена в любое время',
+                        }).getValue(locale),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            child: DefaultTextStyle.merge(
-              style: TextStyle(
-                color: highlight || focused
-                    ? context.colorScheme.onPrimary
-                    : context.colorScheme.onSurface,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Gap(8),
-                  Text(
-                    title.toUpperCase(),
-                    style: context.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: highlight || focused
-                          ? context.colorScheme.onPrimary
-                          : context.colorScheme.onSurface,
-                    ),
-                  ),
-                  Gap(32),
-                  Text(subscription?.formattedPrice ?? ''),
-                  Gap(2),
-                  Text(
-                    LocalizedMap(
-                      value: {
-                        languages.en: 'cancel anytime',
-                        languages.it: 'annulla in qualsiasi momento',
-                        languages.ru: 'отмена в любое время',
-                      },
-                    ).getValue(locale),
-                  ),
-                ],
-              ),
-            ),
-          ),
         ),
       ),
     );
@@ -555,15 +472,10 @@ class _Block extends StatelessWidget {
   Widget build(final BuildContext context) {
     if (title.isNotEmpty) {
       return ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: dimension,
-        ),
+        constraints: BoxConstraints(minHeight: dimension),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 24,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             child: Text(
               title,
               textAlign: TextAlign.center,
@@ -575,18 +487,13 @@ class _Block extends StatelessWidget {
         ),
       );
     }
-    if (image == null) return SizedBox();
+    if (image == null) return const SizedBox();
 
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: dimension,
-      ),
+      constraints: BoxConstraints(maxHeight: dimension),
       child: FittedBox(
         fit: BoxFit.fitHeight,
-        child: image?.image(
-          width: dimension,
-          height: dimension,
-        ),
+        child: image?.image(width: dimension, height: dimension),
       ),
     );
   }

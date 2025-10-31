@@ -88,4 +88,29 @@ class UiDecorators {
 
   /// A large border radius value.
   static const radiusLarge = 12.0;
+
+  /// A large border radius value.
+  static const radiusExtraLarge = 16.0;
+}
+
+class UiBorderRadius {
+  UiBorderRadius._();
+
+  static const small = BorderRadius.all(
+    Radius.elliptical(UiDecorators.radiusSmall, UiDecorators.radiusSmall),
+  );
+
+  static const medium = BorderRadius.all(
+    Radius.elliptical(UiDecorators.radiusMedium, UiDecorators.radiusMedium),
+  );
+
+  static const large = BorderRadius.all(
+    Radius.elliptical(UiDecorators.radiusLarge, UiDecorators.radiusLarge),
+  );
+  static const extraLarge = BorderRadius.all(
+    Radius.elliptical(
+      UiDecorators.radiusExtraLarge,
+      UiDecorators.radiusExtraLarge,
+    ),
+  );
 }

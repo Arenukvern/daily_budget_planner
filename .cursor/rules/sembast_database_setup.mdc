@@ -1,0 +1,184 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Sembast Database Setup and Initialization
+
+Use this rule when creating new Sembast database implementations in the project.
+
+## Database Class Structure
+
+### 1. Main Database Class Pattern
+```dart
+/// [Database Name] implementation
+final class [Name]Db extends ComplexLocalDb {
+  Database? _db;
+  
+  // Define typed StoreRefs for each collection
+  final [collection] = StoreRef<[IdType], SembastDataMap>('[collection_name]');
+  
+  Database get db =>
+      _db ??
+      (throw ArgumentError.value('db is not initialized. Call open first.'));
+
+  @override
+  Future<void> open() async {
+    if (_db != null) return;
+
+    if (kIsWeb) {
+      _db = await databaseFactoryWeb.openDatabase(_dbFileName);
+    } else {
+      final dbPath = await _getDbPath();
+      _db = await databaseFactoryIo.openDatabase(dbPath);
+    }
+  }
+
+  @override
+  Future<void> close({bool delete = false}) async {
+    final db = _db;
+    if (db == null) return;
+    
+    if (delete && !kIsWeb) {
+      await db.close();
+      final dbPath = await _getDbPath();
+      final file = File(dbPath);
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } else {
+      await db.close();
+    }
+    _db = null;
+  }
+
+  Future<String> _getDbPath() async {
+    final dir = Platform.isIOS
+        ? await getLibraryDirectory()
+        : await getApplicationDocumentsDirectory();
+    return join(dir.path, '$_sembastDbVersion.db');
+  }
+
+  @override
+  Future<void> reset() async {
+    await close(delete: true);
+    await open();
+  }
+
+  @override
+  Future<void> dispose() async => close();
+}
+```
+
+### 2. Required Imports
+```dart
+import 'package:universal_io/io.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mobile_app/common_imports.dart';
+import 'package:mobile_app/data_local_api/db/db.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sembast/sembast_io.dart';
+import 'package:sembast_web/sembast_web.dart';
+```
+
+### 3. Database Configuration
+```dart
+const _sembastDbVersion = 'sembast_[version]';
+const _dbFileName = '[database_name].db';
+
+typedef SembastDataMap = Map<String, dynamic>;
+```
+
+## Data Model Patterns
+
+### 1. SembastContainer Abstract Class
+Use this pattern for all Sembast data containers:
+
+```dart
+abstract class SembastContainer<T extends Object, TId>
+    with SembastIdMixin<TId> {
+  SembastContainer({required this.item});
+  
+  static const keys = (id: 'id', jsonData: 'jsonData');
+  
+  @override
+  TId get id;
+  T item;
+  
+  Map<String, dynamic> getJson();
+  
+  @mustCallSuper
+  @mustBeOverridden
+  SembastDataMap toMap() => {
+    keys.id: '$id',
+    keys.jsonData: getJson().map(
+      (final key, final value) => MapEntry(key, switch (value) {
+        final DateTime date => date.toIso8601String(),
+        _ => value,
+      }),
+    ),
+  };
+}
+```
+
+### 2. SembastIdMixin
+```dart
+/// Mixin for handling IDs in Sembast models
+mixin SembastIdMixin<T> {
+  T get id;
+}
+```
+
+## Enhanced Lifecycle Methods
+
+The improved pattern includes additional lifecycle management:
+
+```dart
+/// Reset database by deleting and recreating it
+@override
+Future<void> reset() async {
+  await close(delete: true);
+  await open();
+}
+
+/// Dispose database resources (alias for close)
+@override
+Future<void> dispose() async => close();
+```
+
+## Platform-Specific Directory Selection
+
+Use appropriate directories for each platform:
+
+```dart
+Future<String> _getDbPath() async {
+  final dir = Platform.isIOS
+      ? await getLibraryDirectory()  // iOS: Library directory
+      : await getApplicationDocumentsDirectory();  // Android: Documents
+  return join(dir.path, '$_sembastDbVersion.db');
+}
+```
+
+## Best Practices
+
+1. **Platform Detection**: Always use `kIsWeb` to detect web vs mobile platforms
+2. **Enhanced Close Method**: Support optional database deletion with `close(delete: true)`
+3. **Platform-Specific Directories**: Use `getLibraryDirectory()` for iOS, `getApplicationDocumentsDirectory()` for Android
+4. **Database Path Extraction**: Separate `_getDbPath()` method for reusability
+5. **Safe File Operations**: Check file existence before deletion operations
+6. **Type Safety**: Use typed `StoreRef` declarations for collections
+7. **Null Safety**: Implement safe database getter with descriptive error
+8. **Date Serialization**: Always convert DateTime to ISO8601 strings in `toMap()`
+9. **Consistent Naming**: Use snake_case for collection names, PascalCase for classes
+10. **Database Versioning**: Include version in database filename for migration support
+11. **Transaction Safety**: Store database reference locally in `close()` to avoid race conditions
+12. **Web Compatibility**: Prevent file operations on web platform (`!kIsWeb` check)
+
+## File Structure
+
+- Database class: `[name]_db.dart`
+- Collection models: `[name]_sembast.dart` 
+- Place in `data_local_api/db/` directory
+

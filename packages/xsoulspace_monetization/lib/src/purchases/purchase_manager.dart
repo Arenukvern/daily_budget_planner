@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:in_app_purchase/in_app_purchase.dart' as iap;
+
+// import 'package:in_app_purchase/in_app_purchase.dart' as iap;
 
 part 'purchase_manager.freezed.dart';
 part 'purchase_manager.g.dart';
@@ -57,7 +58,7 @@ enum PurchaseProductType {
     required final dynamic json,
     required final PurchaseProductId productId,
     required final PurchaseProductType? Function(PurchaseProductId productId)?
-        productTypeChecker,
+    productTypeChecker,
   }) {
     if (json == null || json == '') {
       final productType = productTypeChecker?.call(productId);
@@ -130,11 +131,11 @@ class PurchaseDetails with _$PurchaseDetails {
       _$PurchaseDetailsFromJson(json);
 
   PurchaseVerificationDto toVerificationDto() => PurchaseVerificationDto(
-        purchaseId: purchaseId,
-        productId: productId,
-        status: status,
-        productType: purchaseType,
-      );
+    purchaseId: purchaseId,
+    productId: productId,
+    status: status,
+    productType: purchaseType,
+  );
   bool get hasFreeTrial => freeTrialDuration.inDays > 0;
   bool get isOneTimePurchase => duration.inDays == 0;
   bool get isSubscription => !isOneTimePurchase;
@@ -180,21 +181,21 @@ enum PurchaseStatus {
   restored,
   canceled;
 
-  iap.PurchaseStatus toFlutterIAPStatus() => switch (this) {
-        PurchaseStatus.pending => iap.PurchaseStatus.pending,
-        PurchaseStatus.purchased => iap.PurchaseStatus.purchased,
-        PurchaseStatus.error => iap.PurchaseStatus.error,
-        PurchaseStatus.restored => iap.PurchaseStatus.restored,
-        PurchaseStatus.canceled => iap.PurchaseStatus.canceled,
-      };
+  // iap.PurchaseStatus toFlutterIAPStatus() => switch (this) {
+  //       PurchaseStatus.pending => iap.PurchaseStatus.pending,
+  //       PurchaseStatus.purchased => iap.PurchaseStatus.purchased,
+  //       PurchaseStatus.error => iap.PurchaseStatus.error,
+  //       PurchaseStatus.restored => iap.PurchaseStatus.restored,
+  //       PurchaseStatus.canceled => iap.PurchaseStatus.canceled,
+  //     };
   // https://www.rustore.ru/help/sdk/payments/flutter/6-1-0#handlingerrors
   static PurchaseStatus fromRustoreState(final dynamic json) => switch (json) {
-        'CREATED' || 'INVOICE_CREATED' || 'PAUSED' => PurchaseStatus.pending,
-        'PAID' => PurchaseStatus.restored,
-        'CANCELLED' || 'CLOSED' || 'TERMINATED' => PurchaseStatus.canceled,
-        'CONSUMED' || 'CONFIRMED' => PurchaseStatus.purchased,
-        _ => throw Exception('Invalid purchase status: $json'),
-      };
+    'CREATED' || 'INVOICE_CREATED' || 'PAUSED' => PurchaseStatus.pending,
+    'PAID' => PurchaseStatus.restored,
+    'CANCELLED' || 'CLOSED' || 'TERMINATED' => PurchaseStatus.canceled,
+    'CONSUMED' || 'CONFIRMED' => PurchaseStatus.purchased,
+    _ => throw Exception('Invalid purchase status: $json'),
+  };
 }
 
 /// {@template restore_result}

@@ -5,27 +5,27 @@ import 'subscription_manager.dart';
 
 class PurchaseInitializer {
   PurchaseInitializer({
-    required this.monetizationTypeNotifier,
+    required this.monetizationTypeResource,
     required this.subscriptionManager,
     required this.purchaseManager,
   });
-  final MonetizationStatusNotifier monetizationTypeNotifier;
+  final MonetizationStatusResource monetizationTypeResource;
   final PurchaseManager purchaseManager;
   final SubscriptionManager subscriptionManager;
 
   StreamSubscription<PurchaseVerificationDto>? _purchaseUpdateSubscription;
-  Future<void> restore() async => _restore();
+  Future<void> restore() => _restore();
 
   Future<void> init() async {
-    monetizationTypeNotifier.setStatus(MonetizationStatus.loading);
-    final isInitilaized = await purchaseManager.init();
+    monetizationTypeResource.setStatus(MonetizationStatus.loading);
+    final isInitialized = await purchaseManager.init();
 
-    monetizationTypeNotifier.setStatus(
-      isInitilaized
+    monetizationTypeResource.setStatus(
+      isInitialized
           ? MonetizationStatus.loaded
           : MonetizationStatus.notAvailable,
     );
-    if (!isInitilaized) return;
+    if (!isInitialized) return;
 
     await _restoreAndListen();
   }
@@ -33,8 +33,9 @@ class PurchaseInitializer {
   Future<void> _restoreAndListen() async {
     await _restore();
     await _purchaseUpdateSubscription?.cancel();
-    _purchaseUpdateSubscription =
-        purchaseManager.purchasesStream.listen(_handlePurchaseUpdate);
+    _purchaseUpdateSubscription = purchaseManager.purchasesStream.listen(
+      _handlePurchaseUpdate,
+    );
   }
 
   Future<void> _restore() async {

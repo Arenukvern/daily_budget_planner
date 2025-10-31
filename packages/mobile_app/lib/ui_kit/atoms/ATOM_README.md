@@ -179,6 +179,31 @@ KeyboardBindingsViewFocusScope(
 );
 ```
 
+### UiFocusedBox
+
+UiFocusedBox is a widget that provides a box decoration with a border for focused state.
+
+```dart
+UiFocusedBox(
+  focused: focused,
+  child: UiText('Focused box content'),
+);
+```
+
+### InputFieldDecorator
+
+InputFieldDecorator is a widget that decorates an input field with a label and an icon.
+It also allows to tap on the widget to trigger an action.
+
+```dart
+InputFieldDecorator(
+  label: 'Label',
+  value: 'Value',
+  icon: Icons.star,
+  onTap: () => print('Tapped'),
+);
+```
+
 ### KeyboardBindingsNotifier
 
 KeyboardBindingsNotifier is a widget that provides a notifier for keyboard bindings.

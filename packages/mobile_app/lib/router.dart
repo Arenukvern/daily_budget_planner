@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/common_imports.dart';
 import 'package:mobile_app/ui_other/privacy_screen.dart';
 import 'package:mobile_app/ui_other/terms_screen.dart';
 import 'package:mobile_app/ui_paywalls/ui_paywalls.dart';
+import 'package:xsoulspace_ui_foundation/xsoulspace_ui_foundation.dart';
 
 enum ScreenPaths {
   root('/'),
@@ -25,10 +25,12 @@ final router = GoRouter(
   routes: [
     AppRoute(
       ScreenPaths.root.value,
+      useFade: true,
       (final context, final state) => const PreloadingScreen(),
       routes: [
         AppRoute(
           ScreenPaths.home.value,
+          useFade: true,
           (final context, final state) => const HomeScreen(),
           routes: [
             AppRoute(
@@ -65,7 +67,7 @@ String? _handleRootRedirect(
   final BuildContext context,
   final GoRouterState state,
 ) {
-  final appStatus = context.read<AppStatusNotifier>().value;
+  final appStatus = context.read<AppStatusResource>().value;
   final location = state.uri.toString();
   // Prevent anyone from navigating away from `/` if app is starting up.
   if (appStatus == AppStatus.loading && location != ScreenPaths.root.value) {
@@ -90,16 +92,11 @@ class AppPathsController {
       go(ScreenPaths.thanksForSubscribing, routes: _homeRoutes);
   void toManageSubscription() =>
       go(ScreenPaths.manageSubscription, routes: _homeRoutes);
-  void toExplanation({
-    final bool isFirstTimeOpening = false,
-  }) =>
-      go(
-        ScreenPaths.explanation,
-        routes: [ScreenPaths.home],
-        params: {
-          if (isFirstTimeOpening) 'isFirstOpening': 'true',
-        },
-      );
+  void toExplanation({final bool isFirstTimeOpening = false}) => go(
+    ScreenPaths.explanation,
+    routes: [ScreenPaths.home],
+    params: {if (isFirstTimeOpening) 'isFirstOpening': 'true'},
+  );
   void go(
     final ScreenPaths path, {
     final List<ScreenPaths> routes = const [],
@@ -130,30 +127,28 @@ class AppRoute extends GoRoute {
     final bool useFade = false,
     final bool isTransparent = false,
   }) : super(
-          path: path,
-          routes: routes,
-          pageBuilder: (final context, final state) {
-            // final pageContent = Scaffold(
-            //   body: builder(state),
-            //   resizeToAvoidBottomInset: false,
-            // );
-            final pageContent = builder(context, state);
-            if (useFade || isTransparent) {
-              return CustomTransitionPage(
-                key: state.pageKey,
-                child: pageContent,
-                opaque: !isTransparent,
-                barrierColor: Colors.transparent,
-                transitionsBuilder: (
-                  final context,
-                  final animation,
-                  final secondaryAnimation,
-                  final child,
-                ) =>
-                    FadeTransition(opacity: animation, child: child),
-              );
-            }
-            return CupertinoPage(child: pageContent);
-          },
-        );
+         path: path,
+         routes: routes,
+         pageBuilder: (final context, final state) {
+           final pageContent = builder(context, state);
+           if (useFade || isTransparent) {
+             return CustomTransitionPage(
+               key: state.pageKey,
+               child: pageContent,
+               opaque: !isTransparent,
+               barrierColor: isTransparent
+                   ? Colors.transparent
+                   : context.colorScheme.surface,
+               transitionsBuilder:
+                   (
+                     final context,
+                     final animation,
+                     final secondaryAnimation,
+                     final child,
+                   ) => FadeTransition(opacity: animation, child: child),
+             );
+           }
+           return CupertinoPage(child: pageContent);
+         },
+       );
 }
